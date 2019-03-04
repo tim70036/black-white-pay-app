@@ -1,124 +1,90 @@
 import React from 'react';
-import { Scene, Tabs, Stack } from 'react-native-router-flux';
+import { Scene, Tabs, Stack, Drawer } from 'react-native-router-flux';
 import { Icon } from 'native-base';
 
 import DefaultProps from '../constants/navigation';
 import AppConfig from '../../constants/config';
 
-import MenuIcon from '../components/MenuIcon';
-import DrawerContent from '../../containers/DrawerContent';
+import DrawerIcon from '../components/DrawerIcon';
+import DashboardDrawer from '../components/DashboardDrawer';
+import SwitchStoreButton from '../components/SwitchStoreButton';
 
-
+import BlankContainer from '../../containers/Blank';
+import BlankComponent from '../components/Blank';
 
 const Routes = (
   <Stack key="root" hideNavBar>
 
     <Drawer
       hideNavBar
-      key="drawer"
+      key="dashboardDrawer"
       onExit={() => {
         console.log('Drawer closed');
       }}
       onEnter={() => {
         console.log('Drawer opened');
       }}
-      contentComponent={DrawerContent}
-      drawerIcon={MenuIcon}
+      contentComponent={DashboardDrawer}
+      drawerIcon={DrawerIcon}
       drawerWidth={300}
       {...DefaultProps.navbarProps}
-      >
+    >
       <Scene hideNavBar>
         <Stack
-          key="home"
           title={AppConfig.appName.toUpperCase()}
           icon={() => <Icon name="planet" {...DefaultProps.icons} />}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="home" component={AboutComponent} />
-        </Stack>
-        <Stack>
-          
-        </Stack>
-        <Stack>
-          
+          <Scene key="dashboard" component={BlankComponent} layout={BlankContainer} />
         </Stack>
       </Scene>
     </Drawer>
 
-
-
-
-
     <Tabs
-      key="tabbar"
-      swipeEnabled
-      type="replace"
-      showLabel={false}
+      key="homeTabbar"
+      renderLeftButton={SwitchStoreButton}
       {...DefaultProps.tabProps}
     >
       <Stack
-        key="home"
-        title={AppConfig.appName.toUpperCase()}
+        title="storeHome"
         icon={() => <Icon name="planet" {...DefaultProps.icons} />}
         {...DefaultProps.navbarProps}
       >
-        <Scene key="home" component={AboutComponent} />
+        <Scene key="storeHome" component={BlankComponent} layout={BlankContainer} />
       </Stack>
 
       <Stack
-        key="recipes"
-        title="RECIPES"
+        title="gameList"
         icon={() => <Icon name="book" {...DefaultProps.icons} />}
         {...DefaultProps.navbarProps}
       >
-        <Scene key="recipes" component={RecipesContainer} Layout={RecipesComponent} />
+        <Scene key="gameList" component={BlankComponent} layout={BlankContainer} />
       </Stack>
 
       <Stack
-        key="recipes"
-        title="RECIPES"
+        title="walletHome"
         icon={() => <Icon name="book" {...DefaultProps.icons} />}
         {...DefaultProps.navbarProps}
       >
-        <Scene key="recipes" component={RecipesContainer} Layout={RecipesComponent} />
+        <Scene key="walletHome" component={BlankComponent} layout={BlankContainer} />
       </Stack>
 
       <Stack
-        key="recipes"
-        title="RECIPES"
+        title="messageList"
         icon={() => <Icon name="book" {...DefaultProps.icons} />}
         {...DefaultProps.navbarProps}
       >
-        <Scene key="recipes" component={RecipesContainer} Layout={RecipesComponent} />
+        <Scene key="messageList" component={BlankComponent} layout={BlankContainer} />
       </Stack>
 
       <Stack
-        key="profile"
-        title="PROFILE"
+        title="moreList"
         icon={() => <Icon name="contact" {...DefaultProps.icons} />}
         {...DefaultProps.navbarProps}
       >
-        <Scene key="profileHome" component={MemberContainer} Layout={ProfileComponent} />
-        <Scene
-          back
-          key="signUp"
-          title="SIGN UP"
-          {...DefaultProps.navbarProps}
-          component={SignUpContainer}
-          Layout={SignUpComponent}
-        />
+        <Scene key="moreList" component={BlankComponent} layout={BlankContainer} />
       </Stack>
     </Tabs>
-
-    <Scene
-      back
-      clone
-      key="recipe"
-      title="RECIPE"
-      {...DefaultProps.navbarProps}
-      component={}
-      Layout={}
-    />
   </Stack>
 );
 

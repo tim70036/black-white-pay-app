@@ -13,7 +13,9 @@ export default {
   },
 
   tabProps: {
-    swipeEnabled: false,
+    swipeEnabled: true,
+    type: 'push',
+    showLabel: false,
     activeBackgroundColor: 'rgba(255,255,255,0.1)',
     inactiveBackgroundColor: Colors.brandPrimary,
     tabBarStyle: { backgroundColor: Colors.brandPrimary },
