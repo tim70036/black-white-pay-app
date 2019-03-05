@@ -12,6 +12,9 @@ import SwitchStoreButton from '../components/SwitchStoreButton';
 import BlankContainer from '../../containers/Blank';
 import BlankComponent from '../components/Blank';
 
+import StoreHomeContainer from '../../containers/StoreHome';
+import StoreHomeComponent from '../components/StoreHome';
+
 const Routes = (
   <Stack key="root" hideNavBar>
 
@@ -35,7 +38,7 @@ const Routes = (
           icon={() => <Icon name="planet" {...DefaultProps.icons} />}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="dashboard" component={BlankComponent} layout={BlankContainer} />
+          <Scene key="dashboard" component={BlankContainer} Layout={BlankComponent} />
         </Stack>
       </Scene>
     </Drawer>
@@ -50,7 +53,7 @@ const Routes = (
         icon={() => <Icon name="planet" {...DefaultProps.icons} />}
         {...DefaultProps.navbarProps}
       >
-        <Scene key="storeHome" component={BlankComponent} layout={BlankContainer} />
+        <Scene key="storeHome" component={StoreHomeContainer} Layout={StoreHomeComponent} />
       </Stack>
 
       <Stack
@@ -58,7 +61,7 @@ const Routes = (
         icon={() => <Icon name="book" {...DefaultProps.icons} />}
         {...DefaultProps.navbarProps}
       >
-        <Scene key="gameList" component={BlankComponent} layout={BlankContainer} />
+        <Scene key="gameList" component={BlankContainer} Layout={BlankComponent} />
       </Stack>
 
       <Stack
@@ -66,15 +69,19 @@ const Routes = (
         icon={() => <Icon name="book" {...DefaultProps.icons} />}
         {...DefaultProps.navbarProps}
       >
-        <Scene key="walletHome" component={BlankComponent} layout={BlankContainer} />
+        <Scene key="walletHome" component={BlankContainer} Layout={BlankComponent} />
+        {/* <Scene key="transfer" />
+        <Scene key="transferHistory" />
+        <Scene key="qrcode" />
+        <Scene key="coupon" /> */}
       </Stack>
 
       <Stack
-        title="messageList"
+        title="notifyList"
         icon={() => <Icon name="book" {...DefaultProps.icons} />}
         {...DefaultProps.navbarProps}
       >
-        <Scene key="messageList" component={BlankComponent} layout={BlankContainer} />
+        <Scene key="notifyList" component={BlankContainer} Layout={BlankComponent} />
       </Stack>
 
       <Stack
@@ -82,7 +89,7 @@ const Routes = (
         icon={() => <Icon name="contact" {...DefaultProps.icons} />}
         {...DefaultProps.navbarProps}
       >
-        <Scene key="moreList" component={BlankComponent} layout={BlankContainer} />
+        <Scene key="moreList" component={BlankContainer} Layout={BlankComponent} />
       </Stack>
     </Tabs>
   </Stack>
