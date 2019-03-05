@@ -4,19 +4,21 @@ import PropTypes from 'prop-types';
 
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import CarouselEntry, { sliderWidth, itemWidth } from './CarouselEntry';
+import IconButton from './IconButton';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
   },
   adsContainer: {
     flex: 2,
   },
   shortcutsContainer: {
     flex: 1,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#ff9900',
   },
   slider: {
     marginTop: 15,
@@ -106,7 +108,12 @@ class StoreHome extends Component {
             tappableDots={!!this._slider1Ref}
           />
         </View>
-        <View style={styles.shortcutsContainer} />
+        <View style={styles.shortcutsContainer}>
+          <IconButton />
+          <IconButton />
+          <IconButton />
+          <IconButton />
+        </View>
       </View>
     );
   }
