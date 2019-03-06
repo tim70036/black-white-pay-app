@@ -5,8 +5,6 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
-  Dimensions,
-  Platform,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { ParallaxImage } from 'react-native-snap-carousel';
@@ -15,7 +13,7 @@ import {
   IS_IOS,
   viewportWidth,
   viewportWidthPercent,
-  viewportHeightPercent
+  viewportHeightPercent,
 } from '../../lib/util';
 
 
@@ -32,7 +30,7 @@ const styles = StyleSheet.create({
     width: itemWidth,
     height: slideHeight,
     paddingHorizontal: itemHorizontalMargin,
-    paddingBottom: 18 // needed for shadow
+    paddingBottom: 18, // needed for shadow
   },
   shadow: {
     position: 'absolute',
@@ -109,7 +107,6 @@ const styles = StyleSheet.create({
 });
 
 class CarouselEntry extends Component {
-
   static propTypes = {
     data: PropTypes.shape({
       title: PropTypes.string,
@@ -118,7 +115,7 @@ class CarouselEntry extends Component {
     }),
     even: PropTypes.bool,
     parallax: PropTypes.bool,
-    parallaxProps: PropTypes.object
+    parallaxProps: PropTypes.object,
   };
 
   static defaultProps ={

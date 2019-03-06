@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#ff3300',
     fontSize: 16,
-  }
+  },
 });
 
 const SwitchStoreButton = () => (

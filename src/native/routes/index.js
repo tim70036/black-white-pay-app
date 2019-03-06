@@ -1,5 +1,10 @@
 import React from 'react';
-import { Scene, Tabs, Stack, Drawer } from 'react-native-router-flux';
+import {
+  Scene,
+  Tabs,
+  Stack,
+  Drawer,
+} from 'react-native-router-flux';
 import { Icon } from 'native-base';
 
 import DefaultProps from '../constants/navigation';

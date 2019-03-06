@@ -3,7 +3,7 @@ import Colors from '../../../native-base-theme/variables/commonColor';
 export default {
   navbarProps: {
     headerLayoutPreset: 'center', // Android title center
-    navigationBarStyle: { 
+    navigationBarStyle: {
       backgroundColor: 'white',
     },
     titleStyle: {

@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   icon: {
     fontSize: 60,
     color: '#32db64',
-  }
+  },
 });
 
 const IconButton = () => (
