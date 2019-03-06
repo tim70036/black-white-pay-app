@@ -20,6 +20,9 @@ import BlankComponent from '../components/Blank';
 import StoreHomeContainer from '../../containers/StoreHome';
 import StoreHomeComponent from '../components/StoreHome';
 
+import TransferContainer from '../../containers/Transfer';
+import TransferComponent from '../components/Transfer';
+
 const Routes = (
   <Stack key="root" hideNavBar>
 
@@ -66,7 +69,7 @@ const Routes = (
         icon={() => <Icon name="book" {...DefaultProps.icons} />}
         {...DefaultProps.navbarProps}
       >
-        <Scene key="gameList" component={BlankContainer} Layout={BlankComponent} />
+        <Scene key="gameList" component={TransferContainer} Layout={TransferComponent} />
       </Stack>
 
       <Stack

@@ -7,16 +7,16 @@ import {
   Dimensions,
 } from 'react-native';
 import { Icon } from 'native-base';
+import PropTypes from 'prop-types';
 
-const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
-const wp = (percentage) => {
-  const value = (percentage * viewportWidth) / 100;
-  return Math.round(value);
-};
+import {
+  viewportWidthPercent,
+  viewportHeightPercent,
+} from '../../lib/util';
 
 // Sizing based on the viewport
-const buttonWidth = wp(20);
-const buttonHeight = viewportHeight * 0.1;
+const buttonWidth = viewportWidthPercent(20);
+const buttonHeight = viewportHeightPercent(10);
 
 const styles = StyleSheet.create({
   container: {
@@ -37,20 +37,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   icon: {
-    fontSize: 60,
-    color: '#32db64',
+    fontSize: 55,
   },
 });
 
-const IconButton = () => (
+const IconButton = ({ iconName, iconType, iconColor }) => (
   <TouchableOpacity style={styles.container}>
     <View style={styles.iconContainer}>
-      <Icon name="navigate" style={styles.icon} />
+      <Icon name={iconName} type={iconType} style={[styles.icon, { color: iconColor }]} />
     </View>
     <View style={styles.textContainer}>
       <Text>某個功能</Text>
     </View>
   </TouchableOpacity>
 );
+
+IconButton.propTypes = {
+  iconName: PropTypes.string.isRequired,
+  iconType: PropTypes.string,
+  iconColor: PropTypes.string,
+};
+
+IconButton.defaultProps = {
+  iconType: 'Ionicons',
+  iconColor: 'black',
+};
 
 export default IconButton;

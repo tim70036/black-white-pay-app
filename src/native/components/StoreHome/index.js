@@ -108,10 +108,10 @@ class StoreHome extends Component {
           />
         </View>
         <View style={styles.shortcutsContainer}>
-          <IconButton />
-          <IconButton />
-          <IconButton />
-          <IconButton />
+          <IconButton iconName="musical-notes" iconColor="#00cc99" />
+          <IconButton iconName="cloud" iconType="MaterialIcons" />
+          <IconButton iconName="mail" iconColor="#008ae6" />
+          <IconButton iconName="cards-spade" iconType="MaterialCommunityIcons" iconColor="#c61aff" />
         </View>
       </View>
     );
