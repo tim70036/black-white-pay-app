@@ -2,10 +2,14 @@ import Colors from '../../../native-base-theme/variables/commonColor';
 
 export default {
   navbarProps: {
-    navigationBarStyle: { backgroundColor: 'white' },
+    headerLayoutPreset: 'center', // Android title center
+    navigationBarStyle: { 
+      backgroundColor: 'white',
+    },
     titleStyle: {
       color: Colors.textColor,
       alignSelf: 'center',
+      textAlign: 'center',
       letterSpacing: 2,
       fontSize: Colors.fontSizeBase,
     },
@@ -13,6 +17,7 @@ export default {
   },
 
   tabProps: {
+    headerLayoutPreset: 'center', // Android title center
     swipeEnabled: true,
     type: 'push',
     showLabel: false,

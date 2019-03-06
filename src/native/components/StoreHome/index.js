@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
 });
 
 class StoreHome extends Component {
-
   static propTypes = {
     carouselData: PropTypes.arrayOf(
       PropTypes.shape({

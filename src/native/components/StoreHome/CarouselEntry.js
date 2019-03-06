@@ -11,17 +11,17 @@ import {
 import PropTypes from 'prop-types';
 import { ParallaxImage } from 'react-native-snap-carousel';
 
-const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
-const wp = (percentage) => {
-  const value = (percentage * viewportWidth) / 100;
-  return Math.round(value);
-}
+import {
+  IS_IOS,
+  viewportWidth,
+  viewportWidthPercent,
+  viewportHeightPercent
+} from '../../lib/util';
 
-const IS_IOS = Platform.OS === 'ios';
 
-const slideHeight = viewportHeight * 0.5; // Carousel Height (orignal: viewportHeight *  0.36)
-const slideWidth = wp(75);
-const itemHorizontalMargin = wp(2);
+const slideHeight = viewportHeightPercent(46); // Carousel Height (orignal: viewportHeight *  0.36)
+const slideWidth = viewportWidthPercent(75);
+const itemHorizontalMargin = viewportWidthPercent(2);
 const entryBorderRadius = 8;
 
 export const sliderWidth = viewportWidth;
@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
   image: {
     ...StyleSheet.absoluteFillObject,
     resizeMode: 'cover',
-    borderRadius: IS_IOS ? entryBorderRadius : 0,
+    // borderRadius: IS_IOS ? entryBorderRadius : 0,
+    borderRadius: entryBorderRadius,
     borderTopLeftRadius: entryBorderRadius,
     borderTopRightRadius: entryBorderRadius,
   },
