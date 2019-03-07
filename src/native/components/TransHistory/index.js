@@ -30,8 +30,8 @@ class TransHistory extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tableHead: ['Head', 'Head2', 'Head3', 'Head4', 'Head5', 'Head6', 'Head7', 'Head8', 'Head9'],
-      widthArr: [40, 60, 80, 100, 120, 140, 160, 180, 200],
+      tableHead: ['時間', '對象', '數量', '備註', ],
+      widthArr: [40, 60, 80, 100],
     }
   }
 
@@ -40,7 +40,7 @@ class TransHistory extends Component {
     const tableData = [];
     for (let i = 0; i < 30; i += 1) {
       const rowData = [];
-      for (let j = 0; j < 9; j += 1) {
+      for (let j = 0; j < 4; j += 1) {
         rowData.push(`${i}${j}`);
       }
       tableData.push(rowData);
@@ -51,7 +51,7 @@ class TransHistory extends Component {
         <ScrollView horizontal>
           <View>
             <Table borderStyle={{ borderColor: '#C1C0B9' }}>
-              <Row data={tableHead} widthArr={widthArr} style={styles.header} textStyle={styles.text}/>
+              <Row data={tableHead} widthArr={widthArr} style={styles.header} textStyle={styles.text} />
             </Table>
             <ScrollView style={styles.dataWrapper}>
               <Table borderStyle={{ borderColor: '#C1C0B9' }}>

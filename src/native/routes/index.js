@@ -23,6 +23,9 @@ import StoreHomeComponent from '../components/StoreHome';
 import TransferContainer from '../../containers/Transfer';
 import TransferComponent from '../components/Transfer';
 
+import TransHistoryContainer from '../../containers/TransHistory';
+import TransHistoryComponent from '../components/TransHistory';
+
 const Routes = (
   <Stack key="root" hideNavBar>
 
@@ -97,7 +100,7 @@ const Routes = (
         icon={() => <Icon name="contact" {...DefaultProps.icons} />}
         {...DefaultProps.navbarProps}
       >
-        <Scene key="moreList" component={BlankContainer} Layout={BlankComponent} />
+        <Scene key="moreList" component={TransHistoryContainer} Layout={TransHistoryComponent} />
       </Stack>
     </Tabs>
   </Stack>
