@@ -18,7 +18,7 @@ const DashboardDrawer = () => (
   <View style={styles.container}>
     <Button onPress={Actions.pop} title="返回" />
     <Button onPress={() => Actions.homeTabbar()} title="首頁" />
-    <Button onPress={() => console.log('settings')} title="帳號設定" />
+    <Button onPress={() => Actions.transHistory()} title="帳號設定" />
     <Button onPress={() => console.log('logout')} title="登出" />
   </View>
 );

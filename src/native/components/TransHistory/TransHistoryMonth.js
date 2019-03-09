@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  ScrollView,
-} from 'react-native';
-import { Icon, DatePicker, Button } from 'native-base';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import { Icon } from 'native-base';
 import PropTypes from 'prop-types';
 import Accordion from 'react-native-collapsible/Accordion';
 
@@ -17,35 +12,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: viewportWidthPercent(2),
-    paddingTop: 10,
-  },
-  inputsContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    paddingHorizontal: tablePaddingHorizontal,
-    paddingVertical: 15,
-    marginVertical: 20,
-    backgroundColor: '#fff',
-  },
-  dateContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  button: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: viewportWidthPercent(30),
-    height: 30,
-  },
-  buttonText: {
-    color: '#fff',
+    paddingTop: 30,
   },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: tablePaddingHorizontal,
-    paddingVertical: 10,
     marginVertical: 1,
+    paddingVertical: 10,
+    paddingHorizontal: tablePaddingHorizontal,
     backgroundColor: '#fff',
   },
   headerTime: {
@@ -137,50 +111,11 @@ class TransHistory extends Component {
   };
 
   render = () => {
+
     const { activeSections } = this.state;
     const { historyData } = this.props;
-
     return (
       <ScrollView style={styles.container}>
-        <View style={styles.inputsContainer}>
-          <View style={styles.dateContainer}>
-            <Text>搜尋記錄從</Text>
-            <DatePicker
-              defaultDate={new Date(2018, 4, 4)}
-              minimumDate={new Date(2018, 1, 1)}
-              maximumDate={new Date(2018, 12, 31)}
-              locale={"zh"}
-              timeZoneOffsetInMinutes={undefined}
-              modalTransparent={false}
-              animationType={"fade"}
-              androidMode={"spinner"}
-              placeHolderText="點選起始日期"
-              textStyle={{ color: "green" }}
-              placeHolderTextStyle={{ color: "#d3d3d3" }}
-              onDateChange={this.setDate}
-            />
-            <Text>至</Text>
-            <DatePicker
-              defaultDate={new Date(2018, 4, 4)}
-              minimumDate={new Date(2018, 1, 1)}
-              maximumDate={new Date(2018, 12, 31)}
-              locale={"en"}
-              timeZoneOffsetInMinutes={undefined}
-              modalTransparent={false}
-              animationType={"fade"}
-              androidMode={"spinner"}
-              placeHolderText="點選結束日期"
-              textStyle={{ color: "green" }}
-              placeHolderTextStyle={{ color: "#d3d3d3" }}
-              onDateChange={this.setDate}
-            />
-          </View>
-          <View>
-            <Button info style={styles.button}>
-              <Text style={styles.buttonText}>搜尋</Text>
-            </Button>
-          </View>
-        </View>
         <View style={[styles.headerContainer, { marginVertical: 2, backgroundColor: '#cce6ff' }]}>
           <View style={styles.headerTime}>
             <Text style={styles.headerText}>交易時間</Text>
