@@ -15,8 +15,23 @@ import DrawerIcon from '../components/DrawerIcon';
 import DashboardDrawer from '../components/DashboardDrawer';
 import SwitchStoreButton from '../components/SwitchStoreButton';
 
-import BlankContainer from '../../containers/Blank';
-import BlankComponent from '../components/Blank';
+import InitContainer from '../../containers/Init';
+import InitComponent from '../components/Init';
+
+import LoginContainer from '../../containers/Login';
+import LoginComponent from '../components/Login';
+
+import RegisterContainer from '../../containers/Register';
+import RegisterComponent1 from '../components/Register/Register1';
+import RegisterComponent2 from '../components/Register/Register2';
+import RegisterComponent3 from '../components/Register/Register3';
+import RegisterComponent4 from '../components/Register/Register4';
+
+import ChooseStoreContainer from '../../containers/ChooseStore/ChooseStore';
+import ChooseStoreComponent from '../components/ChooseStore/ChooseStore';
+
+import AddStoreContainer from '../../containers/ChooseStore/AddStore';
+import AddStoreComponent from '../components/ChooseStore/AddStore';
 
 import StoreHomeContainer from '../../containers/StoreHome';
 import StoreHomeComponent from '../components/StoreHome';
@@ -45,9 +60,20 @@ const Routes = (
     <Stack key="root" hideNavBar>
 
       {/* Init Screen */}
+      <Stack hideNavBar>
+        <Scene key="init" component={InitContainer} Layout={InitComponent} />
+        <Scene key="login" component={LoginContainer} Layout={LoginComponent} />
+        <Stack key="register" hideNavBar>
+          <Scene key="register1" component={RegisterContainer} Layout={RegisterComponent1} />
+          <Scene key="register2" component={RegisterContainer} Layout={RegisterComponent2} />
+          <Scene key="register3" component={RegisterContainer} Layout={RegisterComponent3} />
+          <Scene key="register4" component={RegisterContainer} Layout={RegisterComponent4} />
+        </Stack>
+      </Stack>
+
       <Drawer
         hideNavBar
-        key="dashboardDrawer"
+        key="chooseStoreDrawer"
         onExit={() => {
           console.log('Drawer closed');
         }}
@@ -64,14 +90,15 @@ const Routes = (
             title={AppConfig.appName.toUpperCase()}
             {...DefaultProps.navbarProps}
           >
-            <Scene key="dashboard" component={BlankContainer} Layout={BlankComponent} />
+            <Scene key="chooseStore" component={ChooseStoreContainer} Layout={ChooseStoreComponent} />
+            <Scene key="addStore" component={AddStoreContainer} Layout={AddStoreComponent} />
           </Stack>
         </Scene>
       </Drawer>
 
       {/* Each Store */}
       <Tabs
-        key="homeTabbar"
+        key="storeTabbar"
         renderLeftButton={SwitchStoreButton}
         {...DefaultProps.tabProps}
       >
@@ -118,8 +145,8 @@ const Routes = (
 
       {/* Specific Function Page */}
       <Stack
-        title="轉帳"
         key="transfer"
+        title="轉帳"
         {...DefaultProps.navbarProps}
         back
       >
@@ -127,8 +154,8 @@ const Routes = (
       </Stack>
 
       <Stack
-        title="轉帳紀錄"
         key="transHistory"
+        title="轉帳紀錄"
         {...DefaultProps.navbarProps}
         back
       >
@@ -136,8 +163,8 @@ const Routes = (
       </Stack>
 
       <Stack
-        title="優惠券"
         key="coupons"
+        title="優惠券"
         {...DefaultProps.navbarProps}
         back
       >
