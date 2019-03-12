@@ -1,5 +1,8 @@
+import user from './user';
+import storeList from './storeList';
+import curStore from './curStore';
 
-
+// Redux persist
 const rehydrated = (state = false, action) => {
   switch (action.type) {
     case 'persist/REHYDRATE':
@@ -9,6 +12,10 @@ const rehydrated = (state = false, action) => {
   }
 };
 
+// Will be used by redux combineReducer, using es6 object short hand => produce state object 
 export default {
   rehydrated,
+  user,
+  storeList,
+  curStore,
 };

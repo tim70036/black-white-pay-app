@@ -1,11 +1,11 @@
 import actionType from '../constants/actionTypes';
 
-function replaceUser(newUserData) {
-  return { type: actionType.REPLACE_USER, data: newUserData };
+function replaceStoreList(newStoresData) {
+  return { type: actionType.REPLACE_STORE_LIST, data: newStoresData };
 }
 
-function clearUser() {
-  return { type: actionType.CLEAR_USER };
+function clearStoreList() {
+  return { type: actionType.CLEAR_STORE_LIST };
 }
 
-export { replaceUser, clearUser };
+export { replaceStoreList, clearStoreList };
