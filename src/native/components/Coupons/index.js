@@ -82,12 +82,19 @@ const Coupons = ({ couponData }) => {
   );
 };
 
-/* Coupons.propTypes = {
-  couponData: PropTypes.objectOf(PropTypes.object()).isRequired,
+Coupons.propTypes = {
+  couponData: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      subtitle: PropTypes.string,
+      imgUrl: PropTypes.string,
+    }),
+  ),
 };
 
 Coupons.defaultProps = {
-}; */
+  couponData: [],
+};
 
 
 export default Coupons;

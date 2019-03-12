@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 });
 
 const SwitchStoreButton = () => (
-  <TouchableOpacity style={styles.button} onPress={() => Actions.dashboardDrawer()}>
+  <TouchableOpacity style={styles.button} onPress={() => Actions.chooseStoreDrawer()}>
     <Text style={styles.buttonText}>切換店家</Text>
   </TouchableOpacity>
 );
