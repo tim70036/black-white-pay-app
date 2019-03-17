@@ -40,26 +40,25 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: (props.member && props.member.email) ? props.member.email : '',
+      // email: (props.member && props.member.email) ? props.member.email : '',
+      account: '',
       password: '',
     };
   }
 
-  handleChange = (name, val) => {
+  _handleChange = (name, val) => {
     this.setState({
       [name]: val,
     });
   }
 
-  handleSubmit = () => {
+  _handleSubmit = () => {
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state);
     Actions.chooseStoreDrawer();
   }
 
   render() {
-    const { email } = this.state;
-
     return (
       <ImageBackground source={require('../../../images/bkimg.png')} style={{ width: '100%', height: '100%' }}>
         <View style={styles.container}>
@@ -73,9 +72,8 @@ class Login extends React.Component {
                 <Input
                   autoCapitalize="none"
                   placeholder=""
-                  value={email}
-                  keyboardType="email-address"
-                  onChangeText={v => this.handleChange('email', v)}
+                  keyboardType="default"
+                  onChangeText={v => this._handleChange('account', v)}
                   onSubmitEditing={Keyboard.dismiss}
                 />
               </Item>
@@ -87,7 +85,7 @@ class Login extends React.Component {
                 <Input
                   autoCapitalize="none"
                   placeholder=""
-                  onChangeText={v => this.handleChange('password', v)}
+                  onChangeText={v => this._handleChange('password', v)}
                   onSubmitEditing={Keyboard.dismiss}
                 />
               </Item>
@@ -95,7 +93,7 @@ class Login extends React.Component {
               <View style={{ height: 50 }} />
 
               <View padder>
-                <Button info block onPress={this.handleSubmit} style={styles.buttonStyle}>
+                <Button info block onPress={this._handleSubmit} style={styles.buttonStyle}>
                   <Text>
                     登入
                   </Text>

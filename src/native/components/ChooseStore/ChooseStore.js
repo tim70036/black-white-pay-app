@@ -52,11 +52,11 @@ const styles = StyleSheet.create({
 
 class ChooseStore extends React.Component {
   static propTypes = {
-    // coupnData:PropTypes.shape({}),
+    // storesData:PropTypes.shape({}),
   }
 
   static defaultProps = {
-    // couponData: null,
+    // storesData: null,
   }
 
   constructor(props) {
@@ -66,43 +66,44 @@ class ChooseStore extends React.Component {
     };
   }
 
-  handleChoose = (storeName) => {
+  _handleChoose = (storeName) => {
     Actions.storeTabbar();
   }
 
-  handleAddStore = () => {
+  _handleAddStore = () => {
     Actions.addStore();
   }
 
+  _renderStore = ({ item }) => (
+    <TouchableOpacity
+      onPress={() => this._handleChoose(item.title)}
+    >
+      <Card style={styles.card}>
+        <View style={{ flex: 2 }}>
+          <Image
+            style={styles.image}
+            resizeMode="cover"
+            source={{ uri: item.imgUrl }}
+          />
+        </View>
+        <CardItem style={styles.cardItem}>
+          <View>
+            <Text style={styles.headerText}>{item.title}</Text>
+          </View>
+        </CardItem>
+      </Card>
+    </TouchableOpacity>
+  );
+
   render() {
-    const {
-      couponData,
-    } = this.props;
+    const { storesData } = this.props;
     const { active } = this.state;
+
     return (
       <View padder style={styles.container}>
         <FlatList
-          data={couponData}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => this.handleChoose(item.title)}
-            >
-              <Card style={styles.card}>
-                <View style={{ flex: 2 }}>
-                  <Image
-                    style={styles.image}
-                    resizeMode="cover"
-                    source={{ uri: item.imgUrl }}
-                  />
-                </View>
-                <CardItem style={styles.cardItem}>
-                  <View>
-                    <Text style={styles.headerText}>{item.title}</Text>
-                  </View>
-                </CardItem>
-              </Card>
-            </TouchableOpacity>
-          )}
+          data={storesData}
+          renderItem={this._renderStore}
         />
         <Fab
           active={active}
@@ -110,7 +111,7 @@ class ChooseStore extends React.Component {
           containerStyle={{ }}
           style={{ backgroundColor: '#5067FF' }}
           position="bottomRight"
-          onPress={() => this.handleAddStore()}
+          onPress={() => this._handleAddStore()}
         >
           <Icon name="add" />
         </Fab>

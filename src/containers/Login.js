@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-// import { login } from '../actions/member';
+import { login } from '../actions/user';
 
 class Login extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
+    userLogin: PropTypes.func.isRequired,
     // member: PropTypes.shape({}).isRequired,
     // onFormSubmit: PropTypes.func.isRequired,
   }
@@ -17,8 +18,10 @@ class Login extends Component {
   state = {
   }
 
-  onFormSubmit = (data) => {
-    
+  _onFormSubmit = async (formData) => {
+    const { userLogin } = this.props;
+    console.log({ formData });
+    await userLogin(formData);
   }
 
   render = () => {
@@ -30,7 +33,7 @@ class Login extends Component {
     return (
       <Layout
         // member={member}
-        onFormSubmit={this.onFormSubmit}
+        onFormSubmit={this._onFormSubmit}
       />
     );
   }
@@ -41,7 +44,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  // onFormSubmit: login,
+  userLogin: login,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

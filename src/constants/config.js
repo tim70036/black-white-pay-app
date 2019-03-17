@@ -1,8 +1,11 @@
 const devMode = (process.env.NODE_ENV !== 'development');
 
-export default {
+const config = {
   // App Details
   appName: 'GainSword',
+
+  // Network
+  apiUrl: 'http://localhost:8080',
 
   // Build Configuration - eg. Debug or Release?
   DEV: devMode,
@@ -10,3 +13,5 @@ export default {
   // Google Analytics - uses a 'dev' account while we're testing
   gaTrackingId: (devMode) ? 'UA-84284256-2' : 'UA-84284256-1',
 };
+
+export default config;

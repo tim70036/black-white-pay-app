@@ -14,9 +14,10 @@ class Init extends Component {
   }
 
   // For testing, delete it
-  componentDidMount = () => {
+  componentDidMount = async () => {
     const { state } = this.props;
     console.log(state);
+
   }
 
   render = () => {

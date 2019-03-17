@@ -8,7 +8,7 @@ import reducers from '../reducers';
 // Redux Persist config
 const config = {
   key: 'root',
-  storage,
+  storage: storage,
   blacklist: ['status'],
 };
 

@@ -3,32 +3,32 @@ import PropTypes from 'prop-types';
 
 const EXAMPLE_DATA = [
   {
-    title: '炸雞',
+    title: '豆豆GG',
     subtitle: '折價10元',
     imgUrl: 'https://i.imgur.com/UYiroysl.jpg',
   },
   {
-    title: '披薩',
+    title: 'GainSword',
     subtitle: '買2送10',
     imgUrl: 'https://i.imgur.com/UPrs1EWl.jpg',
   },
   {
-    title: '金萱',
+    title: '高雄',
     subtitle: '買10送2',
     imgUrl: 'https://i.imgur.com/MABUbpDl.jpg',
   },
   {
-    title: '一杯清酒',
+    title: '古拉雞',
     subtitle: '恭喜您中獎',
     imgUrl: 'https://i.imgur.com/KZsmUi2l.jpg',
   },
   {
-    title: '哀鳳',
+    title: 'Studio A',
     subtitle: '恭喜您中獎',
     imgUrl: 'https://i.imgur.com/2nCt3Sbl.jpg',
   },
   {
-    title: '微風',
+    title: '6666',
     subtitle: '恭喜您中獎',
     imgUrl: 'https://i.imgur.com/lceHsT6l.jpg',
   },
@@ -48,7 +48,7 @@ class ChooseStore extends Component {
 
   render = () => {
     const { Layout } = this.props;
-    return <Layout couponData={EXAMPLE_DATA} />;
+    return <Layout storesData={EXAMPLE_DATA} />;
   }
 }
 export default ChooseStore;
