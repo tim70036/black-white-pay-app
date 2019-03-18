@@ -2,15 +2,15 @@ import actionType from '../constants/actionTypes';
 
 const initState = [];
 
-function storeListReducer(state = initState, action) {
+function storesReducer(state = initState, action) {
   switch (action.type) {
-    case actionType.REPLACE_STORE_LIST: {
+    case actionType.REPLACE_STORES: {
       if (action.data) {
         return [...action.data];
       }
       return state;
     }
-    case actionType.CLEAR_STORE_LIST: {
+    case actionType.CLEAR_STORES: {
       return initState;
     }
     default:
@@ -18,4 +18,4 @@ function storeListReducer(state = initState, action) {
   }
 }
 
-export default storeListReducer;
+export default storesReducer;

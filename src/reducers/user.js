@@ -5,6 +5,7 @@ const initState = {
   phone: '8888888',
   account: 'm1',
   pwd: '1',
+  thumbnail: '',
 };
 
 function userReducer(state = initState, action) {

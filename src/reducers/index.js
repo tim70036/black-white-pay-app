@@ -1,5 +1,5 @@
 import user from './user';
-import storeList from './storeList';
+import stores from './stores';
 import curStore from './curStore';
 import status from './status';
 
@@ -17,7 +17,7 @@ const rehydrated = (state = false, action) => {
 export default {
   rehydrated: rehydrated,
   user: user,
-  storeList: storeList,
+  stores: stores,
   curStore: curStore,
   status: status,
 };

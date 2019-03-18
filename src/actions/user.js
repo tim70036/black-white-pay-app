@@ -10,6 +10,12 @@ function clearUser() {
   return { type: actionType.CLEAR_USER };
 }
 
+function register(registerData) {
+  return async (dispatch) => {
+
+  };
+}
+
 function login(loginData) {
   const { account, password } = loginData;
   return async (dispatch) => {
