@@ -38,6 +38,8 @@ function login(loginData) {
       console.log(error);
     }
 
+    // Update user data into state
+
     // Status
     dispatch(statusMessage('loading', false));
   };
