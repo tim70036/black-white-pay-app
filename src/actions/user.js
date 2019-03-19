@@ -10,8 +10,24 @@ function clearUser() {
   return { type: actionType.CLEAR_USER };
 }
 
+function replaceUserAccount(newAccount) {
+  return { type: actionType.REPLACE_USER_ACCOUNT, data: newAccount };
+}
+
+function replaceUserPassword(newPassword) {
+  return { type: actionType.REPLACE_USER_PASSWORD, data: newPassword };
+}
+
+function replaceUserTransPwd(newTransPwd) {
+  return { type: actionType.REPLACE_USER_TRANSPWD, data: newTransPwd };
+}
+
+function replaceUserName(newName) {
+  return { type: actionType.REPLACE_USER_NAME, data: newName };
+}
+
 function register(registerData) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
 
   };
 }
@@ -74,6 +90,12 @@ function reLogin() {
 export {
   replaceUser,
   clearUser,
+  replaceUserAccount,
+  replaceUserPassword,
+  replaceUserTransPwd,
+  replaceUserName,
+
+  register,
   login,
   reLogin,
 };

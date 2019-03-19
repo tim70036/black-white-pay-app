@@ -40,7 +40,7 @@ class Transfer extends Component {
   state = {
     accountTo: '',
     amount: 0,
-    transpwd: '',
+    transPwd: '',
     comment: '',
   };
 

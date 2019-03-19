@@ -42,22 +42,23 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      transPassword: '',
+      transPwd: '',
+      confirmTransPwd: '',
     };
   }
 
-  handleChange = (name, val) => {
+  _handleChange = (key, val) => {
     this.setState({
-      [name]: val,
+      [key]: val,
     });
   }
 
-  handleConfirm = (name, val) => {
-    const { transPassword } = this.state;
-    if (val !== transPassword){}
-  }
+  _handleSubmit = () => {
+    const { transPwd, confirmTransPwd } = this.state;
+    if(transPwd !== confirmTransPwd) {
 
-  handleSubmit = () => {
+    }
+
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state);
     Actions.register4();
@@ -82,7 +83,7 @@ class Register extends React.Component {
                   autoCapitalize="none"
                   placeholder="請輸入交易密碼"
                   placeholderTextColor="white"
-                  onChangeText={v => this.handleChange('transPassword', v)}
+                  onChangeText={v => this._handleChange('transPwd', v)}
                   onSubmitEditing={Keyboard.dismiss}
                 />
               </Item>
@@ -94,13 +95,13 @@ class Register extends React.Component {
                   autoCapitalize="none"
                   placeholder="請再次輸入交易密碼"
                   placeholderTextColor="white"
-                  onChangeText={v => this.handleConfirm('transPassword', v)}
+                  onChangeText={v => this._handleChange('confirmTransPwd', v)}
                   onSubmitEditing={Keyboard.dismiss}
                 />
               </Item>
               <View style={{ height: 30 }} />
               <View padder>
-                <Button info block onPress={this.handleSubmit} style={styles.buttonStyle}>
+                <Button info block onPress={this._handleSubmit} style={styles.buttonStyle}>
                   <Text>
                     下一步
                   </Text>

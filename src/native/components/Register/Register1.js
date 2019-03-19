@@ -42,24 +42,24 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      account: '',
     };
-
   }
 
-  handleChange = (name, val) => {
+  _handleChange = (key, val) => {
     this.setState({
-      [name]: val,
+      [key]: val,
     });
   }
 
-  handleSubmit = () => {
+  _handleSubmit = () => {
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state);
     Actions.register2();
   }
 
-  render() {
+  render = () => {
+
     return (
       <ImageBackground source={require('../../../images/bkimg.png')} style={{ width: '100%', height: '100%' }}>
         <View style={styles.container}>
@@ -78,14 +78,14 @@ class Register extends React.Component {
                   autoCapitalize="none"
                   placeholder="輸入帳號"
                   placeholderTextColor="white"
-                  keyboardType="email-address"
-                  onChangeText={v => this.handleChange('email', v)}
+                  keyboardType="default"
+                  onChangeText={v => this._handleChange('account', v)}
                   onSubmitEditing={Keyboard.dismiss}
                 />
               </Item>
               <View style={{ height: 30 }} />
               <View padder>
-                <Button info block onPress={this.handleSubmit} style={styles.buttonStyle}>
+                <Button info block onPress={this._handleSubmit} style={styles.buttonStyle}>
                   <Text>
                     下一步
                   </Text>

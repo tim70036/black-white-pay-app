@@ -43,28 +43,29 @@ class Register extends React.Component {
     super(props);
     this.state = {
       password: '',
+      confirmPassword: '',
     };
-
   }
 
-  handleChange = (name, val) => {
+  _handleChange = (key, val) => {
     this.setState({
-      [name]: val,
+      [key]: val,
     });
   }
 
-  handleConfirm = (name, val) => {
-    const { password } = this.state;
-    if (val !== password){}
-  }
+  _handleSubmit = () => {
+    const { password, confirmPassword } = this.state;
+    if(password !== confirmPassword) {
 
-  handleSubmit = () => {
+    }
+
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state);
     Actions.register3();
   }
 
-  render() {
+  render = () => {
+
     return (
       <ImageBackground source={require('../../../images/bkimg.png')} style={{ width: '100%', height: '100%' }}>
         <View style={styles.container}>
@@ -83,7 +84,7 @@ class Register extends React.Component {
                   autoCapitalize="none"
                   placeholder="請輸入密碼"
                   placeholderTextColor="white"
-                  onChangeText={v => this.handleChange('password', v)}
+                  onChangeText={v => this._handleChange('password', v)}
                   onSubmitEditing={Keyboard.dismiss}
                 />
               </Item>
@@ -95,13 +96,13 @@ class Register extends React.Component {
                   autoCapitalize="none"
                   placeholder="請再次輸入密碼"
                   placeholderTextColor="white"
-                  onChangeText={v => this.handleConfirm('password', v)}
+                  onChangeText={v => this._handleChange('confirmPassword', v)}
                   onSubmitEditing={Keyboard.dismiss}
                 />
               </Item>
               <View style={{ height: 30 }} />
               <View padder>
-                <Button info block onPress={this.handleSubmit} style={styles.buttonStyle}>
+                <Button info block onPress={this._handleSubmit} style={styles.buttonStyle}>
                   <Text>
                     下一步
                   </Text>

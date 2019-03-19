@@ -42,17 +42,17 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nickName: '',
+      name: '',
     };
   }
 
-  handleChange = (name, val) => {
+  _handleChange = (key, val) => {
     this.setState({
-      [name]: val,
+      [key]: val,
     });
   }
 
-  handleSubmit = () => {
+  _handleSubmit = () => {
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state);
     Actions.login();
@@ -77,13 +77,13 @@ class Register extends React.Component {
                   autoCapitalize="none"
                   placeholder="輸入暱稱"
                   placeholderTextColor="white"
-                  onChangeText={v => this.handleChange('nickName', v)}
+                  onChangeText={v => this._handleChange('name', v)}
                   onSubmitEditing={Keyboard.dismiss}
                 />
               </Item>
               <View style={{ height: 30 }} />
               <View padder>
-                <Button info block onPress={this.handleSubmit} style={styles.buttonStyle}>
+                <Button info block onPress={this._handleSubmit} style={styles.buttonStyle}>
                   <Text>
                     下一步
                   </Text>
