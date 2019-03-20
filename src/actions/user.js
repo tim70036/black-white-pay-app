@@ -26,32 +26,27 @@ function replaceUserName(newName) {
   return { type: actionType.REPLACE_USER_NAME, data: newName };
 }
 
-function register(registerData) {
+function register() {
   return async (dispatch, getState) => {
-
-  };
-}
-
-function login(loginData) {
-  const { account, password } = loginData;
-  return async (dispatch) => {
     // Status
     dispatch(statusMessage('loading', true));
 
-    // Clear user data in state
-    dispatch(clearUser());
+    const registerData = getState().user;
+    console.log({ registerData });
 
     // login using form data
     try {
-      let response = await fetch( `${config.apiUrl}/auth/login`, {
+      let response = await fetch( `${config.apiUrl}/register`, {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: account,
-          password: password,
+          account: registerData.account,
+          password: registerData.password,
+          transPwd: registerData.transPwd,
+          name: registerData.name,
         }),
       });
       response = await response.json();
@@ -67,18 +62,56 @@ function login(loginData) {
   };
 }
 
+function login(loginData) {
+  const { account, password } = loginData;
+  return async (dispatch) => {
+    // Status
+    dispatch(statusMessage('loading', true));
+
+    // Clear user data in state
+    dispatch(clearUser());
+
+    // login using form data
+    try {
+      let response = await fetch( `${config.apiUrl}/login`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: account, // account
+          password: password,
+        }),
+      });
+      response = await response.json();
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+
+    // Update user data into state
+    if(response.errCode === 0) {
+
+    }
+
+    // Status
+    dispatch(statusMessage('loading', false));
+  };
+}
+
 function reLogin() {
   return async (dispatch, getState) => {
     // login using state data
 
-    let response = await fetch( `${config.apiUrl}/auth/login`, {
+    let response = await fetch( `${config.apiUrl}/login`, {
       method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: 'h1',
+        account: 'h1',
         password: '1',
       }),
     });
