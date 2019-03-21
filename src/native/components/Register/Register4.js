@@ -52,9 +52,9 @@ class Register extends React.Component {
     });
   }
 
-  _handleSubmit = () => {
+  _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
-    onFormSubmit(this.state);
+    await onFormSubmit(this.state);
     Actions.login();
   }
 

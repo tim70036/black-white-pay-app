@@ -3,8 +3,8 @@ const state = {
     account: '',
     password: '',
     name: '',
-    phone: '',
     thumbnail: '',
+    authenticated: false,
   },
   stores: [
     {

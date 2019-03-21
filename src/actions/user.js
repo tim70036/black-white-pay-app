@@ -31,12 +31,13 @@ function register() {
     // Status
     dispatch(statusMessage('loading', true));
 
+    // Get data from store
     const registerData = getState().user;
-    console.log({ registerData });
 
     // login using form data
+    let response;
     try {
-      let response = await fetch( `${config.apiUrl}/register`, {
+      response = await fetch( `${config.apiUrl}/register`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -55,7 +56,10 @@ function register() {
       console.log(error);
     }
 
-    // Update user data into state
+    // Process response
+    if (response.errCode === 0) {
+
+    }
 
     // Status
     dispatch(statusMessage('loading', false));
@@ -64,6 +68,7 @@ function register() {
 
 function login(loginData) {
   const { account, password } = loginData;
+
   return async (dispatch) => {
     // Status
     dispatch(statusMessage('loading', true));
@@ -72,15 +77,16 @@ function login(loginData) {
     dispatch(clearUser());
 
     // login using form data
+    let response;
     try {
-      let response = await fetch( `${config.apiUrl}/login`, {
+      response = await fetch( `${config.apiUrl}/login`, {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: account, // account
+          account: account,
           password: password,
         }),
       });
@@ -90,8 +96,20 @@ function login(loginData) {
       console.log(error);
     }
 
-    // Update user data into state
-    if(response.errCode === 0) {
+    // Process response
+    if (response.errCode === 0) {
+      const userData = {
+        account: account,
+        password: password,
+        transPwd: '',
+        name: response.name,
+        thumbnail: '',
+        authenticated: true,
+      }
+      dispatch(replaceUser(userData));
+    } else if (response.errCode === 1) {
+
+    } else {
 
     }
 

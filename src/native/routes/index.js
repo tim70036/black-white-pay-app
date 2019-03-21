@@ -11,6 +11,8 @@ import { Icon } from 'native-base';
 import DefaultProps from '../constants/navigation';
 import AppConfig from '../../constants/config';
 
+import requireAuth from '../lib/authHOC';
+
 import DrawerIcon from '../components/DrawerIcon';
 import DashboardDrawer from '../components/DashboardDrawer';
 import SwitchStoreButton from '../components/SwitchStoreButton';
@@ -60,7 +62,7 @@ const Routes = (
     <Stack key="root" hideNavBar>
 
       {/* Init Screen */}
-      <Stack hideNavBar>
+      <Stack key="auth" hideNavBar>
         <Scene key="init" component={InitContainer} Layout={InitComponent} />
         <Scene key="login" component={LoginContainer} Layout={LoginComponent} />
         <Stack key="register" hideNavBar>
@@ -90,8 +92,8 @@ const Routes = (
             title={AppConfig.appName.toUpperCase()}
             {...DefaultProps.navbarProps}
           >
-            <Scene key="chooseStore" component={ChooseStoreContainer} Layout={ChooseStoreComponent} />
-            <Scene key="addStore" component={AddStoreContainer} Layout={AddStoreComponent} />
+            <Scene key="chooseStore" component={requireAuth(ChooseStoreContainer)} Layout={ChooseStoreComponent} />
+            <Scene key="addStore" component={requireAuth(AddStoreContainer)} Layout={AddStoreComponent} />
           </Stack>
         </Scene>
       </Drawer>
@@ -107,7 +109,7 @@ const Routes = (
           icon={() => <Icon name="planet" {...DefaultProps.icons} />}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="storeHome" component={StoreHomeContainer} Layout={StoreHomeComponent} />
+          <Scene key="storeHome" component={requireAuth(StoreHomeContainer)} Layout={StoreHomeComponent} />
         </Stack>
 
         <Stack
@@ -115,7 +117,7 @@ const Routes = (
           icon={() => <Icon name="book" {...DefaultProps.icons} />}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="gameList" component={TransferContainer} Layout={TransferComponent} />
+          <Scene key="gameList" component={requireAuth(TransferContainer)} Layout={TransferComponent} />
         </Stack>
 
         <Stack
@@ -123,7 +125,7 @@ const Routes = (
           icon={() => <Icon name="book" {...DefaultProps.icons} />}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="walletHome" component={WalletHomeContainer} Layout={WalletHomeComponent} />
+          <Scene key="walletHome" component={requireAuth(WalletHomeContainer)} Layout={WalletHomeComponent} />
         </Stack>
 
         <Stack
@@ -131,7 +133,7 @@ const Routes = (
           icon={() => <Icon name="book" {...DefaultProps.icons} />}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="notifyList" component={notifyListContainer} Layout={notifyListComponent} />
+          <Scene key="notifyList" component={requireAuth(notifyListContainer)} Layout={notifyListComponent} />
         </Stack>
 
         <Stack
@@ -139,7 +141,7 @@ const Routes = (
           icon={() => <Icon name="contact" {...DefaultProps.icons} />}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="moreList" component={TransHistoryContainer} Layout={TransHistoryComponent} />
+          <Scene key="moreList" component={requireAuth(TransHistoryContainer)} Layout={TransHistoryComponent} />
         </Stack>
       </Tabs>
 
@@ -150,7 +152,7 @@ const Routes = (
         {...DefaultProps.navbarProps}
         back
       >
-        <Scene component={TransferContainer} Layout={TransferComponent} />
+        <Scene component={requireAuth(TransferContainer)} Layout={TransferComponent} />
       </Stack>
 
       <Stack
@@ -159,7 +161,7 @@ const Routes = (
         {...DefaultProps.navbarProps}
         back
       >
-        <Scene component={TransHistoryContainer} Layout={TransHistoryComponent} />
+        <Scene component={requireAuth(TransHistoryContainer)} Layout={TransHistoryComponent} />
       </Stack>
 
       <Stack
@@ -168,12 +170,12 @@ const Routes = (
         {...DefaultProps.navbarProps}
         back
       >
-        <Scene component={couponsContainer} Layout={couponsComponent} />
+        <Scene component={requireAuth(couponsContainer)} Layout={couponsComponent} />
       </Stack>
     </Stack>
 
     { /* Lightbox components will lay over the screen, allowing transparency */ }
-    <Scene key="qrCode" component={qrCodeContainer} Layout={qrCodeComponent} />
+    <Scene key="qrCode" component={requireAuth(qrCodeContainer)} Layout={qrCodeComponent} />
   </Lightbox>
 );
 

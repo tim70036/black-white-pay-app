@@ -19,7 +19,7 @@ class Register extends Component {
     replacePassword: PropTypes.func.isRequired,
     repalceTransPwd: PropTypes.func.isRequired,
     repalceName: PropTypes.func.isRequired,
-    submitRegisterData: PropTypes.func.isRequired,
+    userRegister: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -34,7 +34,7 @@ class Register extends Component {
       replacePassword,
       repalceTransPwd,
       repalceName,
-      submitRegisterData,
+      userRegister,
     } = this.props;
 
     if (formData.account) {
@@ -44,8 +44,9 @@ class Register extends Component {
     } else if (formData.transPwd) {
       repalceTransPwd(formData.transPwd);
     } else if (formData.name) {
+      // The last step
       repalceName(formData.name);
-      await submitRegisterData();
+      await userRegister();
     }
   }
 
@@ -70,7 +71,7 @@ const mapDispatchToProps = {
   replacePassword: replaceUserPassword,
   repalceTransPwd: replaceUserTransPwd,
   repalceName: replaceUserName,
-  submitRegisterData: register,
+  userRegister: register,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

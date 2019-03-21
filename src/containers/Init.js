@@ -13,13 +13,6 @@ class Init extends Component {
   state = {
   }
 
-  // For testing, delete it
-  componentDidMount = async () => {
-    const { state } = this.props;
-    console.log(state);
-
-  }
-
   render = () => {
     const {
       Layout,
@@ -32,8 +25,6 @@ class Init extends Component {
 }
 
 const mapStateToProps = state => ({
-  // For testing
-  state: state || {},
 });
 
 const mapDispatchToProps = {

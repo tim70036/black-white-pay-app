@@ -5,8 +5,8 @@ const initState = {
   password: '1',
   transPwd: '1',
   name: 'Unknown',
-  phone: '8888888',
   thumbnail: '',
+  authenticated: false,
 };
 
 function userReducer(state = initState, action) {
