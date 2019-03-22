@@ -106,7 +106,7 @@ function login(loginData) {
         account: account,
         password: password,
         transPwd: '',
-        name: response.name,
+        name: response.data.name,
         thumbnail: '',
         authenticated: true,
       }

@@ -76,19 +76,19 @@ class ChooseStore extends React.Component {
 
   _renderStore = ({ item }) => (
     <TouchableOpacity
-      onPress={() => this._handleChoose(item.title)}
+      onPress={() => this._handleChoose(item.name)}
     >
       <Card style={styles.card}>
         <View style={{ flex: 2 }}>
           <Image
             style={styles.image}
             resizeMode="cover"
-            source={{ uri: item.imgUrl }}
+            source={{ uri: item.thumbnail }}
           />
         </View>
         <CardItem style={styles.cardItem}>
           <View>
-            <Text style={styles.headerText}>{item.title}</Text>
+            <Text style={styles.headerText}>{item.name}</Text>
           </View>
         </CardItem>
       </Card>

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getStores } from '../../actions/stores';
 
 const EXAMPLE_DATA = [
   {
@@ -37,18 +39,39 @@ const EXAMPLE_DATA = [
 class ChooseStore extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
+    getStoresData: PropTypes.func.isRequired,
+    storesData: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+        thumbnail: PropTypes.string,
+      }),
+    ),
   }
 
   static defaultProps = {
+    storesData: [],
   }
 
   state = {
+  }
 
+  constructor(props) {
+    super(props);
+    props.getStoresData();
   }
 
   render = () => {
-    const { Layout } = this.props;
-    return <Layout storesData={EXAMPLE_DATA} />;
+    const { Layout, storesData } = this.props;
+    return <Layout storesData={storesData} />;
   }
 }
-export default ChooseStore;
+
+const mapStateToProps = state => ({
+  storesData: state.stores,
+});
+
+const mapDispatchToProps = {
+  getStoresData: getStores,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChooseStore);
