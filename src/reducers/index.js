@@ -5,6 +5,12 @@ import status from './status';
 
 // Redux persist
 const rehydrated = (state = false, action) => {
+  // Action logger
+  console.log(`action: ${action.type}`);
+  console.log('data: ');
+  console.log(action.data);
+  console.log('------------------------------------------------')
+
   switch (action.type) {
     case 'persist/REHYDRATE':
       return true;

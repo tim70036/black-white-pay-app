@@ -61,6 +61,13 @@ function userReducer(state = initState, action) {
       }
       return state;
     }
+    // authenticated
+    case actionType.REPLACE_USER_AUTH: {
+      return {
+        ...state,
+        authenticated: action.data,
+      };
+    }
     default:
       return state;
   }

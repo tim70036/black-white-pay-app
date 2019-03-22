@@ -12,15 +12,19 @@ function requireAuthentication(ProtectedComponent) {
     static defaultProps = {
     }
 
-    constructor(props) {
-      super(props);
-      const { authenticated } = this.props;
+    state = {
+    }
+
+    static getDerivedStateFromProps(props, state) {
+      const { authenticated } = props;
 
       // If not login, navigate to login/register screen
       if (!authenticated) {
-        console.log(`not logined, direct to login page`)
+        console.log(`not logined, direct to login page`);
         Actions.auth();
       }
+
+      return null;
     }
 
     render = () => (

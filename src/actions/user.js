@@ -26,6 +26,10 @@ function replaceUserName(newName) {
   return { type: actionType.REPLACE_USER_NAME, data: newName };
 }
 
+function replaceUserAuth(isAuthenticated) {
+  return { type: actionType.REPLACE_USER_AUTH, data: isAuthenticated };
+}
+
 function register() {
   return async (dispatch, getState) => {
     // Status
@@ -37,7 +41,7 @@ function register() {
     // login using form data
     let response;
     try {
-      response = await fetch( `${config.apiUrl}/register`, {
+      response = await fetch( `${config.apiUrl}/auth/register`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -79,7 +83,7 @@ function login(loginData) {
     // login using form data
     let response;
     try {
-      response = await fetch( `${config.apiUrl}/login`, {
+      response = await fetch( `${config.apiUrl}/auth/login`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -118,23 +122,36 @@ function login(loginData) {
   };
 }
 
-function reLogin() {
+function logout() {
   return async (dispatch, getState) => {
-    // login using state data
+    // Status
+    dispatch(statusMessage('loading', true));
 
-    let response = await fetch( `${config.apiUrl}/login`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        account: 'h1',
-        password: '1',
-      }),
-    });
-    let body = await response.json();
-    console.log( body );
+    let response;
+    try {
+      response = await fetch( `${config.apiUrl}/auth/logout`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      response = await response.json();
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+
+    // Process response
+    if (response.errCode === 0) {
+      // Logout user in state
+      dispatch(replaceUserAuth(false));
+      console.log(getState().user);
+    } else if (response.errCode === 1) {
+
+    } else {
+
+    }
+
+    // Status
+    dispatch(statusMessage('loading', false));
   };
 }
 
@@ -145,8 +162,9 @@ export {
   replaceUserPassword,
   replaceUserTransPwd,
   replaceUserName,
+  replaceUserAuth,
 
   register,
   login,
-  reLogin,
+  logout,
 };
