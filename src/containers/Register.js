@@ -28,7 +28,7 @@ class Register extends Component {
   state = {
   }
 
-  _onFormSubmit = async (formData) => {
+  _handleSubmit = async (formData) => {
     const {
       repalceAccount,
       replacePassword,
@@ -57,7 +57,7 @@ class Register extends Component {
 
     return (
       <Layout
-        onFormSubmit={this._onFormSubmit}
+        onFormSubmit={this._handleSubmit}
       />
     );
   }

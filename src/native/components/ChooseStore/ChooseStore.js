@@ -53,10 +53,11 @@ const styles = StyleSheet.create({
 class ChooseStore extends React.Component {
   static propTypes = {
     // storesData:PropTypes.shape({}),
+    onChoose: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
-    // storesData: null,
+    storesData: [],
   }
 
   constructor(props) {
@@ -66,7 +67,9 @@ class ChooseStore extends React.Component {
     };
   }
 
-  _handleChoose = (storeName) => {
+  _handleChoose = async (storeId) => {
+    const { onChoose } = this.props;
+    await onChoose(storeId);
     Actions.storeTabbar();
   }
 
@@ -76,7 +79,7 @@ class ChooseStore extends React.Component {
 
   _renderStore = ({ item }) => (
     <TouchableOpacity
-      onPress={() => this._handleChoose(item.name)}
+      onPress={() => this._handleChoose(item.storeId)}
     >
       <Card style={styles.card}>
         <View style={{ flex: 2 }}>

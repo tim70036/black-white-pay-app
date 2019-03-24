@@ -36,7 +36,7 @@ function getStores() {
     } else if (response.errCode === 87) {
       dispatch(replaceUserAuth(false));
     } else {
-      
+
     }
 
     // Status

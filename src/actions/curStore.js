@@ -1,4 +1,5 @@
 import actionType from '../constants/actionTypes';
+import { statusMessage } from './status';
 
 function replaceCurStore(newStoreData) {
   return { type: actionType.REPLACE_CURSTORE, data: newStoreData };
@@ -24,6 +25,24 @@ function clearCoupons() {
   return { type: actionType.CLEAR_CURSTORE_COUPONS };
 }
 
+function setCurStore(curStoreId) {
+  return async (dispatch, getState) => {
+    // Status
+    dispatch(statusMessage('loading', true));
+    
+    // Get curStore data
+    const curStore = {
+      storeId: curStoreId,
+      ads: [],
+      coupons: [],
+    };
+    dispatch(replaceCurStore(curStore));
+
+    // Status
+    dispatch(statusMessage('loading', false));
+  };
+}
+
 export {
   replaceCurStore,
   clearCurStore,
@@ -34,4 +53,5 @@ export {
   replaceCoupons,
   clearCoupons,
 
+  setCurStore,
 };

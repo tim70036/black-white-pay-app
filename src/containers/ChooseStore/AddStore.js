@@ -15,7 +15,7 @@ class AddStore extends Component {
   state = {
   }
 
-  onFormSubmit = (data) => {
+  _handleSubmit = (data) => {
     
   }
 
@@ -26,7 +26,7 @@ class AddStore extends Component {
 
     return (
       <Layout
-        onFormSubmit={this.onFormSubmit}
+        onFormSubmit={this._handleSubmit}
       />
     );
   }

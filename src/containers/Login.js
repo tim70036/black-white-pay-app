@@ -18,7 +18,7 @@ class Login extends Component {
   state = {
   }
 
-  _onFormSubmit = async (formData) => {
+  _handleSubmit = async (formData) => {
     const { userLogin } = this.props;
     console.log({ formData });
     await userLogin(formData);
@@ -33,7 +33,7 @@ class Login extends Component {
     return (
       <Layout
         // member={member}
-        onFormSubmit={this._onFormSubmit}
+        onFormSubmit={this._handleSubmit}
       />
     );
   }

@@ -11,7 +11,42 @@ function clearWallets() {
   return { type: actionType.CLEAR_WALLETS };
 }
 
+
+function getWallets() {
+  return async (dispatch, getState) => {
+    // Status
+    dispatch(statusMessage('loading', true));
+
+    // Get stores
+    let response;
+    try {
+      response = await fetch( `${config.apiUrl}/wallet/list`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      response = await response.json();
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+
+    // Process response
+    if (response.errCode === 0) {
+      const walletList = response.data;
+      dispatch(replaceWallets(walletList));
+    } else if (response.errCode === 87) {
+      dispatch(replaceUserAuth(false));
+    } else {
+      
+    }
+
+    // Status
+    dispatch(statusMessage('loading', false));
+  };
+}
+
 export {
   replaceWallets,
   clearWallets,
+  getWallets,
 };
