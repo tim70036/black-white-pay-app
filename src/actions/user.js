@@ -143,7 +143,7 @@ function logout() {
     if (response.errCode === 0) {
       // Logout user in state
       dispatch(replaceUserAuth(false));
-      console.log(getState().user);
+      console.log(getState());
     } else if (response.errCode === 1) {
 
     } else {

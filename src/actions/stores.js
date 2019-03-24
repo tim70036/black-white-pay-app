@@ -1,6 +1,7 @@
 import actionType from '../constants/actionTypes';
 import config from '../constants/config';
 import { statusMessage } from './status';
+import { replaceUserAuth } from './user';
 
 function replaceStores(newStoresData) {
   return { type: actionType.REPLACE_STORES, data: newStoresData };
@@ -18,7 +19,7 @@ function getStores() {
     // Get stores
     let response;
     try {
-      response = await fetch( `${config.apiUrl}/store/store-list`, {
+      response = await fetch( `${config.apiUrl}/store/list`, {
         method: 'GET',
         credentials: 'include',
       });
@@ -32,6 +33,10 @@ function getStores() {
     if (response.errCode === 0) {
       const storeList = response.data;
       dispatch(replaceStores(storeList));
+    } else if (response.errCode === 87) {
+      dispatch(replaceUserAuth(false));
+    } else {
+      
     }
 
     // Status

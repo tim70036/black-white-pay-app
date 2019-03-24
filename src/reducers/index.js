@@ -1,6 +1,9 @@
 import user from './user';
 import stores from './stores';
 import curStore from './curStore';
+import wallets from './wallets';
+import curWallet from './curWallet';
+import notifications from './notifications';
 import status from './status';
 
 // Redux persist
@@ -25,5 +28,8 @@ export default {
   user: user,
   stores: stores,
   curStore: curStore,
+  wallets: wallets,
+  curWallet: curWallet,
+  notifications: notifications,
   status: status,
 };

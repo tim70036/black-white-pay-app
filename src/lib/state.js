@@ -8,28 +8,34 @@ const state = {
   },
   stores: [
     {
+      storeId: 1,
       name: '',
       thumbnail: '',
     },
     {
+      storeId: 2,
       name: '',
       thumbnail: '',
     },
     {
+      storeId: 3,
       name: '',
       thumbnail: '',
     },
   ],
   wallets: [
     {
+      storeId: 1,
       currencyName: '',
       availBalance: 0,
     },
     {
+      storeId: 2,
       currencyName: '',
       availBalance: 0,
     },
     {
+      storeId: 3,
       currencyName: '',
       availBalance: 0,
     },
@@ -40,6 +46,7 @@ const state = {
     {},
   ],
   curWallet: {
+    storeId: 1,
     transHistory: [
       { time: '', amount: '', relatedName: '', comment: '' },
       {},
@@ -47,6 +54,7 @@ const state = {
     ],
   },
   curStore: {
+    storeId: 1,
     ads: [
       { image: '', title: '', subtitle: '',},
       { image: '', title: '', subtitle: '',},

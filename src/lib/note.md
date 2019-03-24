@@ -14,3 +14,7 @@ Container 處理跟 RN 無關的 ex. redux action
 記得 async await 要小心
 
 Web auth controller 檔案太多有點亂
+
+後端 User session 需要存 cur storeId?
+好像沒必要阿，直接由前端傳，然後後端驗證就好，存 session 沒有特別好
+CMS 會需要記在後端是因為他們沒有 redux ，沒辦法存住 cur club (其實他們用 web cookie 搞不好可以)
