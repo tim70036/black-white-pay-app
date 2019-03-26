@@ -24,4 +24,8 @@ CMS 會需要記在後端是因為他們沒有 redux ，沒辦法存住 cur club
 error handling 還沒寫
 目前想法是 dispatch status 
 然後用 HOC ? 去檢查 status 然後 lightbox
+還是各個 container 去處理
 
+device id : gen uuid?
+
+RNRF 坑: 小心跳轉會把前一個頁面放到 stack 上，如果不想讓他按上一頁，要用 reset() 跳轉

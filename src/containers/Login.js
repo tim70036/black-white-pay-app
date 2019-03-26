@@ -8,11 +8,18 @@ class Login extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
     userLogin: PropTypes.func.isRequired,
-    // member: PropTypes.shape({}).isRequired,
-    // onFormSubmit: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+      account: PropTypes.string,
+      password: PropTypes.string,
+      transPwd: PropTypes.string,
+      name: PropTypes.string,
+      thumbnail: PropTypes.string,
+      authenticated: PropTypes.bool,
+    }),
   }
 
   static defaultProps = {
+    user: {},
   }
 
   state = {
@@ -26,13 +33,13 @@ class Login extends Component {
 
   render = () => {
     const {
-      // member,
+      user,
       Layout,
     } = this.props;
 
     return (
       <Layout
-        // member={member}
+        user={user}
         onFormSubmit={this._handleSubmit}
       />
     );
@@ -40,7 +47,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => ({
-  // member: state.member || {},
+  user: state.user || {},
 });
 
 const mapDispatchToProps = {

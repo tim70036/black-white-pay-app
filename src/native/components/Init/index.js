@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import {
   StyleSheet, Image, Dimensions, ImageBackground,
@@ -48,6 +49,15 @@ class Init extends React.Component {
   _handleLoginBtn = () => {
     Actions.login();
   };
+
+  componentDidMount = () => {
+    // console.log(this.props.resetRouteStack);
+    // if (this.props.resetRouteStack) {
+    //   // Prevent user go back to previos sreen
+
+    //   Actions.reset('auth', { resetRouteStack: false });
+    // }
+  }
 
   render() {
     return (

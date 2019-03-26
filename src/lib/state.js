@@ -47,6 +47,8 @@ const state = {
   ],
   curWallet: {
     storeId: 1,
+    currencyName: '',
+    availBalance: 0,
     transHistory: [
       { time: '', amount: '', relatedName: '', comment: '' },
       {},
@@ -64,4 +66,10 @@ const state = {
       { id: '', thumbnail: '', title: '', subtitle: '' },
     ],
   },
+  status: {
+    loading: false,
+    success: null,
+    error: null,
+    info: null,
+  }
 };

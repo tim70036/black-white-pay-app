@@ -3,10 +3,25 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 
+const authScenes = ['auth', 'login', 'init', 'register', 'register1', 'register2', 'register3', 'register4'];
+
 function requireAuthentication(ProtectedComponent) {
   class AuthenticatedComponent extends React.Component {
     static propTypes = {
-      authenticated: PropTypes.bool.isRequired,
+      user: PropTypes.shape({
+        account: PropTypes.string,
+        password: PropTypes.string,
+        transPwd: PropTypes.string,
+        name: PropTypes.string,
+        thumbnail: PropTypes.string,
+        authenticated: PropTypes.bool,
+      }).isRequired,
+      status: PropTypes.shape({
+        loading: PropTypes.bool,
+        success: PropTypes.string,
+        error: PropTypes.string,
+        info: PropTypes.string,
+      }).isRequired,
     }
 
     static defaultProps = {
@@ -16,12 +31,13 @@ function requireAuthentication(ProtectedComponent) {
     }
 
     static getDerivedStateFromProps(props, state) {
-      const { authenticated } = props;
+      const { user, status } = props;
 
-      // If not login, navigate to login/register screen
-      if (!authenticated) {
-        console.log(`not logined, direct to login page`);
-        Actions.auth();
+      // If not login, reset to login/register screen
+      if (!user.authenticated) {
+        console.log(`in ${Actions.currentScene}, but not logined, direct to login page`);
+        Actions.reset('auth'); // use reset! but no animation
+        // Actions.auth();
       }
 
       return null;
@@ -34,7 +50,8 @@ function requireAuthentication(ProtectedComponent) {
   }
 
   const mapStateToProps = state => ({
-    authenticated: state.user.authenticated,
+    user: state.user,
+    status: state.status,
   });
 
   const mapDispatchToProps = {

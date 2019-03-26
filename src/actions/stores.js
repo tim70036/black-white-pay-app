@@ -24,9 +24,12 @@ function getStores() {
         credentials: 'include',
       });
       response = await response.json();
+      if (!response) throw Error('沒有回應');
       console.log(response);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
+      dispatch(statusMessage('loading', false));
+      return;
     }
 
     // Process response

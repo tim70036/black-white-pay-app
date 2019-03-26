@@ -11,8 +11,11 @@ class Transfer extends Component {
   }
 
   state = {
-    shit: 'nothing',
   }
+
+  _handleSubmit = async (formData) => {
+
+  };
 
   render = () => {
     const {

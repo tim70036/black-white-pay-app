@@ -27,22 +27,26 @@ const styles = StyleSheet.create({
 
 class Login extends React.Component {
   static propTypes = {
-    member: PropTypes.shape({
-      email: PropTypes.string,
+    user: PropTypes.shape({
+      account: PropTypes.string,
+      password: PropTypes.string,
+      transPwd: PropTypes.string,
+      name: PropTypes.string,
+      thumbnail: PropTypes.string,
+      authenticated: PropTypes.bool,
     }),
     onFormSubmit: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
-    member: {},
+    user: {},
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      // email: (props.member && props.member.email) ? props.member.email : '',
-      account: '',
-      password: '',
+      account: (props.user && props.user.account) ? props.user.account : '',
+      password: (props.user && props.user.password) ? props.user.password : '',
     };
   }
 
@@ -55,10 +59,12 @@ class Login extends React.Component {
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
     await onFormSubmit(this.state);
-    Actions.chooseStoreDrawer();
+    Actions.main(); // need reset?
   }
 
-  render() {
+  render = () => {
+    const { account, password } = this.state;
+
     return (
       <ImageBackground source={require('../../../images/bkimg.png')} style={{ width: '100%', height: '100%' }}>
         <View style={styles.container}>
@@ -73,6 +79,7 @@ class Login extends React.Component {
                   autoCapitalize="none"
                   placeholder=""
                   keyboardType="default"
+                  value={account}
                   onChangeText={v => this._handleChange('account', v)}
                   onSubmitEditing={Keyboard.dismiss}
                 />
@@ -85,6 +92,8 @@ class Login extends React.Component {
                 <Input
                   autoCapitalize="none"
                   placeholder=""
+                  secureTextEntry
+                  value={password}
                   onChangeText={v => this._handleChange('password', v)}
                   onSubmitEditing={Keyboard.dismiss}
                 />

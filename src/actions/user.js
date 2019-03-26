@@ -1,3 +1,4 @@
+import { Constants } from 'expo';
 import actionType from '../constants/actionTypes';
 import config from '../constants/config';
 import { statusMessage } from './status';
@@ -57,7 +58,7 @@ function register() {
       response = await response.json();
       console.log(response);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
 
     // Process response
@@ -95,9 +96,12 @@ function login(loginData) {
         }),
       });
       response = await response.json();
+      if (!response) throw Error('沒有回應');
       console.log(response);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
+      dispatch(statusMessage('loading', false));
+      return;
     }
 
     // Process response
@@ -134,9 +138,12 @@ function logout() {
         credentials: 'include',
       });
       response = await response.json();
+      if (!response) throw Error('沒有回應');
       console.log(response);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
+      dispatch(statusMessage('loading', false));
+      return;
     }
 
     // Process response
