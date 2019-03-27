@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { View} from 'react-native';
+
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-
+import Spinner from 'react-native-loading-spinner-overlay';
 const authScenes = ['auth', 'login', 'init', 'register', 'register1', 'register2', 'register3', 'register4'];
 
 function requireAuthentication(ProtectedComponent) {
@@ -28,6 +30,7 @@ function requireAuthentication(ProtectedComponent) {
     }
 
     state = {
+      // isLoading: false,
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -43,10 +46,17 @@ function requireAuthentication(ProtectedComponent) {
       return null;
     }
 
-    render = () => (
-      // Pass down props (including Layout)
-      <ProtectedComponent {...this.props} />
-    );
+    render = () => {
+      const { status } = this.props;
+      return (
+        // Pass down props (including Layout)
+        <View style={{ flex: 1}} >
+          <Spinner visible={status.loading} />
+          <ProtectedComponent {...this.props} />
+        </View>
+      );
+    }
+    
   }
 
   const mapStateToProps = state => ({
