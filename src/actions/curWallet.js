@@ -73,6 +73,7 @@ function transfer(transferData) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          storeId: getState().curWallet.storeId,
           accountTo: accountTo,
           amount: amount,
           transPwd: transPwd,
@@ -90,17 +91,20 @@ function transfer(transferData) {
 
     // Process response
     if (response.errCode === 0) {
-      
+      // Status
+      dispatch(statusMessage('loading', false));
     } else if (response.errCode === 1) {
-
+      // Status
+      dispatch(statusMessage('error', response.msg));
     } else if (response.errCode === 87) {
       dispatch(replaceUserAuth(false));
+      // Status
+      dispatch(statusMessage('loading', false));
     } else {
-
+      // Status
+      dispatch(statusMessage('loading', false));
     }
 
-    // Status
-    dispatch(statusMessage('loading', false));
   };
 }
 

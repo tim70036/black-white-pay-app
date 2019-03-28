@@ -63,11 +63,15 @@ function register() {
 
     // Process response
     if (response.errCode === 0) {
-
+      // Status
+      dispatch(statusMessage('loading', false));
+    } else if (response.errCode === 1) {
+      // Status
+      dispatch(statusMessage('error', response.msg));
+    } else {
+      // Status
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
     }
-
-    // Status
-    dispatch(statusMessage('loading', false));
   };
 }
 
@@ -115,14 +119,75 @@ function login(loginData) {
         authenticated: true,
       }
       dispatch(replaceUser(userData));
+
+      // Status
+      dispatch(statusMessage('loading', false));
     } else if (response.errCode === 1) {
-
+      // Status
+      dispatch(statusMessage('error', '帳號密碼錯誤，請重試'));
     } else {
+      // Status
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
+    }
+  };
+}
 
+// Returns boolean to determine relogin succeed or failed
+function relogin() {
+  return async (dispatch, getState) => {
+    // Status
+    dispatch(statusMessage('loading', true));
+
+    // Get user data from state
+    const {
+      account,
+      password,
+    } = getState().user;
+
+    // login
+    let response;
+    try {
+      response = await fetch( `${config.apiUrl}/auth/login`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          account: account,
+          password: password,
+        }),
+      });
+      response = await response.json();
+      if (!response) throw Error('沒有回應');
+      console.log(response);
+    } catch (error) {
+      console.log(error.message);
+      dispatch(statusMessage('loading', false));
+      return false;
     }
 
-    // Status
+    // Process response
+    // Success
+    if (response.errCode === 0) {
+      const userData = {
+        account: account,
+        password: password,
+        transPwd: '',
+        name: response.data.name,
+        thumbnail: '',
+        authenticated: true,
+      }
+      dispatch(replaceUser(userData));
+
+      // Status
+      dispatch(statusMessage('loading', false));
+      return true;
+    }
+
+    // Failed
     dispatch(statusMessage('loading', false));
+    return false;
   };
 }
 
@@ -151,14 +216,10 @@ function logout() {
       // Logout user in state
       dispatch(replaceUserAuth(false));
       console.log(getState());
-    } else if (response.errCode === 1) {
-
     } else {
-
+      // Status
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
     }
-
-    // Status
-    dispatch(statusMessage('loading', false));
   };
 }
 
@@ -173,5 +234,6 @@ export {
 
   register,
   login,
+  relogin,
   logout,
 };

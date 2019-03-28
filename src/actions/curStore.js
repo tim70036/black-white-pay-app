@@ -56,8 +56,6 @@ function setCurStore(curStoreId) {
         coupons: [],
       };
       dispatch(replaceCurStore(curStore));
-    } else if (response.errCode === 1) {
-
     } else if (response.errCode === 87) {
       dispatch(replaceUserAuth(false));
     } else {

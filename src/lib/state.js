@@ -2,6 +2,7 @@ const state = {
   user: {
     account: '',
     password: '',
+    transPwd: '',
     name: '',
     thumbnail: '',
     authenticated: false,

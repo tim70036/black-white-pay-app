@@ -23,7 +23,12 @@ const DashboardDrawer = ({ userLogout }) => (
     <Button onPress={Actions.pop} title="返回" />
     <Button onPress={() => Actions.storeTabbar()} title="首頁" />
     <Button onPress={() => Actions.transHistory()} title="帳號設定" />
-    <Button onPress={async () => { await userLogout(); }} title="登出" />
+    <Button
+      onPress={async () => {
+        await userLogout();
+      }}
+      title="登出"
+    />
   </View>
 );
 

@@ -41,6 +41,16 @@ function requireAuthentication(ProtectedComponent) {
         console.log(`in ${Actions.currentScene}, but not logined, direct to login page`);
         Actions.reset('auth'); // use reset! but no animation
         // Actions.auth();
+
+        // const { userRelogin } = this.props;
+        // // try login reset to login/register screen
+        // console.log(`in ${Actions.currentScene}, try relogin`);
+        // const success = await userRelogin();
+        // ieset('auth'); // use reset! but no animation
+        //   // Actions.auth();f (!success) {
+        //   console.log(`relogin failed, direct to login page`)
+        //   Actions.r
+        // }
       }
 
       return null;

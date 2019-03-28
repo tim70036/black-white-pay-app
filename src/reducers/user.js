@@ -1,10 +1,10 @@
 import actionType from '../constants/actionTypes';
 
 const initState = {
-  account: 'm1',
-  password: '1',
-  transPwd: '1',
-  name: 'Unknown',
+  account: '',
+  password: '',
+  transPwd: '',
+  name: '',
   thumbnail: '',
   authenticated: false,
 };
