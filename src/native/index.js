@@ -1,12 +1,12 @@
 import React from 'react';
 import { StatusBar, Platform } from 'react-native';
-import { Font } from 'expo';
+import { Notifications, Font } from 'expo';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { Router, Stack } from 'react-native-router-flux';
+import { Router } from 'react-native-router-flux';
 import { PersistGate } from 'redux-persist/es/integration/react';
-
 import { Root, StyleProvider } from 'native-base';
+
 import getTheme from '../../native-base-theme/components';
 import theme from '../../native-base-theme/variables/commonColor';
 
@@ -32,6 +32,15 @@ export default class App extends React.Component {
     });
 
     this.setState({ loading: false });
+  }
+
+  componentDidMount() {
+    // Handle notifications that are received or selected while the app
+    // is open. If the app was closed and then opened by tapping the
+    // notification (rather than just tapping the app icon to open it),
+    // this function will fire on the next tick after the app starts
+    // with the notification data.
+    this._notificationSubscription = Notifications.addListener();
   }
 
   render() {

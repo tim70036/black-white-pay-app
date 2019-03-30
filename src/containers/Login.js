@@ -28,7 +28,8 @@ class Login extends Component {
   _handleSubmit = async (formData) => {
     const { userLogin } = this.props;
     console.log({ formData });
-    await userLogin(formData);
+    const success = await userLogin(formData);
+    return success;
   }
 
   render = () => {

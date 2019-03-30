@@ -105,70 +105,10 @@ function login(loginData) {
     } catch (error) {
       console.log(error.message);
       dispatch(statusMessage('loading', false));
-      return;
-    }
-
-    // Process response
-    if (response.errCode === 0) {
-      const userData = {
-        account: account,
-        password: password,
-        transPwd: '',
-        name: response.data.name,
-        thumbnail: '',
-        authenticated: true,
-      }
-      dispatch(replaceUser(userData));
-
-      // Status
-      dispatch(statusMessage('loading', false));
-    } else if (response.errCode === 1) {
-      // Status
-      dispatch(statusMessage('error', '帳號密碼錯誤，請重試'));
-    } else {
-      // Status
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
-    }
-  };
-}
-
-// Returns boolean to determine relogin succeed or failed
-function relogin() {
-  return async (dispatch, getState) => {
-    // Status
-    dispatch(statusMessage('loading', true));
-
-    // Get user data from state
-    const {
-      account,
-      password,
-    } = getState().user;
-
-    // login
-    let response;
-    try {
-      response = await fetch( `${config.apiUrl}/auth/login`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          account: account,
-          password: password,
-        }),
-      });
-      response = await response.json();
-      if (!response) throw Error('沒有回應');
-      console.log(response);
-    } catch (error) {
-      console.log(error.message);
-      dispatch(statusMessage('loading', false));
       return false;
     }
 
     // Process response
-    // Success
     if (response.errCode === 0) {
       const userData = {
         account: account,
@@ -184,10 +124,24 @@ function relogin() {
       dispatch(statusMessage('loading', false));
       return true;
     }
+    
+    if (response.errCode === 1) {
+      // Status
+      dispatch(statusMessage('error', '帳號密碼錯誤，請重試'));
+      return false;
+    }
 
-    // Failed
-    dispatch(statusMessage('loading', false));
+    // Status
+    dispatch(statusMessage('error', '網路發生問題，請重試'));
     return false;
+  };
+}
+
+function bindStore(bindData) {
+  const { bindCode } = bindData;
+  return async (dispatch, getState) => {
+    // Status
+    dispatch(statusMessage('loading', true));
   };
 }
 

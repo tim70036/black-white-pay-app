@@ -29,3 +29,23 @@ error handling 還沒寫
 device id : gen uuid?
 
 RNRF 坑: 小心跳轉會把前一個頁面放到 stack 上，如果不想讓他按上一頁，要用 reset() 跳轉
+
+expo push 用 redux or async storage?
+不同帳號的push token 一樣?
+登入登出?
+ New app
+User A (first ever user) uses IPAD A
+Register with APSN, get token
+Send token to our servers through ws
+Search for token in db, token is new, store it
+assign token to USER A
+
+Next user logs into app
+Register with APSN, get token
+Send token to our servers through ws
+Search for token in db, token exists already
+Remove connection to USER A
+assign token to USER B
+
+SEND Notification to device WITH USERNAME
+if username is logged in show it - else dont

@@ -8,6 +8,8 @@ import {
 } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 
+import registerForNotifications from '../../lib/expoNotification';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -58,8 +60,12 @@ class Login extends React.Component {
 
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
-    await onFormSubmit(this.state);
-    Actions.main(); // need reset?
+    const success = await onFormSubmit(this.state);
+
+    if (success) {
+      registerForNotifications();
+      Actions.main(); // need reset?
+    }
   }
 
   render = () => {
