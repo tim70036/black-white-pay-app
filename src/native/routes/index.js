@@ -55,6 +55,9 @@ import TransHistoryComponent from '../components/TransHistory';
 import qrCodeContainer from '../../containers/QrCode';
 import qrCodeComponent from '../components/QrCode';
 
+import qrScannerContainer from '../../containers/QrScanner';
+import qrScannerComponent from '../components/QrScanner';
+
 import couponsContainer from '../../containers/Coupons';
 import couponsComponent from '../components/Coupons';
 
@@ -161,7 +164,7 @@ const Routes = (
           {...DefaultProps.navbarProps}
           back
         >
-          <Scene component={requireAuth(couponsContainer)} Layout={couponsComponent} />
+          <Scene component={requireAuth(qrScannerContainer)} Layout={qrScannerComponent} />
         </Stack>
       </Stack>
 

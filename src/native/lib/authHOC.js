@@ -35,11 +35,13 @@ function requireAuthentication(ProtectedComponent) {
 
     static getDerivedStateFromProps(props, state) {
       const { user, status } = props;
-
+      
       // If not login, reset to login/register screen
       if (!user.authenticated) {
         console.log(`in ${Actions.currentScene}, but not logined, direct to login page`);
         Actions.reset('auth'); // use reset! but no animation
+
+
         // Actions.auth();
 
         // const { userRelogin } = this.props;

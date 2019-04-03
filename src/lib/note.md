@@ -54,10 +54,11 @@ if username is logged in show it - else dont
 
 
 dinbro
-廣告換一下
-Top bar 字太大 
+
+Top bar 太高
 交易紀錄TOP bar 要顯示幣種
 黑色不夠油
-快速捷徑字拿掉，廣告大點
+快速捷徑字拿掉，廣告稍微大點
 通知鈴鐺選一個放
+廣告換一下
 
