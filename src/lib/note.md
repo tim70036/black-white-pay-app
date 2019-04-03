@@ -49,3 +49,15 @@ assign token to USER B
 
 SEND Notification to device WITH USERNAME
 if username is logged in show it - else dont
+
+剩 listener & server push
+
+
+dinbro
+廣告換一下
+Top bar 字太大 
+交易紀錄TOP bar 要顯示幣種
+黑色不夠油
+快速捷徑字拿掉，廣告大點
+通知鈴鐺選一個放
+

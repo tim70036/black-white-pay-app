@@ -12,6 +12,7 @@ import theme from '../../native-base-theme/variables/commonColor';
 
 import Routes from './routes/index';
 import Loading from './components/Loading';
+import { appendNotifications } from '../actions/notifications';
 
 // Hide StatusBar on Android as it overlaps tabs
 if (Platform.OS === 'android') StatusBar.setHidden(true);
@@ -40,7 +41,15 @@ export default class App extends React.Component {
     // notification (rather than just tapping the app icon to open it),
     // this function will fire on the next tick after the app starts
     // with the notification data.
-    this._notificationSubscription = Notifications.addListener();
+    this._notificationSubscription = Notifications.addListener(this._handleNotifications);
+  }
+
+  _handleNotifications = (notification) => {
+    const { data, origin } = notification;
+    const { store } = this.props;
+    console.log(notification);
+
+    // store.dispatch(appendNotifications(data));
   }
 
   render() {

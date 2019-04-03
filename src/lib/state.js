@@ -6,7 +6,6 @@ const state = {
     name: '',
     thumbnail: '',
     authenticated: false,
-    expoPushToken: '',
   },
   stores: [
     {
@@ -74,7 +73,4 @@ const state = {
     error: null,
     info: null,
   },
-  prevUsers: [
-    
-  ],
 };

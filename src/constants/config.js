@@ -5,7 +5,7 @@ const config = {
   appName: 'GainSword',
 
   // Network
-  apiUrl: 'http://localhost:8080/api',
+  apiUrl: 'http://192.168.2.34/api',
 
   // Build Configuration - eg. Debug or Release?
   DEV: devMode,

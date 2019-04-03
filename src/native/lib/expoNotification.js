@@ -38,16 +38,14 @@ async function registerForNotifications() {
 
   // Process response
   if (response.errCode === 0) {
+    // Save token in local storage
+    AsyncStorage.setItem(config.tokenStorageKey, token);
 
   } else if (response.errCode === 87) {
 
   } else {
     
   }
-
-  // Save in local storage
-  AsyncStorage.setItem(config.tokenStorageKey, token);
-
 }
 
 export default registerForNotifications;

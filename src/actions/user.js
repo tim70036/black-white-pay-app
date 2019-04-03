@@ -188,6 +188,7 @@ export {
 
   register,
   login,
-  relogin,
   logout,
+
+  bindStore,
 };

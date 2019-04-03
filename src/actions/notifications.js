@@ -11,7 +11,12 @@ function clearNotifications() {
   return { type: actionType.CLEAR_NOTIFICATIONS };
 }
 
+function appendNotifications(newNotificationsData) {
+  return { type: actionType.APPEND_NOTIFICATIONS, data: newNotificationsData };
+}
+
 export {
   replaceNotifications,
   clearNotifications,
+  appendNotifications,
 };

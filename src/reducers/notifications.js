@@ -13,6 +13,12 @@ function notificationsReducer(state = initState, action) {
     case actionType.CLEAR_NOTIFICATIONS: {
       return initState;
     }
+    case actionType.APPEND_NOTIFICATIONS: {
+      if (action.data) {
+        return [...state, ...action.data];
+      }
+      return state;
+    }
     default:
       return state;
   }
