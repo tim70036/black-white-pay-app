@@ -19,6 +19,10 @@ function notificationsReducer(state = initState, action) {
       }
       return state;
     }
+    case actionType.HASREAD_NOTIFICATIONS: {
+      const newState = state.map(item => ({ ...item, hasRead: true }));
+      return newState;
+    }
     default:
       return state;
   }

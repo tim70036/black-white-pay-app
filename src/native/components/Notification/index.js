@@ -87,11 +87,11 @@ const Notification = ({ notificationData }) => {
             <View style={styles.cardItemLeft}>
               <Image
                 style={styles.image}
-                source={{ uri: item.imgUrl }}
+                source={{ uri: item.thumbnail }}
               />
             </View>
             <View style={styles.cardItemRight}>
-              <Text style={styles.headerText}>{item.text}</Text>
+              <Text style={styles.headerText}>{item.content}</Text>
               <Text style={styles.text}>{item.time}</Text>
             </View>
           </View>

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+
+
 const EXAMPLE_DATA = [
   {
     title: 'Beautiful and dramatic Antelope Canyon',
@@ -35,7 +37,8 @@ const EXAMPLE_DATA = [
   },
 ];
 
-class StoreHome extends Component {
+
+class Home extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
   }
@@ -44,18 +47,23 @@ class StoreHome extends Component {
   }
 
   state = {
-
   }
 
-  render = () => {
-    const {
-      Layout,
-    } = this.props;
+  constructor(props) {
+    super(props);
+  }
 
-    return (
-      <Layout carouselData={EXAMPLE_DATA} />
-    );
+
+  render = () => {
+    const { Layout } = this.props;
+    return <Layout carouselData={EXAMPLE_DATA} />;
   }
 }
 
-export default StoreHome;
+const mapStateToProps = state => ({
+});
+
+const mapDispatchToProps = {
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

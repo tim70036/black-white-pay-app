@@ -37,8 +37,8 @@ import ChooseStoreComponent from '../components/ChooseStore/ChooseStore';
 import AddStoreContainer from '../../containers/ChooseStore/AddStore';
 import AddStoreComponent from '../components/ChooseStore/AddStore';
 
-import StoreHomeContainer from '../../containers/StoreHome';
-import StoreHomeComponent from '../components/StoreHome';
+import HomeContainer from '../../containers/Home';
+import HomeComponent from '../components/Home';
 
 import WalletHomeContainer from '../../containers/WalletHome';
 import WalletHomeComponent from '../components/WalletHome';
@@ -67,63 +67,36 @@ const Routes = (
 
       <Stack key="main" hideNavBar>
 
-        <Drawer
-          hideNavBar
-          key="chooseStoreDrawer"
-          onExit={() => {
-            console.log('Drawer closed');
-          }}
-          onEnter={() => {
-            console.log('Drawer opened');
-          }}
-          contentComponent={DashboardDrawer}
-          drawerIcon={DrawerIcon}
-          drawerWidth={300}
-          {...DefaultProps.navbarProps}
-        >
-          <Scene hideNavBar>
-            <Stack
-              title={AppConfig.appName.toUpperCase()}
-              {...DefaultProps.navbarProps}
-            >
-              <Scene key="chooseStore" component={requireAuth(ChooseStoreContainer)} Layout={ChooseStoreComponent} />
-              <Scene key="addStore" component={requireAuth(AddStoreContainer)} Layout={AddStoreComponent} />
-            </Stack>
-          </Scene>
-        </Drawer>
-
-        {/* Each Store */}
         <Tabs
-          key="storeTabbar"
-          renderLeftButton={SwitchStoreButton}
+          key="main"
           {...DefaultProps.tabProps}
         >
           <Stack
-            title="storeHome"
+            title="首頁"
             icon={() => <Icon name="planet" {...DefaultProps.icons} />}
             {...DefaultProps.navbarProps}
           >
-            <Scene key="storeHome" component={requireAuth(StoreHomeContainer)} Layout={StoreHomeComponent} />
+            <Scene key="home" component={requireAuth(HomeContainer)} Layout={HomeComponent} />
           </Stack>
 
           <Stack
-            title="gameList"
+            title="商店"
             icon={() => <Icon name="book" {...DefaultProps.icons} />}
             {...DefaultProps.navbarProps}
           >
-            <Scene key="gameList" component={requireAuth(TransferContainer)} Layout={TransferComponent} />
+            <Scene key="storeList" component={requireAuth(ChooseStoreContainer)} Layout={ChooseStoreComponent} />
           </Stack>
 
           <Stack
-            title="walletHome"
+            title="我的錢包"
             icon={() => <Icon name="book" {...DefaultProps.icons} />}
             {...DefaultProps.navbarProps}
           >
-            <Scene key="walletHome" component={requireAuth(WalletHomeContainer)} Layout={WalletHomeComponent} />
+            <Scene key="walletList" component={requireAuth(WalletHomeContainer)} Layout={WalletHomeComponent} />
           </Stack>
 
           <Stack
-            title="notifyList"
+            title="通知"
             icon={() => <Icon name="book" {...DefaultProps.icons} />}
             {...DefaultProps.navbarProps}
           >
@@ -131,13 +104,14 @@ const Routes = (
           </Stack>
 
           <Stack
-            title="moreList"
+            title="設定"
             icon={() => <Icon name="contact" {...DefaultProps.icons} />}
             {...DefaultProps.navbarProps}
           >
             <Scene key="moreList" component={requireAuth(TransHistoryContainer)} Layout={TransHistoryComponent} />
           </Stack>
         </Tabs>
+
 
         {/* Specific Function Page */}
         <Stack

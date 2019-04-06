@@ -15,8 +15,13 @@ function appendNotifications(newNotificationsData) {
   return { type: actionType.APPEND_NOTIFICATIONS, data: newNotificationsData };
 }
 
+function hasReadNotifications() {
+  return { type: actionType.HASREAD_NOTIFICATIONS };
+}
+
 export {
   replaceNotifications,
   clearNotifications,
   appendNotifications,
+  hasReadNotifications,
 };

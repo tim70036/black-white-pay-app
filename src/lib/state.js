@@ -42,7 +42,7 @@ const state = {
     },
   ],
   notifications: [
-    { time: '', thumbnail: '', content: ''},
+    { time: '', thumbnail: '', content: '', hasRead: false},
     {},
     {},
   ],

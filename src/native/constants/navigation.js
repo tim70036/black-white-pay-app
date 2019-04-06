@@ -1,32 +1,55 @@
-import Colors from '../../../native-base-theme/variables/commonColor';
+
+import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../lib/util';
+
+const Colors = {
+  barLabelWhite: '#dddddd',
+  barLabelGold: '#aa8048',
+  barBackground: '#262727',
+};
 
 export default {
   navbarProps: {
     headerLayoutPreset: 'center', // Android title center
     navigationBarStyle: {
-      backgroundColor: 'white',
+      backgroundColor: Colors.barBackground,
+      height: 60,
     },
     titleStyle: {
-      color: Colors.textColor,
+      color: Colors.barLabelGold,
       alignSelf: 'center',
       textAlign: 'center',
       letterSpacing: 2,
-      fontSize: Colors.fontSizeBase,
+      fontSize: 20,
     },
-    backButtonTintColor: Colors.textColor,
+    backButtonTintColor: Colors.barLabelGold,
   },
 
   tabProps: {
     headerLayoutPreset: 'center', // Android title center
     swipeEnabled: true,
     type: 'push',
-    showLabel: false,
-    activeBackgroundColor: 'rgba(255,255,255,0.1)',
-    inactiveBackgroundColor: Colors.brandPrimary,
-    tabBarStyle: { backgroundColor: Colors.brandPrimary },
+    showLabel: true,
+    activeBackgroundColor: Colors.barBackground,
+    inactiveBackgroundColor: Colors.barBackground,
+    // Override the tabbar styles
+    tabBarStyle: {
+      paddingTop: 15,
+      paddingBottom: 10,
+      backgroundColor: Colors.barBackground,
+    },
+    // Override the style for an individual tab of the tabbar
+    tabStyle: {
+      justifyContent: 'flex-start',
+      textAlign: 'center', 
+    },
+    // Overrides the styles for the tab label
+    labelStyle: {
+      color: Colors.barLabelWhite,
+      
+    },
   },
 
   icons: {
-    style: { color: 'white', height: 30, width: 30 },
+    style: { color: Colors.barLabelWhite, height: 30, width: 30, textAlign: 'center', },
   },
 };

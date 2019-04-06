@@ -4,17 +4,13 @@ import config from '../../constants/config';
 
 async function registerForNotifications() {
   const previousToken = await AsyncStorage.getItem(config.tokenStorageKey);
-  console.log({previousToken});
 
   // Token
   let token;
   if (previousToken) {
     token = previousToken;
   } else {
-
-    const { status: existingStatus } = await Permissions.getAsync(
-      Permissions.NOTIFICATIONS
-    );
+    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
     let finalStatus = existingStatus;
 
     // only ask if permissions have not already been determined, because
@@ -30,10 +26,6 @@ async function registerForNotifications() {
     if (finalStatus !== 'granted') {
       return;
     }
-
-
-    // const { status } = await Permissions.askAsync(Permissions.REMOTE_NOTIFICATIONS);
-    // if (status !== 'granted') return;
 
     // Get the token that uniquely identifies this device
     token = await Notifications.getExpoPushTokenAsync();

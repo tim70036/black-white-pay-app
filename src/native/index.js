@@ -44,12 +44,16 @@ export default class App extends React.Component {
     this._notificationSubscription = Notifications.addListener(this._handleNotifications);
   }
 
-  _handleNotifications = (notification) => {
-    const { data, origin } = notification;
+  _handleNotifications = (receivedData) => {
+    const { data, origin } = receivedData;
     const { store } = this.props;
-    console.log(notification);
 
-    // store.dispatch(appendNotifications(data));
+    // Process notification
+    let notificationData = data.notifications;
+    notificationData = notificationData.map(item => ({ ...item, hasRead: false }));
+
+    // Into redux
+    store.dispatch(appendNotifications(notificationData));
   }
 
   render() {
