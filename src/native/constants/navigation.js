@@ -33,23 +33,27 @@ export default {
     inactiveBackgroundColor: Colors.barBackground,
     // Override the tabbar styles
     tabBarStyle: {
-      paddingTop: 15,
-      paddingBottom: 10,
+      paddingTop: 0,
+      paddingBottom: 5,
+      height: 65,
       backgroundColor: Colors.barBackground,
+      color: Colors.barLabelWhite,
     },
     // Override the style for an individual tab of the tabbar
     tabStyle: {
-      justifyContent: 'flex-start',
-      textAlign: 'center', 
     },
     // Overrides the styles for the tab label
     labelStyle: {
-      color: Colors.barLabelWhite,
-      
     },
   },
 
   icons: {
-    style: { color: Colors.barLabelWhite, height: 30, width: 30, textAlign: 'center', },
+    style: {
+      textAlign: 'center',
+      height: 30,
+      fontSize: 35,
+      width: 30,
+      color: Colors.barLabelWhite,
+    },
   },
 };

@@ -49,11 +49,6 @@ class Home extends Component {
   state = {
   }
 
-  constructor(props) {
-    super(props);
-  }
-
-
   render = () => {
     const { Layout } = this.props;
     return <Layout carouselData={EXAMPLE_DATA} />;

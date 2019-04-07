@@ -3,16 +3,22 @@ import { StatusBar, Platform } from 'react-native';
 import { Notifications, Font } from 'expo';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { Router } from 'react-native-router-flux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { Root, StyleProvider } from 'native-base';
+import {
+  Router,
+  Actions,
+} from 'react-native-router-flux';
+
 
 import getTheme from '../../native-base-theme/components';
 import theme from '../../native-base-theme/variables/commonColor';
 
-import Routes from './routes/index';
+import getRoutes from './routes/index';
 import Loading from './components/Loading';
 import { appendNotifications } from '../actions/notifications';
+
+
 
 // Hide StatusBar on Android as it overlaps tabs
 if (Platform.OS === 'android') StatusBar.setHidden(true);
@@ -35,15 +41,6 @@ export default class App extends React.Component {
     this.setState({ loading: false });
   }
 
-  componentDidMount() {
-    // Handle notifications that are received or selected while the app
-    // is open. If the app was closed and then opened by tapping the
-    // notification (rather than just tapping the app icon to open it),
-    // this function will fire on the next tick after the app starts
-    // with the notification data.
-    this._notificationSubscription = Notifications.addListener(this._handleNotifications);
-  }
-
   _handleNotifications = (receivedData) => {
     const { data, origin } = receivedData;
     const { store } = this.props;
@@ -55,6 +52,18 @@ export default class App extends React.Component {
     // Into redux
     store.dispatch(appendNotifications(notificationData));
   }
+
+  _authenticateUser = () => {
+    const { store } = this.props;
+    // If not login, reset to login/register screen
+    if (!store.getState().user.authenticated) {
+      console.log(`in ${Actions.currentScene}, but not logined`);
+      return false;
+    }
+    return true;
+  };
+
+  _goAuthScene = () => (Actions.reset('auth'));
 
   render() {
     const { loading } = this.state;
@@ -71,7 +80,7 @@ export default class App extends React.Component {
           >
             <StyleProvider style={getTheme(theme)}>
               <Router>
-                {Routes}
+                {getRoutes(this._authenticateUser, this._goAuthScene)}
               </Router>
             </StyleProvider>
           </PersistGate>

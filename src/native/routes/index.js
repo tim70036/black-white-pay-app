@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
+  Router,
   Scene,
   Tabs,
   Stack,
   Drawer,
   Lightbox,
   Modal,
-  ActionConst,
+  Actions,
 } from 'react-native-router-flux';
 import { Icon } from 'native-base';
 
 import DefaultProps from '../constants/navigation';
 import AppConfig from '../../constants/config';
 
-import requireAuth from '../lib/authHOC';
+import spinnerHOC from '../lib/spinnerHOC';
 
 import DrawerIcon from '../components/DrawerIcon';
 import DashboardDrawer from '../components/DashboardDrawer';
@@ -61,54 +64,58 @@ import qrScannerComponent from '../components/QrScanner';
 import couponsContainer from '../../containers/Coupons';
 import couponsComponent from '../components/Coupons';
 
-const Routes = (
+const getRoutes = (authenticate, goAuth) => (
   <Modal key="modal" hideNavBar>
     <Lightbox key="main" hideNavBar>
 
       <Stack key="main" hideNavBar>
-
         <Tabs
           key="main"
           {...DefaultProps.tabProps}
         >
           <Stack
+            key="home"
             title="首頁"
             icon={() => <Icon name="planet" {...DefaultProps.icons} />}
             {...DefaultProps.navbarProps}
           >
-            <Scene key="home" component={requireAuth(HomeContainer)} Layout={HomeComponent} />
+            <Scene component={spinnerHOC(HomeContainer)} Layout={HomeComponent} on={authenticate} failure={goAuth} />
           </Stack>
 
           <Stack
+            key="storeList"
             title="商店"
             icon={() => <Icon name="book" {...DefaultProps.icons} />}
             {...DefaultProps.navbarProps}
           >
-            <Scene key="storeList" component={requireAuth(ChooseStoreContainer)} Layout={ChooseStoreComponent} />
+            <Scene component={spinnerHOC(ChooseStoreContainer)} Layout={ChooseStoreComponent} on={authenticate} failure={goAuth} />
           </Stack>
 
           <Stack
+            key="walletList"
             title="我的錢包"
             icon={() => <Icon name="book" {...DefaultProps.icons} />}
             {...DefaultProps.navbarProps}
           >
-            <Scene key="walletList" component={requireAuth(WalletHomeContainer)} Layout={WalletHomeComponent} />
+            <Scene component={spinnerHOC(WalletHomeContainer)} Layout={WalletHomeComponent} on={authenticate} failure={goAuth} />
           </Stack>
 
           <Stack
+            key="notifyList"
             title="通知"
             icon={() => <Icon name="book" {...DefaultProps.icons} />}
             {...DefaultProps.navbarProps}
           >
-            <Scene key="notifyList" component={requireAuth(notifyListContainer)} Layout={notifyListComponent} />
+            <Scene component={spinnerHOC(notifyListContainer)} Layout={notifyListComponent} on={authenticate} failure={goAuth} />
           </Stack>
 
           <Stack
+            key="moreList"
             title="設定"
             icon={() => <Icon name="contact" {...DefaultProps.icons} />}
             {...DefaultProps.navbarProps}
           >
-            <Scene key="moreList" component={requireAuth(TransHistoryContainer)} Layout={TransHistoryComponent} />
+            <Scene component={spinnerHOC(TransHistoryContainer)} Layout={TransHistoryComponent} on={authenticate} failure={goAuth} />
           </Stack>
         </Tabs>
 
@@ -120,7 +127,7 @@ const Routes = (
           {...DefaultProps.navbarProps}
           back
         >
-          <Scene component={requireAuth(TransferContainer)} Layout={TransferComponent} />
+          <Scene component={spinnerHOC(TransferContainer)} Layout={TransferComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         <Stack
@@ -129,7 +136,7 @@ const Routes = (
           {...DefaultProps.navbarProps}
           back
         >
-          <Scene component={requireAuth(TransHistoryContainer)} Layout={TransHistoryComponent} />
+          <Scene component={spinnerHOC(TransHistoryContainer)} Layout={TransHistoryComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         <Stack
@@ -138,26 +145,26 @@ const Routes = (
           {...DefaultProps.navbarProps}
           back
         >
-          <Scene component={requireAuth(qrScannerContainer)} Layout={qrScannerComponent} />
+          <Scene component={spinnerHOC(qrScannerContainer)} Layout={qrScannerComponent} on={authenticate} failure={goAuth} />
         </Stack>
       </Stack>
 
       { /* Lightbox components will lay over the screen, allowing transparency */ }
-      <Scene key="qrCode" component={requireAuth(qrCodeContainer)} Layout={qrCodeComponent} />
+      <Scene key="qrCode" component={spinnerHOC(qrCodeContainer)} Layout={qrCodeComponent} on={authenticate} failure={goAuth} />
     </Lightbox>
 
     {/* Auth Screen */}
     <Stack key="auth" hideNavBar>
       <Scene key="init" component={InitContainer} Layout={InitComponent} />
-      <Scene key="login" component={LoginContainer} Layout={LoginComponent} />
+      <Scene key="login" component={spinnerHOC(LoginContainer)} Layout={LoginComponent} />
       <Stack key="register" hideNavBar>
         <Scene key="register1" component={RegisterContainer} Layout={RegisterComponent1} />
         <Scene key="register2" component={RegisterContainer} Layout={RegisterComponent2} />
         <Scene key="register3" component={RegisterContainer} Layout={RegisterComponent3} />
-        <Scene key="register4" component={RegisterContainer} Layout={RegisterComponent4} />
+        <Scene key="register4" component={spinnerHOC(RegisterContainer)} Layout={RegisterComponent4} />
       </Stack>
     </Stack>
   </Modal>
 );
 
-export default Routes;
+export default getRoutes;
