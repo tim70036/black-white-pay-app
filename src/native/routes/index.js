@@ -64,6 +64,27 @@ import qrScannerComponent from '../components/QrScanner';
 import couponsContainer from '../../containers/Coupons';
 import couponsComponent from '../components/Coupons';
 
+const renderTabIcons = ({ title, focused }) => {
+  switch (title) {
+    case '首頁': {
+      return <Icon name="home" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: '#aa8048' } : null ]} />;
+    }
+    case '商店': {
+      return <Icon name="grid" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: '#aa8048' } : null ]} />;
+    }
+    case '我的錢包': {
+      return <Icon name="wallet" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: '#aa8048' } : null ]} />;
+    }
+    case '通知': {
+      return <Icon name="bell" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: '#aa8048' } : null ]} />;
+    }
+    case '設定': {
+      return <Icon name="settings" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: '#aa8048' } : null ]} />;
+    }
+    default: return <Icon name="planet" {...DefaultProps.icons} />;
+  }
+};
+
 const getRoutes = (authenticate, goAuth) => (
   <Modal key="modal" hideNavBar>
     <Lightbox key="main" hideNavBar>
@@ -76,7 +97,7 @@ const getRoutes = (authenticate, goAuth) => (
           <Stack
             key="home"
             title="首頁"
-            icon={() => <Icon name="planet" {...DefaultProps.icons} />}
+            icon={renderTabIcons}
             {...DefaultProps.navbarProps}
           >
             <Scene component={spinnerHOC(HomeContainer)} Layout={HomeComponent} on={authenticate} failure={goAuth} />
@@ -85,7 +106,7 @@ const getRoutes = (authenticate, goAuth) => (
           <Stack
             key="storeList"
             title="商店"
-            icon={() => <Icon name="book" {...DefaultProps.icons} />}
+            icon={renderTabIcons}
             {...DefaultProps.navbarProps}
           >
             <Scene component={spinnerHOC(ChooseStoreContainer)} Layout={ChooseStoreComponent} on={authenticate} failure={goAuth} />
@@ -94,7 +115,7 @@ const getRoutes = (authenticate, goAuth) => (
           <Stack
             key="walletList"
             title="我的錢包"
-            icon={() => <Icon name="book" {...DefaultProps.icons} />}
+            icon={renderTabIcons}
             {...DefaultProps.navbarProps}
           >
             <Scene component={spinnerHOC(WalletHomeContainer)} Layout={WalletHomeComponent} on={authenticate} failure={goAuth} />
@@ -103,7 +124,7 @@ const getRoutes = (authenticate, goAuth) => (
           <Stack
             key="notifyList"
             title="通知"
-            icon={() => <Icon name="book" {...DefaultProps.icons} />}
+            icon={renderTabIcons}
             {...DefaultProps.navbarProps}
           >
             <Scene component={spinnerHOC(notifyListContainer)} Layout={notifyListComponent} on={authenticate} failure={goAuth} />
@@ -112,7 +133,7 @@ const getRoutes = (authenticate, goAuth) => (
           <Stack
             key="moreList"
             title="設定"
-            icon={() => <Icon name="contact" {...DefaultProps.icons} />}
+            icon={renderTabIcons}
             {...DefaultProps.navbarProps}
           >
             <Scene component={spinnerHOC(TransHistoryContainer)} Layout={TransHistoryComponent} on={authenticate} failure={goAuth} />

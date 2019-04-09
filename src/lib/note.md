@@ -62,3 +62,6 @@ Top bar 太高
 通知鈴鐺選一個放
 廣告換一下
 
+reload 用 on success
+
+每個頁面跟 topbar 距離固定 30? viewportHeightPercent(5)?

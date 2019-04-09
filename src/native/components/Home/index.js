@@ -1,40 +1,65 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-
 import Carousel, { Pagination } from 'react-native-snap-carousel';
+
 import CarouselEntry, { sliderWidth, itemWidth } from './CarouselEntry';
 import IconButton from './IconButton';
+import Colors from '../../constants/colors';
+
+import {
+  IS_IOS,
+  viewportWidth,
+  viewportWidthPercent,
+  viewportHeightPercent,
+} from '../../lib/util';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
+    backgroundColor: Colors.backgroundBlack,
   },
   adsContainer: {
-    flex: 2,
+    flex: 1,
+    marginTop: viewportHeightPercent(5),
   },
   shortcutsContainer: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center',
+    
   },
+  shortcutsCard: {
+    height: viewportHeightPercent(28),
+    flexDirection: 'column',
+    marginTop: viewportHeightPercent(5),
+    backgroundColor: Colors.backgroundGray,
+  },
+  shortcutsCardRow: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
   slider: {
-    marginTop: 15,
     overflow: 'visible', // for custom animations
   },
   sliderContentContainer: {
-    paddingVertical: 10, // for custom animation
+    paddingVertical: 0, // for custom animation
   },
   paginationContainer: {
-    paddingVertical: 8,
+    marginTop: -30,
+    paddingVertical: 1,
   },
   paginationDot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    marginHorizontal: 8,
+    marginHorizontal: 4,
+    borderColor: 'white',
+    borderWidth: 5,
   },
 });
 
@@ -100,7 +125,7 @@ class StoreHome extends Component {
             containerStyle={styles.paginationContainer}
             dotColor={'rgba(255, 255, 255, 0.92)'}
             dotStyle={styles.paginationDot}
-            inactiveDotColor={'#1a1917'}
+            inactiveDotColor={'white'}
             inactiveDotOpacity={0.4}
             inactiveDotScale={0.6}
             carouselRef={this._slider1Ref}
@@ -108,10 +133,21 @@ class StoreHome extends Component {
           />
         </View>
         <View style={styles.shortcutsContainer}>
-          <IconButton iconName="musical-notes" iconColor="#00cc99" />
-          <IconButton iconName="cloud" iconType="MaterialIcons" />
-          <IconButton iconName="mail" iconColor="#008ae6" />
-          <IconButton iconName="cards-spade" iconType="MaterialCommunityIcons" iconColor="#c61aff" />
+          <View style={styles.shortcutsCard}>
+            <View style={styles.shortcutsCardRow}>
+              <IconButton iconName="musical-notes" iconColor={Colors.labelGold} />
+              <IconButton iconName="cloud" iconType="MaterialIcons" iconColor={Colors.labelGold} />
+              <IconButton iconName="mail" iconColor={Colors.labelGold} />
+              <IconButton iconName="cards-spade" iconType="MaterialCommunityIcons" iconColor={Colors.labelGold} />
+            </View>
+            <View style={styles.shortcutsCardRow}>
+              <IconButton iconName="musical-notes" iconColor={Colors.labelGold} />
+              <IconButton iconName="cloud" iconType="MaterialIcons" iconColor={Colors.labelGold} />
+              <IconButton iconName="mail" iconColor={Colors.labelGold} />
+              <IconButton iconName="cards-spade" iconType="MaterialCommunityIcons" iconColor={Colors.labelGold} />
+            </View>
+              
+          </View>
         </View>
       </View>
     );

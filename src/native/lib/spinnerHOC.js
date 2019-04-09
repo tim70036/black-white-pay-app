@@ -29,7 +29,7 @@ function spinnerHOC(NormalComponent) {
       return (
         // Pass down props (including Layout)
         <View style={{ flex: 1 }}>
-          <Spinner visible={status.loading} />
+          <Spinner visible={status.loading} overlayColor="rgba(0, 0, 0, 0)" indicatorStyle={{ size: 'large' }} />
           <NormalComponent {...this.props} />
         </View>
       );

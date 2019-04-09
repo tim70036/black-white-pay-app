@@ -17,10 +17,10 @@ import {
 } from '../../lib/util';
 
 
-const slideHeight = viewportHeightPercent(46); // Carousel Height (orignal: viewportHeight *  0.36)
-const slideWidth = viewportWidthPercent(75);
-const itemHorizontalMargin = viewportWidthPercent(2);
-const entryBorderRadius = 8;
+const slideHeight = viewportHeightPercent(35); // Carousel Height (orignal: viewportHeight *  0.36)
+const slideWidth = viewportWidthPercent(87);
+const itemHorizontalMargin = viewportWidthPercent(1);
+const entryBorderRadius = 4;
 
 export const sliderWidth = viewportWidth;
 export const itemWidth = slideWidth + itemHorizontalMargin * 2;
@@ -73,36 +73,6 @@ const styles = StyleSheet.create({
   },
   radiusMaskEven: {
     backgroundColor: '#1a1917',
-  },
-  textContainer: {
-    justifyContent: 'center',
-    paddingTop: 20 - entryBorderRadius,
-    paddingBottom: 20,
-    paddingHorizontal: 16,
-    backgroundColor: 'white',
-    borderBottomLeftRadius: entryBorderRadius,
-    borderBottomRightRadius: entryBorderRadius,
-  },
-  textContainerEven: {
-    backgroundColor: '#1a1917',
-  },
-  title: {
-    color: '#1a1917',
-    fontSize: 13,
-    fontWeight: 'bold',
-    letterSpacing: 0.5,
-  },
-  titleEven: {
-    color: 'white',
-  },
-  subtitle: {
-    marginTop: 6,
-    color: '#888888',
-    fontSize: 12,
-    fontStyle: 'italic',
-  },
-  subtitleEven: {
-    color: 'rgba(255, 255, 255, 0.7)',
   },
 });
 
@@ -163,20 +133,6 @@ class CarouselEntry extends Component {
         <View style={[styles.imageContainer, even ? styles.imageContainerEven : {}]}>
           { this._rednerImage() }
           <View style={[styles.radiusMask, even ? styles.radiusMaskEven : {}]} />
-        </View>
-        <View style={[styles.textContainer, even ? styles.textContainerEven : {}]}>
-          <Text
-            style={[styles.title, even ? styles.titleEven : {}]}
-            numberOfLines={2}
-          >
-            { title }
-          </Text>
-          <Text
-            style={[styles.subtitle, even ? styles.subtitleEven : {}]}
-            numberOfLines={2}
-          >
-            { subtitle }
-          </Text>
         </View>
       </TouchableOpacity>
     );
