@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Dimensions,
 } from 'react-native';
 import { Icon } from 'native-base';
 import PropTypes from 'prop-types';
@@ -14,53 +13,49 @@ import {
   viewportHeightPercent,
 } from '../../lib/util';
 
+import Colors from '../../constants/colors';
+
 // Sizing based on the viewport
 const buttonWidth = viewportWidthPercent(20);
 const buttonHeight = viewportHeightPercent(10);
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
-    margin: 10,
     width: buttonWidth,
     height: buttonHeight,
-    borderRadius: 10,
-  },
-  iconContainer: {
-    flex: 2,
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  text: {
+    marginTop: viewportHeightPercent(2),
+    fontSize: 13,
+    color: Colors.labelGray,
   },
   icon: {
-    fontSize: 55,
+    fontSize: viewportHeightPercent(4.5),
+    color: Colors.labelGold,
   },
 });
 
-const IconButton = ({ iconName, iconType, iconColor }) => (
-  <TouchableOpacity style={styles.container}>
-    <View style={styles.iconContainer}>
-      <Icon name={iconName} type={iconType} style={[styles.icon, { color: iconColor }]} />
-    </View>
-    <View style={styles.textContainer}>
-      <Text>某個功能</Text>
-    </View>
+const IconButton = ({ iconText, iconName, iconType, onPress }) => (
+  <TouchableOpacity style={styles.container} onPress={onPress}>
+    <Icon name={iconName} type={iconType} style={styles.icon} />
+    <Text style={styles.text}>{iconText}</Text>
   </TouchableOpacity>
 );
 
 IconButton.propTypes = {
   iconName: PropTypes.string.isRequired,
   iconType: PropTypes.string,
-  iconColor: PropTypes.string,
+  iconText: PropTypes.string,
+  onPress: PropTypes.func,
 };
 
 IconButton.defaultProps = {
   iconType: 'Ionicons',
-  iconColor: 'black',
+  iconText: '某個功能',
+  onPress: null,
 };
 
 export default IconButton;

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-
+// For test
+import { logout } from '../actions/user';
 
 const EXAMPLE_DATA = [
   {
@@ -50,8 +51,8 @@ class Home extends Component {
   }
 
   render = () => {
-    const { Layout } = this.props;
-    return <Layout carouselData={EXAMPLE_DATA} />;
+    const { Layout, userLogout } = this.props;
+    return <Layout carouselData={EXAMPLE_DATA} userLogout={userLogout} />;
   }
 }
 
@@ -59,6 +60,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  userLogout: logout,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

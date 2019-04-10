@@ -162,18 +162,22 @@ function logout() {
     } catch (error) {
       console.log(error.message);
       dispatch(statusMessage('loading', false));
-      return;
+      return false;
     }
 
     // Process response
     if (response.errCode === 0) {
       // Logout user in state
       dispatch(replaceUserAuth(false));
-      console.log(getState());
-    } else {
-      // Status
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
+      // console.log(getState());
+      dispatch(statusMessage('loading', false));
+      return true;
     }
+
+    // Else error
+    // Status
+    dispatch(statusMessage('error', '網路發生問題，請重試'));
+    return false;
   };
 }
 
