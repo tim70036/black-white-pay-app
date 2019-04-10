@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: Colors.backgroundBlack,
   },
   adsContainer: {
     flex: 35,
@@ -33,7 +32,7 @@ const styles = StyleSheet.create({
     paddingTop: viewportHeightPercent(10),
   },
   shortcutsCard: {
-    height: viewportHeightPercent(30),
+    height: viewportHeightPercent(35),
     width: viewportWidthPercent(94),
     flexDirection: 'column',
     backgroundColor: Colors.backgroundGray,
@@ -66,7 +65,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class Home extends Component {
+class StoreHome extends Component {
   static propTypes = {
     carouselData: PropTypes.arrayOf(
       PropTypes.shape({
@@ -93,15 +92,6 @@ class Home extends Component {
       parallaxProps={parallaxProps}
     />
   )
-
-  _userLogout = async () => {
-    const { userLogout } = this.props;
-
-    const success = await userLogout();
-    if (success) {
-      Actions.reset('auth');
-    }
-  };
 
   render = () => {
     const { curEntryIndex } = this.state;
@@ -151,16 +141,12 @@ class Home extends Component {
         <View style={styles.shortcutsContainer}>
           <View style={styles.shortcutsCard}>
             <View style={styles.shortcutsCardRow}>
-              <IconButton iconText="活動" iconName="notification" iconType="AntDesign" />
-              <IconButton iconText="掃描" iconName="scan1" iconType="AntDesign" />
-              <IconButton iconText="付款" iconName="qrcode" iconType="AntDesign" />
-              <IconButton iconText="收款" iconName="download" iconType="AntDesign" />
+              <IconButton iconText="遊戲" iconName="game-controller" iconType="SimpleLineIcons" />
+              <IconButton iconText="優惠券" iconName="present" iconType="SimpleLineIcons" />
             </View>
             <View style={styles.shortcutsCardRow}>
-              <IconButton iconText="關於我們" iconName="information-outline" iconType="MaterialCommunityIcons" />
-              <IconButton iconText="合作商家" iconName="store" iconType="MaterialCommunityIcons" />
-              <IconButton iconText="捐錢啦" iconName="heart-half-full" iconType="MaterialCommunityIcons" />
-              <IconButton onPress={this._userLogout} iconText="登出" iconName="logout" iconType="MaterialCommunityIcons" />
+              <IconButton iconText="聯絡店家" iconName="phone" iconType="SimpleLineIcons" />
+              <IconButton iconText="關於" iconName="info" iconType="SimpleLineIcons" />
             </View>
           </View>
         </View>
@@ -169,4 +155,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default StoreHome;

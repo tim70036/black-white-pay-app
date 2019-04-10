@@ -8,6 +8,8 @@ export default {
     navigationBarStyle: {
       backgroundColor: Colors.barBackground,
       height: 55,
+      elevation: 0, // For IOS bug
+      borderBottomWidth: 0, // For IOS bug
     },
     titleStyle: {
       color: Colors.labelGold,
@@ -28,7 +30,6 @@ export default {
     activeTintColor: Colors.labelGold,
     // Override the tabbar styles
     tabBarStyle: {
-      borderColor: 'red',
       height: 65,
       backgroundColor: Colors.barBackground,
     },

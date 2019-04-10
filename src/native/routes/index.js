@@ -43,6 +43,9 @@ import AddStoreComponent from '../components/ChooseStore/AddStore';
 import HomeContainer from '../../containers/Home';
 import HomeComponent from '../components/Home';
 
+import StoreHomeContainer from '../../containers/StoreHome';
+import StoreHomeComponent from '../components/StoreHome';
+
 import WalletHomeContainer from '../../containers/WalletHome';
 import WalletHomeComponent from '../components/WalletHome';
 
@@ -142,6 +145,15 @@ const getRoutes = (authenticate, goAuth) => (
 
 
         {/* Specific Function Page */}
+        <Stack
+          key="storeHome"
+          title="商店頁面"
+          {...DefaultProps.navbarProps}
+          back
+        >
+          <Scene component={StoreHomeContainer} Layout={StoreHomeComponent} on={authenticate} failure={goAuth} />
+        </Stack>
+        
         <Stack
           key="transfer"
           title="轉帳"

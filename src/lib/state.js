@@ -59,8 +59,8 @@ const state = {
   curStore: {
     storeId: 1,
     ads: [
-      { image: '', title: '', subtitle: '',},
-      { image: '', title: '', subtitle: '',},
+      { image: '', title: '' },
+      { image: '', title: '' },
     ],
     coupons: [
       { id: '', thumbnail: '', title: '', subtitle: '' },

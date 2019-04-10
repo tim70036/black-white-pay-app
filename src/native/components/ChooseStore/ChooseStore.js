@@ -70,7 +70,7 @@ class ChooseStore extends React.Component {
   _handleChoose = async (storeId) => {
     const { onChoose } = this.props;
     await onChoose(storeId);
-    Actions.storeTabbar();
+    Actions.storeHome();
   }
 
   _handleAddStore = () => {

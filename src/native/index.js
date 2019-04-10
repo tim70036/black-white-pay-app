@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, Platform } from 'react-native';
+import { StatusBar, Platform, StyleSheet } from 'react-native';
 import { Notifications, Font } from 'expo';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
@@ -18,10 +18,20 @@ import getRoutes from './routes/index';
 import Loading from './components/Loading';
 import { appendNotifications } from '../actions/notifications';
 
+import Colors from './constants/colors';
 
 
+// Invert status bar text color
+StatusBar.setBarStyle('light-content');
 // Hide StatusBar on Android as it overlaps tabs
-if (Platform.OS === 'android') StatusBar.setHidden(true);
+// if (Platform.OS === 'android') StatusBar.setHidden(false);
+
+
+const styles = StyleSheet.create({
+  rootContainer: {
+    backgroundColor: Colors.backgroundBlack,
+  },
+});
 
 export default class App extends React.Component {
   static propTypes = {
@@ -79,7 +89,7 @@ export default class App extends React.Component {
             persistor={persistor}
           >
             <StyleProvider style={getTheme(theme)}>
-              <Router>
+              <Router sceneStyle={styles.rootContainer}>
                 {getRoutes(this._authenticateUser, this._goAuthScene)}
               </Router>
             </StyleProvider>
@@ -89,3 +99,5 @@ export default class App extends React.Component {
     );
   }
 }
+
+
