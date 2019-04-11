@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: Colors.backgroundBlack,
   },
   adsContainer: {
     flex: 35,
@@ -153,7 +152,7 @@ class Home extends Component {
             <View style={styles.shortcutsCardRow}>
               <IconButton iconText="活動" iconName="notification" iconType="AntDesign" />
               <IconButton onPress={() => (Actions.qrScanner())} iconText="掃描" iconName="scan1" iconType="AntDesign" />
-              <IconButton onPress={() => (Actions.qrCode())} iconText="付款" iconName="qrcode" iconType="AntDesign" />
+              <IconButton onPress={() => (Actions.qrCodePay())} iconText="付款" iconName="qrcode" iconType="AntDesign" />
               <IconButton iconText="收款" iconName="download" iconType="AntDesign" />
             </View>
             <View style={styles.shortcutsCardRow}>

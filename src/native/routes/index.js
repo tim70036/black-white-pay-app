@@ -56,7 +56,7 @@ import TransferComponent from '../components/Transfer';
 import TransHistoryContainer from '../../containers/TransHistory';
 import TransHistoryComponent from '../components/TransHistory';
 
-import qrCodeContainer from '../../containers/QrCode';
+import qrCodePayContainer from '../../containers/QrCodePay';
 import qrCodeComponent from '../components/QrCode';
 
 import qrScannerContainer from '../../containers/QrScanner';
@@ -173,6 +173,15 @@ const getRoutes = (authenticate, goAuth, refresh) => (
         </Stack>
 
         <Stack
+          key="qrCodePay"
+          title="付款"
+          {...DefaultProps.navbarProps}
+          back
+        >
+          <Scene component={spinnerHOC(qrCodePayContainer)} Layout={qrCodeComponent} on={authenticate} failure={goAuth} />
+        </Stack>
+
+        <Stack
           key="qrScanner"
           title="掃描"
           {...DefaultProps.navbarProps}
@@ -183,7 +192,7 @@ const getRoutes = (authenticate, goAuth, refresh) => (
       </Stack>
 
       { /* Lightbox components will lay over the screen, allowing transparency */ }
-      <Scene key="qrCode" component={spinnerHOC(qrCodeContainer)} Layout={qrCodeComponent} on={authenticate} failure={goAuth} />
+      {/* <Scene key="qrCode" component={qrCodeContainer} Layout={qrCodeComponent} on={authenticate} failure={goAuth} /> */}
     </Lightbox>
 
     {/* Auth Screen */}

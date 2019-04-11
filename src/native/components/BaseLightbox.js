@@ -36,7 +36,7 @@ class BaseLightbox extends Component {
   componentDidMount() {
     Animated.timing(this.state.opacity, {
       duration: 200,
-      toValue: 1,
+      toValue: 0.3,
     }).start();
   }
 
@@ -58,7 +58,7 @@ class BaseLightbox extends Component {
           height,
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: 'rgba(255,255,255,0.9)',
+          backgroundColor: 'rgba(255,255,255,0.1)',
         }}
       >
         <View>
