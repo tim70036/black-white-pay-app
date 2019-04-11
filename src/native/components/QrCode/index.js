@@ -41,13 +41,14 @@ class QrCode extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.qrCodeContainer}>
-          <QRCode
-            style={styles.qrCode}
-            value={qrcodeData.text}
-            size={200}
-            bgColor="black"
-            fgColor="white"
-          />
+          <View style={styles.qrCode}>
+            <QRCode
+              value={JSON.stringify(qrcodeData)}
+              size={200}
+              bgColor="black"
+              fgColor="white"
+            />
+          </View>
           <Text style={styles.text}>請掃描上面的 QR Code</Text>
         </View>
       </View>

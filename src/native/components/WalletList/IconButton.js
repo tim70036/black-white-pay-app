@@ -1,14 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
-  Image,
 } from 'react-native';
-import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { Icon } from 'native-base';
+import PropTypes from 'prop-types';
 
+import {
+  viewportWidthPercent,
+  viewportHeightPercent,
+} from '../../lib/util';
 
 // Sizing based on the viewport
 const buttonWidth = viewportWidthPercent(20);
@@ -18,9 +21,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    margin: 10,
+    // margin: 10,
     width: buttonWidth,
     height: buttonHeight,
+    borderRadius: 10,
   },
   iconContainer: {
     flex: 3,
@@ -33,43 +37,36 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   icon: {
-    fontSize: 60,
-    color: '#32db64',
+    fontSize: 25,
   },
-
-  image: {
-    width: '100%',
-    height: '90%',
-    padding: 5,
-  },
-
   text: {
-    textAlign: 'center',
-    fontSize: 10,
+    color: '#717171',
   },
 });
 
-const IconButton = ({ title, onPress }) => (
+const IconButton = ({ iconName, iconType, iconColor, text, onPress }) => (
   <TouchableOpacity style={styles.container} onPress={onPress}>
     <View style={styles.iconContainer}>
-      <Image
-        resizeMode="contain"
-        style={styles.image}
-        source={require('../../../images/app-icon.png')}
-      />
+      <Icon name={iconName} type={iconType} style={[styles.icon, { color: iconColor }]} />
     </View>
     <View style={styles.textContainer}>
-      <Text style={styles.text}>{title}</Text>
+      <Text style={{ color: iconColor }}>{text}</Text>
     </View>
   </TouchableOpacity>
 );
 
 IconButton.propTypes = {
-  title: PropTypes.string.isRequired,
+  iconName: PropTypes.string.isRequired,
+  iconType: PropTypes.string,
+  iconColor: PropTypes.string,
+  text: PropTypes.string,
   onPress: PropTypes.func.isRequired,
 };
 
 IconButton.defaultProps = {
+  iconType: 'Ionicons',
+  iconColor: 'black',
+  text: '',
 };
 
 export default IconButton;

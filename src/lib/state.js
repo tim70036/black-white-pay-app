@@ -74,3 +74,22 @@ const state = {
     info: null,
   },
 };
+
+
+const qrCodeData = {
+  type: 'pay',
+  account: '',
+  storeId: -1, // 聯盟幣是 -1
+}
+
+const qrCodeData = {
+  type: 'receive',
+  account: '',
+  amount: 1000,
+  storeId: 0,
+}
+
+const qrCodeData = {
+  type: 'friend',
+  account: '',
+}

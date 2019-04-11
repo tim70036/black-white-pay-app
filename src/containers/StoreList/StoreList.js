@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getStores } from '../../actions/stores';
 import { setCurStore } from '../../actions/curStore';
 
-class ChooseStore extends Component {
+class StoreList extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
     getStoresData: PropTypes.func.isRequired,
@@ -49,4 +49,4 @@ const mapDispatchToProps = {
   chooseStore: setCurStore,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChooseStore);
+export default connect(mapStateToProps, mapDispatchToProps)(StoreList);

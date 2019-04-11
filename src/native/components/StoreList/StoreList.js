@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class ChooseStore extends React.Component {
+class StoreList extends React.Component {
   static propTypes = {
     // storesData:PropTypes.shape({}),
     onChoose: PropTypes.func.isRequired,
@@ -179,4 +179,4 @@ class ChooseStore extends React.Component {
   }
 }
 
-export default ChooseStore;
+export default StoreList;

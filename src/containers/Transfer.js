@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { transfer } from '../actions/curWallet';
+
 class Transfer extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
+    userTransfer: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -14,7 +17,10 @@ class Transfer extends Component {
   }
 
   _handleSubmit = async (formData) => {
-
+    const { userTransfer } = this.props;
+    console.log({ formData });
+    const success = await userTransfer(formData);
+    return success;
   };
 
   render = () => {
@@ -23,21 +29,18 @@ class Transfer extends Component {
     } = this.props;
 
     return (
-      <Layout />
+      <Layout
+        onFormSubmit={this._handleSubmit}
+      />
     );
   }
 }
 
-// const mapStateToProps = state => ({
-//   member: state.member || {},
-//   locale: state.locale || null,
-//   isLoading: state.status.loading || false,
-//   successMessage: state.status.success || '',
-// });
+const mapStateToProps = state => ({
+});
 
-// const mapDispatchToProps = {
-//   onFormSubmit: login,
-// };
+const mapDispatchToProps = {
+  userTransfer: transfer,
+};
 
-// export default connect(mapStateToProps, mapDispatchToProps)(Blank);
-export default Transfer;
+export default connect(mapStateToProps, mapDispatchToProps)(Transfer);

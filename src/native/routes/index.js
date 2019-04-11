@@ -14,15 +14,10 @@ import {
 import { Icon } from 'native-base';
 
 import DefaultProps from '../constants/navigation';
-import AppConfig from '../../constants/config';
 
 import spinnerHOC from '../lib/spinnerHOC';
 
 import Colors from '../constants/colors';
-
-import DrawerIcon from '../components/DrawerIcon';
-import DashboardDrawer from '../components/DashboardDrawer';
-import SwitchStoreButton from '../components/SwitchStoreButton';
 
 import LoginContainer from '../../containers/Login';
 import LoginComponent from '../components/Login';
@@ -32,11 +27,11 @@ import RegisterComponent1 from '../components/Register/Register1';
 import RegisterComponent2 from '../components/Register/Register2';
 import RegisterComponent3 from '../components/Register/Register3';
 
-import ChooseStoreContainer from '../../containers/ChooseStore/ChooseStore';
-import ChooseStoreComponent from '../components/ChooseStore/ChooseStore';
+import StoreListContainer from '../../containers/StoreList/StoreList';
+import StoreListComponent from '../components/StoreList/StoreList';
 
-import AddStoreContainer from '../../containers/ChooseStore/AddStore';
-import AddStoreComponent from '../components/ChooseStore/AddStore';
+import AddStoreContainer from '../../containers/StoreList/AddStore';
+import AddStoreComponent from '../components/StoreList/AddStore';
 
 import HomeContainer from '../../containers/Home';
 import HomeComponent from '../components/Home';
@@ -44,8 +39,8 @@ import HomeComponent from '../components/Home';
 import StoreHomeContainer from '../../containers/StoreHome';
 import StoreHomeComponent from '../components/StoreHome';
 
-import WalletHomeContainer from '../../containers/WalletHome';
-import WalletHomeComponent from '../components/WalletHome';
+import WalletListContainer from '../../containers/WalletList';
+import WalletListComponent from '../components/WalletList';
 
 import notifyListContainer from '../../containers/Notification';
 import notifyListComponent from '../components/Notification';
@@ -111,7 +106,7 @@ const getRoutes = (authenticate, goAuth, refresh) => (
             icon={renderTabIcons}
             {...DefaultProps.navbarProps}
           >
-            <Scene component={spinnerHOC(ChooseStoreContainer)} Layout={ChooseStoreComponent} on={authenticate} failure={goAuth} success={refresh} />
+            <Scene component={spinnerHOC(StoreListContainer)} Layout={StoreListComponent} on={authenticate} failure={goAuth} success={refresh} />
             <Scene key="storeHome" back component={StoreHomeContainer} Layout={StoreHomeComponent} on={authenticate} failure={goAuth} />
           </Stack>
 
@@ -121,7 +116,7 @@ const getRoutes = (authenticate, goAuth, refresh) => (
             icon={renderTabIcons}
             {...DefaultProps.navbarProps}
           >
-            <Scene component={spinnerHOC(WalletHomeContainer)} Layout={WalletHomeComponent} on={authenticate} failure={goAuth} />
+            <Scene component={spinnerHOC(WalletListContainer)} Layout={WalletListComponent} on={authenticate} failure={goAuth} success={refresh} />
           </Stack>
 
           <Stack

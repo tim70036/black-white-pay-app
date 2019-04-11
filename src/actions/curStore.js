@@ -48,19 +48,22 @@ function setCurStore(curStoreId) {
       return;
     }
 
+    const curStore = {
+      storeId: curStoreId,
+      ads: [],
+      coupons: [],
+    };
+
     // Process response
     if (response.errCode === 0) {
-      const curStore = {
-        storeId: curStoreId,
-        ads: response.data,
-        coupons: [],
-      };
-      dispatch(replaceCurStore(curStore));
+      curStore.ads = response.data;
     } else if (response.errCode === 87) {
       dispatch(replaceUserAuth(false));
     } else {
 
     }
+
+    dispatch(replaceCurStore(curStore));
 
     // Status
     dispatch(statusMessage('loading', false));
