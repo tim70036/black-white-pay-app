@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import { bindStores, getStores } from '../../actions/stores';
 
 class AddStore extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
+    getStoresData: PropTypes.func.isRequired,
     onFormSubmit: PropTypes.func.isRequired,
   }
 
@@ -15,8 +16,10 @@ class AddStore extends Component {
   state = {
   }
 
-  _handleSubmit = (data) => {
-    
+  _handleSubmit = async (bindCode) => {
+    const { onFormSubmit, getStoresData } = this.props;
+    await onFormSubmit(bindCode);
+    // getStoresData();
   }
 
   render = () => {
@@ -36,7 +39,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  // onFormSubmit: login,
+  getStoresData: getStores,
+  onFormSubmit: bindStores,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddStore);

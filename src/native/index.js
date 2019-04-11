@@ -75,6 +75,8 @@ export default class App extends React.Component {
 
   _goAuthScene = () => (Actions.reset('auth'));
 
+  _refreshScene = () => (Actions.refresh({ key: Math.random() }));
+
   render() {
     const { loading } = this.state;
     const { store, persistor } = this.props;
@@ -90,7 +92,7 @@ export default class App extends React.Component {
           >
             <StyleProvider style={getTheme(theme)}>
               <Router sceneStyle={styles.rootContainer}>
-                {getRoutes(this._authenticateUser, this._goAuthScene)}
+                {getRoutes(this._authenticateUser, this._goAuthScene, this._refreshScene)}
               </Router>
             </StyleProvider>
           </PersistGate>

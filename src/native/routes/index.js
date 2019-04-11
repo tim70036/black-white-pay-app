@@ -18,12 +18,11 @@ import AppConfig from '../../constants/config';
 
 import spinnerHOC from '../lib/spinnerHOC';
 
+import Colors from '../constants/colors';
+
 import DrawerIcon from '../components/DrawerIcon';
 import DashboardDrawer from '../components/DashboardDrawer';
 import SwitchStoreButton from '../components/SwitchStoreButton';
-
-import InitContainer from '../../containers/Init';
-import InitComponent from '../components/Init';
 
 import LoginContainer from '../../containers/Login';
 import LoginComponent from '../components/Login';
@@ -32,7 +31,6 @@ import RegisterContainer from '../../containers/Register';
 import RegisterComponent1 from '../components/Register/Register1';
 import RegisterComponent2 from '../components/Register/Register2';
 import RegisterComponent3 from '../components/Register/Register3';
-import RegisterComponent4 from '../components/Register/Register4';
 
 import ChooseStoreContainer from '../../containers/ChooseStore/ChooseStore';
 import ChooseStoreComponent from '../components/ChooseStore/ChooseStore';
@@ -70,25 +68,25 @@ import couponsComponent from '../components/Coupons';
 const renderTabIcons = ({ title, focused }) => {
   switch (title) {
     case '首頁': {
-      return <Icon name="home" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: '#aa8048' } : null ]} />;
+      return <Icon name="home" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.labelGold } : null ]} />;
     }
     case '商店': {
-      return <Icon name="grid" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: '#aa8048' } : null ]} />;
+      return <Icon name="grid" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.labelGold } : null ]} />;
     }
     case '我的錢包': {
-      return <Icon name="wallet" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: '#aa8048' } : null ]} />;
+      return <Icon name="wallet" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.labelGold } : null ]} />;
     }
     case '通知': {
-      return <Icon name="bell" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: '#aa8048' } : null ]} />;
+      return <Icon name="bell" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.labelGold } : null ]} />;
     }
     case '設定': {
-      return <Icon name="settings" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: '#aa8048' } : null ]} />;
+      return <Icon name="settings" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.labelGold } : null ]} />;
     }
     default: return <Icon name="planet" {...DefaultProps.icons} />;
   }
 };
 
-const getRoutes = (authenticate, goAuth) => (
+const getRoutes = (authenticate, goAuth, refresh) => (
   <Modal key="modal" hideNavBar>
     <Lightbox key="main" hideNavBar>
 
@@ -112,7 +110,8 @@ const getRoutes = (authenticate, goAuth) => (
             icon={renderTabIcons}
             {...DefaultProps.navbarProps}
           >
-            <Scene component={spinnerHOC(ChooseStoreContainer)} Layout={ChooseStoreComponent} on={authenticate} failure={goAuth} />
+            <Scene component={spinnerHOC(ChooseStoreContainer)} Layout={ChooseStoreComponent} on={authenticate} failure={goAuth} success={refresh} />
+            <Scene key="storeHome" back component={StoreHomeContainer} Layout={StoreHomeComponent} on={authenticate} failure={goAuth} />
           </Stack>
 
           <Stack
@@ -145,15 +144,16 @@ const getRoutes = (authenticate, goAuth) => (
 
 
         {/* Specific Function Page */}
+        
         <Stack
-          key="storeHome"
-          title="商店頁面"
+          key="addStore"
+          title="新增商店"
           {...DefaultProps.navbarProps}
           back
         >
-          <Scene component={StoreHomeContainer} Layout={StoreHomeComponent} on={authenticate} failure={goAuth} />
+          <Scene component={spinnerHOC(AddStoreContainer)} Layout={AddStoreComponent} on={authenticate} failure={goAuth} />
         </Stack>
-        
+
         <Stack
           key="transfer"
           title="轉帳"
@@ -173,8 +173,8 @@ const getRoutes = (authenticate, goAuth) => (
         </Stack>
 
         <Stack
-          key="coupons"
-          title="優惠券"
+          key="qrScanner"
+          title="掃描"
           {...DefaultProps.navbarProps}
           back
         >
@@ -188,13 +188,11 @@ const getRoutes = (authenticate, goAuth) => (
 
     {/* Auth Screen */}
     <Stack key="auth" hideNavBar>
-      <Scene key="init" component={InitContainer} Layout={InitComponent} />
       <Scene key="login" component={spinnerHOC(LoginContainer)} Layout={LoginComponent} />
       <Stack key="register" hideNavBar>
         <Scene key="register1" component={RegisterContainer} Layout={RegisterComponent1} />
         <Scene key="register2" component={RegisterContainer} Layout={RegisterComponent2} />
         <Scene key="register3" component={RegisterContainer} Layout={RegisterComponent3} />
-        <Scene key="register4" component={spinnerHOC(RegisterContainer)} Layout={RegisterComponent4} />
       </Stack>
     </Stack>
   </Modal>

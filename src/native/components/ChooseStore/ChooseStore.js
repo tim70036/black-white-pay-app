@@ -1,19 +1,20 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
 import { 
-  Image, StyleSheet, FlatList, ImageBackground, Dimensions, TouchableOpacity, Alert,
+  Image, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight,
 } from 'react-native';
 import {
-  Container, Card, CardItem, Body, Text, View, Fab, Button, Icon,
+  Card, Text, View,
 } from 'native-base';
 import PropTypes from 'prop-types';
+import Icon from 'react-native-vector-icons/AntDesign';
+import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 
 const styles = StyleSheet.create({
   card: {
     flex: 1,
     flexDirection: 'row',
-    borderRadius: 10,
-    height: Dimensions.get('window').height / 7.0,
+    height: viewportHeightPercent(14),
   },
 
   cardItem: {
@@ -25,19 +26,56 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
+    backgroundColor: '#1A1B1B',
+  },
+
+  topContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+
+  bottomContainer: {
+    flex: 6,
+  },
+
+  topTitle: {
+    flex: 3,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+
+  topAddStore: {
+    flex: 1,
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+
+  titleText: {
+    fontSize: 25,
+    color: 'white',
   },
 
   headerText: {
     fontSize: 20,
   },
 
-  text: {
-    fontSize: 20,
+  buttonText: {
+    fontSize: 18,
+    color: 'white',
   },
 
   buttonContainer: {
-    flex: 1,
+    // flex: 1,
     flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignSelf: 'flex-end',
+  },
+
+  iconStyle: {
+    color: '#AA8049',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    fontSize: 18,
   },
 
   image: {
@@ -64,6 +102,7 @@ class ChooseStore extends React.Component {
     super(props);
     this.state = {
       active: 'false',
+      buttonIsPressed: false,
     };
   }
 
@@ -75,6 +114,11 @@ class ChooseStore extends React.Component {
 
   _handleAddStore = () => {
     Actions.addStore();
+  }
+
+  _change = () => {
+    const { buttonIsPressed } = this.state;
+    this.setState({ buttonIsPressed: !buttonIsPressed });
   }
 
   _renderStore = ({ item }) => (
@@ -89,35 +133,47 @@ class ChooseStore extends React.Component {
             source={{ uri: item.thumbnail }}
           />
         </View>
-        <CardItem style={styles.cardItem}>
-          <View>
-            <Text style={styles.headerText}>{item.name}</Text>
-          </View>
-        </CardItem>
       </Card>
     </TouchableOpacity>
   );
 
   render() {
     const { storesData } = this.props;
-    const { active } = this.state;
 
     return (
       <View padder style={styles.container}>
-        <FlatList
-          data={storesData}
-          renderItem={this._renderStore}
-        />
-        <Fab
-          active={active}
-          direction="up"
-          containerStyle={{ }}
-          style={{ backgroundColor: '#5067FF' }}
-          position="bottomRight"
-          onPress={() => this._handleAddStore()}
-        >
-          <Icon name="add" />
-        </Fab>
+        <View style={styles.topContainer}>
+          <View style={styles.topTitle}>
+            <Text style={styles.titleText}>商店列表</Text>
+          </View>
+
+          <View style={styles.topAddStore}>
+            <TouchableHighlight
+              style={{
+                ...styles.buttonStyle,
+              }}
+              onPress={this._handleAddStore}
+              onPressIn={this._change}
+              onPressOut={this._change}
+            >
+              <View style={styles.buttonContainer}>
+                <Text
+                  style={styles.buttonText}
+                >
+                  新增商店
+                </Text>
+                <Icon style={styles.iconStyle} name="plus" />
+              </View>
+            </TouchableHighlight>
+          </View>
+        </View>
+        <View style={styles.bottomContainer}>
+          <FlatList
+            data={storesData}
+            renderItem={this._renderStore}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        </View>
       </View>
     );
   }

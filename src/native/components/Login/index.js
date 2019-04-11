@@ -1,29 +1,112 @@
 import React from 'react';
 import {
-  StyleSheet, Dimensions, Keyboard, ImageBackground,
+  StyleSheet, Keyboard, TouchableHighlight,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {
-  Form, Item, Label, Input, Text, Button, View,
+  Form, Item, Label, Input, Text, View,
 } from 'native-base';
+import Icon from 'react-native-vector-icons/AntDesign';
 import { Actions } from 'react-native-router-flux';
+import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 
 import registerForNotifications from '../../lib/expoNotification';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'column',
+    flex: 1,
+    backgroundColor: '#1A1B1B',
   },
-  emptySpace: {
+
+  topContainer: {
+    flex: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  formContainer: {
+    flex: 7,
+    justifyContent: 'center',
+  },
+
+  formStyle: {
+    flexDirection: 'column',
     flex: 1,
   },
-  formContainer: {
-    flex: 3,
+
+  formTop: {
+    justifyContent: 'center',
+    flex: 1,
   },
-  buttonStyle: {
-    width: Dimensions.get('window').width * 0.5,
+
+  formBottom: {
+    justifyContent: 'center',
+    flex: 1,
+  },
+
+  formButton: {
+    flex: 1,
+  },
+
+  formInputContainer: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    marginTop: viewportHeightPercent(5),
+  },
+
+  logoStyle: {
+    color: '#AA8049',
+    fontSize: 40,
+    fontWeight: 'bold',
+  },
+
+  labelText: {
+    fontSize: 18,
+    color: '#AA8049',
+    justifyContent: 'center',
+  },
+
+  textInputContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    height: 35,
+  },
+
+  textInputStyle: {
+    height: '100%',
+    color: 'white',
+  },
+
+  iconStyle: {
+    color: '#AA8049',
+    justifyContent: 'center',
     alignSelf: 'center',
+    fontSize: 30,
+  },
+
+  buttonStyle: {
+    width: '100%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    height: 45,
+    borderWidth: 1,
+    borderColor: '#AA8049',
+    borderRadius: 50,
+    // flex: 1,
+  },
+
+  forgetPasswordStyle: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    height: 45,
+  },
+
+  text: {
+    color: '#AA8049',
+    fontSize: 20,
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
 });
 
@@ -49,6 +132,8 @@ class Login extends React.Component {
     this.state = {
       account: (props.user && props.user.account) ? props.user.account : '',
       password: (props.user && props.user.password) ? props.user.password : '',
+      loginButtonIsPressed: false,
+      registerButtonIsPressed: false,
     };
   }
 
@@ -57,6 +142,10 @@ class Login extends React.Component {
       [name]: val,
     });
   }
+
+  _handleRegisterBtn = () => {
+    Actions.register();
+  };
 
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
@@ -68,56 +157,123 @@ class Login extends React.Component {
     }
   }
 
+  _changeLoginButton = () => {
+    const { loginButtonIsPressed } = this.state;
+    this.setState({ loginButtonIsPressed: !loginButtonIsPressed });
+  }
+
+  _changeRegisterButton = () => {
+    const { registerButtonIsPressed } = this.state;
+    this.setState({ registerButtonIsPressed: !registerButtonIsPressed });
+  }
+
   render = () => {
-    const { account, password } = this.state;
+    const { account, password, loginButtonIsPressed, registerButtonIsPressed } = this.state;
 
     return (
-      <ImageBackground source={require('../../../images/bkimg.png')} style={{ width: '100%', height: '100%' }}>
-        <View style={styles.container}>
-          <View style={styles.emptySpace} />
-          <View style={styles.formContainer}>
-            <Form>
-              <Item stackedLabel>
-                <Label style={{ color: 'white' }}>
-                  帳號
-                </Label>
-                <Input
-                  autoCapitalize="none"
-                  placeholder=""
-                  keyboardType="default"
-                  value={account}
-                  onChangeText={v => this._handleChange('account', v)}
-                  onSubmitEditing={Keyboard.dismiss}
-                />
+      <View padder style={styles.container}>
+        <View style={styles.topContainer}>
+          <Text style={styles.logoStyle}> LOGO </Text>
+        </View>
+        <View style={styles.formContainer}>
+          <Form style={styles.formStyle}>
+            <View style={styles.formTop}>
+              <Item stackedLabel style={styles.formInputContainer}>
+                <Label style={styles.labelText}> 帳號 </Label>
+                <View style={styles.textInputContainer}>
+                  <Input
+                    style={styles.textInputStyle}
+                    autoCapitalize="none"
+                    placeholderTextColor="white"
+                    keyboardType="default"
+                    onChangeText={v => this._handleChange('account', v)}
+                    onSubmitEditing={Keyboard.dismiss}
+                    defaultValue={account}
+                  />
+                  <Icon style={styles.iconStyle} name="user" />
+                </View>
               </Item>
-
-              <Item stackedLabel>
-                <Label style={{ color: 'white' }}>
-                  密碼
-                </Label>
-                <Input
-                  autoCapitalize="none"
-                  placeholder=""
-                  secureTextEntry
-                  value={password}
-                  onChangeText={v => this._handleChange('password', v)}
-                  onSubmitEditing={Keyboard.dismiss}
-                />
+              <Item stackedLabel style={styles.formInputContainer}>
+                <Label style={styles.labelText}> 密碼 </Label>
+                <View style={styles.textInputContainer}>
+                  <Input
+                    style={styles.textInputStyle}
+                    autoCapitalize="none"
+                    placeholderTextColor="white"
+                    keyboardType="default"
+                    onChangeText={v => this._handleChange('password', v)}
+                    onSubmitEditing={Keyboard.dismiss}
+                    defaultValue={password}
+                    secureTextEntry
+                  />
+                  <Icon style={styles.iconStyle} name="lock1" />
+                </View>
               </Item>
-
-              <View style={{ height: 50 }} />
-
-              <View padder>
-                <Button info block onPress={this._handleSubmit} style={styles.buttonStyle}>
-                  <Text>
+            </View>
+            <View style={{ height: 30 }} />
+            <View style={styles.formBottom}>
+              <View padder style={styles.formButton}>
+                <TouchableHighlight
+                  style={{
+                    ...styles.buttonStyle,
+                  }}
+                  onPress={this._handleSubmit}
+                  onPressIn={this._changeLoginButton}
+                  onPressOut={this._changeLoginButton}
+                  underlayColor="#AA8049"
+                >
+                  <Text
+                    style={{
+                      ...styles.text,
+                      color: loginButtonIsPressed === true ? 'white' : '#AA8049',
+                    }}
+                  >
                     登入
                   </Text>
-                </Button>
+                </TouchableHighlight>
               </View>
-            </Form>
-          </View>
+              <View padder style={styles.formButton}>
+                <TouchableHighlight
+                  style={{
+                    ...styles.buttonStyle,
+                  }}
+                  onPress={this._handleRegisterBtn}
+                  onPressIn={this._changeRegisterButton}
+                  onPressOut={this._changeRegisterButton}
+                  underlayColor="#AA8049"
+                >
+                  <Text
+                    style={{
+                      ...styles.text,
+                      color: registerButtonIsPressed === true ? 'white' : '#AA8049',
+                    }}
+                  >
+                    註冊
+                  </Text>
+                </TouchableHighlight>
+              </View>
+              <View padder style={styles.formButton}>
+                <TouchableHighlight
+                  style={{
+                    ...styles.forgetPasswordStyle,
+                  }}
+                  // onPress={this._handleSubmit}
+                >
+                  <Text
+                    style={{
+                      ...styles.text,
+                      fontSize: 17,
+                      color: '#F7F9F9',
+                    }}
+                  >
+                    忘 記 密 碼
+                  </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </Form>
         </View>
-      </ImageBackground>
+      </View>
 
     );
   }

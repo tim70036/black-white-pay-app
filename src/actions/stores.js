@@ -47,9 +47,54 @@ function getStores() {
   };
 }
 
+
+function bindStores(data) {
+  return async (dispatch, getState) => {
+    // Status
+    dispatch(statusMessage('loading', true));
+    const { bindCode } = data;
+
+    // Get stores
+    let response;
+    try {
+      response = await fetch( `${config.apiUrl}/store/bind`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          bindCode: bindCode,
+        }),
+      });
+      response = await response.json();
+      if (!response) throw Error('沒有回應');
+      console.log(response);
+    } catch (error) {
+      console.log(error.message);
+      dispatch(statusMessage('loading', false));
+      return;
+    }
+
+    // Process response
+    if (response.errCode === 0) {
+      // dispatch(statusMessage('loading', false));
+    } else if (response.errCode === 87) {
+      dispatch(replaceUserAuth(false));
+    } else {
+
+    }
+
+    // Status
+    dispatch(statusMessage('loading', false));
+  };
+}
+
+
 export {
   replaceStores,
   clearStores,
 
   getStores,
+  bindStores,
 };

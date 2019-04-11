@@ -1,6 +1,6 @@
 const Colors = {
   labelGray: '#dcdddd',
-  labelGold: '#aa8048',
+  labelGold: '#EBB50B',
   barBackground: '#262727',
   barBackgroundFocus: '#222323',
 

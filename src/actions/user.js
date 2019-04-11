@@ -59,6 +59,8 @@ function register() {
       console.log(response);
     } catch (error) {
       console.log(error.message);
+      // Status
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
     }
 
     // Process response
@@ -137,14 +139,6 @@ function login(loginData) {
   };
 }
 
-function bindStore(bindData) {
-  const { bindCode } = bindData;
-  return async (dispatch, getState) => {
-    // Status
-    dispatch(statusMessage('loading', true));
-  };
-}
-
 function logout() {
   return async (dispatch, getState) => {
     // Status
@@ -193,6 +187,4 @@ export {
   register,
   login,
   logout,
-
-  bindStore,
 };

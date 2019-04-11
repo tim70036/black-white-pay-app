@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-// import { login } from '../actions/member';
-
 import {
   replaceUserAccount,
   replaceUserPassword,
@@ -36,10 +34,8 @@ class Register extends Component {
       repalceName,
       userRegister,
     } = this.props;
-
-    if (formData.account) {
+    if (formData.account && formData.password) {
       repalceAccount(formData.account);
-    } else if (formData.password) {
       replacePassword(formData.password);
     } else if (formData.transPwd) {
       repalceTransPwd(formData.transPwd);

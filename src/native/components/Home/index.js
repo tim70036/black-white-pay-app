@@ -152,8 +152,8 @@ class Home extends Component {
           <View style={styles.shortcutsCard}>
             <View style={styles.shortcutsCardRow}>
               <IconButton iconText="活動" iconName="notification" iconType="AntDesign" />
-              <IconButton iconText="掃描" iconName="scan1" iconType="AntDesign" />
-              <IconButton iconText="付款" iconName="qrcode" iconType="AntDesign" />
+              <IconButton onPress={() => (Actions.qrScanner())} iconText="掃描" iconName="scan1" iconType="AntDesign" />
+              <IconButton onPress={() => (Actions.qrCode())} iconText="付款" iconName="qrcode" iconType="AntDesign" />
               <IconButton iconText="收款" iconName="download" iconType="AntDesign" />
             </View>
             <View style={styles.shortcutsCardRow}>
