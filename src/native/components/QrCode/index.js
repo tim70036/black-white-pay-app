@@ -15,13 +15,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   qrCodeContainer: {
-    height: viewportHeightPercent(60),
-    width: viewportWidthPercent(94),
+    height: viewportHeightPercent(50),
+    width: viewportWidthPercent(100),
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: Colors.backgroundGray,
-    borderRadius: 8,
   },
   qrCode: {
     overflow: 'hidden',

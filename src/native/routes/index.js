@@ -102,6 +102,7 @@ const getRoutes = (authenticate, goAuth, refresh) => (
             {...DefaultProps.navbarProps}
           >
             <Scene component={spinnerHOC(HomeContainer)} Layout={HomeComponent} on={authenticate} failure={goAuth} />
+            <Scene title="付款" key="qrCodePay" back component={spinnerHOC(qrCodePayContainer)} Layout={qrCodeComponent} on={authenticate} failure={goAuth} />
           </Stack>
 
           <Stack
@@ -172,14 +173,14 @@ const getRoutes = (authenticate, goAuth, refresh) => (
           <Scene component={spinnerHOC(TransHistoryContainer)} Layout={TransHistoryComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
-        <Stack
+        {/* <Stack
           key="qrCodePay"
           title="付款"
           {...DefaultProps.navbarProps}
           back
         >
           <Scene component={spinnerHOC(qrCodePayContainer)} Layout={qrCodeComponent} on={authenticate} failure={goAuth} />
-        </Stack>
+        </Stack> */}
 
         <Stack
           key="qrScanner"

@@ -23,6 +23,7 @@ export default {
 
   tabProps: {
     headerLayoutPreset: 'center', // Android title center
+    backToInitial: true, // Back to initial screen on focused tab if tab icon was tapped.
     swipeEnabled: true,
     type: 'push',
     showLabel: true,
