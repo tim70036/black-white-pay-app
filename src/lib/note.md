@@ -65,3 +65,14 @@ Top bar 太高
 reload 用 on success
 
 每個頁面跟 topbar 距離固定 30? viewportHeightPercent(5)?
+
+
+Notification DB 要 table
+id uid content 
+都是系統通知
+
+state 要有 newest time
+這樣撈的時候，就撈 > newest time ，然後 append
+
+enter scene 撈 幾筆?
+收到通知時?

@@ -35,7 +35,7 @@ async function registerForNotifications() {
   // Post token to server
   let response;
   try {
-    response = await fetch( `${config.apiUrl}/user/push-token`, {
+    response = await fetch( `${config.apiUrl}/user/notification/push-token`, {
       method: 'POST',
       credentials: 'include',
       headers: {

@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { Root, StyleProvider } from 'native-base';
+import moment from 'moment';
+import 'moment/min/locales'; // https://github.com/moment/moment/issues/4422
 import {
   Router,
   Actions,
@@ -42,6 +44,11 @@ export default class App extends React.Component {
   state = { loading: true }
 
   async componentWillMount() {
+
+    // Moment locale
+    moment.locale('zh-cn');
+
+    // Font
     await Font.loadAsync({
       Roboto: require('native-base/Fonts/Roboto.ttf'),
       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),

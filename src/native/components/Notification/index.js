@@ -6,15 +6,20 @@ import {
 } from 'native-base';
 import PropTypes from 'prop-types';
 import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import Colors from '../../constants/colors';
 
+const thumbnailSize = 50;
 
 const styles = StyleSheet.create({
-  card: {
+
+  container: {
     flex: 1,
+    flexDirection: 'column',
+  },
+
+  card: {
     flexDirection: 'row',
-    borderColor: 'red',
-    // backgroundColor: 'green',
-    height: viewportHeightPercent(10),
+    paddingVertical: 12,
   },
 
   cardItemRight: {
@@ -23,91 +28,72 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-
   cardItemLeft: {
-    flex: 1,
+    flex: 2,
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  headerText: {
-    fontSize: 15,
+    justifyContent: 'flex-start',
   },
 
   text: {
-    fontSize: 8,
+    fontSize: 15,
+    color: Colors.labelWhite,
   },
 
-  buttonContainer: {
-    flex: 1,
-    flexDirection: 'row',
+  footerText: {
+    fontSize: 10,
+    marginTop: 10,
+    color: Colors.labelGray,
   },
 
   image: {
-    width: '80%',
-    height: '65%',
-    // borderRadius: 150,
-    borderColor: 'rgba(0,0,0,0.2)',
-    borderWidth: 1,
+    width: thumbnailSize,
+    height: thumbnailSize,
+    borderRadius: thumbnailSize / 2,
     alignItems: 'center',
     justifyContent: 'center',
   },
 
 });
 
-
-// const { carouselData } = this.props;
-
 const Notification = ({ notificationData }) => {
 
-  const renderSeparator = () => {
-    return (
-      <View
-        style={{
-          height: 1,
-          width: '100%',
-          backgroundColor: 'black',
-        }}
-      />
-    );
-  };
+  const _renderSeparator = () => (
+    <View
+      style={{
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <View style={{ height: 1, width: '100%', backgroundColor: '#3d3937' }} />
+    </View>
+  );
+
+  const _renderItem = ({ item }) => (
+    <View style={styles.card}>
+      <View style={styles.cardItemLeft}>
+        <Image
+          style={styles.image}
+          source={{ uri: item.thumbnail }}
+        />
+      </View>
+      <View style={styles.cardItemRight}>
+        <Text style={styles.text}>{item.content}</Text>
+        <Text style={styles.footerText}>{item.time}</Text>
+      </View>
+    </View>
+  );
 
   return (
-    <Container padder style={styles.container}>
+    <View style={styles.container}>
       <FlatList
-        style={{ backgroundColor: 'white' }}
         data={notificationData}
-        ItemSeparatorComponent={renderSeparator}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <View style={styles.cardItemLeft}>
-              <Image
-                style={styles.image}
-                source={{ uri: item.thumbnail }}
-              />
-            </View>
-            <View style={styles.cardItemRight}>
-              <Text style={styles.headerText}>{item.content}</Text>
-              <Text style={styles.text}>{item.time}</Text>
-            </View>
-          </View>
-        )}
+        ItemSeparatorComponent={_renderSeparator}
+        renderItem={_renderItem}
+        keyExtractor={(item, index) => index.toString()}
       />
-    </Container>
+    </View>
   );
 };
-
-
-/* Coupons.propTypes = {
-  couponData: PropTypes.objectOf(PropTypes.object()).isRequired,
-};
-
-Coupons.defaultProps = {
-}; */
 
 
 export default Notification;
