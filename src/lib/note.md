@@ -68,7 +68,12 @@ reload 用 on success
 
 
 Notification DB 要 table
-id uid content 
+
+Notification
+id uid title content
+
+NotificationTarget
+id NotificationId uid
 都是系統通知
 
 state 要有 newest time
