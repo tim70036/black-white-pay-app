@@ -123,7 +123,7 @@ const getRoutes = (authenticate, goAuth, refresh) => (
             icon={renderTabIcons}
             {...DefaultProps.navbarProps}
           >
-            <Scene component={spinnerHOC(notifyListContainer)} Layout={notifyListComponent} on={authenticate} failure={goAuth} />
+            <Scene component={spinnerHOC(notifyListContainer)} Layout={notifyListComponent} on={authenticate} failure={goAuth} success={refresh} />
           </Stack>
 
           <Stack

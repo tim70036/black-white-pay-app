@@ -147,7 +147,7 @@ class Mine extends React.Component {
         );
         cells.push(cell);
       }
-      cells.push(<View style={{ height: 14 }} />);
+      cells.push(<View key={'section'+i.toString()} style={{ height: 14 }} />);
     }
 
     return (

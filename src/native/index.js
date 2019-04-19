@@ -46,7 +46,7 @@ export default class App extends React.Component {
   async componentWillMount() {
 
     // Moment locale
-    moment.locale('zh-cn');
+    moment.locale('zh-TW');
 
     // Font
     await Font.loadAsync({

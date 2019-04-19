@@ -34,13 +34,12 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: viewportHeightPercent(4.5),
-    color: Colors.labelGold,
   },
 });
 
-const IconButton = ({ iconText, iconName, iconType, onPress }) => (
+const IconButton = ({ iconText, iconName, iconType, iconColor, onPress }) => (
   <TouchableOpacity style={styles.container} onPress={onPress}>
-    <Icon name={iconName} type={iconType} style={styles.icon} />
+    <Icon name={iconName} type={iconType} style={[styles.icon, {color: iconColor}]} />
     <Text style={styles.text}>{iconText}</Text>
   </TouchableOpacity>
 );
@@ -49,12 +48,14 @@ IconButton.propTypes = {
   iconName: PropTypes.string.isRequired,
   iconType: PropTypes.string,
   iconText: PropTypes.string,
+  iconColor: PropTypes.string,
   onPress: PropTypes.func,
 };
 
 IconButton.defaultProps = {
   iconType: 'Ionicons',
   iconText: '某個功能',
+  iconColor: '#ffffff',
   onPress: null,
 };
 
