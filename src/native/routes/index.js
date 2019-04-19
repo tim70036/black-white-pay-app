@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import {
-  Router,
   Scene,
   Tabs,
   Stack,
-  Drawer,
   Lightbox,
   Modal,
-  Actions,
 } from 'react-native-router-flux';
 import { Icon } from 'native-base';
 

@@ -8,9 +8,17 @@ class Transfer extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
     userTransfer: PropTypes.func.isRequired,
+    qrData: PropTypes.shape({
+      account: PropTypes.string,
+      amount: PropTypes.number,
+    }),
   }
 
   static defaultProps = {
+    qrData: {
+      account: '',
+      amount: 0,
+    },
   }
 
   state = {
@@ -26,11 +34,15 @@ class Transfer extends Component {
   render = () => {
     const {
       Layout,
+      qrData,
     } = this.props;
+    console.log(qrData);
 
     return (
       <Layout
         onFormSubmit={this._handleSubmit}
+        defaultAccount={qrData.account}
+        defaultAmount={qrData.amount}
       />
     );
   }

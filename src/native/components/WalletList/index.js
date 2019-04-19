@@ -4,11 +4,13 @@ import { Actions } from 'react-native-router-flux';
 import {
   Text, Card, Icon, View,
 } from 'native-base';
+import { LinearGradient } from 'expo';
 
 import {
   StyleSheet, TouchableOpacity, ScrollView,
 } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
+import Colors from '../../constants/colors';
 import IconButton from './IconButton';
 
 import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
@@ -20,9 +22,9 @@ const styles = StyleSheet.create({
   layoutContainer: {
     flex: 1,
     flexDirection: 'column',
-    padding: viewportWidthPercent(4),
-    paddingTop: 10,
-    backgroundColor: '#191919',
+    paddingHorizontal: viewportWidthPercent(5),
+    paddingTop: viewportHeightPercent(3),
+    backgroundColor: Colors.backgroundBlack,
   },
 
   topContainer: {
@@ -33,12 +35,12 @@ const styles = StyleSheet.create({
     // flex: 2,
     flexDirection: 'column',
     alignItems: 'center',
-    padding: viewportWidthPercent(2),
-    marginTop: viewportHeightPercent(2),
+    paddingHorizontal: viewportWidthPercent(5),
+    paddingVertical: viewportHeightPercent(1.7),
     height: viewportHeightPercent(23),
     justifyContent: 'center',
-    backgroundColor: '#255EAB',
-    marginBottom: 20,
+    backgroundColor: Colors.backgroundGray,
+    borderRadius: 20,
   },
 
   cardItem: {
@@ -82,9 +84,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: tablePaddingHorizontal,
-    paddingVertical: 10,
+    height: viewportHeightPercent(7.4),
     marginTop: viewportHeightPercent(2),
-    backgroundColor: '#252726',
+    backgroundColor: Colors.backgroundGray,
   },
   headerCurrency: {
     flex: 1,
@@ -106,10 +108,10 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontWeight: '200',
-    color: '#EFEFEF',
+    color: Colors.labelWhite,
   },
   headerIcon: {
-    color: '#EFEFEF',
+    color: Colors.labelWhite,
   },
   contentContainer: {
     flexDirection: 'row',
@@ -117,7 +119,7 @@ const styles = StyleSheet.create({
     height: viewportWidthPercent(25),
     marginBottom: viewportHeightPercent(1),
     paddingBottom: viewportHeightPercent(2),
-    backgroundColor: '#252726',
+    backgroundColor: Colors.backgroundGray,
     paddingHorizontal: tablePaddingHorizontal,
     borderTopWidth: 2,
     borderTopColor: '#2E302F',
@@ -137,6 +139,7 @@ const styles = StyleSheet.create({
   subHeader: {
     // flex: 1,
     flexDirection: 'row',
+    marginTop: viewportHeightPercent(3),
   },
   subHeaderLeft: {
     flex: 1,
@@ -148,27 +151,27 @@ const styles = StyleSheet.create({
   },
   subHeaderText: {
     fontSize: 20,
-    color: '#F2F2F2',
+    color: Colors.labelWhite,
     // marginBottom: 20,
   },
   mainCurrency: {
     fontSize: 30,
-    color: '#F6F8F5',
+    color: Colors.labelWhite,
     marginTop: viewportHeightPercent(2),
   },
   mainDiamond: {
     fontSize: 22,
-    color: '#F6F8F5',
+    color: Colors.labelWhite,
     marginTop: viewportHeightPercent(2),
     marginRight: viewportWidthPercent(5),
   },
   icon: {
     fontSize: 30,
-    color: '#F6F8F5',
+    color: Colors.labelWhite,
   },
   headerDiamondIcon: {
     fontSize: 12,
-    color: '#F6F8F5',
+    color: Colors.labelWhite,
     marginRight: viewportWidthPercent(2),
   },
 });
@@ -187,6 +190,14 @@ class WalletList extends React.Component {
       availBalance: PropTypes.number,
     }),
     onChoose: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+      account: PropTypes.string,
+      password: PropTypes.string,
+      transPwd: PropTypes.string,
+      name: PropTypes.string,
+      thumbnail: PropTypes.string,
+      authenticated: PropTypes.bool,
+    }).isRequired,
   }
 
   static defaultProps = {
@@ -210,6 +221,18 @@ class WalletList extends React.Component {
     Actions.transHistory();
   }
 
+  _handleQRcode = (storeId) => {
+    const { user } = this.props;
+    const qrCodeData = {
+      type: 'pay',
+      account: user.account,
+      storeId: storeId,
+      amount: 0,
+    };
+    Actions.qrCodePay({ qrCodeData: qrCodeData });
+    // Actions.qrCodePay();
+  }
+
   _renderHeader = section => (
     <View style={styles.headerContainer}>
       <View style={styles.headerCurrency}>
@@ -229,9 +252,9 @@ class WalletList extends React.Component {
 
   _renderContent = section => (
     <View style={styles.contentContainer}>
-      <IconButton iconName="qrcode" iconType="AntDesign" iconColor="#717171" text="QR碼" onPress={() => (Actions.qrCodePay())} />
-      <IconButton iconName="swap" iconColor="#717171" text="轉帳" onPress={() => this._handleTransfer(section.storeId)} />
-      <IconButton iconName="dollar" iconType="FontAwesome" iconColor="#717171" text="交易紀錄" onPress={() => this._handleHistory(section.storeId)} />
+      <IconButton iconName="qrcode" iconType="AntDesign" iconColor={Colors.labelLightGray} text="QR碼" onPress={() => this._handleQRcode(section.storeId)} />
+      <IconButton iconName="swap" iconColor={Colors.labelLightGray} text="轉帳" onPress={() => this._handleTransfer(section.storeId)} />
+      <IconButton iconName="dollar" iconType="FontAwesome" iconColor={Colors.labelLightGray} text="交易紀錄" onPress={() => this._handleHistory(section.storeId)} />
     </View>
   );
 
@@ -245,18 +268,23 @@ class WalletList extends React.Component {
 
     return (
       <ScrollView style={styles.layoutContainer}>
-        <Card style={styles.bottomContainer}>
+        <LinearGradient
+          colors={['#32BBDB', '#2372B5', '#255EAB']}
+          style={styles.bottomContainer}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+        >
           <View style={styles.buttonContainer}>
             <Icon name="diamond" type="SimpleLineIcons" style={styles.mainDiamond} />
             <Text style={styles.mainCurrency}>{mainWallet.availBalance}</Text>
           </View>
           <View style={styles.buttonContainer}>
-            <IconButton iconName="qrcode" iconType="AntDesign" text="QR碼" iconColor="#F6F8F5" onPress={() => Actions.qrCodePay()} />
-            <IconButton text="轉帳" iconName="swap" iconColor="#F6F8F5" onPress={() => this._handleTransfer(mainWallet.storeId)} />
-            <IconButton iconName="dollar" iconType="FontAwesome" text="交易紀錄" iconColor="#F6F8F5" onPress={() => this._handleHistory(mainWallet.storeId)} />
-            <IconButton iconName="bank" iconType="MaterialCommunityIcons" text="匯兌" iconColor="#F6F8F5" onPress={() => Actions.coupons()} />
+            <IconButton iconName="qrcode" iconType="AntDesign" text="QR碼" iconColor={Colors.labelWhite} onPress={() => this._handleQRcode(-1)} />
+            <IconButton text="轉帳" iconName="swap" iconColor={Colors.labelWhite} onPress={() => this._handleTransfer(mainWallet.storeId)} />
+            <IconButton iconName="dollar" iconType="FontAwesome" text="交易紀錄" iconColor={Colors.labelWhite} onPress={() => this._handleHistory(mainWallet.storeId)} />
+            {/* <IconButton iconName="bank" iconType="MaterialCommunityIcons" text="匯兌" iconColor={Colors.labelWhite} onPress={() => Actions.coupons()} /> */}
           </View>
-        </Card>
+        </LinearGradient>
         <View style={styles.subHeader}>
           <View style={styles.subHeaderLeft}>
             <Text style={styles.subHeaderText}> 錢包列表 </Text>

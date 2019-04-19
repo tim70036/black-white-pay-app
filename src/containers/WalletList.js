@@ -15,6 +15,14 @@ class WalletList extends Component {
         availBalance: PropTypes.number,
       }),
     ),
+    user: PropTypes.shape({
+      account: PropTypes.string,
+      password: PropTypes.string,
+      transPwd: PropTypes.string,
+      name: PropTypes.string,
+      thumbnail: PropTypes.string,
+      authenticated: PropTypes.bool,
+    }),
   }
 
   static defaultProps = {
@@ -34,22 +42,20 @@ class WalletList extends Component {
   }
 
   render = () => {
-    const { Layout, walletsData } = this.props;
+    const { Layout, walletsData, user } = this.props;
     const storeWallet = walletsData.reduce((arr, row) => {
       if (row.storeId !== -1) arr.push(row);
       return arr;
     }, []);
     const mainWallet = walletsData.find(row => (row.storeId === -1));
-    console.log('@@@@!!');
-    console.log(storeWallet);
-    console.log(mainWallet);
 
-    return <Layout storeWallet={storeWallet} mainWallet={mainWallet} onChoose={this._handleChoose} />;
+    return <Layout storeWallet={storeWallet} mainWallet={mainWallet} user={user} onChoose={this._handleChoose} />;
   }
 }
 
 const mapStateToProps = state => ({
   walletsData: state.wallets,
+  user: state.user || {},
 });
 
 const mapDispatchToProps = {

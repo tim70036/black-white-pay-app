@@ -13,6 +13,12 @@ class QrCodePay extends Component {
       thumbnail: PropTypes.string,
       authenticated: PropTypes.bool,
     }),
+    qrCodeData: PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      account: PropTypes.string,
+      amount: PropTypes.number,
+      storeId: PropTypes.number,
+    }).isRequired,
   }
 
   static defaultProps = {
@@ -23,13 +29,13 @@ class QrCodePay extends Component {
   }
 
   render = () => {
-    const { Layout, user } = this.props;
-    const qrCodeData = {
-      type: 'pay',
-      account: user.account,
-    };
+    const { Layout, user, qrCodeData } = this.props;
+    // const qrCodeData = {
+    //   type: 'pay',
+    //   account: user.account,
+    // };
 
-    return <Layout qrcodeData={qrCodeData} />;
+    return <Layout qrCodeData={qrCodeData} />;
   }
 }
 

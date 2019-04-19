@@ -51,6 +51,8 @@ class TransHistory extends Component {
   }
 
   state = {
+    // defaultStartTime: '',
+    // defaultEndTime: '',
   }
 
   constructor(props) {
@@ -70,9 +72,20 @@ class TransHistory extends Component {
       Layout,
       transHistory,
     } = this.props;
+    const defaultStartTime = moment().subtract(1, 'months').format('YYYY-MM-DD');
+    const defaultEndTime = moment(new Date()).format('YYYY-MM-DD');
+    const defaultStartTimeUtc = moment().subtract(1, 'months').utc().format('YYYY-MM-DD HH:mm');
+    const defaultEndTimeUtc = moment(new Date()).utc().format('YYYY-MM-DD HH:mm');
 
     return (
-      <Layout historyData={transHistory} onSearchSubmit={this._handleSubmit} />
+      <Layout
+        historyData={transHistory}
+        onSearchSubmit={this._handleSubmit}
+        defaultStartTime={defaultStartTime}
+        defaultEndTime={defaultEndTime}
+        defaultStartTimeUtc={defaultStartTimeUtc}
+        defaultEndTimeUtc={defaultEndTimeUtc}
+      />
     );
   }
 }

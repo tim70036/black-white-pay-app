@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import QRCode from 'react-native-qrcode';
 import { StyleSheet, View, Text } from 'react-native';
 
@@ -24,6 +25,8 @@ const styles = StyleSheet.create({
   },
   qrCode: {
     overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: 'white',
   },
   text: {
     color: Colors.labelGray,
@@ -32,18 +35,32 @@ const styles = StyleSheet.create({
 });
 
 class QrCode extends Component {
+  static propTypes = {
+    qrCodeData: PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      account: PropTypes.string,
+      amount: PropTypes.number,
+      storeId: PropTypes.number,
+    }).isRequired,
+  }
+
   state = {
   };
 
   render = () => {
-    const { qrcodeData } = this.props;
+    const { qrCodeData } = this.props;
+    // const string = JSON.stringify(qrCodeData);
+    // const testing = {
+    //   type: 'pay',
+    //   account: 'm2',
+    // };
 
     return (
       <View style={styles.container}>
         <View style={styles.qrCodeContainer}>
           <View style={styles.qrCode}>
             <QRCode
-              value={JSON.stringify(qrcodeData)}
+              value={JSON.stringify(qrCodeData)}
               size={200}
               bgColor="black"
               fgColor="white"

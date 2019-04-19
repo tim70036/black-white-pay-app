@@ -3,6 +3,7 @@ import {
   StyleSheet,
   View,
   Text,
+  TouchableOpacity,
   ScrollView,
 } from 'react-native';
 import { Icon, DatePicker, Button } from 'native-base';
@@ -10,6 +11,7 @@ import PropTypes from 'prop-types';
 import Accordion from 'react-native-collapsible/Accordion';
 import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
+import Colors from '../../constants/colors';
 
 import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 
@@ -18,53 +20,64 @@ const tablePaddingHorizontal = viewportWidthPercent(5);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: viewportWidthPercent(2),
+    // padding: viewportWidthPercent(2),
     // paddingTop: 10,
     backgroundColor: '#191919',
   },
   inputsContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    paddingHorizontal: tablePaddingHorizontal,
-    paddingVertical: 15,
-    marginVertical: 20,
-    backgroundColor: '#252726',
-  },
-  dateContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: viewportWidthPercent(10),
+    paddingVertical: viewportHeightPercent(4),
+    marginVertical: viewportHeightPercent(3.5),
+    backgroundColor: Colors.backgroundGray,
+    height: viewportHeightPercent(24),
+  },
+  dateContainer: {
+  },
+  startTime: {
+    flex: 1,
+    width: viewportWidthPercent(68),
+  },
+  endTime: {
+    flex: 1,
+    borderTopWidth: 2,
+    borderTopColor: Colors.labelWhite,
+    width: viewportWidthPercent(68),
   },
   button: {
+    flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
-    width: viewportWidthPercent(30),
-    height: 30,
+    alignItems: 'stretch',
+    width: viewportWidthPercent(18),
+    borderRadius: 200,
+    // height: 30,
   },
   buttonText: {
-    color: '#fff',
+    color: Colors.labelWhite,
+  },
+  buttonContainer: {
   },
   subHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: tablePaddingHorizontal,
-    paddingVertical: 10,
-    marginVertical: 1,
-    backgroundColor: '#191919',
+    paddingHorizontal: viewportWidthPercent(7),
+    backgroundColor: Colors.backgroundBlack,
   },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: viewportWidthPercent(5),
-    paddingVertical: 10,
-    marginHorizontal: viewportHeightPercent(3),
-    marginTop: viewportHeightPercent(2),
-    backgroundColor: '#252726',
+    paddingLeft: viewportWidthPercent(3),
+    marginHorizontal: viewportWidthPercent(5),
+    marginTop: viewportHeightPercent(3),
+    height: viewportHeightPercent(7.4),
+    backgroundColor: Colors.backgroundGray,
   },
   headerTime: {
     flex: 7,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    paddingLeft: viewportWidthPercent(5),
     alignItems: 'center',
   },
   headerDownIcon: {
@@ -75,24 +88,23 @@ const styles = StyleSheet.create({
   },
   subHeaderText: {
     fontWeight: '200',
-    color: '#fff',
+    color: Colors.labelWhite,
     fontSize: 20,
   },
   headerText: {
     fontWeight: '200',
-    color: '#fff',
+    color: Colors.labelWhite,
   },
   headerIcon: {
-    color: '#fff',
+    color: Colors.labelWhite,
   },
   contentContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    height: viewportWidthPercent(25),
-    marginHorizontal: viewportHeightPercent(3),
-    marginBottom: viewportHeightPercent(1),
-    backgroundColor: '#252726',
+    height: viewportHeightPercent(11.3),
+    marginHorizontal: viewportWidthPercent(5),
+    backgroundColor: Colors.backgroundGray,
     paddingHorizontal: tablePaddingHorizontal,
     borderTopWidth: 2,
     borderTopColor: '#2E302F',
@@ -116,7 +128,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: viewportWidthPercent(2),
   },
   contentText: {
-    color: '#fff',
+    color: Colors.labelWhite,
   },
   dollarText: {},
   dollarIcon: {
@@ -125,8 +137,19 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 25,
-    color: '#fff',
+    color: Colors.labelWhite,
     marginBottom: viewportHeightPercent(1),
+  },
+  searchIcon: {
+    fontSize: 30,
+    color: Colors.labelGold,
+    borderWidth: 2,
+    borderColor: Colors.labelWhite,
+    borderRadius: 200,
+    paddingLeft: viewportWidthPercent(3),
+    paddingTop: viewportWidthPercent(3),
+    width: viewportWidthPercent(15),
+    height: viewportWidthPercent(15),
   },
 });
 
@@ -142,6 +165,10 @@ class TransHistory extends Component {
       }),
     ),
     onSearchSubmit: PropTypes.func.isRequired,
+    defaultStartTime: PropTypes.string.isRequired,
+    defaultEndTime: PropTypes.string.isRequired,
+    defaultStartTimeUtc: PropTypes.string.isRequired,
+    defaultEndTimeUtc: PropTypes.string.isRequired,
   };
 
   static defaultProps ={
@@ -153,6 +180,12 @@ class TransHistory extends Component {
     endTime: '',
     activeSections: [],
   };
+
+  async componentDidMount() {
+    const { defaultStartTimeUtc, defaultEndTimeUtc } = this.props;
+    this.setState({ startTime: defaultStartTimeUtc });
+    this.setState({ endTime: defaultEndTimeUtc });
+  }
 
   _setStartTime = (v) => {
     const startTime = moment(v).startOf('day').utc().format('YYYY/MM/DD HH:mm');
@@ -200,6 +233,15 @@ class TransHistory extends Component {
     );
   };
 
+  _handleDateFormat = (date) => {
+    return [
+      date.getFullYear(),
+      date.getMonth() + 1,
+      date.getDate(),
+    ].join('-');
+  }
+
+
   _updateSections = (activeSections) => {
     this.setState({ activeSections });
   };
@@ -214,53 +256,59 @@ class TransHistory extends Component {
 
   render = () => {
     const { activeSections } = this.state;
-    const { historyData } = this.props;
+    const { historyData, defaultStartTime, defaultEndTime } = this.props;
 
     return (
       <ScrollView style={styles.container}>
         <View style={styles.inputsContainer}>
           <View style={styles.dateContainer}>
-            <Text>搜尋記錄從</Text>
-            <DatePicker
-              defaultDate={new Date(2018, 4, 4)}
-              minimumDate={new Date(2018, 1, 1)}
-              maximumDate={new Date()}
-              locale={"zh"}
-              timeZoneOffsetInMinutes={undefined}
-              modalTransparent={false}
-              animationType={"fade"}
-              androidMode={"spinner"}
-              placeHolderText="點選起始日期"
-              textStyle={{ color: "green" }}
-              placeHolderTextStyle={{ color: "#d3d3d3" }}
-              onDateChange={this._setStartTime}
-            />
-            <Text>至</Text>
-            <DatePicker
-              defaultDate={new Date(2018, 4, 4)}
-              minimumDate={new Date(2018, 1, 1)}
-              maximumDate={new Date()}
-              locale={"en"}
-              timeZoneOffsetInMinutes={undefined}
-              modalTransparent={false}
-              animationType={"fade"}
-              androidMode={"spinner"}
-              placeHolderText="點選結束日期"
-              textStyle={{ color: "green" }}
-              placeHolderTextStyle={{ color: "#d3d3d3" }}
-              onDateChange={this._setEndTime}
-            />
+            <View style={styles.startTime}>
+              <DatePicker
+                defaultDate={new Date()}
+                minimumDate={new Date(2018, 1, 1)}
+                maximumDate={new Date()}
+                locale={"zh"}
+                formatChosenDate={this._handleDateFormat}
+                timeZoneOffsetInMinutes={undefined}
+                modalTransparent={false}
+                animationType={"fade"}
+                androidMode={"spinner"}
+                placeHolderText={defaultStartTime}
+                textStyle={{ color: "#d3d3d3", fontSize: 25 }}
+                placeHolderTextStyle={{ color: "#d3d3d3", fontSize: 25 }}
+                onDateChange={this._setStartTime}
+                value={defaultStartTime}
+              />
+            </View>
+            <View style={styles.endTime}>
+              <DatePicker
+                defaultDate={new Date()}
+                minimumDate={new Date(2018, 1, 1)}
+                maximumDate={new Date()}
+                locale={"en"}
+                formatChosenDate={this._handleDateFormat}
+                timeZoneOffsetInMinutes={undefined}
+                modalTransparent={false}
+                animationType={"fade"}
+                androidMode={"spinner"}
+                placeHolderText={defaultEndTime}
+                textStyle={{ color: "#d3d3d3", fontSize: 25 }}
+                placeHolderTextStyle={{ color: "#d3d3d3", fontSize: 25 }}
+                onDateChange={this._setEndTime}
+              />
+            </View>
           </View>
           <View>
-            <Button info style={styles.button} onPress={() => this._handleHistorySearch()}>
+            {/* <Button info style={styles.button} onPress={() => this._handleHistorySearch()}>
               <Text style={styles.buttonText}>搜尋</Text>
-            </Button>
+            </Button> */}
+            <TouchableOpacity onPress={() => this._handleHistorySearch}>
+              <Icon name="search1" type="AntDesign" style={styles.searchIcon} />
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={[styles.subHeader, { marginVertical: 2 }]}>
-          <View style={styles.headerTime}>
-            <Text style={styles.subHeaderText}>交易紀錄列表</Text>
-          </View>
+        <View style={styles.subHeader}>
+          <Text style={styles.subHeaderText}>交易紀錄列表</Text>
         </View>
         <Accordion
           sections={historyData}
