@@ -24,22 +24,29 @@ function getStores() {
         credentials: 'include',
       });
       response = await response.json();
-      if (!response) throw Error('沒有回應');
       console.log(response);
     } catch (error) {
       console.log(error.message);
-      dispatch(statusMessage('loading', false));
-      return;
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
+      return false;
     }
 
+    if (!response) {
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
+      return false;
+    }
     // Process response
     if (response.errCode === 0) {
       const storeList = response.data;
       dispatch(replaceStores(storeList));
+    } else if (response.errCode === 1) {
+      // Status
+      dispatch(statusMessage('error', response.msg));
     } else if (response.errCode === 87) {
       dispatch(replaceUserAuth(false));
+      dispatch(statusMessage('error', response.msg));
     } else {
-
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
     }
 
     // Status
@@ -68,25 +75,32 @@ function bindStores(data) {
         }),
       });
       response = await response.json();
-      if (!response) throw Error('沒有回應');
       console.log(response);
     } catch (error) {
       console.log(error.message);
-      dispatch(statusMessage('loading', false));
-      return;
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
+      return false;
     }
 
+    if (!response) {
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
+      return false;
+    }
     // Process response
     if (response.errCode === 0) {
-      // dispatch(statusMessage('loading', false));
+      dispatch(statusMessage('success', '新增成功'));
+      return true;
+    } else if (response.errCode === 1) {
+      // Status
+      dispatch(statusMessage('error', response.msg));
     } else if (response.errCode === 87) {
       dispatch(replaceUserAuth(false));
+      dispatch(statusMessage('error', response.msg));
     } else {
-
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
     }
 
-    // Status
-    dispatch(statusMessage('loading', false));
+    return false;
   };
 }
 

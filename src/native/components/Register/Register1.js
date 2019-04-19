@@ -9,12 +9,15 @@ import {
 import Icon from 'react-native-vector-icons/AntDesign';
 import { Actions } from 'react-native-router-flux';
 import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import Colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     flex: 1,
-    backgroundColor: '#1A1B1B',
+    backgroundColor: Colors.backgroundBlack,
+    paddingHorizontal: viewportWidthPercent(4),
+    paddingVertical: viewportHeightPercent(3),
   },
 
   topContainer: {
@@ -26,6 +29,8 @@ const styles = StyleSheet.create({
   formContainer: {
     flex: 7,
     justifyContent: 'center',
+    padding: viewportWidthPercent(4),
+    marginVertical: viewportHeightPercent(2),
   },
 
   formStyle: {
@@ -49,14 +54,14 @@ const styles = StyleSheet.create({
   },
 
   logoStyle: {
-    color: '#AA8049',
+    color: Colors.labelGold,
     fontSize: 40,
     fontWeight: 'bold',
   },
 
   labelText: {
     fontSize: 18,
-    color: '#AA8049',
+    color: Colors.labelGold,
     justifyContent: 'center',
   },
 
@@ -72,7 +77,7 @@ const styles = StyleSheet.create({
   },
 
   iconStyle: {
-    color: '#AA8049',
+    color: Colors.labelGold,
     justifyContent: 'center',
     alignSelf: 'center',
     fontSize: 30,
@@ -84,12 +89,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 45,
     borderWidth: 1,
-    borderColor: '#AA8049',
+    borderColor: Colors.labelGold,
     borderRadius: 50,
   },
 
   text: {
-    color: '#AA8049',
+    color: Colors.labelGold,
     fontSize: 20,
     alignSelf: 'center',
     justifyContent: 'center',
@@ -178,7 +183,7 @@ class Register extends React.Component {
   render = () => {
     const { buttonIsPressed, accountMsg, passwordMsg, confirmPwdMsg } = this.state;
     return (
-      <View padder style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.topContainer}>
           <Text style={styles.logoStyle}> LOGO </Text>
         </View>
@@ -244,12 +249,12 @@ class Register extends React.Component {
                 onPress={this._handleSubmit}
                 onPressIn={this._change}
                 onPressOut={this._change}
-                underlayColor="#AA8049"
+                underlayColor={Colors.labelGold}
               >
                 <Text
                   style={{
                     ...styles.text,
-                    color: buttonIsPressed === true ? 'white' : '#AA8049',
+                    color: buttonIsPressed === true ? 'white' : Colors.labelGold,
                   }}
                 >
                   下一步

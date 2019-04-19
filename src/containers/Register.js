@@ -13,10 +13,10 @@ import {
 class Register extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
-    repalceAccount: PropTypes.func.isRequired,
+    replaceAccount: PropTypes.func.isRequired,
     replacePassword: PropTypes.func.isRequired,
-    repalceTransPwd: PropTypes.func.isRequired,
-    repalceName: PropTypes.func.isRequired,
+    replaceTransPwd: PropTypes.func.isRequired,
+    replaceName: PropTypes.func.isRequired,
     userRegister: PropTypes.func.isRequired,
   }
 
@@ -28,20 +28,20 @@ class Register extends Component {
 
   _handleSubmit = async (formData) => {
     const {
-      repalceAccount,
+      replaceAccount,
       replacePassword,
-      repalceTransPwd,
-      repalceName,
+      replaceTransPwd,
+      replaceName,
       userRegister,
     } = this.props;
     if (formData.account && formData.password) {
-      repalceAccount(formData.account);
+      replaceAccount(formData.account);
       replacePassword(formData.password);
     } else if (formData.transPwd) {
-      repalceTransPwd(formData.transPwd);
+      replaceTransPwd(formData.transPwd);
     } else if (formData.name) {
       // The last step
-      repalceName(formData.name);
+      replaceName(formData.name);
       await userRegister();
     }
   }
@@ -63,10 +63,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  repalceAccount: replaceUserAccount,
+  replaceAccount: replaceUserAccount,
   replacePassword: replaceUserPassword,
-  repalceTransPwd: replaceUserTransPwd,
-  repalceName: replaceUserName,
+  replaceTransPwd: replaceUserTransPwd,
+  replaceName: replaceUserName,
   userRegister: register,
 };
 

@@ -61,12 +61,17 @@ function register() {
       console.log(error.message);
       // Status
       dispatch(statusMessage('error', '網路發生問題，請重試'));
+      return false;
     }
-
+    if (!response) {
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
+      return false;
+    }
     // Process response
     if (response.errCode === 0) {
       // Status
-      dispatch(statusMessage('loading', false));
+      dispatch(statusMessage('success', '註冊成功'));
+      return true;
     } else if (response.errCode === 1) {
       // Status
       dispatch(statusMessage('error', response.msg));
@@ -74,6 +79,8 @@ function register() {
       // Status
       dispatch(statusMessage('error', '網路發生問題，請重試'));
     }
+    
+    return false;
   };
 }
 
@@ -102,14 +109,17 @@ function login(loginData) {
         }),
       });
       response = await response.json();
-      if (!response) throw Error('沒有回應');
       console.log(response);
     } catch (error) {
       console.log(error.message);
-      dispatch(statusMessage('loading', false));
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
       return false;
     }
 
+    if (!response) {
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
+      return false;
+    }
     // Process response
     if (response.errCode === 0) {
       const userData = {
@@ -119,22 +129,21 @@ function login(loginData) {
         name: response.data.name,
         thumbnail: '',
         authenticated: true,
-      }
+      };
       dispatch(replaceUser(userData));
-
       // Status
-      dispatch(statusMessage('loading', false));
+      dispatch(statusMessage('success', '登入成功'));
       return true;
-    }
-    
-    if (response.errCode === 1) {
+    } else if (response.errCode === 1) {
       // Status
-      dispatch(statusMessage('error', '帳號密碼錯誤，請重試'));
-      return false;
+      dispatch(statusMessage('error', response.msg));
+    } else if (response.errCode === 87) {
+      dispatch(replaceUserAuth(false));
+      dispatch(statusMessage('error', response.msg));
+    } else {
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
     }
 
-    // Status
-    dispatch(statusMessage('error', '網路發生問題，請重試'));
     return false;
   };
 }
@@ -151,19 +160,20 @@ function logout() {
         credentials: 'include',
       });
       response = await response.json();
-      if (!response) throw Error('沒有回應');
       console.log(response);
     } catch (error) {
       console.log(error.message);
       dispatch(statusMessage('loading', false));
       return false;
     }
-
+    if (!response) {
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
+      return false;
+    }
     // Process response
     if (response.errCode === 0) {
       // Logout user in state
       dispatch(replaceUserAuth(false));
-      // console.log(getState());
       dispatch(statusMessage('loading', false));
       return true;
     }
@@ -171,6 +181,162 @@ function logout() {
     // Else error
     // Status
     dispatch(statusMessage('error', '網路發生問題，請重試'));
+    return false;
+  };
+}
+
+function changeName(formData) {
+  return async (dispatch, getState) => {
+    // Status
+    dispatch(statusMessage('loading', true));
+
+    // Get data from store
+
+    const { name } = formData;
+    let response;
+    try {
+      response = await fetch( `${config.apiUrl}/user/update/name`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: name,
+        }),
+      });
+      response = await response.json();
+      console.log(response);
+    } catch (error) {
+      console.log(error.message);
+      // Status
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
+      return false;
+    }
+    if (!response) {
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
+      return false;
+    }
+    // Process response
+    if (response.errCode === 0) {
+      // Status
+      dispatch(statusMessage('success', '更改成功'));
+      return true;
+    } else if (response.errCode === 1) {
+      // Status
+      dispatch(statusMessage('error', response.msg));
+    } else if (response.errCode === 87) {
+      dispatch(replaceUserAuth(false));
+      dispatch(statusMessage('error', response.msg));
+    } else {
+      // Status
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
+    }
+    return false;
+  };
+}
+
+function changePwd(formData) {
+  return async (dispatch, getState) => {
+    // Status
+    dispatch(statusMessage('loading', true));
+
+    // Get data from store
+    const { oldPassword, newPassword } = formData;
+    // login using form data
+    let response;
+    try {
+      response = await fetch( `${config.apiUrl}/user/update/pwd`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          oldPwd: oldPassword,
+          newPwd: newPassword,
+        }),
+      });
+      response = await response.json();
+      console.log(response);
+    } catch (error) {
+      console.log(error.message);
+      // Status
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
+      return false;
+    }
+    if (!response) {
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
+      return false;
+    }
+    // Process response
+    if (response.errCode === 0) {
+      // Status
+      dispatch(statusMessage('success', '更改成功'));
+      return true;
+    } else if (response.errCode === 1) {
+      // Status
+      dispatch(statusMessage('error', response.msg));
+    } else if (response.errCode === 87) {
+      dispatch(replaceUserAuth(false));
+      dispatch(statusMessage('error', response.msg));
+    } else {
+      // Status
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
+    }
+    return false;
+  };
+}
+
+function changeTransPwd(formData) {
+  return async (dispatch, getState) => {
+    // Status
+    dispatch(statusMessage('loading', true));
+
+    // Get data from store
+    const { oldTransPassword, newTransPassword } = formData;
+
+    // login using form data
+    let response;
+    try {
+      response = await fetch( `${config.apiUrl}/user/update/transpwd`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          oldPwd: oldTransPassword,
+          newPwd: newTransPassword,
+        }),
+      });
+      response = await response.json();
+      console.log(response);
+    } catch (error) {
+      console.log(error.message);
+      // Status
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
+      return false;
+    }
+    if (!response) {
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
+      return false;
+    }
+    // Process response
+    if (response.errCode === 0) {
+      // Status
+      dispatch(statusMessage('success', '更改成功'));
+      return true;
+    } else if (response.errCode === 1) {
+      // Status
+      dispatch(statusMessage('error', response.msg));
+    } else if (response.errCode === 87) {
+      dispatch(replaceUserAuth(false));
+      dispatch(statusMessage('error', response.msg));
+    } else {
+      // Status
+      dispatch(statusMessage('error', '網路發生問題，請重試'));
+    }
     return false;
   };
 }
@@ -183,6 +349,10 @@ export {
   replaceUserTransPwd,
   replaceUserName,
   replaceUserAuth,
+
+  changeName,
+  changePwd,
+  changeTransPwd,
 
   register,
   login,

@@ -8,17 +8,17 @@ export default {
     navigationBarStyle: {
       backgroundColor: Colors.barBackground,
       height: 55,
-      elevation: 0, // For IOS bug
+      // elevation: 0, // For IOS bug
       borderBottomWidth: 0, // For IOS bug
     },
     titleStyle: {
-      color: Colors.labelGold,
+      color: Colors.barText,
       alignSelf: 'center',
       textAlign: 'center',
       letterSpacing: 2,
       fontSize: 20,
     },
-    backButtonTintColor: Colors.labelGold,
+    backButtonTintColor: Colors.barText,
   },
 
   tabProps: {
@@ -28,11 +28,14 @@ export default {
     type: 'push',
     showLabel: true,
     activeBackgroundColor: Colors.barBackgroundFocus,
-    activeTintColor: Colors.labelGold,
+    activeTintColor: Colors.barText,
     // Override the tabbar styles
     tabBarStyle: {
+
       height: 65,
       backgroundColor: Colors.barBackground,
+
+      
     },
     // Override the style for an individual tab of the tabbar
     tabStyle: {
@@ -40,6 +43,7 @@ export default {
     // Overrides the styles for the tab label
     labelStyle: {
       marginBottom: 5,
+      color: Colors.barText,
     },
   },
 
@@ -49,7 +53,7 @@ export default {
       height: 30,
       fontSize: 29,
       width: 30,
-      color: Colors.labelGray,
+      color: Colors.barText,
     },
   },
 };

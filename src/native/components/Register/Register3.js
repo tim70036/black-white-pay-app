@@ -11,12 +11,15 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { Actions } from 'react-native-router-flux';
 import { CheckBox } from 'react-native-elements';
 import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import Colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     flex: 1,
-    backgroundColor: '#1A1B1B',
+    backgroundColor: Colors.backgroundBlack,
+    paddingHorizontal: viewportWidthPercent(4),
+    paddingVertical: viewportHeightPercent(3),
   },
 
   topContainer: {
@@ -27,6 +30,8 @@ const styles = StyleSheet.create({
   formContainer: {
     flex: 6,
     justifyContent: 'center',
+    padding: viewportWidthPercent(4),
+    marginVertical: viewportHeightPercent(2),
   },
 
   formStyle: {
@@ -57,13 +62,13 @@ const styles = StyleSheet.create({
   },
 
   logoStyle: {
-    color: '#AA8049',
+    color: Colors.labelGold,
     fontSize: 40,
     fontWeight: 'bold',
   },
   labelText: {
     fontSize: 18,
-    color: '#AA8049',
+    color: Colors.labelGold,
   },
   textInputContainer: {
     flexDirection: 'row',
@@ -75,7 +80,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   iconStyle: {
-    color: '#AA8049',
+    color: Colors.labelGold,
     justifyContent: 'center',
     alignSelf: 'center',
     fontSize: 30,
@@ -86,12 +91,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 45,
     borderWidth: 1,
-    borderColor: '#AA8049',
+    borderColor: Colors.labelGold,
     borderRadius: 50,
   },
 
   text: {
-    color: '#AA8049',
+    color: Colors.labelGold,
     fontSize: 20,
     alignSelf: 'center',
     justifyContent: 'center',
@@ -161,7 +166,7 @@ class Register extends React.Component {
   render() {
     const { buttonIsPressed, checked, nameMsg, checkedMsg } = this.state;
     return (
-      <View padder style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.topContainer}>
           <Text style={styles.logoStyle}> LOGO </Text>
         </View>
@@ -194,7 +199,7 @@ class Register extends React.Component {
                 checked={checked}
                 checkedColor="white"
                 containerStyle={{
-                  backgroundColor: '#1A1B1B',
+                  backgroundColor: Colors.backgroundBlack,
                   borderWidth: 0,
                 }}
                 textStyle={{
@@ -213,12 +218,12 @@ class Register extends React.Component {
                 onPress={this._handleSubmit}
                 onPressIn={this._change}
                 onPressOut={this._change}
-                underlayColor="#AA8049"
+                underlayColor={Colors.labelGold}
               >
                 <Text
                   style={{
                     ...styles.text,
-                    color: buttonIsPressed === true ? 'white' : '#AA8049',
+                    color: buttonIsPressed === true ? 'white' : Colors.labelGold,
                   }}
                 >
                   確認註冊
@@ -230,42 +235,6 @@ class Register extends React.Component {
       </View>
 
     );
-    /*return (
-      <ImageBackground source={require('../../../images/bkimg.png')} style={{ width: '100%', height: '100%' }}>
-        <View style={styles.container}>
-          <View style={styles.registStep}>
-            <Text style={styles.whiteText}>註冊步驟 4/4 </Text>
-            <View style={{ height: 20 }} />
-            <Text style={styles.whiteText}>輸入暱稱</Text>
-          </View>
-          <View style={styles.formContainer}>
-            <Form>
-              <Item stackedLabel>
-                <Label style={styles.whiteText}>
-                  暱稱
-                </Label>
-                <Input
-                  autoCapitalize="none"
-                  placeholder="輸入暱稱"
-                  placeholderTextColor="white"
-                  onChangeText={v => this._handleChange('name', v)}
-                  onSubmitEditing={Keyboard.dismiss}
-                />
-              </Item>
-              <View style={{ height: 30 }} />
-              <View padder>
-                <Button info block onPress={this._handleSubmit} style={styles.buttonStyle}>
-                  <Text>
-                    下一步
-                  </Text>
-                </Button>
-              </View>
-            </Form>
-          </View>
-        </View>
-      </ImageBackground>
-
-    );*/
   }
 }
 

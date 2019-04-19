@@ -4,18 +4,14 @@ import {
   Image, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight,
 } from 'react-native';
 import {
-  Card, Text, View,
+  Text, View,
 } from 'native-base';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import Colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
-  card: {
-    flex: 1,
-    flexDirection: 'row',
-    height: viewportHeightPercent(14),
-  },
 
   cardItem: {
     flex: 3,
@@ -26,16 +22,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#1A1B1B',
+    backgroundColor: Colors.backgroundBlack,
+    paddingHorizontal: viewportWidthPercent(4),
+    paddingVertical: viewportHeightPercent(2),
   },
 
   topContainer: {
     flex: 1,
     flexDirection: 'row',
+    padding: viewportWidthPercent(2),
+    // marginVertical: viewportHeightPercent(2),
   },
 
   bottomContainer: {
     flex: 6,
+    padding: viewportWidthPercent(2),
+    // marginVertical: viewportHeightPercent(2),
   },
 
   topTitle: {
@@ -72,20 +74,28 @@ const styles = StyleSheet.create({
   },
 
   iconStyle: {
-    color: '#AA8049',
+    color: Colors.labelGold,
     justifyContent: 'center',
     alignSelf: 'center',
     fontSize: 18,
   },
 
   image: {
+    flex: 1,
+  },
+
+  storeContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    height: 120,
+    marginVertical: viewportHeightPercent(1),
+  },
+
+  storeStyle: {
     width: '100%',
     height: '100%',
   },
 
-  cardHeader: {
-
-  },
 });
 
 class StoreList extends React.Component {
@@ -122,26 +132,27 @@ class StoreList extends React.Component {
   }
 
   _renderStore = ({ item }) => (
-    <TouchableOpacity
-      onPress={() => this._handleChoose(item.storeId)}
-    >
-      <Card style={styles.card}>
-        <View style={{ flex: 2 }}>
+    <View style={styles.storeContainer}>
+      <TouchableOpacity
+        style={{ flex: 1 }}
+        onPress={() => this._handleChoose(item.storeId)}
+      >
+        <View style={styles.storeStyle}>
           <Image
             style={styles.image}
             resizeMode="cover"
             source={{ uri: item.thumbnail }}
           />
         </View>
-      </Card>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 
   render() {
     const { storesData } = this.props;
 
     return (
-      <View padder style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.topContainer}>
           <View style={styles.topTitle}>
             <Text style={styles.titleText}>商店列表</Text>
@@ -172,6 +183,7 @@ class StoreList extends React.Component {
             data={storesData}
             renderItem={this._renderStore}
             keyExtractor={(item, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
           />
         </View>
       </View>

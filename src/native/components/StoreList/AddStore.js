@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  StyleSheet, Keyboard, TouchableHighlight,
+  StyleSheet, Keyboard, TouchableHighlight, Image,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {
@@ -8,34 +8,41 @@ import {
 } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import Colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#1A1B1B',
+    backgroundColor: Colors.backgroundBlack,
+    paddingHorizontal: viewportWidthPercent(4),
+    paddingVertical: viewportHeightPercent(3),
   },
-  emptySpace: {
-    flex: 1,
-    justifyContent: 'center',
+
+  topContainer: {
+    flex: 3,
     alignItems: 'center',
+    justifyContent: 'center',
+    padding: viewportWidthPercent(2),
   },
+
   formContainer: {
-    flex: 2,
+    flex: 4,
+    padding: viewportWidthPercent(2),
   },
 
   formStyle: {
-    flexDirection: 'column',
     flex: 1,
+    flexDirection: 'column',
   },
 
   buttonStyle: {
     width: '100%',
-    alignSelf: 'center',
+    alignItems: 'center',
     justifyContent: 'center',
     height: 45,
     borderWidth: 1,
-    borderColor: '#AA8049',
+    borderColor: Colors.labelGold,
     borderRadius: 50,
   },
 
@@ -46,8 +53,18 @@ const styles = StyleSheet.create({
 
   formInputContainer: {
     flexDirection: 'column',
-    justifyContent: 'flex-start',
-    marginTop: viewportHeightPercent(5),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  formTop: {
+    justifyContent: 'center',
+    // flex: 1,
+  },
+
+  formBottom: {
+    justifyContent: 'center',
+    // flex: 1,
   },
 
   textInputContainer: {
@@ -62,7 +79,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    color: '#AA8049',
+    color: Colors.labelGold,
     fontSize: 20,
     alignSelf: 'center',
     justifyContent: 'center',
@@ -70,7 +87,7 @@ const styles = StyleSheet.create({
 
   labelText: {
     fontSize: 18,
-    color: '#AA8049',
+    color: Colors.labelGold,
     justifyContent: 'center',
   },
 
@@ -79,6 +96,21 @@ const styles = StyleSheet.create({
     fontSize: 12,
     paddingTop: 3,
     marginLeft: 3,
+  },
+
+  imageContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: Colors.backgroundBlack,
+  },
+
+  image: {
+    flex: 1,
+    backgroundColor: Colors.backgroundBlack,
+  },
+
+  formButton: {
+    flex: 1,
   },
 
 });
@@ -134,48 +166,57 @@ class AddStore extends React.Component {
     const { buttonIsPressed, bindCodeMsg } = this.state;
     return (
       <View style={styles.container}>
+        <View style={styles.topContainer}>
+          <View style={styles.imageContainer}>
+            <Image
+              style={styles.image}
+              resizeMode="cover"
+              source={{ uri: 'https://gswallet.s3.ap-northeast-1.amazonaws.com/roleImg/1555080420246-logo.png' }}
+            />
+          </View>
+        </View>
+        <View style={{ height: viewportHeightPercent(2) }} />
         <View style={styles.formContainer}>
-          <View style={{ height: 60 }} />
-          <View style={{ flex: 1 }} />
           <Form style={styles.formStyle}>
-            <Item stackedLabel style={styles.formInputContainer}>
-              <Label style={styles.labelText}>店家代碼</Label>
-              <View style={styles.textInputContainer}>
-                <Input
-                  style={styles.textInputStyle}
-                  autoCapitalize="none"
-                  placeholderTextColor="white"
-                  keyboardType="default"
-                  onChangeText={v => this.validate(v, 'bindCode')}
-                  onSubmitEditing={Keyboard.dismiss}
-                  secureTextEntry
-                />
-              </View>
-            </Item>
-            <Text style={styles.valText}>{bindCodeMsg}</Text>
-            <View style={{ height: 50 }} />
-            <View padder style={styles.formButton}>
-              <TouchableHighlight
-                style={{
-                  ...styles.buttonStyle,
-                }}
-                onPress={this._handleSubmit}
-                onPressIn={this._change}
-                onPressOut={this._change}
-                underlayColor="#AA8049"
-              >
-                <Text
-                  style={{
-                    ...styles.text,
-                    color: buttonIsPressed === true ? 'white' : '#AA8049',
-                  }}
+            <View style={styles.formTop}>
+              <Item stackedLabel style={styles.formInputContainer}>
+                <Label style={styles.labelText}>店家代碼</Label>
+                <View style={styles.textInputContainer}>
+                  <Input
+                    style={styles.textInputStyle}
+                    autoCapitalize="none"
+                    placeholderTextColor="white"
+                    keyboardType="default"
+                    onChangeText={v => this.validate(v, 'bindCode')}
+                    onSubmitEditing={Keyboard.dismiss}
+                    secureTextEntry
+                  />
+                </View>
+              </Item>
+              <Text style={styles.valText}>{bindCodeMsg}</Text>
+            </View>
+            <View style={{ height: viewportHeightPercent(4) }} />
+            <View style={styles.formBottom}>
+              <View style={styles.formButton}>
+                <TouchableHighlight
+                  style={styles.buttonStyle}
+                  onPress={this._handleSubmit}
+                  onPressIn={this._change}
+                  onPressOut={this._change}
+                  underlayColor={Colors.labelGold}
                 >
-                  新增
-                </Text>
-              </TouchableHighlight>
+                  <Text
+                    style={{
+                      ...styles.text,
+                      color: buttonIsPressed === true ? 'white' : Colors.labelGold,
+                    }}
+                  >
+                    新增
+                  </Text>
+                </TouchableHighlight>
+              </View>
             </View>
           </Form>
-          <View style={{ flex: 1 }} />
         </View>
       </View>
     );

@@ -9,8 +9,7 @@ import IconButton from './IconButton';
 import Colors from '../../constants/colors';
 
 import {
-  IS_IOS,
-  viewportWidth,
+  shadowStyle,
   viewportWidthPercent,
   viewportHeightPercent,
 } from '../../lib/util';
@@ -32,6 +31,9 @@ const styles = StyleSheet.create({
     paddingTop: viewportHeightPercent(10),
   },
   shortcutsCard: {
+    
+    ...shadowStyle,
+
     height: viewportHeightPercent(30),
     width: viewportWidthPercent(94),
     flexDirection: 'column',

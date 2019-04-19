@@ -57,25 +57,28 @@ import qrCodeComponent from '../components/QrCode';
 import qrScannerContainer from '../../containers/QrScanner';
 import qrScannerComponent from '../components/QrScanner';
 
-import couponsContainer from '../../containers/Coupons';
-import couponsComponent from '../components/Coupons';
+import MineContainer from '../../containers/Mine';
+import MineComponent from '../components/Mine';
+import ChangeNameComponent from '../components/Mine/ChangeName';
+import ChangePwdComponent from '../components/Mine/ChangePwd';
+import ChangeTransPwdComponent from '../components/Mine/ChangeTransPwd';
 
 const renderTabIcons = ({ title, focused }) => {
   switch (title) {
     case '首頁': {
-      return <Icon name="home" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.labelGold } : null ]} />;
+      return <Icon name="home" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null ]} />;
     }
     case '商店': {
-      return <Icon name="grid" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.labelGold } : null ]} />;
+      return <Icon name="grid" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null ]} />;
     }
     case '我的錢包': {
-      return <Icon name="wallet" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.labelGold } : null ]} />;
+      return <Icon name="wallet" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null ]} />;
     }
     case '通知': {
-      return <Icon name="bell" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.labelGold } : null ]} />;
+      return <Icon name="bell" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null ]} />;
     }
-    case '設定': {
-      return <Icon name="settings" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.labelGold } : null ]} />;
+    case '我的': {
+      return <Icon name="settings" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null ]} />;
     }
     default: return <Icon name="planet" {...DefaultProps.icons} />;
   }
@@ -129,12 +132,12 @@ const getRoutes = (authenticate, goAuth, refresh) => (
           </Stack>
 
           <Stack
-            key="moreList"
-            title="設定"
+            key="mine"
+            title="我的"
             icon={renderTabIcons}
             {...DefaultProps.navbarProps}
           >
-            <Scene component={spinnerHOC(TransHistoryContainer)} Layout={TransHistoryComponent} on={authenticate} failure={goAuth} />
+            <Scene component={spinnerHOC(MineContainer)} Layout={MineComponent} on={authenticate} failure={goAuth} />
           </Stack>
         </Tabs>
 
@@ -166,6 +169,33 @@ const getRoutes = (authenticate, goAuth, refresh) => (
           back
         >
           <Scene component={spinnerHOC(TransHistoryContainer)} Layout={TransHistoryComponent} on={authenticate} failure={goAuth} />
+        </Stack>
+
+        <Stack
+          key="changeName"
+          title="更改暱稱"
+          {...DefaultProps.navbarProps}
+          back
+        >
+          <Scene component={spinnerHOC(MineContainer)} Layout={ChangeNameComponent} on={authenticate} failure={goAuth} />
+        </Stack>
+
+        <Stack
+          key="changeTransPwd"
+          title="更改交易密碼"
+          {...DefaultProps.navbarProps}
+          back
+        >
+          <Scene component={spinnerHOC(MineContainer)} Layout={ChangeTransPwdComponent} on={authenticate} failure={goAuth} />
+        </Stack>
+
+        <Stack
+          key="changePwd"
+          title="更改密碼"
+          {...DefaultProps.navbarProps}
+          back
+        >
+          <Scene component={spinnerHOC(MineContainer)} Layout={ChangePwdComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         {/* <Stack
