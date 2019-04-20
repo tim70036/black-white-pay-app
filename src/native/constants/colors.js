@@ -5,6 +5,7 @@ const Colors = {
 
 
   labelGray: '#dcdddd',
+  labelLightGray: '#737172',
   labelGold: '#EBB50B',
   labelWhite: '#f7f9f9',
 

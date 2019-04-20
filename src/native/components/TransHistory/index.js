@@ -16,6 +16,7 @@ import Colors from '../../constants/colors';
 import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 
 const tablePaddingHorizontal = viewportWidthPercent(5);
+const iconRadius = viewportWidthPercent(9);
 
 const styles = StyleSheet.create({
   container: {
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: viewportWidthPercent(3),
     marginHorizontal: viewportWidthPercent(5),
-    marginTop: viewportHeightPercent(3),
+    marginTop: viewportHeightPercent(2),
     height: viewportHeightPercent(7.4),
     backgroundColor: Colors.backgroundGray,
   },
@@ -135,6 +136,16 @@ const styles = StyleSheet.create({
     fontSize: 25,
     marginBottom: viewportHeightPercent(1),
   },
+  iconContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: iconRadius * 2,
+    height: iconRadius * 2,
+    borderRadius: iconRadius,
+    borderWidth: 2,
+    borderColor: Colors.labelWhite,
+  },
   icon: {
     fontSize: 25,
     color: Colors.labelWhite,
@@ -143,13 +154,8 @@ const styles = StyleSheet.create({
   searchIcon: {
     fontSize: 30,
     color: Colors.labelGold,
-    borderWidth: 2,
-    borderColor: Colors.labelWhite,
-    borderRadius: 200,
-    paddingLeft: viewportWidthPercent(3),
-    paddingTop: viewportWidthPercent(3),
-    width: viewportWidthPercent(15),
-    height: viewportWidthPercent(15),
+    // paddingLeft: iconRadius * 2 / 5,
+    // paddingTop: iconRadius * 2 / 5,
   },
 });
 
@@ -234,10 +240,25 @@ class TransHistory extends Component {
   };
 
   _handleDateFormat = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    let dayString;
+    let monthString;
+    if (day < 10) {
+      dayString = '0'.concat(day.toString());
+    } else {
+      dayString = day.toString();
+    }
+
+    if (month < 10) {
+      monthString = '0'.concat(month.toString());
+    } else {
+      monthString = month.toString();
+    }
     return [
       date.getFullYear(),
-      date.getMonth() + 1,
-      date.getDate(),
+      monthString,
+      dayString,
     ].join('-');
   }
 
@@ -285,7 +306,7 @@ class TransHistory extends Component {
                 defaultDate={new Date()}
                 minimumDate={new Date(2018, 1, 1)}
                 maximumDate={new Date()}
-                locale={"en"}
+                locale={"zh"}
                 formatChosenDate={this._handleDateFormat}
                 timeZoneOffsetInMinutes={undefined}
                 modalTransparent={false}
@@ -298,7 +319,7 @@ class TransHistory extends Component {
               />
             </View>
           </View>
-          <View>
+          <View style={styles.iconContainer}>
             {/* <Button info style={styles.button} onPress={() => this._handleHistorySearch()}>
               <Text style={styles.buttonText}>搜尋</Text>
             </Button> */}

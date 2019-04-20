@@ -54,8 +54,16 @@ const styles = StyleSheet.create({
   },
   inputText: {
     color: Colors.labelWhite,
-    borderBottomWidth: 2,
+    fontSize: 20,
+    borderBottomWidth: 1,
     borderBottomColor: 'white',
+    marginTop: viewportHeightPercent(2),
+  },
+  valText: {
+    color: 'red',
+    fontSize: 12,
+    paddingTop: 3,
+    marginLeft: 3,
   },
 });
 
@@ -73,54 +81,48 @@ class Transfer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      accountTo: '',
-      amount: 0,
+      accountTo: props.defaultAccount,
+      amount: (props.defaultAmount === 0) ? '' : props.defaultAmount,
       transPwd: '',
       comment: '',
-      accountValidate: false,
       accountMsg: '',
-      amountValidate: false,
       amountMsg: '',
-      transPwdValidate: false,
       transPwdMsg: '',
     };
   }
 
-  async componentDidMount() {
-    const { defaultAccount, defaultAmount } = this.props;
-    this.validate(defaultAccount, 'accountTo');
-    this.validate(defaultAmount, 'amount');
-  }
+  // async componentDidMount() {
+  //   const { defaultAccount, defaultAmount } = this.props;
+  //   this.validate(defaultAccount, 'accountTo');
+  //   this.validate(defaultAmount, 'amount');
+  // }
 
-  validate = (text, type) => {
-    const accountVal = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g;
+  validate = () => {
+    const accountVal = /^[a-z0-9]+$/ig;
     const amountVal = /^\d+$/g;
-    const passwordVal = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g;
-    if (type === 'accountTo') {
-      if (accountVal.test(text)) {
-        this.setState({ accountValidate: true, accountMsg: '' });
-        this._handleChange('accountTo', text);
-      } else {
-        this.setState({ accountValidate: false, accountMsg: '轉入帳號必須為英文及數字' });
-      }
-    } else if (type === 'amount') {
-      console.log('1111111111');
-      if (amountVal.test(text)) {
-        console.log('2222222222');
-        this.setState({ amountValidate: true, amountMsg: '' });
-        this._handleChange('amount', text);
-      } else {
-        console.log('3333333333');
-        this.setState({ amountValidate: false, amountMsg: '轉帳數量必須為數字' });
-      }
-    } else if (type === 'transPwd') {
-      if (passwordVal.test(text)) {
-        this._handleChange('transPwd', text);
-        this.setState({ transPwdValidate: true, transPwdMsg: '' });
-      } else {
-        this.setState({ transPwdValidate: false, transPwdMsg: '轉帳密碼必須為英文及數字' });
-      }
+    const passwordVal = /^[a-z0-9]+$/ig;
+    const { accountTo, amount, transPwd } = this.state;
+    if (accountVal.test(accountTo)) {
+      this.setState({ accountMsg: '' });
+    } else {
+      this.setState({ accountMsg: '轉入帳號必須為英文及數字' });
+      return false;
     }
+
+    if (amountVal.test(amount)) {
+      this.setState({ amountMsg: '' });
+    } else {
+      this.setState({ amountMsg: '轉帳數量必須為數字' });
+      return false;
+    }
+
+    if (passwordVal.test(transPwd)) {
+      this.setState({ transPwdMsg: '' });
+    } else {
+      this.setState({ transPwdMsg: '轉帳密碼必須為英文及數字' });
+      return false;
+    }
+    return true;
   }
 
   _handleChange = (name, val) => {
@@ -132,8 +134,7 @@ class Transfer extends Component {
 
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
-    const { accountValidate, amountValidate, transPwdValidate } = this.state;
-    if (accountValidate && amountValidate && transPwdValidate) {
+    if (this.validate()) {
       const success = await onFormSubmit(this.state);
       if (success) {
         Actions.pop();
@@ -142,8 +143,8 @@ class Transfer extends Component {
   }
 
   render = () => {
-    const { defaultAccount, defaultAmount } = this.props;
-    const defaultAmountShow = (defaultAmount === 0) ? '' : defaultAmount;
+    const { accountTo, amount } = this.state;
+    const { accountMsg, amountMsg, transPwdMsg } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.inputsContainer}>
@@ -154,10 +155,11 @@ class Transfer extends Component {
               autoCapitalize="none"
               placeholder=""
               keyboardType="default"
-              onChangeText={v => this.validate(v, 'accountTo')}
+              onChangeText={v => this._handleChange('accountTo', v)}
               onSubmitEditing={Keyboard.dismiss}
-              value={defaultAccount}
+              value={accountTo}
             />
+            <Text style={styles.valText}>{accountMsg}</Text>
           </View>
           <View stackedLabel style={styles.inputItem}>
             <Text style={styles.label}>轉帳數量</Text>
@@ -166,10 +168,11 @@ class Transfer extends Component {
               autoCapitalize="none"
               placeholder=""
               keyboardType="numeric"
-              onChangeText={v => this.validate(v, 'amount')}
+              onChangeText={v => this._handleChange('amount', v)}
               onSubmitEditing={Keyboard.dsmiss}
-              value={defaultAmountShow}
+              value={amount}
             />
+            <Text style={styles.valText}>{amountMsg}</Text>
           </View>
           <View stackedLabel style={styles.inputItem}>
             <Text style={styles.label}>個人轉帳密碼</Text>
@@ -178,10 +181,11 @@ class Transfer extends Component {
               autoCapitalize="none"
               placeholder=""
               keyboardType="default"
-              onChangeText={v => this.validate(v, 'transPwd')}
+              onChangeText={v => this._handleChange('transPwd', v)}
               onSubmitEditing={Keyboard.dismiss}
               secureTextEntry
             />
+            <Text style={styles.valText}>{transPwdMsg}</Text>
           </View>
           <View stackedLabel style={styles.inputItem}>
             <Text style={styles.label}>備註</Text>

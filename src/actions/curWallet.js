@@ -1,7 +1,6 @@
 import actionType from '../constants/actionTypes';
-import config from '../constants/config';
 import { statusMessage } from './status';
-import { replaceUserAuth } from './user';
+import { apiRequest } from '../lib/util';
 
 function replaceCurWallet(newCurWalletData) {
   return { type: actionType.REPLACE_CURWALLET, data: newCurWalletData };
@@ -35,9 +34,6 @@ function setCurWallet(curStoreId) {
     // Find wallet data in wallet list
     const walletList = getState().wallets;
     const targetWallet = walletList.find(wallet => (wallet.storeId === curStoreId));
-    // if (!targetWallet) {
-
-    // }
 
     // Get curWallet data
     const curWallet = {
@@ -51,113 +47,54 @@ function setCurWallet(curStoreId) {
   };
 }
 
-function transfer(transferData) {
+function transfer(formData) {
   const {
     accountTo,
     amount,
     transPwd,
     comment,
-  } = transferData;
+  } = formData;
+  
 
   return async (dispatch, getState) => {
-    // Status
-    dispatch(statusMessage('loading', true));
+    const requestBody = JSON.stringify({
+      storeId: getState().curWallet.storeId,
+      accountTo: accountTo,
+      amount: amount,
+      transPwd: transPwd,
+      comment: comment,
+    });
 
-    // Transfer using form data
-    let response;
-    try {
-      response = await fetch(`${config.apiUrl}/wallet/transfer`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          storeId: getState().curWallet.storeId,
-          accountTo: accountTo,
-          amount: amount,
-          transPwd: transPwd,
-          comment: comment,
-        }),
-      });
-      response = await response.json();
-      if (!response) throw Error('沒有回應');
-      console.log(response);
-    } catch (error) {
-      console.log(error.message);
-      dispatch(statusMessage('loading', false));
-      return false;
-    }
+    // Api request
+    let result = await apiRequest(dispatch, '/wallet/transfer', 'POST', requestBody);
 
-    // Process response
-    if (response.errCode === 0) {
+    // Process result
+    if (result && result.success) {
       // Status
-      dispatch(statusMessage('loading', false));
+      dispatch(statusMessage('success', '轉帳成功'));
       return true;
-    } else if (response.errCode === 1) {
-      // Status
-      dispatch(statusMessage('error', response.msg));
-    } else if (response.errCode === 87) {
-      dispatch(replaceUserAuth(false));
-      // Status
-      dispatch(statusMessage('loading', false));
-    } else {
-      // Status
-      dispatch(statusMessage('loading', false));
     }
 
     return false;
-
   };
 }
 
 function getTransHistory(startTime, endTime) {
   return async (dispatch, getState) => {
-    // Status
-    dispatch(statusMessage('loading', true));
+    const requestBody = JSON.stringify({
+      storeId: getState().curWallet.storeId,
+      startTime: startTime,
+      endTime: endTime,
+    });
 
-    // Transfer using form data
-    let response;
-    try {
-      response = await fetch(`${config.apiUrl}/wallet/history`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          storeId: getState().curWallet.storeId,
-          startTime: startTime,
-          endTime: endTime,
-        }),
-      });
-      response = await response.json();
-      if (!response) throw Error('沒有回應');
-      console.log(response);
-    } catch (error) {
-      console.log(error.message);
-      dispatch(statusMessage('loading', false));
-      return;
-    }
+    // Api request
+    let result = await apiRequest(dispatch, '/wallet/history', 'POST', requestBody);
 
-    // Process response
-    if (response.errCode === 0) {
-      // Status
-      const transHistoryList = response.data;
+    // Process result
+    if (result && result.success) {
+      const transHistoryList = result.data;
       dispatch(replaceTransHistory(transHistoryList));
-      dispatch(statusMessage('loading', false));
-    } else if (response.errCode === 1) {
-      // Status
-      dispatch(statusMessage('error', response.msg));
-    } else if (response.errCode === 87) {
-      dispatch(replaceUserAuth(false));
-      // Status
-      dispatch(statusMessage('loading', false));
-    } else {
-      // Status
-      dispatch(statusMessage('loading', false));
     }
-
   };
 }
 

@@ -1,7 +1,6 @@
-import { Constants } from 'expo';
 import actionType from '../constants/actionTypes';
-import config from '../constants/config';
 import { statusMessage } from './status';
+import { apiRequest } from '../lib/util';
 
 function replaceUser(newUserData) {
   return { type: actionType.REPLACE_USER, data: newUserData };
@@ -33,115 +32,59 @@ function replaceUserAuth(isAuthenticated) {
 
 function register() {
   return async (dispatch, getState) => {
-    // Status
-    dispatch(statusMessage('loading', true));
-
     // Get data from store
     const registerData = getState().user;
+    const requestBody = JSON.stringify({
+      account: registerData.account,
+      password: registerData.password,
+      transPwd: registerData.transPwd,
+      name: registerData.name,
+    });
 
-    // login using form data
-    let response;
-    try {
-      response = await fetch( `${config.apiUrl}/auth/register`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          account: registerData.account,
-          password: registerData.password,
-          transPwd: registerData.transPwd,
-          name: registerData.name,
-        }),
-      });
-      response = await response.json();
-      console.log(response);
-    } catch (error) {
-      console.log(error.message);
-      // Status
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
-      return false;
-    }
-    if (!response) {
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
-      return false;
-    }
-    // Process response
-    if (response.errCode === 0) {
+    // Api request
+    let result = await apiRequest(dispatch, '/auth/register', 'POST', requestBody);
+
+    // Process result
+    if (result && result.success) {
       // Status
       dispatch(statusMessage('success', '註冊成功'));
       return true;
-    } else if (response.errCode === 1) {
-      // Status
-      dispatch(statusMessage('error', response.msg));
-    } else {
-      // Status
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
     }
-    
+
     return false;
   };
 }
 
-function login(loginData) {
-  const { account, password } = loginData;
+function login(formData) {
+  const { account, password } = formData;
+  const requestBody = JSON.stringify({
+    account: account,
+    password: password,
+  });
 
   return async (dispatch) => {
-    // Status
-    dispatch(statusMessage('loading', true));
 
     // Clear user data in state
     dispatch(clearUser());
 
-    // login using form data
-    let response;
-    try {
-      response = await fetch( `${config.apiUrl}/auth/login`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          account: account,
-          password: password,
-        }),
-      });
-      response = await response.json();
-      console.log(response);
-    } catch (error) {
-      console.log(error.message);
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
-      return false;
-    }
+    // Api request
+    let result = await apiRequest(dispatch, '/auth/login', 'POST', requestBody);
 
-    if (!response) {
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
-      return false;
-    }
-    // Process response
-    if (response.errCode === 0) {
+    // Process result
+    if (result && result.success) {
       const userData = {
         account: account,
         password: password,
         transPwd: '',
-        name: response.data.name,
+        name: result.data.name,
         thumbnail: '',
         authenticated: true,
       };
       dispatch(replaceUser(userData));
+
       // Status
       dispatch(statusMessage('success', '登入成功'));
       return true;
-    } else if (response.errCode === 1) {
-      // Status
-      dispatch(statusMessage('error', response.msg));
-    } else if (response.errCode === 87) {
-      dispatch(replaceUserAuth(false));
-      dispatch(statusMessage('error', response.msg));
-    } else {
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
     }
 
     return false;
@@ -150,193 +93,82 @@ function login(loginData) {
 
 function logout() {
   return async (dispatch, getState) => {
-    // Status
-    dispatch(statusMessage('loading', true));
+    // Api request
+    let result = await apiRequest(dispatch, '/auth/logout', 'GET');
 
-    let response;
-    try {
-      response = await fetch( `${config.apiUrl}/auth/logout`, {
-        method: 'GET',
-        credentials: 'include',
-      });
-      response = await response.json();
-      console.log(response);
-    } catch (error) {
-      console.log(error.message);
-      dispatch(statusMessage('loading', false));
-      return false;
-    }
-    if (!response) {
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
-      return false;
-    }
-    // Process response
-    if (response.errCode === 0) {
+    // Process result
+    if (result && result.success) {
       // Logout user in state
       dispatch(replaceUserAuth(false));
-      dispatch(statusMessage('loading', false));
+      dispatch(statusMessage('success', '登出成功'));
       return true;
     }
 
-    // Else error
-    // Status
-    dispatch(statusMessage('error', '網路發生問題，請重試'));
     return false;
   };
 }
 
 function changeName(formData) {
+  const { name } = formData;
+  const requestBody = JSON.stringify({
+    name: name,
+  });
+
   return async (dispatch, getState) => {
-    // Status
-    dispatch(statusMessage('loading', true));
+    // Api request
+    let result = await apiRequest(dispatch, '/user/update/name', 'POST', requestBody);
 
-    // Get data from store
-
-    const { name } = formData;
-    let response;
-    try {
-      response = await fetch( `${config.apiUrl}/user/update/name`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: name,
-        }),
-      });
-      response = await response.json();
-      console.log(response);
-    } catch (error) {
-      console.log(error.message);
-      // Status
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
-      return false;
-    }
-    if (!response) {
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
-      return false;
-    }
-    // Process response
-    if (response.errCode === 0) {
+    // Process result
+    if (result && result.success) {
       // Status
       dispatch(statusMessage('success', '更改成功'));
       return true;
-    } else if (response.errCode === 1) {
-      // Status
-      dispatch(statusMessage('error', response.msg));
-    } else if (response.errCode === 87) {
-      dispatch(replaceUserAuth(false));
-      dispatch(statusMessage('error', response.msg));
-    } else {
-      // Status
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
     }
+
     return false;
   };
 }
 
 function changePwd(formData) {
-  return async (dispatch, getState) => {
-    // Status
-    dispatch(statusMessage('loading', true));
+  const { oldPassword, newPassword } = formData;
+  const requestBody = JSON.stringify({
+    oldPwd: oldPassword,
+    newPwd: newPassword,
+  });
 
-    // Get data from store
-    const { oldPassword, newPassword } = formData;
-    // login using form data
-    let response;
-    try {
-      response = await fetch( `${config.apiUrl}/user/update/pwd`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          oldPwd: oldPassword,
-          newPwd: newPassword,
-        }),
-      });
-      response = await response.json();
-      console.log(response);
-    } catch (error) {
-      console.log(error.message);
-      // Status
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
-      return false;
-    }
-    if (!response) {
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
-      return false;
-    }
-    // Process response
-    if (response.errCode === 0) {
+  return async (dispatch, getState) => {
+    // Api request
+    let result = await apiRequest(dispatch, '/user/update/pwd', 'POST', requestBody);
+
+    // Process result
+    if (result && result.success) {
       // Status
       dispatch(statusMessage('success', '更改成功'));
       return true;
-    } else if (response.errCode === 1) {
-      // Status
-      dispatch(statusMessage('error', response.msg));
-    } else if (response.errCode === 87) {
-      dispatch(replaceUserAuth(false));
-      dispatch(statusMessage('error', response.msg));
-    } else {
-      // Status
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
     }
+
     return false;
   };
 }
 
 function changeTransPwd(formData) {
+  const { oldTransPassword, newTransPassword } = formData;
+  const requestBody = JSON.stringify({
+    oldPwd: oldTransPassword,
+    newPwd: newTransPassword,
+  });
+
   return async (dispatch, getState) => {
-    // Status
-    dispatch(statusMessage('loading', true));
+    // Api request
+    let result = await apiRequest(dispatch, '/user/update/transpwd', 'POST', requestBody);
 
-    // Get data from store
-    const { oldTransPassword, newTransPassword } = formData;
-
-    // login using form data
-    let response;
-    try {
-      response = await fetch( `${config.apiUrl}/user/update/transpwd`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          oldPwd: oldTransPassword,
-          newPwd: newTransPassword,
-        }),
-      });
-      response = await response.json();
-      console.log(response);
-    } catch (error) {
-      console.log(error.message);
-      // Status
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
-      return false;
-    }
-    if (!response) {
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
-      return false;
-    }
-    // Process response
-    if (response.errCode === 0) {
+    // Process result
+    if (result && result.success) {
       // Status
       dispatch(statusMessage('success', '更改成功'));
       return true;
-    } else if (response.errCode === 1) {
-      // Status
-      dispatch(statusMessage('error', response.msg));
-    } else if (response.errCode === 87) {
-      dispatch(replaceUserAuth(false));
-      dispatch(statusMessage('error', response.msg));
-    } else {
-      // Status
-      dispatch(statusMessage('error', '網路發生問題，請重試'));
     }
+
     return false;
   };
 }

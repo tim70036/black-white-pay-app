@@ -1,7 +1,6 @@
 import actionType from '../constants/actionTypes';
-import config from '../constants/config';
 import { statusMessage } from './status';
-import { replaceUserAuth } from './user';
+import { apiRequest } from '../lib/util';
 
 function replaceNotifications(newNotificationsData) {
   return { type: actionType.REPLACE_NOTIFICATIONS, data: newNotificationsData };
@@ -21,37 +20,14 @@ function hasReadNotifications() {
 
 function getNotifications() {
   return async (dispatch, getState) => {
-    // Status
-    dispatch(statusMessage('loading', true));
+    // Api request
+    let result = await apiRequest(dispatch, '/user/notification/list', 'GET');
 
-    // Get stores
-    let response;
-    try {
-      response = await fetch( `${config.apiUrl}/user/notification/list`, {
-        method: 'GET',
-        credentials: 'include',
-      });
-      response = await response.json();
-      if (!response) throw Error('沒有回應');
-      console.log(response);
-    } catch (error) {
-      console.log(error.message);
-      dispatch(statusMessage('loading', false));
-      return;
-    }
-
-    // Process response
-    if (response.errCode === 0) {
-      const notificationList = response.data;
+    // Process result
+    if (result && result.success) {
+      const notificationList = result.data;
       dispatch(replaceNotifications(notificationList));
-    } else if (response.errCode === 87) {
-      dispatch(replaceUserAuth(false));
-    } else {
-
     }
-
-    // Status
-    dispatch(statusMessage('loading', false));
   };
 }
 
