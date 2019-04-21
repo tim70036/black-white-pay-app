@@ -21,7 +21,7 @@ function hasReadNotifications() {
 function getNotifications() {
   return async (dispatch, getState) => {
     // Api request
-    let result = await apiRequest(dispatch, '/user/notification/list', 'GET');
+    let result = await apiRequest(dispatch, '/info/notification/list', 'GET');
 
     // Process result
     if (result && result.success) {

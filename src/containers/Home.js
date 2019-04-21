@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 // For test
 import { logout } from '../actions/user';
+import { getAnnouncements } from '../actions/announcements';
 
 const EXAMPLE_DATA = [
   {
@@ -47,20 +48,27 @@ class Home extends Component {
   static defaultProps = {
   }
 
+  constructor(props) {
+    super(props);
+    props.getAnnouncementList();
+  }
+
   state = {
   }
 
   render = () => {
-    const { Layout, userLogout } = this.props;
-    return <Layout carouselData={EXAMPLE_DATA} userLogout={userLogout} />;
+    const { Layout, userLogout, announcementList } = this.props;
+    return <Layout carouselData={announcementList} userLogout={userLogout} />;
   }
 }
 
 const mapStateToProps = state => ({
+  announcementList: state.announcements,
 });
 
 const mapDispatchToProps = {
   userLogout: logout,
+  getAnnouncementList: getAnnouncements,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

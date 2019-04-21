@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   image: {
     ...StyleSheet.absoluteFillObject,
-    resizeMode: 'cover',
+    resizeMode: 'contain',
     // borderRadius: IS_IOS ? entryBorderRadius : 0,
     borderRadius: entryBorderRadius,
     borderTopLeftRadius: entryBorderRadius,
@@ -95,15 +95,16 @@ class CarouselEntry extends Component {
 
   _rednerImage = () => {
     const {
-      data: { imgUrl },
+      data: { image },
       parallax,
       parallaxProps,
       even,
     } = this.props;
+    console.log({image});
 
     return parallax ? (
       <ParallaxImage
-        source={{ uri: imgUrl }}
+        source={{ uri: image }}
         containerStyle={[styles.imageContainer, even ? styles.imageContainerEven : {}]}
         style={styles.image}
         parallaxFactor={0.35}
@@ -113,7 +114,7 @@ class CarouselEntry extends Component {
       />
     ) : (
       <Image
-        source={{ uri: imgUrl }}
+        source={{ uri: image }}
         style={styles.image}
       />
     );

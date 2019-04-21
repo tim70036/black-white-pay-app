@@ -1,4 +1,5 @@
 import user from './user';
+import announcements from './announcements';
 import stores from './stores';
 import curStore from './curStore';
 import wallets from './wallets';
@@ -26,6 +27,7 @@ const rehydrated = (state = false, action) => {
 export default {
   rehydrated: rehydrated,
   user: user,
+  announcements: announcements,
   stores: stores,
   curStore: curStore,
   wallets: wallets,

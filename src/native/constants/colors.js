@@ -1,12 +1,12 @@
 const Colors = {
   barBackground: '#262727',
   barBackgroundFocus: '#222323',
-  barText: '#ffffff',
+  barText: '#D79D44',
 
 
   labelGray: '#dcdddd',
   labelLightGray: '#737172',
-  labelGold: '#EBB50B',
+  labelGold: '#D79D44',
   labelWhite: '#f7f9f9',
 
   backgroundBlack: '#1a1a1a',

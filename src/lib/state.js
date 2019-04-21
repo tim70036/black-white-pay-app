@@ -7,6 +7,10 @@ const state = {
     thumbnail: '',
     authenticated: false,
   },
+  announcements: [
+    { image: '', title: '' },
+    { image: '', title: '' },
+  ],
   stores: [
     {
       storeId: 1,
