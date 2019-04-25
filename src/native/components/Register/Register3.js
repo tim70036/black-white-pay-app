@@ -7,13 +7,12 @@ import {
   Form, Item, Label, Input, Text, View,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/AntDesign';
-
 import { Actions } from 'react-native-router-flux';
-import { CheckBox } from 'react-native-elements';
 import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 import Colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
+
   container: {
     flexDirection: 'column',
     flex: 1,
@@ -40,25 +39,15 @@ const styles = StyleSheet.create({
   },
   formTop: {
     justifyContent: 'center',
-    flex: 1,
+    flex: 2,
   },
-  formMiddle: {
-    flex: 1,
-  },
-  formBottom: {
+  formButton: {
     flex: 1,
   },
   formInputContainer: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
     marginTop: viewportHeightPercent(5),
-  },
-
-  checkBoxStyle: {
-    width: '100%',
-    color: 'green',
-    backgroundColor: 'black',
-    borderWidth: 10,
   },
 
   logoStyle: {
@@ -121,14 +110,35 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      nameValidate: false,
-      nameMsg: '',
+      transPwd: '',
+      confirmTransPwd: '',
 
+      transPwdValidate: false,
+      confirmTransPwdValidate: false,
+      transPwdMsg: '',
+      confirmTransPwdMsg: '',
       buttonIsPressed: false,
-      checked: false,
-      checkedMsg: '',
     };
+  }
+
+  validate = (text, type) => {
+    const transPwdVal = /([0-9]{6})$/g;
+    const { transPwd } = this.state;
+    if (type === 'transPwd') {
+      if (transPwdVal.test(text)) {
+        this.setState({ transPwdValidate: true, transPwdMsg: '' });
+        this._handleChange('transPwd', text);
+      } else {
+        this.setState({ transPwdValidate: false, transPwdMsg: '轉帳密碼必須為6位數字' });
+      }
+    } else if (type === 'confirmTransPwd') {
+      if (transPwd === text) {
+        this._handleChange('confirmTransPwd', text);
+        this.setState({ confirmTransPwdValidate: true, confirmTransPwdMsg: '' });
+      } else {
+        this.setState({ confirmTransPwdValidate: false, confirmTransPwdMsg: '密碼不符' });
+      }
+    }
   }
 
   _handleChange = (key, val) => {
@@ -137,12 +147,12 @@ class Register extends React.Component {
     });
   }
 
-  _handleSubmit = async () => {
+  _handleSubmit = () => {
+    const { transPwdValidate, confirmTransPwdValidate } = this.state;
     const { onFormSubmit } = this.props;
-    const { nameValidate, checked } = this.state;
-    if (checked && nameValidate) {
-      await onFormSubmit(this.state);
-      Actions.login();
+    if (transPwdValidate && confirmTransPwdValidate) {
+      onFormSubmit(this.state);
+      Actions.register4();
     }
   }
 
@@ -151,20 +161,8 @@ class Register extends React.Component {
     this.setState({ buttonIsPressed: !buttonIsPressed });
   }
 
-  validate = (text, type) => {
-
-    if (type === 'name') {
-      if (text.length >= 1 && text.length <= 5) {
-        this.setState({ nameValidate: true, nameMsg: '' });
-        this._handleChange('name', text);
-      } else {
-        this.setState({ nameValidate: false, nameMsg: '暱稱長度最長為六，最短為一' });
-      }
-    }
-  }
-
   render() {
-    const { buttonIsPressed, checked, nameMsg, checkedMsg } = this.state;
+    const { buttonIsPressed, transPwdMsg, confirmTransPwdMsg } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.topContainer}>
@@ -174,43 +172,42 @@ class Register extends React.Component {
           <Form style={styles.formStyle}>
             <View style={styles.formTop}>
               <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 暱稱 </Label>
+                <Label style={styles.labelText}> 交易密碼 </Label>
                 <View style={styles.textInputContainer}>
                   <Input
                     style={styles.textInputStyle}
                     autoCapitalize="none"
                     placeholderTextColor="white"
                     keyboardType="default"
-                    onChangeText={v => this.validate(v, 'name')}
+                    onChangeText={v => this.validate(v, 'transPwd')}
                     onSubmitEditing={Keyboard.dismiss}
-                    onBlur={this._handleBlur}
+                    secureTextEntry
                   />
-                  <Icon style={styles.iconStyle} name="user" />
+                  <Icon style={styles.iconStyle} name="lock1" />
                 </View>
                 <View style={{ height: 20 }} />
               </Item>
-              <Text style={styles.valText}>{nameMsg}</Text>
+              <Text style={styles.valText}>{transPwdMsg}</Text>
+              <Item stackedLabel style={styles.formInputContainer}>
+                <Label style={styles.labelText}> 再次確認交易密碼 </Label>
+                <View style={styles.textInputContainer}>
+                  <Input
+                    style={styles.textInputStyle}
+                    autoCapitalize="none"
+                    placeholderTextColor="white"
+                    keyboardType="default"
+                    onChangeText={v => this.validate(v, 'confirmTransPwd')}
+                    onSubmitEditing={Keyboard.dismiss}
+                    secureTextEntry
+                  />
+                  <Icon style={styles.iconStyle} name="lock1" />
+                </View>
+                <View style={{ height: 20 }} />
+              </Item>
+              <Text style={styles.valText}>{confirmTransPwdMsg}</Text>
             </View>
             <View style={{ height: 50 }} />
-            <View style={styles.formMiddle}>
-              <CheckBox
-                style={styles.checkBoxStyle}
-                title="我已詳讀並同意遵守放飛協議"
-                checked={checked}
-                checkedColor="white"
-                containerStyle={{
-                  backgroundColor: Colors.backgroundBlack,
-                  borderWidth: 0,
-                }}
-                textStyle={{
-                  color: 'white',
-                  fontSize: 15,
-                }}
-                onPress={() => this.setState({ checked: !checked })}
-              />
-              <Text style={styles.valText}>{checkedMsg}</Text>
-            </View>
-            <View padder style={styles.formBottom}>
+            <View padder style={styles.formButton}>
               <TouchableHighlight
                 style={{
                   ...styles.buttonStyle,
@@ -226,7 +223,7 @@ class Register extends React.Component {
                     color: buttonIsPressed === true ? 'white' : Colors.labelGold,
                   }}
                 >
-                  確認註冊
+                  下一步
                 </Text>
               </TouchableHighlight>
             </View>

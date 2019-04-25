@@ -152,16 +152,16 @@ class Home extends Component {
         <View style={styles.shortcutsContainer}>
           <View style={styles.shortcutsCard}>
             <View style={styles.shortcutsCardRow}>
-              <IconButton iconText="活動" iconColor="#800000" iconName="megaphone" iconType="Foundation" />
-              <IconButton onPress={() => (Actions.qrScanner())} iconColor="#1aa3ff" iconText="掃描" iconName="qrcode-scan" iconType="MaterialCommunityIcons" />
-              <IconButton onPress={() => (Actions.qrCodePay())} iconText="付款" iconName="qrcode" iconType="AntDesign" />
-              <IconButton iconText="收款" iconName="download" iconType="AntDesign" />
+              <IconButton iconText="活動" iconColor="#D79D44" iconName="megaphone" iconType="Foundation" />
+              <IconButton onPress={() => (Actions.qrScanner())} iconColor="#D79D44" iconText="掃描" iconName="qrcode-scan" iconType="MaterialCommunityIcons" />
+              <IconButton onPress={() => (Actions.qrCodePay())} iconColor="#D79D44" iconText="付款" iconName="qrcode" iconType="AntDesign" />
+              <IconButton iconText="收款" iconColor="#D79D44" iconName="download" iconType="AntDesign" />
             </View>
             <View style={styles.shortcutsCardRow}>
-              <IconButton iconText="關於我們" iconColor="#a6a6a6" iconName="info-with-circle" iconType="Entypo" />
-              <IconButton iconText="合作商家" iconName="store" iconType="MaterialCommunityIcons" />
-              <IconButton iconText="捐錢啦" iconColor="#e68a00" iconName="heart-half-full" iconType="MaterialCommunityIcons" />
-              <IconButton onPress={this._userLogout} iconText="登出" iconName="logout" iconType="MaterialCommunityIcons" />
+              <IconButton iconText="關於我們" iconColor="#D79D44" iconName="info-with-circle" iconType="Entypo" />
+              <IconButton iconText="合作商家" iconColor="#D79D44" iconName="store" iconType="MaterialCommunityIcons" />
+              <IconButton iconText="捐錢啦" iconColor="#D79D44" iconName="heart-half-full" iconType="MaterialCommunityIcons" />
+              <IconButton onPress={this._userLogout} iconColor="#D79D44" iconText="登出" iconName="logout" iconType="MaterialCommunityIcons" />
             </View>
           </View>
         </View>

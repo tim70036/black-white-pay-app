@@ -7,6 +7,8 @@ import {
   replaceUserPassword,
   replaceUserTransPwd,
   replaceUserName,
+  registerPhone,
+  verifyPhone,
   register,
 } from '../actions/user';
 
@@ -32,10 +34,21 @@ class Register extends Component {
       replacePassword,
       replaceTransPwd,
       replaceName,
+      userRegisterPhone,
+      userVerifyPhone,
       userRegister,
     } = this.props;
-    if (formData.account && formData.password) {
+    
+    if (formData.account) {
       replaceAccount(formData.account);
+      let success =  await userRegisterPhone();
+      return success;
+    } else if (formData.verifyCode) {
+      let success =  await userVerifyPhone(formData.verifyCode);
+      return success;
+    } 
+    
+    if (formData.password) {
       replacePassword(formData.password);
     } else if (formData.transPwd) {
       replaceTransPwd(formData.transPwd);
@@ -44,6 +57,7 @@ class Register extends Component {
       replaceName(formData.name);
       await userRegister();
     }
+    return true;
   }
 
   render = () => {
@@ -67,6 +81,8 @@ const mapDispatchToProps = {
   replacePassword: replaceUserPassword,
   replaceTransPwd: replaceUserTransPwd,
   replaceName: replaceUserName,
+  userRegisterPhone: registerPhone,
+  userVerifyPhone: verifyPhone,
   userRegister: register,
 };
 

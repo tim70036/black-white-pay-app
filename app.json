@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "GainSword",
-    "description": "This is GainSword",
-    "slug": "GainSword",
+    "name": "黑白Pay",
+    "description": "娛樂錢包",
+    "slug": "black-white-pay",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
@@ -11,6 +11,7 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
+    "primaryColor": "#ffffff",
     "icon": "./src/images/app-icon.png",
     "splash": {
       "image": "./src/images/launch.png",

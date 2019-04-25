@@ -30,6 +30,52 @@ function replaceUserAuth(isAuthenticated) {
   return { type: actionType.REPLACE_USER_AUTH, data: isAuthenticated };
 }
 
+function registerPhone() {
+  return async (dispatch, getState) => {
+    // Get data from store
+    const registerData = getState().user;
+    const requestBody = JSON.stringify({
+      phoneNumber: registerData.account,
+    });
+
+    // Api request
+    let result = await apiRequest(dispatch, '/auth/register-phone', 'POST', requestBody);
+
+    // Process result
+    if (result && result.success) {
+      // Status
+      dispatch(statusMessage('success', '請查看簡訊'));
+      return true;
+    }
+
+    return false;
+  };
+}
+
+function verifyPhone(verifyCode) {
+  return async (dispatch, getState) => {
+    // Get data from store
+    const registerData = getState().user;
+    const requestBody = JSON.stringify({
+      phoneNumber: registerData.account,
+      verifyCode: verifyCode,
+    });
+
+    // Api request
+    let result = await apiRequest(dispatch, '/auth/verify-phone', 'POST', requestBody);
+
+    // Process result
+    if (result && result.success) {
+      // Status
+      dispatch(statusMessage('success', '電話驗證成功'));
+      return true;
+    }
+
+    return false;
+  };
+}
+
+
 function register() {
   return async (dispatch, getState) => {
     // Get data from store
@@ -187,6 +233,8 @@ export {
   changeTransPwd,
 
   register,
+  registerPhone,
+  verifyPhone,
   login,
   logout,
 };

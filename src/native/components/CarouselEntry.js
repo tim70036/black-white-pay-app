@@ -100,7 +100,6 @@ class CarouselEntry extends Component {
       parallaxProps,
       even,
     } = this.props;
-    console.log({image});
 
     return parallax ? (
       <ParallaxImage

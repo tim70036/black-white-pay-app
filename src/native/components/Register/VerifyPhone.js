@@ -119,24 +119,18 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      account: '',
+      verifyCode: '',
 
-      accountValidate: false,
-      accountMsg: '',
+      verifyCodeValidate: false,
+      verifyCodeMsg: '',
       buttonIsPressed: '',
     };
   }
 
   validate = (text, type) => {
-    const phoneVal = /((?=(09))[0-9]{10})$/g;
-    if (type === 'account') {
-      if (phoneVal.test(text)) {
-        this.setState({ accountValidate: true, accountMsg: '' });
-        this._handleChange('account', text);
-      } else {
-        this.setState({ accountValidate: false, accountMsg: '帳號必須為電話號碼' });
-      }
-    }
+    this.setState({ verifyCodeValidate: true, verifyCodeMsg: '' });
+    this._handleChange('verifyCode', text);
+    
   }
 
   _handleChange = (key, val) => {
@@ -147,12 +141,12 @@ class Register extends React.Component {
 
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
-    const { accountValidate } = this.state;
+    const { verifyCodeValidate } = this.state;
 
-    if (!accountValidate) return;
+    if (!verifyCodeValidate) return;
 
     let success = await onFormSubmit(this.state);
-    if (success) Actions.verifyPhone();
+    if (success) Actions.register2();
   }
 
   _change = () => {
@@ -161,7 +155,7 @@ class Register extends React.Component {
   }
 
   render = () => {
-    const { buttonIsPressed, accountMsg } = this.state;
+    const { buttonIsPressed, verifyCodeMsg } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.topContainer}>
@@ -171,20 +165,20 @@ class Register extends React.Component {
           <Form style={styles.formStyle}>
             <View style={styles.formTop}>
               <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 帳號 </Label>
+                <Label style={styles.labelText}> 驗證碼 </Label>
                 <View style={styles.textInputContainer}>
                   <Input
                     style={styles.textInputStyle}
                     autoCapitalize="none"
                     placeholderTextColor="white"
                     keyboardType="default"
-                    onChangeText={v => this.validate(v, 'account')}
+                    onChangeText={v => this.validate(v, 'verifyCode')}
                     onSubmitEditing={Keyboard.dismiss}
                   />
                   <Icon style={styles.iconStyle} name="user" />
                 </View>
               </Item>
-              <Text style={styles.valText}>{accountMsg}</Text>
+              <Text style={styles.valText}>{verifyCodeMsg}</Text>
             </View>
 
             <View style={{ height: 50 }} />
@@ -204,7 +198,7 @@ class Register extends React.Component {
                     color: buttonIsPressed === true ? 'white' : Colors.labelGold,
                   }}
                 >
-                  下一步
+                  驗證
                 </Text>
               </TouchableHighlight>
             </View>

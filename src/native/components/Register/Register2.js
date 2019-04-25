@@ -12,7 +12,6 @@ import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPerc
 import Colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
-
   container: {
     flexDirection: 'column',
     flex: 1,
@@ -22,12 +21,13 @@ const styles = StyleSheet.create({
   },
 
   topContainer: {
-    flex: 4,
+    flex: 3,
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   formContainer: {
-    flex: 6,
+    flex: 7,
     justifyContent: 'center',
     padding: viewportWidthPercent(4),
     marginVertical: viewportHeightPercent(2),
@@ -37,13 +37,16 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
   },
+
   formTop: {
     justifyContent: 'center',
-    flex: 2,
+    flex: 3,
   },
+
   formButton: {
     flex: 1,
   },
+
   formInputContainer: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
@@ -55,25 +58,31 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
   },
+
   labelText: {
     fontSize: 18,
     color: Colors.labelGold,
+    justifyContent: 'center',
   },
+
   textInputContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     height: 35,
   },
+
   textInputStyle: {
     height: '100%',
     color: 'white',
   },
+
   iconStyle: {
     color: Colors.labelGold,
     justifyContent: 'center',
     alignSelf: 'center',
     fontSize: 30,
   },
+
   buttonStyle: {
     width: '100%',
     alignSelf: 'center',
@@ -110,33 +119,32 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      transPwd: '',
-      confirmTransPwd: '',
+      password: '',
 
-      transPwdValidate: false,
-      confirmTransPwdValidate: false,
-      transPwdMsg: '',
-      confirmTransPwdMsg: '',
-      buttonIsPressed: false,
+      passwordValidate: false,
+      confirmPwdValidate: false,
+      passwordMsg: '',
+      confirmPwdMsg: '',
+      buttonIsPressed: '',
     };
   }
 
   validate = (text, type) => {
-    const transPwdVal = /([0-9]{6})$/g;
-    const { transPwd } = this.state;
-    if (type === 'transPwd') {
-      if (transPwdVal.test(text)) {
-        this.setState({ transPwdValidate: true, transPwdMsg: '' });
-        this._handleChange('transPwd', text);
+    const passwordVal = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g;
+    const { password } = this.state;
+    if (type === 'password') {
+      if (passwordVal.test(text)) {
+        this.setState({ passwordValidate: true, passwordMsg: '' });
+        this._handleChange('password', text);
       } else {
-        this.setState({ transPwdValidate: false, transPwdMsg: '轉帳密碼必須為6位數字' });
+        this.setState({ passwordValidate: false, passwordMsg: '密碼至少為八碼，需包含字元和數字' });
       }
-    } else if (type === 'confirmTransPwd') {
-      if (transPwd === text) {
-        this._handleChange('confirmTransPwd', text);
-        this.setState({ confirmTransPwdValidate: true, confirmTransPwdMsg: '' });
+    } else if (type === 'confirmPassword') {
+      if (password === text) {
+        this._handleChange('confirmPassword', text);
+        this.setState({ confirmPwdValidate: true, confirmPwdMsg: '' });
       } else {
-        this.setState({ confirmTransPwdValidate: false, confirmTransPwdMsg: '密碼不符' });
+        this.setState({ confirmPwdValidate: false, confirmPwdMsg: '密碼不符' });
       }
     }
   }
@@ -148,9 +156,9 @@ class Register extends React.Component {
   }
 
   _handleSubmit = () => {
-    const { transPwdValidate, confirmTransPwdValidate } = this.state;
     const { onFormSubmit } = this.props;
-    if (transPwdValidate && confirmTransPwdValidate) {
+    const { passwordValidate, confirmPwdValidate } = this.state;
+    if (passwordValidate && confirmPwdValidate) {
       onFormSubmit(this.state);
       Actions.register3();
     }
@@ -161,8 +169,8 @@ class Register extends React.Component {
     this.setState({ buttonIsPressed: !buttonIsPressed });
   }
 
-  render() {
-    const { buttonIsPressed, transPwdMsg, confirmTransPwdMsg } = this.state;
+  render = () => {
+    const { buttonIsPressed, passwordMsg, confirmPwdMsg } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.topContainer}>
@@ -172,40 +180,40 @@ class Register extends React.Component {
           <Form style={styles.formStyle}>
             <View style={styles.formTop}>
               <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 交易密碼 </Label>
+                <Label style={styles.labelText}> 密碼 </Label>
                 <View style={styles.textInputContainer}>
                   <Input
                     style={styles.textInputStyle}
                     autoCapitalize="none"
                     placeholderTextColor="white"
                     keyboardType="default"
-                    onChangeText={v => this.validate(v, 'transPwd')}
+                    onChangeText={v => this.validate(v, 'password')}
                     onSubmitEditing={Keyboard.dismiss}
                     secureTextEntry
                   />
                   <Icon style={styles.iconStyle} name="lock1" />
                 </View>
-                <View style={{ height: 20 }} />
               </Item>
-              <Text style={styles.valText}>{transPwdMsg}</Text>
+              <Text style={styles.valText}>{passwordMsg}</Text>
               <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 再次確認交易密碼 </Label>
+                <Label style={styles.labelText}> 再次確認密碼 </Label>
                 <View style={styles.textInputContainer}>
                   <Input
+                    required
                     style={styles.textInputStyle}
                     autoCapitalize="none"
                     placeholderTextColor="white"
                     keyboardType="default"
-                    onChangeText={v => this.validate(v, 'confirmTransPwd')}
+                    onChangeText={v => this.validate(v, 'confirmPassword')}
                     onSubmitEditing={Keyboard.dismiss}
                     secureTextEntry
                   />
                   <Icon style={styles.iconStyle} name="lock1" />
                 </View>
-                <View style={{ height: 20 }} />
               </Item>
-              <Text style={styles.valText}>{confirmTransPwdMsg}</Text>
+              <Text style={styles.valText}>{confirmPwdMsg}</Text>
             </View>
+
             <View style={{ height: 50 }} />
             <View padder style={styles.formButton}>
               <TouchableHighlight

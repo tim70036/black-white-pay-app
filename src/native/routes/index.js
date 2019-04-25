@@ -21,6 +21,8 @@ import RegisterContainer from '../../containers/Register';
 import RegisterComponent1 from '../components/Register/Register1';
 import RegisterComponent2 from '../components/Register/Register2';
 import RegisterComponent3 from '../components/Register/Register3';
+import RegisterComponent4 from '../components/Register/Register4';
+import VerifyPhoneComponent from '../components/Register/VerifyPhone';
 
 import StoreListContainer from '../../containers/StoreList/StoreList';
 import StoreListComponent from '../components/StoreList/StoreList';
@@ -220,9 +222,11 @@ const getRoutes = (authenticate, goAuth, refresh) => (
     <Stack key="auth" hideNavBar>
       <Scene key="login" component={spinnerHOC(LoginContainer)} Layout={LoginComponent} />
       <Stack key="register" hideNavBar>
-        <Scene key="register1" component={RegisterContainer} Layout={RegisterComponent1} />
+        <Scene key="register1" component={spinnerHOC(RegisterContainer)} Layout={RegisterComponent1} />
+        <Scene key="verifyPhone" component={spinnerHOC(RegisterContainer)} Layout={VerifyPhoneComponent} />
         <Scene key="register2" component={RegisterContainer} Layout={RegisterComponent2} />
         <Scene key="register3" component={RegisterContainer} Layout={RegisterComponent3} />
+        <Scene key="register4" component={RegisterContainer} Layout={RegisterComponent4} />
       </Stack>
     </Stack>
   </Modal>

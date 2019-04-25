@@ -7,7 +7,9 @@ import {
   Form, Item, Label, Input, Text, View,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/AntDesign';
+
 import { Actions } from 'react-native-router-flux';
+import { CheckBox } from 'react-native-elements';
 import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 import Colors from '../../constants/colors';
 
@@ -21,13 +23,12 @@ const styles = StyleSheet.create({
   },
 
   topContainer: {
-    flex: 3,
+    flex: 4,
     alignItems: 'center',
     justifyContent: 'center',
   },
-
   formContainer: {
-    flex: 7,
+    flex: 6,
     justifyContent: 'center',
     padding: viewportWidthPercent(4),
     marginVertical: viewportHeightPercent(2),
@@ -37,20 +38,27 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
   },
-
   formTop: {
     justifyContent: 'center',
-    flex: 3,
-  },
-
-  formButton: {
     flex: 1,
   },
-
+  formMiddle: {
+    flex: 1,
+  },
+  formBottom: {
+    flex: 1,
+  },
   formInputContainer: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
     marginTop: viewportHeightPercent(5),
+  },
+
+  checkBoxStyle: {
+    width: '100%',
+    color: 'green',
+    backgroundColor: 'black',
+    borderWidth: 10,
   },
 
   logoStyle: {
@@ -58,31 +66,25 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
   },
-
   labelText: {
     fontSize: 18,
     color: Colors.labelGold,
-    justifyContent: 'center',
   },
-
   textInputContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     height: 35,
   },
-
   textInputStyle: {
     height: '100%',
     color: 'white',
   },
-
   iconStyle: {
     color: Colors.labelGold,
     justifyContent: 'center',
     alignSelf: 'center',
     fontSize: 30,
   },
-
   buttonStyle: {
     width: '100%',
     alignSelf: 'center',
@@ -119,24 +121,14 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      account: '',
+      name: '',
+      nameValidate: false,
+      nameMsg: '',
 
-      accountValidate: false,
-      accountMsg: '',
-      buttonIsPressed: '',
+      buttonIsPressed: false,
+      checked: false,
+      checkedMsg: '',
     };
-  }
-
-  validate = (text, type) => {
-    const phoneVal = /((?=(09))[0-9]{10})$/g;
-    if (type === 'account') {
-      if (phoneVal.test(text)) {
-        this.setState({ accountValidate: true, accountMsg: '' });
-        this._handleChange('account', text);
-      } else {
-        this.setState({ accountValidate: false, accountMsg: '帳號必須為電話號碼' });
-      }
-    }
   }
 
   _handleChange = (key, val) => {
@@ -147,12 +139,11 @@ class Register extends React.Component {
 
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
-    const { accountValidate } = this.state;
-
-    if (!accountValidate) return;
-
-    let success = await onFormSubmit(this.state);
-    if (success) Actions.verifyPhone();
+    const { nameValidate, checked } = this.state;
+    if (checked && nameValidate) {
+      await onFormSubmit(this.state);
+      Actions.login();
+    }
   }
 
   _change = () => {
@@ -160,8 +151,20 @@ class Register extends React.Component {
     this.setState({ buttonIsPressed: !buttonIsPressed });
   }
 
-  render = () => {
-    const { buttonIsPressed, accountMsg } = this.state;
+  validate = (text, type) => {
+
+    if (type === 'name') {
+      if (text.length >= 1 && text.length <= 5) {
+        this.setState({ nameValidate: true, nameMsg: '' });
+        this._handleChange('name', text);
+      } else {
+        this.setState({ nameValidate: false, nameMsg: '暱稱長度最長為六，最短為一' });
+      }
+    }
+  }
+
+  render() {
+    const { buttonIsPressed, checked, nameMsg, checkedMsg } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.topContainer}>
@@ -171,24 +174,43 @@ class Register extends React.Component {
           <Form style={styles.formStyle}>
             <View style={styles.formTop}>
               <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 帳號 </Label>
+                <Label style={styles.labelText}> 暱稱 </Label>
                 <View style={styles.textInputContainer}>
                   <Input
                     style={styles.textInputStyle}
                     autoCapitalize="none"
                     placeholderTextColor="white"
                     keyboardType="default"
-                    onChangeText={v => this.validate(v, 'account')}
+                    onChangeText={v => this.validate(v, 'name')}
                     onSubmitEditing={Keyboard.dismiss}
+                    onBlur={this._handleBlur}
                   />
                   <Icon style={styles.iconStyle} name="user" />
                 </View>
+                <View style={{ height: 20 }} />
               </Item>
-              <Text style={styles.valText}>{accountMsg}</Text>
+              <Text style={styles.valText}>{nameMsg}</Text>
             </View>
-
             <View style={{ height: 50 }} />
-            <View padder style={styles.formButton}>
+            <View style={styles.formMiddle}>
+              <CheckBox
+                style={styles.checkBoxStyle}
+                title="我已詳讀並同意遵守放飛協議"
+                checked={checked}
+                checkedColor="white"
+                containerStyle={{
+                  backgroundColor: Colors.backgroundBlack,
+                  borderWidth: 0,
+                }}
+                textStyle={{
+                  color: 'white',
+                  fontSize: 15,
+                }}
+                onPress={() => this.setState({ checked: !checked })}
+              />
+              <Text style={styles.valText}>{checkedMsg}</Text>
+            </View>
+            <View padder style={styles.formBottom}>
               <TouchableHighlight
                 style={{
                   ...styles.buttonStyle,
@@ -204,7 +226,7 @@ class Register extends React.Component {
                     color: buttonIsPressed === true ? 'white' : Colors.labelGold,
                   }}
                 >
-                  下一步
+                  確認註冊
                 </Text>
               </TouchableHighlight>
             </View>

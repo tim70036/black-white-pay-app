@@ -126,7 +126,6 @@ class Transfer extends Component {
   }
 
   _handleChange = (name, val) => {
-    console.log(val);
     this.setState({
       [name]: val,
     });
