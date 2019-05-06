@@ -21,8 +21,12 @@ import RegisterContainer from '../../containers/Register';
 import RegisterComponent1 from '../components/Register/Register1';
 import RegisterComponent2 from '../components/Register/Register2';
 import RegisterComponent3 from '../components/Register/Register3';
-import RegisterComponent4 from '../components/Register/Register4';
-import VerifyPhoneComponent from '../components/Register/VerifyPhone';
+import RegisterVerifyPhoneComponent from '../components/Register/VerifyPhone';
+
+import ForgetContainer from '../../containers/Forget';
+import ForgetComponent1 from '../components/Forget/Forget1';
+import ForgetComponent2 from '../components/Forget/Forget2';
+import ForgetVerifyPhoneComponent from '../components/Forget/VerifyPhone';
 
 import StoreListContainer from '../../containers/StoreList/StoreList';
 import StoreListComponent from '../components/StoreList/StoreList';
@@ -63,19 +67,19 @@ import ChangeTransPwdComponent from '../components/Mine/ChangeTransPwd';
 const renderTabIcons = ({ title, focused }) => {
   switch (title) {
     case '首頁': {
-      return <Icon name="home" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null ]} />;
+      return <Icon name="home" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null]} />;
     }
     case '商店': {
-      return <Icon name="grid" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null ]} />;
+      return <Icon name="grid" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null]} />;
     }
     case '我的錢包': {
-      return <Icon name="wallet" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null ]} />;
+      return <Icon name="wallet" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null]} />;
     }
     case '通知': {
-      return <Icon name="bell" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null ]} />;
+      return <Icon name="bell" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null]} />;
     }
     case '我的': {
-      return <Icon name="settings" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null ]} />;
+      return <Icon name="settings" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null]} />;
     }
     default: return <Icon name="planet" {...DefaultProps.icons} />;
   }
@@ -140,7 +144,6 @@ const getRoutes = (authenticate, goAuth, refresh) => (
 
 
         {/* Specific Function Page */}
-        
         <Stack
           key="addStore"
           title="新增商店"
@@ -223,10 +226,14 @@ const getRoutes = (authenticate, goAuth, refresh) => (
       <Scene key="login" component={spinnerHOC(LoginContainer)} Layout={LoginComponent} />
       <Stack key="register" hideNavBar>
         <Scene key="register1" component={spinnerHOC(RegisterContainer)} Layout={RegisterComponent1} />
-        <Scene key="verifyPhone" component={spinnerHOC(RegisterContainer)} Layout={VerifyPhoneComponent} />
+        <Scene key="registerVerifyPhone" component={spinnerHOC(RegisterContainer)} Layout={RegisterVerifyPhoneComponent} />
         <Scene key="register2" component={RegisterContainer} Layout={RegisterComponent2} />
         <Scene key="register3" component={RegisterContainer} Layout={RegisterComponent3} />
-        <Scene key="register4" component={RegisterContainer} Layout={RegisterComponent4} />
+      </Stack>
+      <Stack key="forget" hideNavBar>
+        <Scene key="forget1" component={spinnerHOC(ForgetContainer)} Layout={ForgetComponent1} />
+        <Scene key="forgetVerifyPhone" component={spinnerHOC(ForgetContainer)} Layout={ForgetVerifyPhoneComponent} />
+        <Scene key="forget2" component={spinnerHOC(ForgetContainer)} Layout={ForgetComponent2} />
       </Stack>
     </Stack>
   </Modal>

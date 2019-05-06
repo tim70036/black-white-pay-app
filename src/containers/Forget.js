@@ -6,20 +6,18 @@ import {
   replaceUserAccount,
   replaceUserPassword,
   replaceUserTransPwd,
-  replaceUserName,
-  registerPushPhone,
-  registerVerifyPhone,
-  register,
+  forget,
+  forgetPushPhone,
+  forgetVerifyPhone,
 } from '../actions/user';
 
-class Register extends Component {
+class Forget extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
     replaceAccount: PropTypes.func.isRequired,
     replacePassword: PropTypes.func.isRequired,
     replaceTransPwd: PropTypes.func.isRequired,
-    replaceName: PropTypes.func.isRequired,
-    userRegister: PropTypes.func.isRequired,
+    userForget: PropTypes.func.isRequired,
     userPushPhone: PropTypes.func.isRequired,
     userVerifyPhone: PropTypes.func.isRequired,
   }
@@ -35,10 +33,9 @@ class Register extends Component {
       replaceAccount,
       replacePassword,
       replaceTransPwd,
-      replaceName,
+      userForget,
       userPushPhone,
       userVerifyPhone,
-      userRegister,
     } = this.props;
 
     if (formData.account) {
@@ -48,16 +45,13 @@ class Register extends Component {
     } else if (formData.verifyCode) {
       let success = await userVerifyPhone(formData.verifyCode);
       return success;
-    }
-
-    if (formData.password && formData.transPwd) {
+    } else if (formData.password && formData.transPwd) {
       replacePassword(formData.password);
       replaceTransPwd(formData.transPwd);
-    } else if (formData.name) {
-      // The last step
-      replaceName(formData.name);
-      await userRegister();
+      let success = await userForget();
+      return success;
     }
+
     return true;
   }
 
@@ -81,10 +75,9 @@ const mapDispatchToProps = {
   replaceAccount: replaceUserAccount,
   replacePassword: replaceUserPassword,
   replaceTransPwd: replaceUserTransPwd,
-  replaceName: replaceUserName,
-  userPushPhone: registerPushPhone,
-  userVerifyPhone: registerVerifyPhone,
-  userRegister: register,
+  userForget: forget,
+  userPushPhone: forgetPushPhone,
+  userVerifyPhone: forgetVerifyPhone,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Forget);

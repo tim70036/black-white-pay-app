@@ -147,6 +147,10 @@ class Login extends React.Component {
     Actions.register();
   };
 
+  _handleForgetBtn = () => {
+    Actions.forget();
+  };
+
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
     const success = await onFormSubmit(this.state);
@@ -257,7 +261,7 @@ class Login extends React.Component {
                   style={{
                     ...styles.forgetPasswordStyle,
                   }}
-                  // onPress={this._handleSubmit}
+                  onPress={this._handleForgetBtn}
                 >
                   <Text
                     style={{

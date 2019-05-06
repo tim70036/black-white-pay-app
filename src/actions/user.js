@@ -30,7 +30,7 @@ function replaceUserAuth(isAuthenticated) {
   return { type: actionType.REPLACE_USER_AUTH, data: isAuthenticated };
 }
 
-function registerPhone() {
+function registerPushPhone() {
   return async (dispatch, getState) => {
     // Get data from store
     const registerData = getState().user;
@@ -39,7 +39,7 @@ function registerPhone() {
     });
 
     // Api request
-    let result = await apiRequest(dispatch, '/auth/register-phone', 'POST', requestBody);
+    let result = await apiRequest(dispatch, '/auth/register/push-phone', 'POST', requestBody);
 
     // Process result
     if (result && result.success) {
@@ -52,7 +52,29 @@ function registerPhone() {
   };
 }
 
-function verifyPhone(verifyCode) {
+function forgetPushPhone() {
+  return async (dispatch, getState) => {
+    // Get data from store
+    const forgetData = getState().user;
+    const requestBody = JSON.stringify({
+      phoneNumber: forgetData.account,
+    });
+
+    // Api request
+    let result = await apiRequest(dispatch, '/auth/forget/push-phone', 'POST', requestBody);
+
+    // Process result
+    if (result && result.success) {
+      // Status
+      dispatch(statusMessage('success', '請查看簡訊'));
+      return true;
+    }
+
+    return false;
+  };
+}
+
+function registerVerifyPhone(verifyCode) {
   return async (dispatch, getState) => {
     // Get data from store
     const registerData = getState().user;
@@ -62,7 +84,7 @@ function verifyPhone(verifyCode) {
     });
 
     // Api request
-    let result = await apiRequest(dispatch, '/auth/verify-phone', 'POST', requestBody);
+    let result = await apiRequest(dispatch, '/auth/register/verify-phone', 'POST', requestBody);
 
     // Process result
     if (result && result.success) {
@@ -75,6 +97,28 @@ function verifyPhone(verifyCode) {
   };
 }
 
+function forgetVerifyPhone(verifyCode) {
+  return async (dispatch, getState) => {
+    // Get data from store
+    const forgetData = getState().user;
+    const requestBody = JSON.stringify({
+      phoneNumber: forgetData.account,
+      verifyCode: verifyCode,
+    });
+
+    // Api request
+    let result = await apiRequest(dispatch, '/auth/forget/verify-phone', 'POST', requestBody);
+
+    // Process result
+    if (result && result.success) {
+      // Status
+      dispatch(statusMessage('success', '電話驗證成功'));
+      return true;
+    }
+
+    return false;
+  };
+}
 
 function register() {
   return async (dispatch, getState) => {
@@ -88,7 +132,7 @@ function register() {
     });
 
     // Api request
-    let result = await apiRequest(dispatch, '/auth/register', 'POST', requestBody);
+    let result = await apiRequest(dispatch, '/auth/register/register', 'POST', requestBody);
 
     // Process result
     if (result && result.success) {
@@ -100,6 +144,32 @@ function register() {
     return false;
   };
 }
+
+
+function forget() {
+  return async (dispatch, getState) => {
+    // Get data from store
+    const forgetData = getState().user;
+    const requestBody = JSON.stringify({
+      account: forgetData.account,
+      password: forgetData.password,
+      transPwd: forgetData.transPwd,
+    });
+
+    // Api request
+    let result = await apiRequest(dispatch, '/auth/forget/forget', 'POST', requestBody);
+
+    // Process result
+    if (result && result.success) {
+      // Status
+      dispatch(statusMessage('success', '密碼重新設定成功'));
+      return true;
+    }
+
+    return false;
+  };
+}
+
 
 function login(formData) {
   const { account, password } = formData;
@@ -233,8 +303,13 @@ export {
   changeTransPwd,
 
   register,
-  registerPhone,
-  verifyPhone,
+  registerPushPhone,
+  registerVerifyPhone,
+
+  forget,
+  forgetPushPhone,
+  forgetVerifyPhone,
+
   login,
   logout,
 };

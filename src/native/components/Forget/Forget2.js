@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class Register extends React.Component {
+class Forget extends React.Component {
   static propTypes = {
     onFormSubmit: PropTypes.func.isRequired,
   }
@@ -179,12 +179,12 @@ class Register extends React.Component {
     });
   }
 
-  _handleSubmit = () => {
+  _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
     const { passwordValidate, confirmPwdValidate, transPwdValidate, confirmTransPwdValidate } = this.state;
     if (passwordValidate && confirmPwdValidate && transPwdValidate && confirmTransPwdValidate) {
-      onFormSubmit(this.state);
-      Actions.register3();
+      let success = await onFormSubmit(this.state);
+      if (success) Actions.login();
     }
   }
 
@@ -204,7 +204,7 @@ class Register extends React.Component {
           <Form style={styles.formStyle}>
             <View style={styles.formTop}>
               <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 密碼 </Label>
+                <Label style={styles.labelText}> 新密碼 </Label>
                 <View style={styles.textInputContainer}>
                   <Input
                     style={styles.textInputStyle}
@@ -237,7 +237,7 @@ class Register extends React.Component {
               </Item>
               <Text style={styles.valText}>{confirmPwdMsg}</Text>
               <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 交易密碼 </Label>
+                <Label style={styles.labelText}> 新交易密碼 </Label>
                 <View style={styles.textInputContainer}>
                   <Input
                     style={styles.textInputStyle}
@@ -289,7 +289,7 @@ class Register extends React.Component {
                     color: buttonIsPressed === true ? 'white' : Colors.labelGold,
                   }}
                 >
-                  下一步
+                  確認送出
                 </Text>
               </TouchableHighlight>
             </View>
@@ -301,4 +301,4 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+export default Forget;
