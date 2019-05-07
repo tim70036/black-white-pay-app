@@ -61,6 +61,13 @@ const styles = StyleSheet.create({
     borderWidth: 10,
   },
 
+  checkboxText: {
+    color: 'white',
+    fontSize: 15,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
+
   logoStyle: {
     color: Colors.labelGold,
     fontSize: 40,
@@ -122,7 +129,6 @@ class Register extends React.Component {
     super(props);
     this.state = {
       name: '',
-      nameValidate: false,
       nameMsg: '',
 
       buttonIsPressed: false,
@@ -139,28 +145,38 @@ class Register extends React.Component {
 
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
-    const { nameValidate, checked } = this.state;
-    if (checked && nameValidate) {
-      await onFormSubmit(this.state);
-      Actions.login();
-    }
+    if (!this._validate()) return;
+
+    await onFormSubmit(this.state);
+    Actions.login();
   }
+
+  _onPressPrivacy = () => {
+    Actions.privacy();
+  };
 
   _change = () => {
     const { buttonIsPressed } = this.state;
     this.setState({ buttonIsPressed: !buttonIsPressed });
   }
 
-  validate = (text, type) => {
+  _validate = () => {
+    const { name, checked } = this.state; 
 
-    if (type === 'name') {
-      if (text.length >= 1 && text.length <= 5) {
-        this.setState({ nameValidate: true, nameMsg: '' });
-        this._handleChange('name', text);
-      } else {
-        this.setState({ nameValidate: false, nameMsg: '暱稱長度最長為六，最短為一' });
-      }
+    if (name.length >= 1 && name.length <= 6) {
+      this.setState({ nameMsg: '' });
+    } else {
+      this.setState({ nameMsg: '暱稱長度最長為六，最短為一' });
+      return false;
     }
+
+    if (checked) {
+      this.setState({ checkedMsg: '' });
+    } else {
+      this.setState({ checkedMsg: '請先同意放飛協議' });
+      return false;
+    }
+    return true;
   }
 
   render() {
@@ -181,7 +197,7 @@ class Register extends React.Component {
                     autoCapitalize="none"
                     placeholderTextColor="white"
                     keyboardType="default"
-                    onChangeText={v => this.validate(v, 'name')}
+                    onChangeText={v => this._handleChange('name', v)}
                     onSubmitEditing={Keyboard.dismiss}
                     onBlur={this._handleBlur}
                   />
@@ -193,21 +209,34 @@ class Register extends React.Component {
             </View>
             <View style={{ height: 50 }} />
             <View style={styles.formMiddle}>
-              <CheckBox
-                style={styles.checkBoxStyle}
-                title="我已詳讀並同意遵守放飛協議"
-                checked={checked}
-                checkedColor="white"
-                containerStyle={{
-                  backgroundColor: Colors.backgroundBlack,
-                  borderWidth: 0,
-                }}
-                textStyle={{
-                  color: 'white',
-                  fontSize: 15,
-                }}
-                onPress={() => this.setState({ checked: !checked })}
-              />
+              <View>
+                <CheckBox
+                  style={styles.checkBoxStyle}
+                  // title="我已詳讀並同意遵守放飛協議"
+                  checked={checked}
+                  checkedColor="white"
+                  containerStyle={{
+                    backgroundColor: Colors.backgroundBlack,
+                    borderWidth: 0,
+                  }}
+                  textStyle={{
+                    color: 'white',
+                    fontSize: 15,
+                  }}
+                  onPress={() => this.setState({ checked: !checked })}
+                />
+                <Text style={styles.checkboxText}>我已詳讀並同意遵守 </Text>
+                <Text
+                  style={{ 
+                    ...styles.checkboxText,
+                    color: 'red',
+                    textDecorationLine: 'underline',
+                  }}
+                  onPress={this.onPressPrivacy}
+                >
+                  放飛協議
+                </Text>
+              </View>
               <Text style={styles.valText}>{checkedMsg}</Text>
             </View>
             <View padder style={styles.formBottom}>

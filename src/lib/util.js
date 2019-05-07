@@ -7,8 +7,7 @@ import { replaceUserAuth } from '../actions/user';
 // body: JSON string
 // method: 'POST' or 'GET'
 // Return result = { success: boolean, data: ??? }
-async function apiRequest(dispatch, apiPath, method, body='') {
-
+async function apiRequest(dispatch, apiPath, method, body = '', contentType = '') {
   // Status
   dispatch(statusMessage('loading', true));
 
@@ -16,7 +15,7 @@ async function apiRequest(dispatch, apiPath, method, body='') {
     method: 'POST',
     credentials: 'include',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': contentType ? contentType : 'application/json',
     },
     body: body,
   } : {

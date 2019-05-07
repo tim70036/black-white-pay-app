@@ -124,53 +124,48 @@ class Register extends React.Component {
       transPwd: '',
       confirmTransPwd: '',
 
-      passwordValidate: false,
-      confirmPwdValidate: false,
       passwordMsg: '',
       confirmPwdMsg: '',
-
-      transPwdValidate: false,
-      confirmTransPwdValidate: false,
       transPwdMsg: '',
       confirmTransPwdMsg: '',
       buttonIsPressed: '',
     };
   }
 
-  validate = (text, type) => {
+  _validate = () => {
     const passwordVal = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g;
     const transPwdVal = /([0-9]{6})$/g;
+    const { password, confirmPassword, transPwd, confirmTransPwd } = this.state;
 
-    const { password, transPwd } = this.state;
-    if (type === 'password') {
-      if (passwordVal.test(text)) {
-        this.setState({ passwordValidate: true, passwordMsg: '' });
-        this._handleChange('password', text);
-      } else {
-        this.setState({ passwordValidate: false, passwordMsg: '密碼至少為八碼，需包含字元和數字' });
-      }
-    } else if (type === 'confirmPassword') {
-      if (password === text) {
-        this._handleChange('confirmPassword', text);
-        this.setState({ confirmPwdValidate: true, confirmPwdMsg: '' });
-      } else {
-        this.setState({ confirmPwdValidate: false, confirmPwdMsg: '密碼不符' });
-      }
-    } else if (type === 'transPwd') {
-      if (transPwdVal.test(text)) {
-        this.setState({ transPwdValidate: true, transPwdMsg: '' });
-        this._handleChange('transPwd', text);
-      } else {
-        this.setState({ transPwdValidate: false, transPwdMsg: '轉帳密碼必須為6位數字' });
-      }
-    } else if (type === 'confirmTransPwd') {
-      if (transPwd === text) {
-        this._handleChange('confirmTransPwd', text);
-        this.setState({ confirmTransPwdValidate: true, confirmTransPwdMsg: '' });
-      } else {
-        this.setState({ confirmTransPwdValidate: false, confirmTransPwdMsg: '密碼不符' });
-      }
+
+    if (passwordVal.test(password)) {
+      this.setState({ passwordMsg: '' });
+    } else {
+      this.setState({ passwordMsg: '密碼至少為八碼，需包含字元和數字' });
+      return false;
     }
+
+    if (password === confirmPassword) {
+      this.setState({ confirmPwdMsg: '' });
+    } else {
+      this.setState({ confirmPwdMsg: '密碼不符' });
+      return false;
+    }
+
+    if (transPwdVal.test(transPwd)) {
+      this.setState({ transPwdMsg: '' });
+    } else {
+      this.setState({ transPwdMsg: '轉帳密碼必須為6位數字' });
+      return false;
+    }
+
+    if (transPwd === confirmTransPwd) {
+      this.setState({ confirmTransPwdMsg: '' });
+    } else {
+      this.setState({ confirmTransPwdMsg: '密碼不符' });
+      return false;
+    }
+    return true;
   }
 
   _handleChange = (key, val) => {
@@ -179,13 +174,12 @@ class Register extends React.Component {
     });
   }
 
-  _handleSubmit = () => {
+  _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
-    const { passwordValidate, confirmPwdValidate, transPwdValidate, confirmTransPwdValidate } = this.state;
-    if (passwordValidate && confirmPwdValidate && transPwdValidate && confirmTransPwdValidate) {
-      onFormSubmit(this.state);
-      Actions.register3();
-    }
+    if (!this._validate()) return;
+
+    await onFormSubmit(this.state);
+    Actions.register3();
   }
 
   _change = () => {
@@ -211,7 +205,7 @@ class Register extends React.Component {
                     autoCapitalize="none"
                     placeholderTextColor="white"
                     keyboardType="default"
-                    onChangeText={v => this.validate(v, 'password')}
+                    onChangeText={v => this._handleChange('password', v)}
                     onSubmitEditing={Keyboard.dismiss}
                     secureTextEntry
                   />
@@ -228,7 +222,7 @@ class Register extends React.Component {
                     autoCapitalize="none"
                     placeholderTextColor="white"
                     keyboardType="default"
-                    onChangeText={v => this.validate(v, 'confirmPassword')}
+                    onChangeText={v => this._handleChange('confirmPassword', v)}
                     onSubmitEditing={Keyboard.dismiss}
                     secureTextEntry
                   />
@@ -244,7 +238,7 @@ class Register extends React.Component {
                     autoCapitalize="none"
                     placeholderTextColor="white"
                     keyboardType="default"
-                    onChangeText={v => this.validate(v, 'transPwd')}
+                    onChangeText={v => this._handleChange('transPwd', v)}
                     onSubmitEditing={Keyboard.dismiss}
                     secureTextEntry
                   />
@@ -261,7 +255,7 @@ class Register extends React.Component {
                     autoCapitalize="none"
                     placeholderTextColor="white"
                     keyboardType="default"
-                    onChangeText={v => this.validate(v, 'confirmTransPwd')}
+                    onChangeText={v => this._handleChange('confirmTransPwd', v)}
                     onSubmitEditing={Keyboard.dismiss}
                     secureTextEntry
                   />

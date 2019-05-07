@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Keyboard, TouchableHighlight } from 'react-native';
+import { View, StyleSheet, Keyboard, TouchableHighlight, TextInput } from 'react-native';
 import {
   Button,
   Text,
@@ -19,76 +19,56 @@ import Colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
     flex: 1,
-    backgroundColor: Colors.backgroundBlack,
+    flexDirection: 'column',
+    paddingVertical: viewportHeightPercent(2),
     paddingHorizontal: viewportWidthPercent(4),
-    paddingVertical: viewportHeightPercent(3),
+    backgroundColor: Colors.backgroundBlack,
   },
-
-  formContainer: {
+  inputsContainer: { // no flex 1, so container will not stretch too much
     flex: 1,
     justifyContent: 'center',
     padding: viewportWidthPercent(4),
-    marginVertical: viewportHeightPercent(2),
+    marginVertical: viewportHeightPercent(1),
+    backgroundColor: Colors.backgroundGray,
+    borderRadius: 8,
   },
-
-  formStyle: {
-    flexDirection: 'column',
-    flex: 1,
+  inputItem: {
+    // marginTop: viewportHeightPercent(4),
+    marginBottom: viewportHeightPercent(3),
   },
-  formTop: {
-    justifyContent: 'center',
-  },
-  formBottom: {
-  },
-  formInputContainer: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    marginTop: viewportHeightPercent(5),
-  },
-
-  labelText: {
-    fontSize: 18,
+  label: {
     color: Colors.labelGold,
   },
-  textInputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    height: 35,
-  },
-  textInputStyle: {
-    height: '100%',
-    color: 'white',
-  },
-  iconStyle: {
-    color: Colors.labelGold,
-    justifyContent: 'center',
-    alignSelf: 'center',
-    fontSize: 30,
-  },
-  buttonStyle: {
-    width: '100%',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    height: 45,
-    borderWidth: 1,
-    borderColor: Colors.labelGold,
-    borderRadius: 50,
-  },
-
-  text: {
-    color: Colors.labelGold,
+  inputText: {
+    color: Colors.labelWhite,
     fontSize: 20,
-    alignSelf: 'center',
-    justifyContent: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: 'white',
+    paddingVertical: viewportHeightPercent(1),
   },
-
   valText: {
     color: 'red',
     fontSize: 12,
     paddingTop: 3,
     marginLeft: 3,
+  },
+  buttonStyle: {
+    width: '85%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    height: 45,
+    borderWidth: 1,
+    borderColor: Colors.buttonLightGray,
+    backgroundColor: Colors.buttonGray,
+    borderRadius: 10,
+    marginTop: viewportHeightPercent(3),
+  },
+  buttonText: {
+    color: Colors.labelGold,
+    fontSize: 20,
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
 });
 
@@ -106,10 +86,8 @@ class ChangePwd extends Component {
     this.state = {
       oldPassword: '',
       newPassword: '',
+      confirmPassword: '',
 
-      oldPasswordValidate: false,
-      newPasswordValidate: false,
-      confirmPwdValidate: false,
       oldPasswordMsg: '',
       newPasswordMsg: '',
       confirmPwdMsg: '',
@@ -117,29 +95,37 @@ class ChangePwd extends Component {
     };
   }
 
-  validate = (text, type) => {
+  validate = () => {
     const passwordVal = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g;
-    const { newPassword, oldPassword } = this.state;
-    if (type === 'oldPassword') {
-      this.setState({ oldPasswordValidate: true, oldPasswordMsg: '' });
-      this._handleChange('oldPassword', text);
-    } else if (type === 'newPassword') {
-      if (passwordVal.test(text)) {
-        this.setState({ newPasswordValidate: true, newPasswordMsg: '' });
-        this._handleChange('newPassword', text);
-      } else if (text === oldPassword) {
-        this.setState({ newPasswordValidate: false, newPasswordMsg: '新密碼不可與舊密碼重複' });
-      } else {
-        this.setState({ newPasswordValidate: false, newPasswordMsg: '密碼至少為八碼，需包含字元和數字' });
-      }
-    } else if (type === 'confirmPassword') {
-      if (newPassword === text) {
-        this._handleChange('confirmPassword', text);
-        this.setState({ confirmPwdValidate: true, confirmPwdMsg: '' });
-      } else {
-        this.setState({ confirmPwdValidate: false, confirmPwdMsg: '密碼不符' });
-      }
+    const { newPassword, oldPassword, confirmPassword } = this.state;
+    if (oldPassword.length <= 1 ) {
+      this.setState({ oldPasswordMsg: '密碼不可為空' });
+      return false;
+    } else {
+      this.setState({ oldPasswordMsg: '' });
     }
+    
+    if (passwordVal.test(newPassword)) {
+      this.setState({ newPasswordMsg: '' });
+    } else {
+      this.setState({ newPasswordMsg: '密碼至少為八碼，需包含字元和數字' });
+      return false;
+    }
+    
+    if (newPassword === oldPassword) {
+      this.setState({ newPasswordMsg: '新密碼不可與舊密碼重複' });
+      return false;
+    }
+    
+    if (newPassword !== confirmPassword) {
+      this.setState({ confirmPwdMsg: '密碼不符' });
+      return false;
+    } else {
+      this.setState({ confirmPwdMsg: '' });
+    }
+
+    return true;
+    
   }
 
   _change = () => {
@@ -155,8 +141,7 @@ class ChangePwd extends Component {
 
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
-    const { oldPasswordValidate, newPasswordValidate, confirmPwdValidate } = this.state;
-    if (oldPasswordValidate && newPasswordValidate && confirmPwdValidate) {
+    if (this.validate()) {
       const success = await onFormSubmit(this.state);
       if (success) {
         Actions.pop();
@@ -168,78 +153,63 @@ class ChangePwd extends Component {
     const { newPasswordMsg, confirmPwdMsg, oldPasswordMsg, buttonIsPressed } = this.state;
     return (
       <View style={styles.container}>
-        <View style={styles.formContainer}>
-          <Form style={styles.formStyle}>
-            <View style={styles.formTop}>
-              <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 舊密碼 </Label>
-                <View style={styles.textInputContainer}>
-                  <Input
-                    style={styles.textInputStyle}
-                    autoCapitalize="none"
-                    placeholderTextColor="white"
-                    keyboardType="default"
-                    onChangeText={v => this.validate(v, 'oldPassword')}
-                    onSubmitEditing={Keyboard.dismiss}
-                    secureTextEntry
-                  />
-                </View>
-              </Item>
-              <Text style={styles.valText}>{oldPasswordMsg}</Text>
-              <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 新密碼 </Label>
-                <View style={styles.textInputContainer}>
-                  <Input
-                    style={styles.textInputStyle}
-                    autoCapitalize="none"
-                    placeholderTextColor="white"
-                    keyboardType="default"
-                    onChangeText={v => this.validate(v, 'newPassword')}
-                    onSubmitEditing={Keyboard.dismiss}
-                    secureTextEntry
-                  />
-                </View>
-              </Item>
-              <Text style={styles.valText}>{newPasswordMsg}</Text>
-              <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 再次確認密碼 </Label>
-                <View style={styles.textInputContainer}>
-                  <Input
-                    required
-                    style={styles.textInputStyle}
-                    autoCapitalize="none"
-                    placeholderTextColor="white"
-                    keyboardType="default"
-                    onChangeText={v => this.validate(v, 'confirmPassword')}
-                    onSubmitEditing={Keyboard.dismiss}
-                    secureTextEntry
-                  />
-                </View>
-              </Item>
-              <Text style={styles.valText}>{confirmPwdMsg}</Text>
-            </View>
-            <View style={{ height: 35 }} />
-            <View padder style={styles.formBottom}>
-              <TouchableHighlight
-                style={{
-                  ...styles.buttonStyle,
-                }}
-                onPress={this._handleSubmit}
-                onPressIn={this._change}
-                onPressOut={this._change}
-                underlayColor={Colors.labelGold}
-              >
-                <Text
-                  style={{
-                    ...styles.text,
-                    color: buttonIsPressed === true ? 'white' : Colors.labelGold,
-                  }}
-                >
-                  確認
-                </Text>
-              </TouchableHighlight>
-            </View>
-          </Form>
+        <View style={styles.inputsContainer}>
+          <View style={styles.inputItem}>
+            <Text style={styles.label}>舊密碼</Text>
+            <TextInput
+              style={styles.inputText}
+              autoCapitalize="none"
+              placeholder=""
+              keyboardType="default"
+              onChangeText={v => this._handleChange('oldPassword', v)}
+              onSubmitEditing={Keyboard.dismiss}
+              secureTextEntry
+            />
+            <Text style={styles.valText}>{oldPasswordMsg}</Text>
+          </View>
+          <View style={styles.inputItem}>
+            <Text style={styles.label}>新密碼</Text>
+            <TextInput
+              style={styles.inputText}
+              autoCapitalize="none"
+              placeholder=""
+              keyboardType="default"
+              onChangeText={v => this._handleChange('newPassword', v)}
+              onSubmitEditing={Keyboard.dismiss}
+              secureTextEntry
+            />
+            <Text style={styles.valText}>{newPasswordMsg}</Text>
+          </View>
+          <View style={styles.inputItem}>
+            <Text style={styles.label}>再次確認密碼</Text>
+            <TextInput
+              style={styles.inputText}
+              autoCapitalize="none"
+              placeholder=""
+              keyboardType="default"
+              onChangeText={v => this._handleChange('confirmPassword', v)}
+              onSubmitEditing={Keyboard.dismiss}
+              secureTextEntry
+            />
+            <Text style={styles.valText}>{confirmPwdMsg}</Text>
+          </View>
+          <TouchableHighlight
+            style={styles.buttonStyle}
+            onPress={this._handleSubmit}
+            onPressIn={this._change}
+            onPressOut={this._change}
+            underlayColor={Colors.buttonGray}
+          >
+            <Text
+              style={{
+                ...styles.buttonText,
+                color: buttonIsPressed === true ? 'white' : 'white',
+              }}
+            >
+              確認
+            </Text>
+          </TouchableHighlight>
+          
         </View>
       </View>
     );

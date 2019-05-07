@@ -48,16 +48,18 @@ const styles = StyleSheet.create({
 
 class MineItemCell extends Component {
   static propTypes = {
-    image: PropTypes.string,
+    image: PropTypes.number,
     title: PropTypes.string.isRequired,
     subtitle: PropTypes.string,
-    next: PropTypes.string,
+    handle: PropTypes.func,
+    arrowIcon: PropTypes.bool,
   }
 
   static defaultProps = {
     subtitle: '',
     image: null,
-    next: '',
+    handle: null,
+    arrowIcon: true,
   }
 
   constructor(props) {
@@ -66,14 +68,8 @@ class MineItemCell extends Component {
     };
   }
 
-  _handle = async (key) => {
-    if (key) {
-      Actions[key]();
-    }
-  }
-
   render() {
-    const { image, title, subtitle, next } = this.props;
+    const { image, title, subtitle, handle, arrowIcon } = this.props;
     let icon = null;
     if (image) {
       icon = (<Image style={styles.icon} source={image} />);
@@ -81,14 +77,14 @@ class MineItemCell extends Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity
-          onPress={() => this._handle(next)}
+          onPress={handle}
         >
           <View style={styles.content}>
             {icon}
             <Text style={styles.h2}>{title}</Text>
-            <View style={{ flex: 1, backgroundColor: 'blue' }} />
+            <View style={{ flex: 1 }} />
             <Text style={styles.text}>{subtitle}</Text>
-            <Image style={styles.arrow} source={require('../../../img/public/cell_arrow.png')} />
+            {arrowIcon ? <Image style={styles.arrow} source={require('../../../img/public/cell_arrow.png')} /> : null}
           </View>
           <View style={{ height: 14 }} />
         </TouchableOpacity>

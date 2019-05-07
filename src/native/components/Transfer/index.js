@@ -116,6 +116,14 @@ class Transfer extends Component {
       return false;
     }
 
+    if (parseInt(amount, 10) !== 0) {
+      this.setState({ amountMsg: '' });
+      this.setState({ amount: parseInt(amount, 10).toString() });
+    } else {
+      this.setState({ amountMsg: '轉帳數量不可為0' });
+      return false;
+    }
+
     if (passwordVal.test(transPwd)) {
       this.setState({ transPwdMsg: '' });
     } else {

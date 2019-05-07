@@ -1,8 +1,13 @@
 import {
   Dimensions,
   Platform,
+  NativeModules,
 } from 'react-native';
+import { Constants } from 'expo';
 
+const { StatusBarManager } = NativeModules;
+
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? Constants.statusBarHeight : StatusBarManager.HEIGHT;
 const IS_IOS = Platform.OS === 'ios';
 const IS_ANDROID = Platform.OS === 'android';
 
@@ -22,7 +27,7 @@ const viewportHeightPercent = (percentage) => {
 };
 
 const shadowStyle = {
-  shadowColor: "#000",
+  shadowColor: '#000',
   shadowOffset: {
     width: 0,
     height: 2,
@@ -31,14 +36,28 @@ const shadowStyle = {
   shadowRadius: 3.84,
 
   elevation: 5,
-}
+};
+
+const shadowOpt = {
+  height: viewportHeightPercent(30),
+  width: viewportWidthPercent(100),
+  color: '#e38d02',
+  border: 6,
+  radius: 3.84,
+  opacity: 0.35,
+  x: 0,
+  y: 0,
+  style: { marginVertical: 5 },
+};
 
 export {
   IS_IOS,
   IS_ANDROID,
+  STATUSBAR_HEIGHT,
   viewportWidth,
   viewportHeight,
   viewportWidthPercent,
   viewportHeightPercent,
   shadowStyle,
+  shadowOpt,
 };

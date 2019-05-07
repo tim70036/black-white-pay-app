@@ -5,9 +5,12 @@ import {
   changeName,
   changePwd,
   changeTransPwd,
+  changeThumbnail,
   replaceUserPassword,
   replaceUserTransPwd,
   replaceUserName,
+  replaceUserThumbnail,
+  logout,
 } from '../actions/user';
 
 class Mine extends Component {
@@ -16,10 +19,22 @@ class Mine extends Component {
     changeName: PropTypes.func.isRequired,
     changePwd: PropTypes.func.isRequired,
     changeTransPwd: PropTypes.func.isRequired,
+    changeThumbnail: PropTypes.func.isRequired,
 
     replacePassword: PropTypes.func.isRequired,
     replaceTransPwd: PropTypes.func.isRequired,
     replaceName: PropTypes.func.isRequired,
+    replaceThumbnail: PropTypes.func.isRequired,
+    userLogout: PropTypes.func.isRequired,
+
+    user: PropTypes.shape({
+      account: PropTypes.string,
+      password: PropTypes.string,
+      transPwd: PropTypes.string,
+      name: PropTypes.string,
+      thumbnail: PropTypes.string,
+      authenticated: PropTypes.bool,
+    }).isRequired,
   }
 
   static defaultProps = {
@@ -33,9 +48,11 @@ class Mine extends Component {
       changeName,
       changePwd,
       changeTransPwd,
+      changeThumbnail,
       replacePassword,
       replaceTransPwd,
       replaceName,
+      replaceThumbnail,
     } = this.props;
 
     let success = false;
@@ -48,33 +65,38 @@ class Mine extends Component {
     } else if (formData.newTransPassword) {
       success = await changeTransPwd(formData);
       if (success) replaceTransPwd(formData.newTransPassword);
+    } else if (formData.thumbnailFormdata) {
+      success = await changeThumbnail(formData);
     }
     return success;
   };
 
   render = () => {
     const {
-      Layout,
+      Layout, userLogout, user
     } = this.props;
-
     return (
       <Layout
-        onFormSubmit={this._handleSubmit}
+        onFormSubmit={this._handleSubmit} userLogout={userLogout} user={user}
       />
     );
   }
 }
 
 const mapStateToProps = state => ({
+  user: state.user || {},
 });
 
 const mapDispatchToProps = {
   changeName: changeName,
   changePwd: changePwd,
   changeTransPwd: changeTransPwd,
+  changeThumbnail: changeThumbnail,
   replacePassword: replaceUserPassword,
   replaceTransPwd: replaceUserTransPwd,
   replaceName: replaceUserName,
+  replaceThumbnail: replaceUserThumbnail,
+  userLogout: logout,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Mine);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Keyboard, TouchableHighlight } from 'react-native';
+import { View, StyleSheet, Keyboard, TouchableHighlight, TextInput } from 'react-native';
 import {
   Button,
   Text,
@@ -19,76 +19,56 @@ import Colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
     flex: 1,
-    backgroundColor: Colors.backgroundBlack,
+    flexDirection: 'column',
+    paddingVertical: viewportHeightPercent(2),
     paddingHorizontal: viewportWidthPercent(4),
-    paddingVertical: viewportHeightPercent(3),
+    backgroundColor: Colors.backgroundBlack,
   },
-
-  formContainer: {
+  inputsContainer: { // no flex 1, so container will not stretch too much
     flex: 1,
     justifyContent: 'center',
     padding: viewportWidthPercent(4),
-    marginVertical: viewportHeightPercent(2),
+    marginVertical: viewportHeightPercent(1),
+    backgroundColor: Colors.backgroundGray,
+    borderRadius: 8,
   },
-
-  formStyle: {
-    flexDirection: 'column',
-    flex: 1,
+  inputItem: {
+    // marginTop: viewportHeightPercent(4),
+    marginBottom: viewportHeightPercent(3),
   },
-  formTop: {
-    justifyContent: 'center',
-  },
-  formBottom: {
-  },
-  formInputContainer: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    marginTop: viewportHeightPercent(5),
-  },
-
-  labelText: {
-    fontSize: 18,
+  label: {
     color: Colors.labelGold,
   },
-  textInputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    height: 35,
-  },
-  textInputStyle: {
-    height: '100%',
-    color: 'white',
-  },
-  iconStyle: {
-    color: Colors.labelGold,
-    justifyContent: 'center',
-    alignSelf: 'center',
-    fontSize: 30,
-  },
-  buttonStyle: {
-    width: '100%',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    height: 45,
-    borderWidth: 1,
-    borderColor: Colors.labelGold,
-    borderRadius: 50,
-  },
-
-  text: {
-    color: Colors.labelGold,
+  inputText: {
+    color: Colors.labelWhite,
     fontSize: 20,
-    alignSelf: 'center',
-    justifyContent: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: 'white',
+    paddingVertical: viewportHeightPercent(1),
   },
-
   valText: {
     color: 'red',
     fontSize: 12,
     paddingTop: 3,
     marginLeft: 3,
+  },
+  buttonStyle: {
+    width: '85%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    height: 45,
+    borderWidth: 1,
+    borderColor: Colors.buttonLightGray,
+    backgroundColor: Colors.buttonGray,
+    borderRadius: 10,
+    marginTop: viewportHeightPercent(3),
+  },
+  buttonText: {
+    color: Colors.labelGold,
+    fontSize: 20,
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
 });
 
@@ -105,23 +85,25 @@ class ChangeName extends Component {
     super(props);
     this.state = {
       name: '',
-      nameValidate: false,
       nameMsg: '',
 
       buttonIsPressed: false,
     };
   }
 
-  validate = (text, type) => {
-    if (type === 'name') {
-      if (text.length >= 1 && text.length <= 5) {
-        this.setState({ nameValidate: true, nameMsg: '' });
-        this._handleChange('name', text);
-      } else {
-        this.setState({ nameValidate: false, nameMsg: '暱稱長度最長為六，最短為一' });
-      }
+  validate = () => {
+    const { name } = this.state
+    
+    if (name.length >= 1 && name.length <= 5) {
+      this.setState({ nameMsg: '' });
+    } else {
+      this.setState({ nameMsg: '暱稱長度最長為六，最短為一' });
+      return false;
     }
+
+    return true;
   }
+
 
   _change = () => {
     const { buttonIsPressed } = this.state;
@@ -136,8 +118,8 @@ class ChangeName extends Component {
 
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
-    const { nameValidate } = this.state;
-    if (nameValidate) {
+
+    if (this.validate()) {
       const success = await onFormSubmit(this.state);
       if (success) {
         Actions.pop();
@@ -149,48 +131,36 @@ class ChangeName extends Component {
     const { nameMsg, buttonIsPressed } = this.state;
     return (
       <View style={styles.container}>
-        <View style={styles.formContainer}>
-          <Form style={styles.formStyle}>
-            <View style={styles.formTop}>
-              <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 暱稱 </Label>
-                <View style={styles.textInputContainer}>
-                  <Input
-                    style={styles.textInputStyle}
-                    autoCapitalize="none"
-                    placeholderTextColor="white"
-                    keyboardType="default"
-                    onChangeText={v => this.validate(v, 'name')}
-                    onSubmitEditing={Keyboard.dismiss}
-                    onBlur={this._handleBlur}
-                  />
-                </View>
-                <View style={{ height: 20 }} />
-              </Item>
-              <Text style={styles.valText}>{nameMsg}</Text>
-            </View>
-            <View style={{ height: 35 }} />
-            <View padder style={styles.formBottom}>
-              <TouchableHighlight
-                style={{
-                  ...styles.buttonStyle,
-                }}
-                onPress={this._handleSubmit}
-                onPressIn={this._change}
-                onPressOut={this._change}
-                underlayColor={Colors.labelGold}
-              >
-                <Text
-                  style={{
-                    ...styles.text,
-                    color: buttonIsPressed === true ? 'white' : Colors.labelGold,
-                  }}
-                >
-                  確認
-                </Text>
-              </TouchableHighlight>
-            </View>
-          </Form>
+        <View style={styles.inputsContainer}>
+          <View style={styles.inputItem}>
+            <Text style={styles.label}>新暱稱</Text>
+            <TextInput
+              style={styles.inputText}
+              autoCapitalize="none"
+              placeholder=""
+              keyboardType="default"
+              onChangeText={v => this._handleChange('name', v)}
+              onSubmitEditing={Keyboard.dismiss}
+            />
+            <Text style={styles.valText}>{nameMsg}</Text>
+          </View>
+          <TouchableHighlight
+            style={styles.buttonStyle}
+            onPress={this._handleSubmit}
+            onPressIn={this._change}
+            onPressOut={this._change}
+            underlayColor={Colors.buttonGray}
+          >
+            <Text
+              style={{
+                ...styles.buttonText,
+                color: buttonIsPressed === true ? 'white' : 'white',
+              }}
+            >
+              確認
+            </Text>
+          </TouchableHighlight>
+          
         </View>
       </View>
     );

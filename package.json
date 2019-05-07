@@ -43,6 +43,7 @@
     "react-native-easy-toast": "^1.2.0",
     "react-native-elements": "^1.1.0",
     "react-native-loading-spinner-overlay": "^1.0.1",
+    "react-native-modal": "^10.0.0",
     "react-native-qrcode": "^0.2.7",
     "react-native-router-flux": "4.0.6",
     "react-native-snap-carousel": "^3.7.5",

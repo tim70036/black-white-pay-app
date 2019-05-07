@@ -58,28 +58,34 @@ import qrCodeComponent from '../components/QrCode';
 import qrScannerContainer from '../../containers/QrScanner';
 import qrScannerComponent from '../components/QrScanner';
 
+import qrCodeReceiveContainer from '../../containers/QrCodeReceive';
+import qrCodeReceiveComponent from '../components/QrCodeReceive';
+
 import MineContainer from '../../containers/Mine';
 import MineComponent from '../components/Mine';
+import PersonalSettingComponent from '../components/Mine/PersonalSetting';
+import ChangeThumbnailComponent from '../components/Mine/ChangeThumbnail';
 import ChangeNameComponent from '../components/Mine/ChangeName';
 import ChangePwdComponent from '../components/Mine/ChangePwd';
 import ChangeTransPwdComponent from '../components/Mine/ChangeTransPwd';
+import PrivacyComponent from '../components/Mine/Privacy';
 
 const renderTabIcons = ({ title, focused }) => {
   switch (title) {
     case '首頁': {
-      return <Icon name="home" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null]} />;
+      return <Icon name="home" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barfocusText } : { color: Colors.barText }]} />;
     }
     case '商店': {
-      return <Icon name="grid" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null]} />;
+      return <Icon name="grid" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barfocusText } : { color: Colors.barText }]} />;
     }
     case '我的錢包': {
-      return <Icon name="wallet" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null]} />;
+      return <Icon name="wallet" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barfocusText } : { color: Colors.barText }]} />;
     }
     case '通知': {
-      return <Icon name="bell" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null]} />;
+      return <Icon name="bell" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barfocusText } : { color: Colors.barText }]} />;
     }
     case '我的': {
-      return <Icon name="settings" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barText } : null]} />;
+      return <Icon name="settings" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barfocusText } : { color: Colors.barText }]} />;
     }
     default: return <Icon name="planet" {...DefaultProps.icons} />;
   }
@@ -172,6 +178,25 @@ const getRoutes = (authenticate, goAuth, refresh) => (
         </Stack>
 
         <Stack
+          key="personalSetting"
+          title="設定"
+          {...DefaultProps.navbarProps}
+          back
+        >
+          <Scene component={spinnerHOC(MineContainer)} Layout={PersonalSettingComponent} on={authenticate} failure={goAuth} />
+        </Stack>
+
+        <Stack
+          hideNavBar
+          key="changeThumbnail"
+          title="更改照片"
+          // {...DefaultProps.navbarProps}
+          back
+        >
+          <Scene component={spinnerHOC(MineContainer)} Layout={ChangeThumbnailComponent} on={authenticate} failure={goAuth} />
+        </Stack>
+
+        <Stack
           key="changeName"
           title="更改暱稱"
           {...DefaultProps.navbarProps}
@@ -198,14 +223,23 @@ const getRoutes = (authenticate, goAuth, refresh) => (
           <Scene component={spinnerHOC(MineContainer)} Layout={ChangePwdComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
-        {/* <Stack
+        <Stack
+          key="privacy"
+          title="隱私權政策"
+          {...DefaultProps.navbarProps}
+          back
+        >
+          <Scene component={spinnerHOC(MineContainer)} Layout={PrivacyComponent} on={authenticate} failure={goAuth} />
+        </Stack>
+
+        <Stack
           key="qrCodePay"
           title="付款"
           {...DefaultProps.navbarProps}
           back
         >
           <Scene component={spinnerHOC(qrCodePayContainer)} Layout={qrCodeComponent} on={authenticate} failure={goAuth} />
-        </Stack> */}
+        </Stack>
 
         <Stack
           key="qrScanner"
@@ -214,6 +248,15 @@ const getRoutes = (authenticate, goAuth, refresh) => (
           back
         >
           <Scene component={spinnerHOC(qrScannerContainer)} Layout={qrScannerComponent} on={authenticate} failure={goAuth} />
+        </Stack>
+
+        <Stack
+          key="qrCodeReceive"
+          title="收款"
+          {...DefaultProps.navbarProps}
+          back
+        >
+          <Scene component={spinnerHOC(qrCodeReceiveContainer)} Layout={qrCodeReceiveComponent} on={authenticate} failure={goAuth} />
         </Stack>
       </Stack>
 
@@ -229,6 +272,7 @@ const getRoutes = (authenticate, goAuth, refresh) => (
         <Scene key="registerVerifyPhone" component={spinnerHOC(RegisterContainer)} Layout={RegisterVerifyPhoneComponent} />
         <Scene key="register2" component={RegisterContainer} Layout={RegisterComponent2} />
         <Scene key="register3" component={RegisterContainer} Layout={RegisterComponent3} />
+        <Scene key="privacy" title="隱私權政策" {...DefaultProps.navbarProps} back component={spinnerHOC(MineContainer)} Layout={PrivacyComponent} on={authenticate} failure={goAuth} />
       </Stack>
       <Stack key="forget" hideNavBar>
         <Scene key="forget1" component={spinnerHOC(ForgetContainer)} Layout={ForgetComponent1} />

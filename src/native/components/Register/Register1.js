@@ -120,23 +120,21 @@ class Register extends React.Component {
     super(props);
     this.state = {
       account: '',
-
-      accountValidate: false,
       accountMsg: '',
       buttonIsPressed: '',
     };
   }
 
-  validate = (text, type) => {
+  _validate = () => {
     const phoneVal = /((?=(09))[0-9]{10})$/g;
-    if (type === 'account') {
-      if (phoneVal.test(text)) {
-        this.setState({ accountValidate: true, accountMsg: '' });
-        this._handleChange('account', text);
-      } else {
-        this.setState({ accountValidate: false, accountMsg: '帳號必須為電話號碼' });
-      }
+    const { account } = this.state;
+    if (phoneVal.test(account)) {
+      this.setState({ accountMsg: '' });
+    } else {
+      this.setState({ accountMsg: '帳號必須為電話號碼' });
+      return false;
     }
+    return true;
   }
 
   _handleChange = (key, val) => {
@@ -147,9 +145,7 @@ class Register extends React.Component {
 
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
-    const { accountValidate } = this.state;
-
-    if (!accountValidate) return;
+    if (!this._validate()) return;
 
     let success = await onFormSubmit(this.state);
     if (success) Actions.registerVerifyPhone();
@@ -178,7 +174,7 @@ class Register extends React.Component {
                     autoCapitalize="none"
                     placeholderTextColor="white"
                     keyboardType="default"
-                    onChangeText={v => this.validate(v, 'account')}
+                    onChangeText={v => this._handleChange('account', v)}
                     onSubmitEditing={Keyboard.dismiss}
                   />
                   <Icon style={styles.iconStyle} name="user" />

@@ -16,7 +16,7 @@ export default {
       alignSelf: 'center',
       textAlign: 'center',
       letterSpacing: 2,
-      fontSize: 20,
+      fontSize: 18,
     },
     backButtonTintColor: Colors.barText,
   },
@@ -50,9 +50,9 @@ export default {
   icons: {
     style: {
       textAlign: 'center',
-      height: 30,
-      fontSize: 29,
-      width: 30,
+      // height: 30,
+      fontSize: 20,
+      // width: 30,
       color: Colors.barText,
     },
   },

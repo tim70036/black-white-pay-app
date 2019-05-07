@@ -57,8 +57,8 @@ class TransHistory extends Component {
 
   constructor(props) {
     super(props);
-    const startTime = moment().subtract(1, 'months').utc().format('YYYY-MM-DD HH:mm');
-    const endTime = moment(new Date()).utc().format('YYYY-MM-DD HH:mm');
+    const startTime = moment().startOf('day').subtract(1, 'months').utc().format('YYYY-MM-DD HH:mm');
+    const endTime = moment(new Date()).endOf('day').utc().format('YYYY-MM-DD HH:mm');
     props.userTransHistory(startTime, endTime);
   }
 

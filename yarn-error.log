@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js install
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add react-native-modal
 
 PATH: 
-  C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Git\cmd;D:\MATLAB\bin;C:\Program Files\Geth;C:\cygwin64\bin;C:\Users\user\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Amazon\ECSCLI;C:\Program Files\Redis;C:\Program Files\Amazon\AWSCLI\bin;C:\Program Files\MySQL\MySQL Utilities 1.6;C:\Program Files\MySQL\MySQL Server 8.0\bin;C:\Program Files (x86)\Yarn\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\user\AppData\Local\Programs\Python\Python37-32\Scripts;C:\Users\user\AppData\Local\Programs\Python\Python37-32;C:\Users\user\AppData\Local\Programs\Python\Launcher;C:\Users\user\AppData\Local\Microsoft\WindowsApps;C:\Users\user\AppData\Roaming\npm;C:\cygwin64\bin;C:\Users\user\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Amazon\ECSCLI;C:\Program Files (x86)\Nmap;C:\Program Files\MySQL\MySQL Server 8.0\bin;C:\Users\user\AppData\Local\hyper\app-2.1.1\resources\bin;C:\Users\user\AppData\Local\Yarn\bin;C:\Users\user\AppData\Local\Android\Sdk\platform-tools;C:\Program Files\Android\Android Studio\jre\jre\bin
+  C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Git\cmd;D:\MATLAB\bin;C:\Program Files\Geth;C:\cygwin64\bin;C:\Users\user\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Amazon\ECSCLI;C:\Program Files\Redis;C:\Program Files\Amazon\AWSCLI\bin;C:\Program Files\MySQL\MySQL Utilities 1.6;C:\Program Files\MySQL\MySQL Server 8.0\bin;C:\Program Files (x86)\Yarn\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\user\AppData\Local\Programs\Python\Launcher;C:\Users\user\AppData\Local\Microsoft\WindowsApps;C:\Users\user\AppData\Roaming\npm;C:\cygwin64\bin;C:\Users\user\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Amazon\ECSCLI;C:\Program Files (x86)\Nmap;C:\Program Files\MySQL\MySQL Server 8.0\bin;C:\Users\user\AppData\Local\hyper\app-2.1.1\resources\bin;C:\Users\user\AppData\Local\Yarn\bin;C:\Users\user\AppData\Local\Android\Sdk\platform-tools;C:\Program Files\Android\Android Studio\jre\jre\bin
 
 Yarn version: 
   1.13.0
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'C:\cygwin64\home\user\APPAP\node_modules\acorn-dynamic-import\node_modules\.bin\acorn'
+  Error: EPERM: operation not permitted, unlink 'c:\cygwin64\home\user\APPAP\node_modules\acorn-dynamic-import\node_modules\.bin\acorn'
 
 npm manifest: 
   {
@@ -59,6 +59,7 @@ npm manifest:
       "react-helmet": "^5.2.0",
       "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
       "react-native-collapsible": "^1.4.0",
+      "react-native-easy-toast": "^1.2.0",
       "react-native-elements": "^1.1.0",
       "react-native-loading-spinner-overlay": "^1.0.1",
       "react-native-qrcode": "^0.2.7",
@@ -9177,6 +9178,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-native-easy-grid/-/react-native-easy-grid-0.2.0.tgz#4718031aa1baaa2613b829fc807da288eb0d2797"
     dependencies:
       lodash "^4.11.1"
+  
+  react-native-easy-toast@^1.2.0:
+    version "1.2.0"
+    resolved "https://registry.yarnpkg.com/react-native-easy-toast/-/react-native-easy-toast-1.2.0.tgz#0f70bcb99e3306cda4800c244bfb4a67d42276ed"
+    integrity sha512-UtpxnRn1ME+035Uey4VR+9K0P4aVoTcWNOx5QkioWBe3LBKMPb/kZjrQ1LtvWzOyeGP4TeTUTtMX3IOPWv5MtA==
+    dependencies:
+      prop-types "^15.5.10"
   
   react-native-elements@^1.1.0:
     version "1.1.0"

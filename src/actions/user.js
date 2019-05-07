@@ -26,6 +26,10 @@ function replaceUserName(newName) {
   return { type: actionType.REPLACE_USER_NAME, data: newName };
 }
 
+function replaceUserThumbnail(newThumbnail) {
+  return { type: actionType.REPLACE_USER_THUMBNAIL, data: newThumbnail};
+}
+
 function replaceUserAuth(isAuthenticated) {
   return { type: actionType.REPLACE_USER_AUTH, data: isAuthenticated };
 }
@@ -193,7 +197,7 @@ function login(formData) {
         password: password,
         transPwd: '',
         name: result.data.name,
-        thumbnail: '',
+        thumbnail: result.data.thumbnail,
         authenticated: true,
       };
       dispatch(replaceUser(userData));
@@ -289,6 +293,24 @@ function changeTransPwd(formData) {
   };
 }
 
+function changeThumbnail(formData) {
+  const { thumbnailFormdata } = formData;
+
+  return async (dispatch, getState) => {
+    // Api request
+    let result = await apiRequest(dispatch, '/user/update/thumbnail', 'POST', thumbnailFormdata, 'multipart/form-data');
+  
+    // Process result
+    if (result && result.success) {
+      // Status
+      dispatch(statusMessage('success', '更改成功'));
+      return true;
+    }
+
+    return false;
+  };
+}
+
 export {
   replaceUser,
   clearUser,
@@ -296,11 +318,13 @@ export {
   replaceUserPassword,
   replaceUserTransPwd,
   replaceUserName,
+  replaceUserThumbnail,
   replaceUserAuth,
 
   changeName,
   changePwd,
   changeTransPwd,
+  changeThumbnail,
 
   register,
   registerPushPhone,

@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import { Icon, DatePicker, Button } from 'native-base';
+// import DatePicker from 'react-native-datepicker';
+import { Icon, Button, DatePicker } from 'native-base';
 import PropTypes from 'prop-types';
 import Accordion from 'react-native-collapsible/Accordion';
 import moment from 'moment';
@@ -181,40 +182,39 @@ class TransHistory extends Component {
     historyData: [],
   }
 
-  state = {
-    startTime: '',
-    endTime: '',
-    activeSections: [],
-  };
-
-  async componentDidMount() {
-    const { defaultStartTimeUtc, defaultEndTimeUtc } = this.props;
-    this.setState({ startTime: defaultStartTimeUtc });
-    this.setState({ endTime: defaultEndTimeUtc });
+  constructor(props) {
+    super(props);
+    this.state = {
+      startTimeUtc: props.defaultStartTimeUtc,
+      endTimeUtc: props.defaultEndTimeUtc,
+      startTime: props.defaultStartTime,
+      endTime: props.defaultEndTimeUtc,
+      activeSections: [],
+    };
   }
 
+  // async componentDidMount() {
+  //   const { defaultStartTimeUtc, defaultEndTimeUtc } = this.props;
+  //   this.setState({ startTime: defaultStartTimeUtc });
+  //   this.setState({ endTime: defaultEndTimeUtc });
+  // }
+
   _setStartTime = (v) => {
-    const startTime = moment(v).startOf('day').utc().format('YYYY/MM/DD HH:mm');
-    this.setState({ startTime: startTime });
+    console.log(v);
+    const startTimeUtc = moment(v).startOf('day').utc().format('YYYY-MM-DD HH:mm');
+    const startTime = moment(v).startOf('day').format('YYYY-MM-DD HH:mm');
+    console.log(startTimeUtc);
+    console.log(startTime);
+    this.setState({ startTime: startTime, startTimeUtc: startTimeUtc });
   };
 
   _setEndTime = (v) => {
-    const endTime = moment(v).endOf('day').utc().format('YYYY/MM/DD HH:mm');
-    this.setState({ endTime: endTime });
+    const endTimeUtc = moment(v).endOf('day').format('YYYY-MM-DD HH:mm');
+    const endTime = moment(v).endOf('day').utc().format('YYYY-MM-DD HH:mm');
+    this.setState({ endTime: endTime, endTimeUtc: endTimeUtc });
   };
 
-  _renderHeader = section => (
-    <View style={styles.headerContainer}>
-      <View style={styles.headerTime}>
-        <Text style={styles.headerText}>{section.createtime}</Text>
-      </View>
-      <View style={styles.headerDownIcon}>
-        <Icon type="FontAwesome" name="angle-down" style={styles.headerIcon} />
-      </View>
-    </View>
-  );
-
-  _renderContent = (section) => {
+  _renderHeader = (section) => {
     let iconColor;
     if (section.amount < 0) {
       iconColor = '#BB1A3C';
@@ -222,10 +222,32 @@ class TransHistory extends Component {
       iconColor = '#fff';
     }
     return (
+      <View style={styles.headerContainer}>
+        <View style={styles.headerTime}>
+          <Text style={styles.headerText}>{section.createtime.split(' ')[0]}</Text>
+        </View>
+        <View style={styles.headerTime}>
+          <Text style={[styles.headerText, { color: iconColor }]}>{section.amount}</Text>
+        </View>
+        <View style={styles.headerDownIcon}>
+          <Icon type="FontAwesome" name="angle-down" style={styles.headerIcon} />
+        </View>
+      </View>
+    );
+  }
+
+  _renderContent = (section) => {
+    // let iconColor;
+    // if (section.amount < 0) {
+    //   iconColor = '#BB1A3C';
+    // } else {
+    //   iconColor = '#fff';
+    // }
+    return (
       <View style={styles.contentContainer}>
         <View style={styles.contentLeft}>
-          <Icon name="dollar" type="FontAwesome" style={[styles.dollarIcon, { color: iconColor }]} />
-          <Text style={[styles.dollarText, { color: iconColor }]}>{section.amount}</Text>
+          <Icon name="clockcircleo" type="AntDesign" style={styles.icon} />
+          <Text style={styles.contentText}>{section.createtime.split(' ')[1]}</Text>
         </View>
         <View style={styles.contentMiddle}>
           <Icon name="md-person" type="Ionicons" style={styles.icon} />
@@ -268,10 +290,12 @@ class TransHistory extends Component {
   };
 
   _handleHistorySearch = async () => {
+    console.log('inininla');
     const { onSearchSubmit } = this.props;
-    const { startTime, endTime } = this.state;
-    if (startTime !== '' && endTime !== '') {
-      await onSearchSubmit(startTime, endTime);
+    const { startTimeUtc, endTimeUtc } = this.state;
+    if (startTimeUtc !== '' && endTimeUtc !== '') {
+      console.log('search');
+      await onSearchSubmit(startTimeUtc, endTimeUtc);
     }
   };
 
@@ -298,7 +322,6 @@ class TransHistory extends Component {
                 textStyle={{ color: "#d3d3d3", fontSize: 25 }}
                 placeHolderTextStyle={{ color: "#d3d3d3", fontSize: 25 }}
                 onDateChange={this._setStartTime}
-                value={defaultStartTime}
               />
             </View>
             <View style={styles.endTime}>
@@ -320,10 +343,7 @@ class TransHistory extends Component {
             </View>
           </View>
           <View style={styles.iconContainer}>
-            {/* <Button info style={styles.button} onPress={() => this._handleHistorySearch()}>
-              <Text style={styles.buttonText}>搜尋</Text>
-            </Button> */}
-            <TouchableOpacity onPress={() => this._handleHistorySearch}>
+            <TouchableOpacity onPress={this._handleHistorySearch}>
               <Icon name="search1" type="AntDesign" style={styles.searchIcon} />
             </TouchableOpacity>
           </View>
