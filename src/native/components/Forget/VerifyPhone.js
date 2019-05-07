@@ -120,17 +120,22 @@ class Register extends React.Component {
     super(props);
     this.state = {
       verifyCode: '',
-
-      verifyCodeValidate: false,
       verifyCodeMsg: '',
       buttonIsPressed: '',
     };
   }
 
-  validate = (text, type) => {
-    this.setState({ verifyCodeValidate: true, verifyCodeMsg: '' });
-    this._handleChange('verifyCode', text);
-    
+  _validate = () => {
+    const verifyCodeVal = /([0-9]{6})$/g;
+    const { verifyCode } = this.state;
+
+    if (verifyCodeVal.test(verifyCode)) {
+      this.setState({ verifyCodeMsg: '' });
+    } else {
+      this.setState({ verifyCodeMsg: '驗證碼必須為6位數字' });
+      return false;
+    }
+    return true;
   }
 
   _handleChange = (key, val) => {
@@ -141,9 +146,8 @@ class Register extends React.Component {
 
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
-    const { verifyCodeValidate } = this.state;
+    if (!this._validate()) return;
 
-    if (!verifyCodeValidate) return;
     let success = await onFormSubmit(this.state);
     if (success) Actions.forget2();
   }
@@ -171,7 +175,7 @@ class Register extends React.Component {
                     autoCapitalize="none"
                     placeholderTextColor="white"
                     keyboardType="default"
-                    onChangeText={v => this.validate(v, 'verifyCode')}
+                    onChangeText={v => this._handleChange('verifyCode', v)}
                     onSubmitEditing={Keyboard.dismiss}
                   />
                   <Icon style={styles.iconStyle} name="user" />
