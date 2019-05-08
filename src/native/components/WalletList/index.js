@@ -255,6 +255,7 @@ class WalletList extends React.Component {
       <IconButton iconName="qrcode" iconType="AntDesign" iconColor={Colors.labelLightGray} text="QR碼" onPress={() => this._handleQRcode(section.storeId)} />
       <IconButton iconName="swap" iconColor={Colors.labelLightGray} text="轉帳" onPress={() => this._handleTransfer(section.storeId)} />
       <IconButton iconName="dollar" iconType="FontAwesome" iconColor={Colors.labelLightGray} text="交易紀錄" onPress={() => this._handleHistory(section.storeId)} />
+      <IconButton iconName="bank-remove" iconType="MaterialCommunityIcons" iconColor={Colors.labelLightGray} text="轉換" onPress={() => this._handleQRcode(section.storeId)} />
     </View>
   );
 
@@ -282,7 +283,7 @@ class WalletList extends React.Component {
             <IconButton iconName="qrcode" iconType="AntDesign" text="QR碼" iconColor={Colors.labelWhite} onPress={() => this._handleQRcode(-1)} />
             <IconButton text="轉帳" iconName="swap" iconColor={Colors.labelWhite} onPress={() => this._handleTransfer(mainWallet.storeId)} />
             <IconButton iconName="dollar" iconType="FontAwesome" text="交易紀錄" iconColor={Colors.labelWhite} onPress={() => this._handleHistory(mainWallet.storeId)} />
-            {/* <IconButton iconName="bank" iconType="MaterialCommunityIcons" text="匯兌" iconColor={Colors.labelWhite} onPress={() => Actions.coupons()} /> */}
+            <IconButton iconName="bank" iconType="MaterialCommunityIcons" text="轉換" iconColor={Colors.labelWhite} onPress={() => console.log()} /> 
           </View>
         </LinearGradient>
         <View style={styles.subHeader}>

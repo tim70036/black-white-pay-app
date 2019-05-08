@@ -84,8 +84,7 @@ class QrScanner extends React.Component {
     } else if (query.type === 'receive') {
       // [TODO]
       await onChoose(query.storeId);
-      this.setState({ hasReadQRcode: false });
-      Actions.transfer({ qrData: query });
+      Actions.replace('transfer', { qrData: query });
     } else {
       alert(`此條碼無法使用`);
       this.setState({ hasReadQRcode: false });

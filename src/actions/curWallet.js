@@ -58,7 +58,7 @@ function transfer(formData) {
 
   return async (dispatch, getState) => {
     const requestBody = JSON.stringify({
-      storeId: getState().curWallet.storeId,
+      storeId: getState().curWallet.storeId.toString(),
       accountTo: accountTo,
       amount: amount,
       transPwd: transPwd,
@@ -82,7 +82,7 @@ function transfer(formData) {
 function getTransHistory(startTime, endTime) {
   return async (dispatch, getState) => {
     const requestBody = JSON.stringify({
-      storeId: getState().curWallet.storeId,
+      storeId: getState().curWallet.storeId.toString(),
       startTime: startTime,
       endTime: endTime,
     });
