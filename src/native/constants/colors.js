@@ -4,24 +4,17 @@ const Colors = {
   barText: '#757575',
   barfocusText: '#FEFEFE',
 
+
+  labelGray: '#dcdddd',
+  labelLightGray: '#737172',
+  labelGold: '#D79D44',
+  labelWhite: '#f7f9f9',
+
   white: '#ffffff',
   gray: '#ffffff',
   gold: '#ffffff',
   red: '#ffffff',
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
   buttonGray: '#494949',
   buttonLightGray: '#979797',
 
