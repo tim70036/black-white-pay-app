@@ -31,7 +31,7 @@ StatusBar.setBarStyle('light-content');
 
 const styles = StyleSheet.create({
   rootContainer: {
-    backgroundColor: Colors.backgroundBlack,
+    backgroundColor: Colors.labelGold,
   },
 });
 

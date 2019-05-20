@@ -70,6 +70,8 @@ import ChangePwdComponent from '../components/Mine/ChangePwd';
 import ChangeTransPwdComponent from '../components/Mine/ChangeTransPwd';
 import PrivacyComponent from '../components/Mine/Privacy';
 
+import TabBar from '../components/TabBar';
+
 const renderTabIcons = ({ title, focused }) => {
   switch (title) {
     case '首頁': {
@@ -98,6 +100,7 @@ const getRoutes = (authenticate, goAuth, refresh) => (
       <Stack key="main" hideNavBar>
         <Tabs
           key="main"
+          tabBarComponent={TabBar}
           {...DefaultProps.tabProps}
         >
           <Stack
