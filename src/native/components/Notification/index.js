@@ -1,12 +1,14 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import { Image, StyleSheet, FlatList, View } from 'react-native';
+import { Image, StyleSheet, FlatList, View, ImageBackground } from 'react-native';
 import {
   Container, Card, CardItem, Body, Text, Header,
 } from 'native-base';
 import PropTypes from 'prop-types';
-import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+
+import NavBar from '../NavBar';
 import Colors from '../../constants/colors';
+import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 
 const thumbnailSize = 50;
 
@@ -19,19 +21,27 @@ const styles = StyleSheet.create({
 
   card: {
     flexDirection: 'row',
-    paddingVertical: 12,
+    paddingVertical: 25,
+    paddingHorizontal: 20,
+    // borderWidth: 2,
+    // borderColor: 'red',
   },
 
   cardItemRight: {
-    flex: 6,
+    flex: 8,
     flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'flex-start',
+    // borderWidth: 2,
+    // borderColor: 'red',
   },
 
   cardItemLeft: {
     flex: 2,
-    alignItems: 'center',
     justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    // borderWidth: 2,
+    // borderColor: 'red',
   },
 
   text: {
@@ -42,7 +52,7 @@ const styles = StyleSheet.create({
   footerText: {
     fontSize: 10,
     marginTop: 10,
-    color: Colors.labelGray,
+    color: Colors.gold,
   },
 
   image: {
@@ -62,6 +72,7 @@ const Notification = ({ notificationData }) => {
       style={{
         justifyContent: 'center',
         alignItems: 'center',
+        paddingHorizontal: 20,
       }}
     >
       <View style={{ height: 1, width: '100%', backgroundColor: '#3d3937' }} />
@@ -84,14 +95,15 @@ const Notification = ({ notificationData }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <ImageBackground style={styles.container} source={require('../../../img/background/background2.png')}>
+      <NavBar title="通知" back />
       <FlatList
         data={notificationData}
         ItemSeparatorComponent={_renderSeparator}
         renderItem={_renderItem}
         keyExtractor={(item, index) => index.toString()}
       />
-    </View>
+    </ImageBackground>
   );
 };
 

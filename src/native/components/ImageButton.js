@@ -11,7 +11,6 @@ import {
   viewportWidthPercent,
   viewportHeightPercent,
 } from '../lib/util';
-import Colors from '../constants/colors';
 
 // Sizing based on the viewport
 const buttonWidth = viewportWidthPercent(16);
@@ -36,20 +35,21 @@ const styles = StyleSheet.create({
 });
 
 const ImageButton = ({ image, text, textColor, onPress }) => (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
-      <Image source={image} />
-      <Text style={[styles.text, { color: textColor }]}>{text}</Text>
-    </TouchableOpacity>
+  <TouchableOpacity style={styles.container} onPress={onPress}>
+    <Image source={image} />
+    <Text style={[styles.text, { color: textColor }]}>{text}</Text>
+  </TouchableOpacity>
 );
 
 ImageButton.propTypes = {
   image: PropTypes.number.isRequired,
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
   textColor: PropTypes.string,
   onPress: PropTypes.func,
 };
 
 ImageButton.defaultProps = {
+  text: '',
   textColor: '#ffffff',
   onPress: null,
 };

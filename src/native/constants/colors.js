@@ -1,7 +1,7 @@
 const Colors = {
   barBackground: '#262727',
   barBackgroundFocus: '#222323',
-  barText: '#757575',
+  barText: '#ffffff',
   barfocusText: '#FEFEFE',
 
 
@@ -12,7 +12,7 @@ const Colors = {
 
   white: '#ffffff',
   gray: '#ffffff',
-  gold: '#ffffff',
+  gold: '#b9a078',
   red: '#ffffff',
 
   buttonGray: '#494949',

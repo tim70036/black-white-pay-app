@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ImageBackground } from 'react-native';
 import PropTypes from 'prop-types';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { Actions } from 'react-native-router-flux';
 
+import NavBar from '../NavBar';
 import CarouselEntry, { sliderWidth, itemWidth } from '../CarouselEntry';
 import IconButton from './IconButton';
 import Colors from '../../constants/colors';
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     paddingTop: viewportHeightPercent(10),
   },
   shortcutsCard: {
-    
+
     ...shadowStyle,
 
     height: viewportHeightPercent(30),
@@ -109,7 +110,8 @@ class Home extends Component {
     const { carouselData } = this.props;
 
     return (
-      <View style={styles.container}>
+      <ImageBackground style={styles.container} source={require('../../../img/background/background1.png')}>
+        <NavBar title="首頁" back notification />
         <View style={styles.adsContainer}>
           <View style={styles.slider}>
             <Carousel
@@ -165,7 +167,7 @@ class Home extends Component {
             </View>
           </View>
         </View>
-      </View>
+      </ImageBackground>
     );
   }
 }

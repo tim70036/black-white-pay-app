@@ -17,8 +17,8 @@ import {
 } from '../lib/util';
 
 const slideHeight = viewportHeightPercent(25); // Carousel Height (orignal: viewportHeight *  0.36)
-const slideWidth = viewportWidthPercent(100);
-const itemHorizontalMargin = viewportWidthPercent(1);
+const slideWidth = viewportWidthPercent(90);
+const itemHorizontalMargin = viewportWidthPercent(5);
 const entryBorderRadius = 4;
 
 export const sliderWidth = viewportWidth;

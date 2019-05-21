@@ -3,10 +3,12 @@ import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPerc
 import Colors from './colors';
 
 export default {
+
   navbarProps: {
     headerLayoutPreset: 'center', // Android title center
+    hideNavBar: true,
     navigationBarStyle: {
-      backgroundColor: Colors.barBackground,
+      backgroundColor: 'rgba(255,255,255,0)',
       height: 55,
       // elevation: 0, // For IOS bug
       borderBottomWidth: 0, // For IOS bug
@@ -14,6 +16,7 @@ export default {
     titleStyle: {
       color: Colors.barText,
       alignSelf: 'center',
+      marginTop: -30, // Fuck RNRF navbar transparent
       textAlign: 'center',
       letterSpacing: 2,
       fontSize: 18,
@@ -26,25 +29,6 @@ export default {
     backToInitial: true, // Back to initial screen on focused tab if tab icon was tapped.
     swipeEnabled: true,
     type: 'push',
-    showLabel: true,
-    activeBackgroundColor: Colors.barBackgroundFocus,
-    activeTintColor: Colors.barText,
-    // Override the tabbar styles
-    tabBarStyle: {
-
-      height: 65,
-      backgroundColor: Colors.barBackground,
-
-      
-    },
-    // Override the style for an individual tab of the tabbar
-    tabStyle: {
-    },
-    // Overrides the styles for the tab label
-    labelStyle: {
-      marginBottom: 5,
-      color: Colors.barText,
-    },
   },
 
   icons: {

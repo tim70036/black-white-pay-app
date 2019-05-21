@@ -100,12 +100,12 @@ const getRoutes = (authenticate, goAuth, refresh) => (
       <Stack key="main" hideNavBar>
         <Tabs
           key="main"
-          tabBarComponent={TabBar}
           {...DefaultProps.tabProps}
+          tabBarComponent={TabBar}
         >
           <Stack
             key="home"
-            title="首頁"
+            title=""
             icon={renderTabIcons}
             {...DefaultProps.navbarProps}
           >
@@ -134,7 +134,6 @@ const getRoutes = (authenticate, goAuth, refresh) => (
 
           <Stack
             key="notifyList"
-            title="通知"
             icon={renderTabIcons}
             {...DefaultProps.navbarProps}
           >

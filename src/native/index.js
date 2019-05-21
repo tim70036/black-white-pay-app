@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, Platform, StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 import { Notifications, Font } from 'expo';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
@@ -31,7 +31,8 @@ StatusBar.setBarStyle('light-content');
 
 const styles = StyleSheet.create({
   rootContainer: {
-    backgroundColor: Colors.labelGold,
+    backgroundColor: 'transparent',
+    zIndex: -1000,
   },
 });
 
