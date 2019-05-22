@@ -1,14 +1,9 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
-import { Image, StyleSheet, FlatList, View, ImageBackground } from 'react-native';
-import {
-  Container, Card, CardItem, Body, Text, Header,
-} from 'native-base';
+import { Image, StyleSheet, FlatList, View, ImageBackground, Text } from 'react-native';
 import PropTypes from 'prop-types';
 
 import NavBar from '../NavBar';
 import Colors from '../../constants/colors';
-import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 
 const thumbnailSize = 50;
 
@@ -46,7 +41,7 @@ const styles = StyleSheet.create({
 
   text: {
     fontSize: 15,
-    color: Colors.labelWhite,
+    color: Colors.white,
   },
 
   footerText: {
@@ -107,5 +102,19 @@ const Notification = ({ notificationData }) => {
   );
 };
 
+
+Notification.propTypes = {
+  notificationData: PropTypes.arrayOf(
+    PropTypes.shape({
+      content: PropTypes.string,
+      createtime: PropTypes.string,
+      thumbnail: PropTypes.string,
+    }),
+  ),
+};
+
+Notification.defaultProps = {
+  notificationData: [],
+};
 
 export default Notification;

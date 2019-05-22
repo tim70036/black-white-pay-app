@@ -11,7 +11,8 @@ const Colors = {
   labelWhite: '#f7f9f9',
 
   white: '#ffffff',
-  gray: '#ffffff',
+  gray: '#2a2a2a',
+  lightGray: '#8f95a6',
   gold: '#b9a078',
   red: '#ffffff',
 

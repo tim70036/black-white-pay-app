@@ -7,6 +7,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Toast, { DURATION } from 'react-native-easy-toast';
 import { statusMessage } from '../../actions/status';
 
+import NavBar from '../components/NavBar';
+
 function spinnerHOC(NormalComponent) {
   class spinnerComponent extends React.Component {
     static propTypes = {

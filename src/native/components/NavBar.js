@@ -19,6 +19,8 @@ const styles = {
     marginTop: STATUSBAR_HEIGHT,
     height: navbarHeight,
     backgroundColor: 'rgba(0,0,0,0)',
+    // borderWidth: 2,
+    // borderColor: 'red',
   },
   buttonContainer: {
     flex: 15,

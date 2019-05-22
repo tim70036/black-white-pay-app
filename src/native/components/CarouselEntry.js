@@ -16,8 +16,9 @@ import {
   viewportHeightPercent,
 } from '../lib/util';
 
-const slideHeight = viewportHeightPercent(25); // Carousel Height (orignal: viewportHeight *  0.36)
-const slideWidth = viewportWidthPercent(90);
+export const slideHeight = viewportHeightPercent(20); // Carousel Height (orignal: viewportHeight *  0.36)
+export const slideWidth = viewportWidthPercent(90);
+
 const itemHorizontalMargin = viewportWidthPercent(5);
 const entryBorderRadius = 4;
 
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
   },
   image: {
     ...StyleSheet.absoluteFillObject,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
     // borderRadius: IS_IOS ? entryBorderRadius : 0,
     borderRadius: entryBorderRadius,
     borderTopLeftRadius: entryBorderRadius,
