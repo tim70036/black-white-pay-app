@@ -46,6 +46,9 @@ import WalletListComponent from '../components/WalletList';
 import notifyListContainer from '../../containers/Notification';
 import notifyListComponent from '../components/Notification';
 
+import ExchangeContainer from '../../containers/Exchange';
+import ExchangeComponent from '../components/Exchange';
+
 import TransferContainer from '../../containers/Transfer';
 import TransferComponent from '../components/Transfer';
 
@@ -72,27 +75,6 @@ import PrivacyComponent from '../components/Mine/Privacy';
 
 import TabBar from '../components/TabBar';
 
-const renderTabIcons = ({ title, focused }) => {
-  switch (title) {
-    case '首頁': {
-      return <Icon name="home" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barfocusText } : { color: Colors.barText }]} />;
-    }
-    case '商店': {
-      return <Icon name="grid" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barfocusText } : { color: Colors.barText }]} />;
-    }
-    case '我的錢包': {
-      return <Icon name="wallet" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barfocusText } : { color: Colors.barText }]} />;
-    }
-    case '通知': {
-      return <Icon name="bell" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barfocusText } : { color: Colors.barText }]} />;
-    }
-    case '我的': {
-      return <Icon name="settings" type="SimpleLineIcons" style={[{ ...DefaultProps.icons.style }, (focused) ? { color: Colors.barfocusText } : { color: Colors.barText }]} />;
-    }
-    default: return <Icon name="planet" {...DefaultProps.icons} />;
-  }
-};
-
 const getRoutes = (authenticate, goAuth, refresh) => (
   <Modal key="modal" hideNavBar>
     <Lightbox key="main" hideNavBar>
@@ -106,17 +88,14 @@ const getRoutes = (authenticate, goAuth, refresh) => (
           <Stack
             key="home"
             title=""
-            icon={renderTabIcons}
             {...DefaultProps.navbarProps}
           >
             <Scene component={spinnerHOC(HomeContainer)} Layout={HomeComponent} on={authenticate} failure={goAuth} />
-            <Scene title="付款" key="qrCodePay" back component={spinnerHOC(qrCodePayContainer)} Layout={qrCodeComponent} on={authenticate} failure={goAuth} />
           </Stack>
 
           <Stack
             key="storeList"
             title="商店"
-            icon={renderTabIcons}
             {...DefaultProps.navbarProps}
           >
             <Scene component={spinnerHOC(StoreListContainer)} Layout={StoreListComponent} on={authenticate} failure={goAuth} success={refresh} />
@@ -126,24 +105,15 @@ const getRoutes = (authenticate, goAuth, refresh) => (
           <Stack
             key="walletList"
             title="我的錢包"
-            icon={renderTabIcons}
             {...DefaultProps.navbarProps}
           >
             <Scene component={spinnerHOC(WalletListContainer)} Layout={WalletListComponent} on={authenticate} failure={goAuth} success={refresh} />
           </Stack>
 
-          <Stack
-            key="notifyList"
-            icon={renderTabIcons}
-            {...DefaultProps.navbarProps}
-          >
-            <Scene component={spinnerHOC(notifyListContainer)} Layout={notifyListComponent} on={authenticate} failure={goAuth} success={refresh} />
-          </Stack>
 
           <Stack
             key="mine"
             title="我的"
-            icon={renderTabIcons}
             {...DefaultProps.navbarProps}
           >
             <Scene component={spinnerHOC(MineContainer)} Layout={MineComponent} on={authenticate} failure={goAuth} />
@@ -159,6 +129,22 @@ const getRoutes = (authenticate, goAuth, refresh) => (
           back
         >
           <Scene component={spinnerHOC(AddStoreContainer)} Layout={AddStoreComponent} on={authenticate} failure={goAuth} />
+        </Stack>
+
+        <Stack
+          key="notifyList"
+          {...DefaultProps.navbarProps}
+        >
+          <Scene component={spinnerHOC(notifyListContainer)} Layout={notifyListComponent} on={authenticate} failure={goAuth} success={refresh} />
+        </Stack>
+
+        <Stack
+          key="exchange"
+          title="兌換"
+          {...DefaultProps.navbarProps}
+          back
+        >
+          <Scene component={spinnerHOC(ExchangeContainer)} Layout={ExchangeComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         <Stack

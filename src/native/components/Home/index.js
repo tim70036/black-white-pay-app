@@ -7,10 +7,8 @@ import { Actions } from 'react-native-router-flux';
 import NavBar from '../NavBar';
 import CarouselEntry, { slideHeight, sliderWidth, itemWidth } from '../CarouselEntry';
 import ImageButton from './ImageButton';
-import Colors from '../../constants/colors';
 
 import {
-  shadowStyle,
   viewportWidthPercent,
   viewportHeightPercent,
 } from '../../lib/util';
@@ -22,7 +20,7 @@ const styles = StyleSheet.create({
   },
   adsContainer: {
     flex: 25,
-    
+
     // borderWidth: 2,
     // borderColor: 'blue',
   },
@@ -34,7 +32,6 @@ const styles = StyleSheet.create({
 
     paddingHorizontal: viewportWidthPercent(5), // width 90%
     paddingBottom: viewportHeightPercent(2), // avoid too close to tab bar
-    // padding
 
     // borderWidth: 2,
     // borderColor: 'blue',
@@ -45,7 +42,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginVertical: viewportHeightPercent(1), // margin between row
-
     width: '100%',
     // borderWidth: 2,
     // borderColor: 'yellow',
@@ -125,8 +121,8 @@ class Home extends Component {
             dotsLength={carouselData.length}
             activeDotIndex={curEntryIndex}
             containerStyle={styles.pagination}
-            dotColor={'rgba(255, 255, 255, 0.92)'}
-            inactiveDotColor={'white'}
+            dotColor="rgba(255, 255, 255, 0.92)"
+            inactiveDotColor="white"
             inactiveDotOpacity={0.4}
             inactiveDotScale={0.6}
             carouselRef={this._slider1Ref}
@@ -135,16 +131,16 @@ class Home extends Component {
         </View>
         <View style={styles.cardContainer}>
           <View style={styles.cardRow}>
-            <ImageButton text="掃描" image={require('../../../img/icon/scanner.png')} />
-            <ImageButton text="付款" image={require('../../../img/icon/pay.png')} />
+            <ImageButton text="掃描" onPress={() => (Actions.qrScanner())} image={require('../../../img/icon/scanner.png')} />
+            <ImageButton text="付款" onPress={() => (Actions.qrCodePay())} image={require('../../../img/icon/pay.png')} />
           </View>
           <View style={styles.cardRow}>
-            <ImageButton text="轉帳" image={require('../../../img/icon/transfer.png')} />
-            <ImageButton text="收款" image={require('../../../img/icon/receive.png')} />
+            <ImageButton text="轉帳" onPress={() => (Actions.transfer())} image={require('../../../img/icon/transfer.png')} />
+            <ImageButton text="收款" onPress={() => (Actions.qrCodeReceive())} image={require('../../../img/icon/receive.png')} />
           </View>
           <View style={styles.cardRow}>
-            <ImageButton text="轉換" image={require('../../../img/icon/exchange.png')} />
-            <ImageButton text="合作商家" image={require('../../../img/icon/store.png')} />
+            <ImageButton text="轉換" onPress={() => (Actions.exchange())} image={require('../../../img/icon/exchange.png')} />
+            <ImageButton text="合作商家" onPress={() => (Actions.qrScanner())} image={require('../../../img/icon/store.png')} />
           </View>
 
         </View>
