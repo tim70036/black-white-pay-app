@@ -82,15 +82,6 @@ class Home extends Component {
     />
   )
 
-  _userLogout = async () => {
-    const { userLogout } = this.props;
-
-    const success = await userLogout();
-    if (success) {
-      Actions.reset('auth');
-    }
-  };
-
   render = () => {
     const { curEntryIndex } = this.state;
     const { carouselData } = this.props;
@@ -140,7 +131,7 @@ class Home extends Component {
           </View>
           <View style={styles.cardRow}>
             <ImageButton text="轉換" onPress={() => (Actions.exchange())} image={require('../../../img/icon/exchange.png')} />
-            <ImageButton text="合作商家" onPress={() => (Actions.qrScanner())} image={require('../../../img/icon/store.png')} />
+            <ImageButton text="合作商家" onPress={() => (Actions.qrScanner())} image={require('../../../img/icon/store1.png')} />
           </View>
 
         </View>

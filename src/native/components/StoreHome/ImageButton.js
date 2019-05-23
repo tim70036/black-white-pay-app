@@ -10,47 +10,48 @@ import PropTypes from 'prop-types';
 import {
   viewportWidthPercent,
   viewportHeightPercent,
-} from '../lib/util';
+} from '../../lib/util';
+
+import Colors from '../../constants/colors';
 
 // Sizing based on the viewport
-const buttonWidth = viewportWidthPercent(16);
-const buttonHeight = 60;
+const buttonWidth = viewportWidthPercent(42); // 44% * 2 ~= 90%
+const buttonHeight = '100%'; // decided by parent
 
 const styles = StyleSheet.create({
   container: {
-    width: buttonWidth,
-    height: buttonHeight,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
 
-    // test
-    // borderWidth: 2,
-    // borderColor: 'red',
+    width: buttonWidth,
+    height: buttonHeight,
+    backgroundColor: 'rgba(42,42,42,0.95)',
+    borderRadius: 26,
   },
   text: {
-    marginTop: 3,
-    fontSize: 11,
+    marginTop: viewportHeightPercent(3),
+    fontSize: 16,
+    color: Colors.lightGray,
   },
 });
 
-const ImageButton = ({ image, text, textColor, onPress }) => (
+const ImageButton = ({ text, image, onPress }) => (
   <TouchableOpacity style={styles.container} onPress={onPress}>
     <Image source={image} />
-    <Text style={[styles.text, { color: textColor }]}>{text}</Text>
+    <Text style={styles.text}>{text}</Text>
   </TouchableOpacity>
 );
 
 ImageButton.propTypes = {
-  image: PropTypes.number.isRequired,
   text: PropTypes.string,
-  textColor: PropTypes.string,
+  image: PropTypes.number,
   onPress: PropTypes.func,
 };
 
 ImageButton.defaultProps = {
   text: '',
-  textColor: '#ffffff',
+  image: null,
   onPress: null,
 };
 

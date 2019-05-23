@@ -10,7 +10,7 @@ import DefaultProps from '../constants/navigation';
 import { STATUSBAR_HEIGHT, IS_IOS, IS_ANDROID, viewportWidthPercent, viewportHeightPercent } from '../lib/util';
 import Colors from '../constants/colors';
 
-const navbarHeight = 55;
+const navbarHeight = 65;
 
 const styles = {
   container: {

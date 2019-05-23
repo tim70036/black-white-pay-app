@@ -87,7 +87,6 @@ const getRoutes = (authenticate, goAuth, refresh) => (
         >
           <Stack
             key="home"
-            title=""
             {...DefaultProps.navbarProps}
           >
             <Scene component={spinnerHOC(HomeContainer)} Layout={HomeComponent} on={authenticate} failure={goAuth} />
@@ -95,11 +94,10 @@ const getRoutes = (authenticate, goAuth, refresh) => (
 
           <Stack
             key="storeList"
-            title="商店"
             {...DefaultProps.navbarProps}
           >
             <Scene component={spinnerHOC(StoreListContainer)} Layout={StoreListComponent} on={authenticate} failure={goAuth} success={refresh} />
-            <Scene key="storeHome" back component={StoreHomeContainer} Layout={StoreHomeComponent} on={authenticate} failure={goAuth} />
+            <Scene key="storeHome" component={StoreHomeContainer} Layout={StoreHomeComponent} on={authenticate} failure={goAuth} />
           </Stack>
 
           <Stack
