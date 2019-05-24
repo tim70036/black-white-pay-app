@@ -65,6 +65,9 @@ export default class App extends React.Component {
       require('../img/icon/store1.png'),
       require('../img/icon/store2.png'),
       require('../img/icon/transfer.png'),
+      require('../img/icon/addPerson.png'),
+      require('../img/icon/addNote.png'),
+      require('../img/icon/qrCode.png'),
 
       // Tab bar
       require('../img/tabbar/home-focus.png'),
@@ -76,6 +79,7 @@ export default class App extends React.Component {
       require('../img/tabbar/friend-unfocus.png'),
       require('../img/tabbar/person-focus.png'),
       require('../img/tabbar/person-unfocus.png'),
+
     ]);
 
     // Font

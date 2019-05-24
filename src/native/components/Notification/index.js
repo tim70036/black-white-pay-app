@@ -4,8 +4,12 @@ import PropTypes from 'prop-types';
 
 import NavBar from '../NavBar';
 import Colors from '../../constants/colors';
+import {
+  viewportWidthPercent,
+  viewportHeightPercent,
+} from '../../lib/util';
 
-const thumbnailSize = 50;
+const thumbnailSize = viewportWidthPercent(14);
 
 const styles = StyleSheet.create({
 
@@ -27,6 +31,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
+
     // borderWidth: 2,
     // borderColor: 'red',
   },
