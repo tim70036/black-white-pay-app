@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar, StyleSheet } from 'react-native';
-import { Notifications, Font } from 'expo';
+import { Font, Asset } from 'expo';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
@@ -32,7 +32,6 @@ StatusBar.setBarStyle('light-content');
 const styles = StyleSheet.create({
   rootContainer: {
     backgroundColor: 'transparent',
-    zIndex: -1000,
   },
 });
 
@@ -44,10 +43,40 @@ export default class App extends React.Component {
 
   state = { loading: true }
 
-  async componentWillMount() {
+  async componentDidMount() {
 
     // Moment locale
     moment.locale('zh-TW');
+
+    // Asset
+    await Asset.loadAsync([
+      // Bg
+      require('../img/background/background1.png'),
+      require('../img/background/background2.png'),
+
+      // Icon
+      require('../img/icon/coupon.png'),
+      require('../img/icon/exchange.png'),
+      require('../img/icon/game.png'),
+      require('../img/icon/info.png'),
+      require('../img/icon/pay.png'),
+      require('../img/icon/receive.png'),
+      require('../img/icon/scanner.png'),
+      require('../img/icon/store1.png'),
+      require('../img/icon/store2.png'),
+      require('../img/icon/transfer.png'),
+
+      // Tab bar
+      require('../img/tabbar/home-focus.png'),
+      require('../img/tabbar/home-unfocus.png'),
+      require('../img/tabbar/store-focus.png'),
+      require('../img/tabbar/store-unfocus.png'),
+      require('../img/tabbar/wallet.png'),
+      require('../img/tabbar/friend-focus.png'),
+      require('../img/tabbar/friend-unfocus.png'),
+      require('../img/tabbar/person-focus.png'),
+      require('../img/tabbar/person-unfocus.png'),
+    ]);
 
     // Font
     await Font.loadAsync({
@@ -109,5 +138,3 @@ export default class App extends React.Component {
     );
   }
 }
-
-

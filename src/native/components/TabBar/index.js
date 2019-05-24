@@ -102,7 +102,7 @@ class TabBar extends Component {
           <ImageButton text="" onPress={() => (this._changeScene('walletList'))} image={iconImages.walletList} textColor={textColors.walletList} />
         </View>
         <View style={[styles.sideContainer, { justifyContent: 'flex-start' }]}>
-          <ImageButton text="朋友" onPress={() => (Actions.notifyList())} image={iconImages.friendList} textColor={textColors.friendList} />
+          <ImageButton text="朋友" onPress={() => (this._changeScene('friendList'))} image={iconImages.friendList} textColor={textColors.friendList} />
           <ImageButton text="我的" onPress={() => (this._changeScene('mine'))} image={iconImages.mine} textColor={textColors.mine} />
         </View>
       </View>

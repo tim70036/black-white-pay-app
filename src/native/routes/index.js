@@ -43,6 +43,9 @@ import StoreHomeComponent from '../components/StoreHome';
 import WalletListContainer from '../../containers/WalletList';
 import WalletListComponent from '../components/WalletList';
 
+import FriendListContainer from '../../containers/FriendList';
+import FriendListComponent from '../components/FriendList';
+
 import notifyListContainer from '../../containers/Notification';
 import notifyListComponent from '../components/Notification';
 
@@ -102,16 +105,21 @@ const getRoutes = (authenticate, goAuth, refresh) => (
 
           <Stack
             key="walletList"
-            title="我的錢包"
             {...DefaultProps.navbarProps}
           >
             <Scene component={spinnerHOC(WalletListContainer)} Layout={WalletListComponent} on={authenticate} failure={goAuth} success={refresh} />
           </Stack>
 
+          <Stack
+            key="friendList"
+            {...DefaultProps.navbarProps}
+          >
+            <Scene component={spinnerHOC(FriendListContainer)} Layout={FriendListComponent} on={authenticate} failure={goAuth} success={refresh} />
+          </Stack>
+
 
           <Stack
             key="mine"
-            title="我的"
             {...DefaultProps.navbarProps}
           >
             <Scene component={spinnerHOC(MineContainer)} Layout={MineComponent} on={authenticate} failure={goAuth} />
