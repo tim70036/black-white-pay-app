@@ -17,6 +17,8 @@ import Colors from '../../constants/colors';
 // Sizing based on the viewport
 const buttonWidth = viewportWidthPercent(16);
 const buttonHeight = 60;
+const imageHeight = buttonHeight * 0.43;
+const imageWidth = buttonHeight * 0.43;
 
 const styles = StyleSheet.create({
   container: {
@@ -30,6 +32,20 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
     // borderColor: 'red',
   },
+
+  image: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: imageHeight,
+    width: imageWidth,
+    resizeMode: 'contain',
+
+    // // test
+    // borderWidth: 2,
+    // borderColor: 'red',
+  },
+
   text: {
     marginTop: 3,
     fontSize: 11,
@@ -38,7 +54,7 @@ const styles = StyleSheet.create({
 
 const ImageButton = ({ image, text, textColor, onPress }) => (
   <TouchableOpacity style={styles.container} onPress={onPress}>
-    <Image source={image} />
+    <Image style={styles.image} source={image} />
     <Text style={[styles.text, { color: textColor }]}>{text}</Text>
   </TouchableOpacity>
 );

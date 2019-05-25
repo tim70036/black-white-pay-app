@@ -1,5 +1,5 @@
 import {
-  View, StyleSheet,
+  View, StyleSheet, TouchableOpacity, Image,
 } from 'react-native';
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
@@ -8,7 +8,8 @@ import ImageButton from './ImageButton';
 import { STATUSBAR_HEIGHT, IS_IOS, IS_ANDROID, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 import Colors from '../../constants/colors';
 
-const tabbarHeight = 65 + viewportHeightPercent(1);
+const tabbarHeight = 55 + viewportHeightPercent(3);
+
 
 const styles = StyleSheet.create({
   container: {
@@ -25,29 +26,32 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
     // borderColor: 'blue',
   },
-  centerContainer: {
-    flex: 1,
+
+  walletButton: {
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'flex-start',
-
-    height: tabbarHeight * 2,
-    marginTop: tabbarHeight * -1,
-    paddingTop: tabbarHeight * 0.9,
-
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0)',
+    marginTop: tabbarHeight * -0.3,
+    height: tabbarHeight,
+    width: tabbarHeight,
     // borderWidth: 2,
-    // borderColor: 'yellow',
+    // borderColor: 'red',
   },
 
   image: {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0)',
+    height: 85,
+    width: 85,
 
     // // test
     // borderWidth: 2,
-    // borderColor: 'red',
+    // borderColor: 'yellow',
   },
+
 });
 
 class TabBar extends Component {
@@ -94,14 +98,14 @@ class TabBar extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={[styles.sideContainer, { justifyContent: 'flex-end' }]}>
+        <View style={[styles.sideContainer, { justifyContent: 'center' }]}>
           <ImageButton text="首頁" onPress={() => (this._changeScene('home'))} image={iconImages.home} textColor={textColors.home} />
           <ImageButton text="商店" onPress={() => (this._changeScene('storeList'))} image={iconImages.storeList} textColor={textColors.storeList} />
         </View>
-        <View style={styles.centerContainer}>
-          <ImageButton text="" onPress={() => (this._changeScene('walletList'))} image={iconImages.walletList} textColor={textColors.walletList} />
-        </View>
-        <View style={[styles.sideContainer, { justifyContent: 'flex-start' }]}>
+        <TouchableOpacity style={styles.walletButton} onPress={() => (this._changeScene('walletList'))}>
+            <Image style={styles.image} source={iconImages.walletList} />
+        </TouchableOpacity>
+        <View style={[styles.sideContainer, { justifyContent: 'center' }]}>
           <ImageButton text="朋友" onPress={() => (this._changeScene('friendList'))} image={iconImages.friendList} textColor={textColors.friendList} />
           <ImageButton text="我的" onPress={() => (this._changeScene('mine'))} image={iconImages.mine} textColor={textColors.mine} />
         </View>
