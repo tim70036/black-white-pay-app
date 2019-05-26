@@ -19,6 +19,8 @@ import Colors from '../../constants/colors';
 // Sizing based on the viewport
 const buttonWidth = viewportWidthPercent(86);
 const buttonHeight = viewportHeightPercent(8);
+const imageWidth = 20;
+const imageHeight = 20;
 
 const styles = StyleSheet.create({
   container: {
@@ -45,7 +47,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    
+  },
+
+  image: {
+    width: imageWidth,
+    height: imageHeight,
+    resizeMode: 'contain',
   },
 
   text: {
@@ -62,7 +69,7 @@ const styles = StyleSheet.create({
 const ShortcutButton = ({ image, text, textColor, onPress }) => (
   <TouchableOpacity style={styles.container} onPress={onPress}>
     <View style={styles.textContainer}>
-      <Image source={image} />
+      <Image style={styles.image} source={image} />
       <Text style={[styles.text, { color: textColor }]}>{text}</Text>
     </View>
     <View style={styles.iconContainer}>

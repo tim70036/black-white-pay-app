@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     // borderColor: 'blue',
   },
 
-  walletButton: {
+  walletContainer: {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     // borderColor: 'red',
   },
 
-  image: {
+  walletImage: {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
@@ -102,8 +102,8 @@ class TabBar extends Component {
           <ImageButton text="首頁" onPress={() => (this._changeScene('home'))} image={iconImages.home} textColor={textColors.home} />
           <ImageButton text="商店" onPress={() => (this._changeScene('storeList'))} image={iconImages.storeList} textColor={textColors.storeList} />
         </View>
-        <TouchableOpacity style={styles.walletButton} onPress={() => (this._changeScene('walletList'))}>
-            <Image style={styles.image} source={iconImages.walletList} />
+        <TouchableOpacity style={styles.walletContainer} onPress={() => (this._changeScene('walletList'))}>
+          <Image style={styles.walletImage} source={iconImages.walletList} />
         </TouchableOpacity>
         <View style={[styles.sideContainer, { justifyContent: 'center' }]}>
           <ImageButton text="朋友" onPress={() => (this._changeScene('friendList'))} image={iconImages.friendList} textColor={textColors.friendList} />
