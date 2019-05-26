@@ -5,158 +5,168 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  ImageBackground,
+  Image,
 } from 'react-native';
-// import DatePicker from 'react-native-datepicker';
-import { Icon, Button, DatePicker } from 'native-base';
+import { Icon, DatePicker } from 'native-base';
 import PropTypes from 'prop-types';
 import Accordion from 'react-native-collapsible/Accordion';
 import moment from 'moment';
-import { Actions } from 'react-native-router-flux';
 import Colors from '../../constants/colors';
 
 import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 
-const tablePaddingHorizontal = viewportWidthPercent(5);
-const iconRadius = viewportWidthPercent(9);
 
 const styles = StyleSheet.create({
+  layoutContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: Colors.backgroundBlack,
+  },
   container: {
     flex: 1,
-    // padding: viewportWidthPercent(2),
-    // paddingTop: 10,
-    backgroundColor: '#191919',
+    flexDirection: 'column',
+  },
+  bkImg: {
   },
   inputsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: viewportWidthPercent(10),
-    paddingVertical: viewportHeightPercent(4),
-    marginVertical: viewportHeightPercent(3.5),
-    backgroundColor: Colors.backgroundGray,
+    paddingVertical: viewportHeightPercent(2),
     height: viewportHeightPercent(24),
   },
   dateContainer: {
   },
-  startTime: {
+  datePickerContainer: {
     flex: 1,
-    width: viewportWidthPercent(68),
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: viewportWidthPercent(55),
   },
-  endTime: {
-    flex: 1,
-    borderTopWidth: 2,
-    borderTopColor: Colors.labelWhite,
-    width: viewportWidthPercent(68),
-  },
-  button: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'stretch',
-    width: viewportWidthPercent(18),
-    borderRadius: 200,
-    // height: 30,
-  },
-  buttonText: {
+  datePickerText: {
     color: Colors.labelWhite,
+    fontSize: 20,
   },
-  buttonContainer: {
+  middleLine: {
+    width: viewportWidthPercent(55),
+    height: 1,
+    backgroundColor: Colors.labelWhite,
+  },
+  dot: {
+    height: viewportHeightPercent(1),
+    width: viewportHeightPercent(1),
+    borderRadius: viewportHeightPercent(1) / 2,
+    marginRight: viewportHeightPercent(1),
+    backgroundColor: Colors.labelWhite,
   },
   subHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: viewportWidthPercent(7),
-    backgroundColor: Colors.backgroundBlack,
+    marginTop: viewportWidthPercent(3),
+    marginHorizontal: viewportWidthPercent(5),
+  },
+  colorBar: {
+    width: viewportWidthPercent(2),
+    height: viewportWidthPercent(6),
+    borderRadius: viewportWidthPercent(2) / 2,
+    backgroundColor: Colors.green,
+    marginRight: viewportWidthPercent(2),
   },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: viewportWidthPercent(3),
+    paddingHorizontal: viewportWidthPercent(2),
     marginHorizontal: viewportWidthPercent(5),
-    marginTop: viewportHeightPercent(2),
     height: viewportHeightPercent(7.4),
     backgroundColor: Colors.backgroundGray,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.middleLineGray,
   },
   headerTime: {
-    flex: 7,
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  headerDownIcon: {
+  headerAmountContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  headerAmount: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingRight: viewportWidthPercent(2),
+  },
+  currencyImg: {
+    width: 20,
+    height: 23,
+    resizeMode: 'contain',
+    marginRight: viewportWidthPercent(1),
+  },
+  contentImg: {
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
+    marginRight: viewportWidthPercent(1),
   },
   subHeaderText: {
     fontWeight: '200',
     color: Colors.labelWhite,
     fontSize: 20,
   },
+  scrollViewContainer: {
+    flex: 1,
+  },
+  AccordionContainer: {
+    backgroundColor: Colors.backgroundGray,
+    borderRadius: viewportWidthPercent(4),
+    marginTop: viewportHeightPercent(3),
+    marginHorizontal: viewportWidthPercent(5),
+  },
+  AccordionBottomSpace: {
+    height: viewportHeightPercent(10),
+  },
   headerText: {
     fontWeight: '200',
     color: Colors.labelWhite,
   },
   headerIcon: {
+    fontSize: 15,
     color: Colors.labelWhite,
   },
   contentContainer: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    backgroundColor: Colors.backgroundDarkGray,
+    paddingHorizontal: viewportWidthPercent(10),
+    paddingVertical: viewportHeightPercent(1),
+  },
+  contentItem: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    height: viewportHeightPercent(11.3),
-    marginHorizontal: viewportWidthPercent(5),
-    backgroundColor: Colors.backgroundGray,
-    paddingHorizontal: tablePaddingHorizontal,
-    borderTopWidth: 2,
-    borderTopColor: '#2E302F',
-  },
-  contentLeft: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    paddingHorizontal: viewportWidthPercent(2),
-  },
-  contentMiddle: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    paddingHorizontal: viewportWidthPercent(2),
-  },
-  contentRight: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    paddingHorizontal: viewportWidthPercent(2),
+    justifyContent: 'space-between',
+    marginVertical: viewportHeightPercent(1),
   },
   contentText: {
     color: Colors.labelWhite,
   },
-  dollarText: {},
-  dollarIcon: {
-    fontSize: 25,
-    marginBottom: viewportHeightPercent(1),
-  },
-  iconContainer: {
+  searchImgContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: iconRadius * 2,
-    height: iconRadius * 2,
-    borderRadius: iconRadius,
-    borderWidth: 2,
-    borderColor: Colors.labelWhite,
+    marginLeft: viewportWidthPercent(5),
   },
-  icon: {
-    fontSize: 25,
-    color: Colors.labelWhite,
-    marginBottom: viewportHeightPercent(1),
-  },
-  searchIcon: {
-    fontSize: 30,
-    color: Colors.labelGold,
-    // paddingLeft: iconRadius * 2 / 5,
-    // paddingTop: iconRadius * 2 / 5,
+  searchImg: {
+    width: viewportHeightPercent(15),
+    height: viewportHeightPercent(15),
+    resizeMode: 'contain',
   },
 });
 
@@ -187,78 +197,18 @@ class TransHistory extends Component {
     this.state = {
       startTimeUtc: props.defaultStartTimeUtc,
       endTimeUtc: props.defaultEndTimeUtc,
-      startTime: props.defaultStartTime,
-      endTime: props.defaultEndTimeUtc,
       activeSections: [],
     };
   }
 
-  // async componentDidMount() {
-  //   const { defaultStartTimeUtc, defaultEndTimeUtc } = this.props;
-  //   this.setState({ startTime: defaultStartTimeUtc });
-  //   this.setState({ endTime: defaultEndTimeUtc });
-  // }
-
   _setStartTime = (v) => {
-    console.log(v);
     const startTimeUtc = moment(v).startOf('day').utc().format('YYYY-MM-DD HH:mm');
-    const startTime = moment(v).startOf('day').format('YYYY-MM-DD HH:mm');
-    console.log(startTimeUtc);
-    console.log(startTime);
-    this.setState({ startTime: startTime, startTimeUtc: startTimeUtc });
+    this.setState({ startTimeUtc: startTimeUtc });
   };
 
   _setEndTime = (v) => {
-    const endTimeUtc = moment(v).endOf('day').format('YYYY-MM-DD HH:mm');
-    const endTime = moment(v).endOf('day').utc().format('YYYY-MM-DD HH:mm');
-    this.setState({ endTime: endTime, endTimeUtc: endTimeUtc });
-  };
-
-  _renderHeader = (section) => {
-    let iconColor;
-    if (section.amount < 0) {
-      iconColor = '#BB1A3C';
-    } else {
-      iconColor = '#fff';
-    }
-    return (
-      <View style={styles.headerContainer}>
-        <View style={styles.headerTime}>
-          <Text style={styles.headerText}>{section.createtime.split(' ')[0]}</Text>
-        </View>
-        <View style={styles.headerTime}>
-          <Text style={[styles.headerText, { color: iconColor }]}>{section.amount}</Text>
-        </View>
-        <View style={styles.headerDownIcon}>
-          <Icon type="FontAwesome" name="angle-down" style={styles.headerIcon} />
-        </View>
-      </View>
-    );
-  }
-
-  _renderContent = (section) => {
-    // let iconColor;
-    // if (section.amount < 0) {
-    //   iconColor = '#BB1A3C';
-    // } else {
-    //   iconColor = '#fff';
-    // }
-    return (
-      <View style={styles.contentContainer}>
-        <View style={styles.contentLeft}>
-          <Icon name="clockcircleo" type="AntDesign" style={styles.icon} />
-          <Text style={styles.contentText}>{section.createtime.split(' ')[1]}</Text>
-        </View>
-        <View style={styles.contentMiddle}>
-          <Icon name="md-person" type="Ionicons" style={styles.icon} />
-          <Text style={styles.contentText}>{section.relatedName}</Text>
-        </View>
-        <View style={styles.contentRight}>
-          <Icon name="clipboard" type="Entypo" style={styles.icon} />
-          <Text style={styles.contentText}>{section.comment}</Text>
-        </View>
-      </View>
-    );
+    const endTimeUtc = moment(v).endOf('day').utc().format('YYYY-MM-DD HH:mm');
+    this.setState({ endTimeUtc: endTimeUtc });
   };
 
   _handleDateFormat = (date) => {
@@ -290,75 +240,130 @@ class TransHistory extends Component {
   };
 
   _handleHistorySearch = async () => {
-    console.log('inininla');
     const { onSearchSubmit } = this.props;
     const { startTimeUtc, endTimeUtc } = this.state;
     if (startTimeUtc !== '' && endTimeUtc !== '') {
-      console.log('search');
       await onSearchSubmit(startTimeUtc, endTimeUtc);
     }
   };
+
+  _renderHeader = (section) => {
+    let amountColor;
+    if (section.amount < 0) {
+      amountColor = Colors.red;
+    } else {
+      amountColor = Colors.labelWhite;
+    }
+    return (
+      <View style={styles.headerContainer}>
+        <View style={styles.headerTime}>
+          <Text style={styles.headerText}>{section.createtime.split(' ')[0]}</Text>
+        </View>
+        <View style={styles.headerAmountContainer}>
+          <View style={styles.headerAmount}>
+            <Image source={require('../../../img/walletList/mainSoul.png')} style={styles.currencyImg} />
+            <Text style={[styles.headerText, { color: amountColor }]}>
+              {section.amount}
+            </Text>
+          </View>
+          <Icon type="FontAwesome" name="angle-down" style={styles.headerIcon} />
+        </View>
+      </View>
+    );
+  }
+
+  _renderContent = section => (
+    <View style={styles.contentContainer}>
+      <View style={styles.contentItem}>
+        <Image source={require('../../../img/TransferHistory/time.png')} style={styles.contentImg} />
+        <Text style={styles.contentText}>{section.createtime.split(' ')[1]}</Text>
+      </View>
+      <View style={styles.contentItem}>
+        <Image source={require('../../../img/TransferHistory/target.png')} style={styles.contentImg} />
+        <Text style={styles.contentText}>{section.relatedName}</Text>
+      </View>
+      <View style={styles.contentItem}>
+        <Image source={require('../../../img/TransferHistory/comment.png')} style={styles.contentImg} />
+        <Text style={styles.contentText}>{section.comment}</Text>
+      </View>
+    </View>
+  );
 
   render = () => {
     const { activeSections } = this.state;
     const { historyData, defaultStartTime, defaultEndTime } = this.props;
 
     return (
-      <ScrollView style={styles.container}>
-        <View style={styles.inputsContainer}>
-          <View style={styles.dateContainer}>
-            <View style={styles.startTime}>
-              <DatePicker
-                defaultDate={new Date()}
-                minimumDate={new Date(2018, 1, 1)}
-                maximumDate={new Date()}
-                locale={"zh"}
-                formatChosenDate={this._handleDateFormat}
-                timeZoneOffsetInMinutes={undefined}
-                modalTransparent={false}
-                animationType={"fade"}
-                androidMode={"spinner"}
-                placeHolderText={defaultStartTime}
-                textStyle={{ color: "#d3d3d3", fontSize: 25 }}
-                placeHolderTextStyle={{ color: "#d3d3d3", fontSize: 25 }}
-                onDateChange={this._setStartTime}
-              />
+      <View style={styles.layoutContainer}>
+        <View style={styles.container}>
+          <ImageBackground style={styles.bkImg} source={require('../../../img/TransferHistory/topbk.png')}>
+            <View style={styles.inputsContainer}>
+              <View style={styles.dateContainer}>
+                <View style={styles.datePickerContainer}>
+                  <View style={styles.dot} />
+                  <DatePicker
+                    defaultDate={new Date()}
+                    minimumDate={new Date(2018, 1, 1)}
+                    maximumDate={new Date()}
+                    locale="zh"
+                    formatChosenDate={this._handleDateFormat}
+                    timeZoneOffsetInMinutes={undefined}
+                    modalTransparent={false}
+                    animationType="fade"
+                    androidMode="spinner"
+                    placeHolderText={defaultStartTime}
+                    textStyle={styles.datePickerText}
+                    placeHolderTextStyle={styles.datePickerText}
+                    onDateChange={this._setStartTime}
+                  />
+                </View>
+                <View style={styles.middleLine} />
+                <View style={styles.datePickerContainer}>
+                  <View style={styles.dot} />
+                  <DatePicker
+                    defaultDate={new Date()}
+                    minimumDate={new Date(2018, 1, 1)}
+                    maximumDate={new Date()}
+                    locale="zh"
+                    formatChosenDate={this._handleDateFormat}
+                    timeZoneOffsetInMinutes={undefined}
+                    modalTransparent={false}
+                    animationType="fade"
+                    androidMode="spinner"
+                    placeHolderText={defaultEndTime}
+                    textStyle={styles.datePickerText}
+                    placeHolderTextStyle={styles.datePickerText}
+                    onDateChange={this._setEndTime}
+                  />
+                </View>
+              </View>
+              <View style={styles.searchImgContainer}>
+                <TouchableOpacity onPress={this._handleHistorySearch}>
+                  <Image source={require('../../../img/TransferHistory/search.png')} style={styles.searchImg} />
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.endTime}>
-              <DatePicker
-                defaultDate={new Date()}
-                minimumDate={new Date(2018, 1, 1)}
-                maximumDate={new Date()}
-                locale={"zh"}
-                formatChosenDate={this._handleDateFormat}
-                timeZoneOffsetInMinutes={undefined}
-                modalTransparent={false}
-                animationType={"fade"}
-                androidMode={"spinner"}
-                placeHolderText={defaultEndTime}
-                textStyle={{ color: "#d3d3d3", fontSize: 25 }}
-                placeHolderTextStyle={{ color: "#d3d3d3", fontSize: 25 }}
-                onDateChange={this._setEndTime}
-              />
+          </ImageBackground>
+          <ImageBackground style={[styles.bkImg, { flex: 1, flexDirection: 'column' }]} source={require('../../../img/TransferHistory/contentbk.png')}>
+            <View style={styles.subHeader}>
+              <View style={styles.colorBar} />
+              <Text style={styles.subHeaderText}>交易紀錄列表</Text>
             </View>
-          </View>
-          <View style={styles.iconContainer}>
-            <TouchableOpacity onPress={this._handleHistorySearch}>
-              <Icon name="search1" type="AntDesign" style={styles.searchIcon} />
-            </TouchableOpacity>
-          </View>
+            <ScrollView style={styles.scrollViewContainer}>
+              <View style={styles.AccordionContainer}>
+                <Accordion
+                  sections={historyData}
+                  activeSections={activeSections}
+                  renderHeader={this._renderHeader}
+                  renderContent={this._renderContent}
+                  onChange={this._updateSections}
+                />
+              </View>
+              <View style={styles.AccordionBottomSpace} />
+            </ScrollView>
+          </ImageBackground>
         </View>
-        <View style={styles.subHeader}>
-          <Text style={styles.subHeaderText}>交易紀錄列表</Text>
-        </View>
-        <Accordion
-          sections={historyData}
-          activeSections={activeSections}
-          renderHeader={this._renderHeader}
-          renderContent={this._renderContent}
-          onChange={this._updateSections}
-        />
-      </ScrollView>
+      </View>
     );
   };
 }

@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Keyboard, TextInput, Picker, TouchableOpacity } from 'react-native';
 import {
-  Button,
+  View,
+  StyleSheet,
+  Keyboard,
+  TextInput,
+  Picker,
+  TouchableOpacity,
+  ImageBackground,
+} from 'react-native';
+import {
   Text,
-  Form,
-  Item,
-  Input,
-  Label,
+  Icon,
 } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-
+import { LinearGradient } from 'expo';
 
 
 import PropTypes from 'prop-types';
 import Colors from '../../constants/colors';
+import { amountValidate, transPwdValidate } from '../../lib/validate';
 import {
   viewportWidthPercent,
   viewportHeightPercent,
@@ -24,47 +29,126 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    paddingVertical: viewportHeightPercent(3),
-    paddingHorizontal: viewportWidthPercent(4),
     backgroundColor: Colors.backgroundBlack,
   },
-  inputsContainer: { // no flex 1, so container will not stretch too much
+  inputsContainer: {
     flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
     padding: viewportWidthPercent(4),
-    // marginVertical: viewportHeightPercent(2),
+  },
+  storeContainer: {
+    flexDirection: 'column',
+  },
+  pickerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    height: viewportHeightPercent(7),
     backgroundColor: Colors.backgroundGray,
-    borderRadius: 8,
+    borderRadius: viewportWidthPercent(4),
   },
-  inputItem: {
-    // marginTop: viewportHeightPercent(4),
-    marginBottom: viewportHeightPercent(2),
+  outflowPicker: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  chooseOption: {
-    color: 'white',
+  middleLine: {
+    height: viewportHeightPercent(4),
+    width: 1,
+    backgroundColor: Colors.middleLineGray,
   },
-  label: {
-    color: Colors.labelGold,
+  inflowPicker: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  picker: {
+    color: Colors.labelWhite,
+    height: 30,
+    width: viewportWidthPercent(20),
+    backgroundColor: Colors.backgroundGray,
+  },
+  amountContainer: {
+    flexDirection: 'column',
+  },
+  amountInputContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    height: viewportHeightPercent(9),
+    backgroundColor: Colors.backgroundBlack,
+    marginTop: viewportHeightPercent(4),
+  },
+  ValTextContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  outflowAmount: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  inflowAmount: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  outflowAmountText: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: viewportWidthPercent(6),
+  },
+  outflowAmountInput: {
+    flex: 1,
+    marginTop: viewportHeightPercent(2),
+    paddingLeft: viewportHeightPercent(2) + viewportWidthPercent(6),
+  },
+  dot: {
+    height: viewportHeightPercent(1),
+    width: viewportHeightPercent(1),
+    borderRadius: viewportHeightPercent(1) / 2,
+    marginRight: viewportHeightPercent(1),
+  },
+  transPwdContainer: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginTop: viewportHeightPercent(4),
+    height: viewportHeightPercent(14),
+    backgroundColor: Colors.backgroundGray,
+    borderRadius: viewportWidthPercent(4),
+    paddingLeft: viewportWidthPercent(6),
+  },
+  commentContainer: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginTop: viewportHeightPercent(2),
+    height: viewportHeightPercent(14),
+    backgroundColor: Colors.backgroundGray,
+    borderRadius: viewportWidthPercent(4),
+    paddingLeft: viewportWidthPercent(6),
+  },
+  buttonContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: viewportHeightPercent(4),
   },
   button: {
-    backgroundColor: Colors.backgroundGray,
-    marginVertical: viewportHeightPercent(3),
-    borderRadius: 50,
-    borderWidth: 2,
-    borderColor: Colors.labelGold,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: viewportHeightPercent(8) / 2,
+    height: viewportHeightPercent(8),
+    width: viewportWidthPercent(80),
   },
-  buttonText: {
-    color: Colors.labelGold,
-  },
-  inputText: {
-    color: Colors.labelWhite,
+  label: {
     fontSize: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: 'white',
-    marginTop: viewportHeightPercent(2),
+    color: Colors.labelWhite,
   },
   valText: {
-    color: 'red',
+    color: Colors.red,
     fontSize: 12,
     paddingTop: 3,
     marginLeft: 3,
@@ -75,207 +159,277 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  inputText: {
+    fontSize: 15,
+    color: Colors.labelWhite,
+  },
+  icon: {
+    fontSize: 25,
+  },
 });
 
 class Transfer extends Component {
   static propTypes = {
-    // onFormSubmit: PropTypes.func.isRequired,
-    storeWallet: PropTypes.arrayOf(
+    onFormSubmit: PropTypes.func.isRequired,
+    outflowWallet: PropTypes.arrayOf(
       PropTypes.shape({
         currencyName: PropTypes.string,
         availBalance: PropTypes.number,
       }),
     ),
-    stores: PropTypes.arrayOf(
+    inflowWallet: PropTypes.arrayOf(
       PropTypes.shape({
-        storeId: PropTypes.number,
-        name: PropTypes.string,
+        currencyName: PropTypes.string,
+        availBalance: PropTypes.number,
       }),
     ),
   }
 
   static defaultProps = {
-    storeWallet: [],
-    stores: [],
+    outflowWallet: [],
+    inflowWallet: [],
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      rate: 0.5,
-      transTypeOptionCode: 1,
-      storeId: props.stores[0].storeId,
+      inflowRate: 1,
+      outflowRate: 1,
+      outflowStoreId: -1,
+      inflowStoreId: -1,
       amount: '',
       transPwd: '',
       comment: '',
       amountMsg: '',
       transPwdMsg: '',
+      storeIdMsg: '',
     };
   }
 
-  validate = () => {
-    const accountVal = /^[a-z0-9]+$/ig;
-    const amountVal = /^\d+$/g;
-    const passwordVal = /^[a-z0-9]+$/ig;
-    const { accountTo, amount, transPwd } = this.state;
-    if (accountVal.test(accountTo)) {
-      this.setState({ accountMsg: '' });
-    } else {
-      this.setState({ accountMsg: '轉入帳號必須為英文及數字' });
-      return false;
-    }
+  _validate = () => {
+    const {
+      outflowStoreId,
+      inflowStoreId,
+      amount,
+      transPwd,
+    } = this.state;
 
-    if (amountVal.test(amount)) {
-      this.setState({ amountMsg: '' });
-    } else {
-      this.setState({ amountMsg: '轉帳數量必須為數字' });
-      return false;
-    }
+    const amountResult = amountValidate(amount);
+    const transPwdResult = transPwdValidate(transPwd);
 
-    if (parseInt(amount, 10) !== 0) {
+    if (amountResult.result) {
       this.setState({ amountMsg: '' });
       this.setState({ amount: parseInt(amount, 10).toString() });
     } else {
-      this.setState({ amountMsg: '轉帳數量不可為0' });
+      this.setState({ amountMsg: amountResult.errMsg });
       return false;
     }
 
-    if (passwordVal.test(transPwd)) {
+    if (outflowStoreId === inflowStoreId) {
+      this.setState({ storeIdMsg: '轉出轉入店家不可相同' });
+    } else {
+      this.setState({ storeIdMsg: '' });
+    }
+
+    if (transPwdResult.result) {
       this.setState({ transPwdMsg: '' });
     } else {
-      this.setState({ transPwdMsg: '轉帳密碼必須為英文及數字' });
+      this.setState({ transPwdMsg: transPwdResult.errMsg });
       return false;
     }
+
     return true;
   }
 
+  _handlePick = (name, storeId) => {
+    const { outflowWallet, inflowWallet } = this.props;
+    let targetWallet;
+    if (name === 'inflow') {
+      targetWallet = inflowWallet.find(element => element.storeId === storeId);
+      this.setState({ inflowStoreId: storeId, inflowRate: targetWallet.exchangeRate });
+    } else if (name === 'outflow') {
+      targetWallet = outflowWallet.find(element => element.storeId === storeId);
+      this.setState({ outflowStoreId: storeId, outflowRate: targetWallet.exchangeRate });
+    }
+  }
+
   _handleChange = (name, val) => {
-    console.log(val);
-    this.setState({
-      [name]: val,
-    });
+    const { inflowRate, outflowRate } = this.state;
+    if (name === 'outflowAmount') {
+      let amount;
+      if (val === '') {
+        amount = '';
+      } else {
+        amount = parseInt(val, 10) / outflowRate;
+      }
+      this.setState({ amount: amount });
+    } else if (name === 'inflowAmount') {
+      let amount;
+      if (val === '') {
+        amount = '';
+      } else {
+        amount = parseInt(val, 10) / inflowRate;
+      }
+      this.setState({ amount: amount });
+    } else {
+      this.setState({
+        [name]: val,
+      });
+    }
   }
 
   _handleSubmit = async () => {
-    // const { onFormSubmit } = this.props;
-    // if (this.validate()) {
-    //   const success = await onFormSubmit(this.state);
-    //   if (success) {
-    //     Actions.pop();
-    //   }
-    // }
-  }
-
-  _handleChoose = (transTypeOptionCode) => {
-    this.setState({transTypeOptionCode: transTypeOptionCode});
+    const { onFormSubmit } = this.props;
+    if (this._validate()) {
+      const success = await onFormSubmit(this.state);
+      if (success) {
+        Actions.pop();
+      }
+    }
   }
 
   render = () => {
-    const { stores, storeWallet } = this.props;
+    const { outflowWallet, inflowWallet } = this.props;
     const {
-      rate,
+      inflowRate,
+      outflowRate,
       amount,
-      accountMsg,
       amountMsg,
       transPwdMsg,
-      transTypeOptionCode,
-      storeId,
+      storeIdMsg,
+      outflowStoreId,
+      inflowStoreId,
     } = this.state;
+    let outflowAmount;
+    let inflowAmount;
+    if (amount === '') {
+      outflowAmount = '';
+      inflowAmount = '';
+    } else {
+      outflowAmount = (parseInt(amount, 10) * outflowRate).toString();
+      inflowAmount = (parseInt(amount, 10) * inflowRate).toString();
+    }
 
     return (
-      <View style={styles.container}>
+      <ImageBackground style={styles.container} source={require('../../../img/exchange/exchange_bk.png')}>
         <View style={styles.inputsContainer}>
-          <View style={[styles.inputItem, {flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }]}>
-            <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-              <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
-                <Text style={styles.label}>轉出幣別</Text>
-              </View>
-              <View style={{ backgroundColor: 'white' }}>
+          <View style={styles.storeContainer}>
+            <View style={styles.pickerContainer}>
+              <View style={styles.outflowPicker}>
+                <Icon name="upload" type="MaterialCommunityIcons" style={[styles.icon, { color: Colors.orange }]} />
                 <Picker
-                  style={{ color: 'black', height: 30, width: 130 }}
-                  selectedValue={storeId}
-                  onValueChange={itemValue => this.setState({ storeId: itemValue })}
+                  style={styles.picker}
+                  selectedValue={outflowStoreId}
+                  onValueChange={itemValue => this._handlePick('outflow', itemValue)}
                 >
-                  { stores.map((i, index) => (
-                    <Picker.Item label={i.name} value={i.storeId} />
+                  { outflowWallet.map((i, index) => (
+                    <Picker.Item key={i} label={i.currencyName} value={i.storeId} />
                   ))}
                 </Picker>
               </View>
-              <Text style={styles.valText}>{accountMsg}</Text>
-            </View>
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-                <Text style={styles.label}>轉入幣別</Text>
-              </View>
-              <View style={{ backgroundColor: 'white' }}>
+              <View style={styles.middleLine} />
+              <View style={styles.inflowPicker}>
+                <Icon name="download" type="MaterialCommunityIcons" style={[styles.icon, { color: Colors.crystal_green }]} />
                 <Picker
-                  style={{ color: 'black', height: 30, width: 130 }}
-                  selectedValue={storeId}
-                  onValueChange={itemValue => this.setState({ storeId: itemValue })}
+                  style={styles.picker}
+                  selectedValue={inflowStoreId}
+                  onValueChange={itemValue => this._handlePick('inflow', itemValue)}
                 >
-                  { stores.map((i, index) => (
-                    <Picker.Item label={i.name} value={i.storeId} />
+                  { inflowWallet.map((i, index) => (
+                    <Picker.Item key={i} label={i.currencyName} value={i.storeId} />
                   ))}
                 </Picker>
               </View>
-              <Text style={styles.valText}>{accountMsg}</Text>
+            </View>
+            <View style={styles.ValTextContainer}>
+              <Text style={styles.valText}>{storeIdMsg}</Text>
             </View>
           </View>
-          <View stackedLabel style={[styles.inputItem, { flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }]}>
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={styles.label}>轉出數量</Text>
-              <TextInput
-                style={[styles.inputText, {width: viewportWidthPercent(30)}]}
-                autoCapitalize="none"
-                placeholder=""
-                keyboardType="numeric"
-                onChangeText={v => this._handleChange('amount', v)}
-                onSubmitEditing={Keyboard.dsmiss}
-              />
-              <Text style={styles.valText}>{amountMsg}</Text>
+          <View style={styles.amountContainer}>
+            <View style={styles.amountInputContainer}>
+              <View style={styles.outflowAmount}>
+                <View style={styles.outflowAmountText}>
+                  <View style={[styles.dot, { backgroundColor: Colors.orange }]} />
+                  <Text style={styles.label}>轉出數量</Text>
+                </View>
+                <View style={styles.outflowAmountInput}>
+                  <TextInput
+                    style={[styles.inputText, { width: viewportWidthPercent(30) }]}
+                    autoCapitalize="none"
+                    placeholder="輸入轉出數量"
+                    placeholderTextColor={Colors.middleLineGray}
+                    keyboardType="numeric"
+                    onChangeText={v => this._handleChange('outflowAmount', v)}
+                    onSubmitEditing={Keyboard.dsmiss}
+                    value={outflowAmount}
+                  />
+                </View>
+              </View>
+              <View style={[styles.middleLine, { height: viewportHeightPercent(8) }]} />
+              <View style={styles.outflowAmount}>
+                <View style={styles.outflowAmountText}>
+                  <View style={[styles.dot, { backgroundColor: Colors.crystal_green }]} />
+                  <Text style={styles.label}>轉入數量</Text>
+                </View>
+                <View style={styles.outflowAmountInput}>
+                  <TextInput
+                    style={[styles.inputText, { width: viewportWidthPercent(30) }]}
+                    autoCapitalize="none"
+                    placeholder="輸入轉入數量"
+                    placeholderTextColor={Colors.middleLineGray}
+                    keyboardType="numeric"
+                    onChangeText={v => this._handleChange('inflowAmount', v)}
+                    onSubmitEditing={Keyboard.dsmiss}
+                    value={inflowAmount}
+                  />
+                </View>
+              </View>
             </View>
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={styles.label}>轉入數量</Text>
-              <TextInput
-                style={[styles.inputText, {width: viewportWidthPercent(30)}]}
-                autoCapitalize="none"
-                placeholder=""
-                keyboardType="numeric"
-                onChangeText={v => this._handleChange('amount', v)}
-                onSubmitEditing={Keyboard.dsmiss}
-              />
+            <View style={styles.ValTextContainer}>
               <Text style={styles.valText}>{amountMsg}</Text>
             </View>
           </View>
-          <View stackedLabel style={styles.inputItem}>
+          <View style={styles.transPwdContainer}>
             <Text style={styles.label}>個人轉帳密碼</Text>
             <TextInput
-              style={styles.inputText}
+              style={[styles.inputText,
+                { width: viewportWidthPercent(35), marginTop: viewportWidthPercent(2) }]}
               autoCapitalize="none"
-              placeholder=""
-              keyboardType="default"
+              placeholder="輸入個人轉帳密碼"
+              placeholderTextColor={Colors.middleLineGray}
+              keyboardType="numeric"
               onChangeText={v => this._handleChange('transPwd', v)}
-              onSubmitEditing={Keyboard.dismiss}
-              secureTextEntry
+              onSubmitEditing={Keyboard.dsmiss}
             />
             <Text style={styles.valText}>{transPwdMsg}</Text>
           </View>
-          <View stackedLabel style={styles.inputItem}>
+          <View style={styles.commentContainer}>
             <Text style={styles.label}>備註</Text>
             <TextInput
-              style={styles.inputText}
+              style={[styles.inputText,
+                { width: viewportWidthPercent(35), marginTop: viewportWidthPercent(2) }]}
               autoCapitalize="none"
-              placeholder=""
-              keyboardType="default"
+              placeholder="輸入備註"
+              placeholderTextColor={Colors.middleLineGray}
+              keyboardType="numeric"
               onChangeText={v => this._handleChange('comment', v)}
-              onSubmitEditing={Keyboard.dismiss}
+              onSubmitEditing={Keyboard.dsmiss}
             />
           </View>
-          <Button block onPress={this._handleSubmit} style={styles.button}>
-            <Text style={styles.buttonText}>確認轉換</Text>
-          </Button>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={() => (this._handleSubmit())}>
+              <LinearGradient
+                colors={['#F3D3A0', '#C4A574', '#967848']}
+                style={styles.button}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+              >
+                <Text style={styles.label}>確認轉換</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </ImageBackground>
     );
   }
 }

@@ -6,7 +6,6 @@ import { Icon } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 
-import DefaultProps from '../constants/navigation';
 import { STATUSBAR_HEIGHT, IS_IOS, IS_ANDROID, viewportWidthPercent, viewportHeightPercent } from '../lib/util';
 import Colors from '../constants/colors';
 
@@ -22,7 +21,16 @@ const styles = {
     // borderWidth: 2,
     // borderColor: 'red',
   },
-  buttonContainer: {
+  leftButtonContainer: {
+    flex: 15,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: viewportWidthPercent(2),
+
+    // borderWidth: 2,
+    // borderColor: 'red',
+  },
+  rightButtonContainer: {
     flex: 15,
     justifyContent: 'center',
     alignItems: 'center',
@@ -51,7 +59,7 @@ const styles = {
 
 const NavBar = ({ title, back, notification }) => (
   <View style={styles.container}>
-    <View style={styles.buttonContainer}>
+    <View style={styles.leftButtonContainer}>
       <TouchableOpacity onPress={() => (Actions.pop())}>
         {back? (<Icon name="left" type="AntDesign" style={styles.icon} />) : null}
       </TouchableOpacity>
@@ -59,7 +67,7 @@ const NavBar = ({ title, back, notification }) => (
     <View style={styles.titleContainer}>
       <Text style={styles.title}>{title}</Text>
     </View>
-    <View style={styles.buttonContainer}>
+    <View style={styles.rightButtonContainer}>
       <TouchableOpacity onPress={() => (Actions.notifyList())}>
         {notification? (<Icon name="bell" type="MaterialCommunityIcons" style={styles.icon} />) : null}
       </TouchableOpacity>

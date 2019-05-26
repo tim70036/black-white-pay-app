@@ -54,7 +54,7 @@ function transfer(formData) {
     transPwd,
     comment,
   } = formData;
-  
+
 
   return async (dispatch, getState) => {
     const requestBody = JSON.stringify({

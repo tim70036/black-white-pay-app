@@ -59,7 +59,7 @@ import TransHistoryContainer from '../../containers/TransHistory';
 import TransHistoryComponent from '../components/TransHistory';
 
 import qrCodePayContainer from '../../containers/QrCodePay';
-import qrCodeComponent from '../components/QrCode';
+import qrCodePayComponent from '../components/QrCodePay';
 
 import qrScannerContainer from '../../containers/QrScanner';
 import qrScannerComponent from '../components/QrScanner';
@@ -223,7 +223,7 @@ const getRoutes = (authenticate, goAuth, refresh) => (
           {...DefaultProps.navbarProps}
           back
         >
-          <Scene component={spinnerHOC(qrCodePayContainer)} Layout={qrCodeComponent} on={authenticate} failure={goAuth} />
+          <Scene component={spinnerHOC(qrCodePayContainer)} Layout={qrCodePayComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         <Stack
@@ -253,7 +253,6 @@ const getRoutes = (authenticate, goAuth, refresh) => (
     <Stack key="auth" hideNavBar>
       <Scene key="login" component={spinnerHOC(LoginContainer)} Layout={LoginComponent} />
       <Stack key="register" hideNavBar>
-        <Scene key="registerName" component={RegisterContainer} Layout={RegisterNameComponent} />
         <Scene key="registerPhone" component={spinnerHOC(RegisterContainer)} Layout={RegisterPhoneComponent} />
         <Scene key="registerVerifyPhone" component={spinnerHOC(RegisterContainer)} Layout={RegisterVerifyPhoneComponent} />
         <Scene key="registerPwd" component={RegisterContainer} Layout={RegisterPwdComponent} />

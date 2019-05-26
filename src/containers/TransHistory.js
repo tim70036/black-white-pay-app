@@ -4,34 +4,6 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { getTransHistory } from '../actions/curWallet';
 
-
-const EXAMPLE_DATA = [
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-  { time: '2019-03-08 02:16:13', relatedName: '阿拉花瓜', amount: '-10000000000', comment: '石油87桶'},
-];
-
 class TransHistory extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
@@ -50,16 +22,11 @@ class TransHistory extends Component {
     transHistory: [],
   }
 
-  state = {
-    // defaultStartTime: '',
-    // defaultEndTime: '',
-  }
-
-  constructor(props) {
-    super(props);
-    const startTime = moment().startOf('day').subtract(1, 'months').utc().format('YYYY-MM-DD HH:mm');
+  componentWillMount() {
+    const startTime = moment().startOf('day').subtract(1, 'months').utc()
+      .format('YYYY-MM-DD HH:mm');
     const endTime = moment(new Date()).endOf('day').utc().format('YYYY-MM-DD HH:mm');
-    props.userTransHistory(startTime, endTime);
+    this._handleSubmit(startTime, endTime);
   }
 
   _handleSubmit = async (startTime, endTime) => {
@@ -72,10 +39,11 @@ class TransHistory extends Component {
       Layout,
       transHistory,
     } = this.props;
-    const defaultStartTime = moment().subtract(1, 'months').format('YYYY-MM-DD');
-    const defaultEndTime = moment(new Date()).format('YYYY-MM-DD');
-    const defaultStartTimeUtc = moment().subtract(1, 'months').utc().format('YYYY-MM-DD HH:mm');
-    const defaultEndTimeUtc = moment(new Date()).utc().format('YYYY-MM-DD HH:mm');
+    const defaultStartTime = moment().startOf('day').subtract(1, 'months').format('YYYY-MM-DD');
+    const defaultEndTime = moment(new Date()).endOf('day').format('YYYY-MM-DD');
+    const defaultStartTimeUtc = moment().startOf('day').subtract(1, 'months').utc()
+      .format('YYYY-MM-DD HH:mm');
+    const defaultEndTimeUtc = moment(new Date()).endOf('day').utc().format('YYYY-MM-DD HH:mm');
 
     return (
       <Layout

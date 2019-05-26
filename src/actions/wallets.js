@@ -24,8 +24,41 @@ function getWallets() {
   };
 }
 
+function exchange(formData) {
+  const {
+    outflowStoreId,
+    inflowStoreId,
+    amount,
+    transPwd,
+    comment,
+  } = formData;
+
+  return async (dispatch, getSatate) => {
+    const requestBody = JSON.stringify({
+      outflowStoreId: outflowStoreId.toString(),
+      inflowStoreId: inflowStoreId.toString(),
+      amount: amount.toString(),
+      transPwd: transPwd.toString(),
+      comment: comment,
+    });
+
+    // Api request
+    let result = await apiRequest(dispatch, '/wallet/exchange', 'POST', requestBody);
+
+    // Process result
+    if (result && result.success) {
+      // Status
+      dispatch(statusMessage('success', '轉帳成功'));
+      return true;
+    }
+
+    return false;
+  };
+}
+
 export {
   replaceWallets,
   clearWallets,
   getWallets,
+  exchange,
 };

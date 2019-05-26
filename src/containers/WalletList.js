@@ -27,13 +27,16 @@ class WalletList extends Component {
 
   static defaultProps = {
     walletsData: [],
+    user: {},
   }
 
-  state = {}
+  componentWillMount() {
+    this._getWalletsData();
+  }
 
-  constructor(props) {
-    super(props);
-    props.getWalletsData();
+  _getWalletsData = async () => {
+    const { getWalletsData } = this.props;
+    await getWalletsData();
   }
 
   _handleChoose = async (curStoreId) => {
@@ -49,7 +52,14 @@ class WalletList extends Component {
     }, []);
     const mainWallet = walletsData.find(row => (row.storeId === -1));
 
-    return <Layout storeWallet={storeWallet} mainWallet={mainWallet} user={user} onChoose={this._handleChoose} />;
+    return (
+      <Layout
+        storeWallet={storeWallet}
+        mainWallet={mainWallet}
+        user={user}
+        onChoose={this._handleChoose}
+      />
+    );
   }
 }
 

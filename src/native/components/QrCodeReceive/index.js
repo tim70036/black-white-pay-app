@@ -7,68 +7,117 @@ import {
   Text,
   TextInput,
   Keyboard,
+  Picker,
+  TouchableOpacity,
+  ImageBackground,
 } from 'react-native';
-import { Button } from 'native-base';
-
-import BaseLightbox from '../BaseLightbox';
+import { LinearGradient } from 'expo';
 import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { amountValidate } from '../../lib/validate';
 
 import Colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
+  bkContainer: {
+    flex: 1,
+    flexDirection: 'column',
+  },
   container: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: viewportHeightPercent(5),
   },
   inputContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
+    height: viewportHeightPercent(20),
+    width: viewportWidthPercent(80),
+    borderRadius: viewportWidthPercent(5),
+    backgroundColor: Colors.backgroundGray,
+  },
+  input: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
     justifyContent: 'center',
+    paddingTop: viewportHeightPercent(2),
+  },
+  currencyInput: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  pickerContainer: {
+    height: 30,
+    width: viewportWidthPercent(35),
+    borderRadius: viewportWidthPercent(3),
+    overflow: 'hidden',
+  },
+  picker: {
+    color: 'white',
+    height: 30,
+    backgroundColor: '#373737',
+    width: viewportWidthPercent(35),
   },
   amountInput: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    height: viewportHeightPercent(12.5),
+    justifyContent: 'flex-start',
   },
   textinput: {
     color: Colors.labelGray,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.labelWhite,
+    height: 30,
+    backgroundColor: '#373737',
     width: viewportWidthPercent(35),
+    borderRadius: viewportWidthPercent(3),
+    paddingLeft: viewportWidthPercent(3),
+    paddingBottom: 0,
   },
   labeltext: {
     color: Colors.labelWhite,
   },
   inputButton: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   button: {
-    width: viewportWidthPercent(30),
-  },
-  qrCodeContainer: {
-    height: viewportHeightPercent(50),
-    width: viewportWidthPercent(100),
-    marginTop: viewportHeightPercent(2),
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: viewportHeightPercent(5) / 2,
+    height: viewportHeightPercent(5),
+    width: viewportWidthPercent(70),
+  },
+  qrCodeContainer: {
+    height: viewportHeightPercent(40),
+    width: viewportWidthPercent(80),
+    marginTop: viewportHeightPercent(2),
+    paddingTop: viewportWidthPercent(5),
+    borderRadius: viewportWidthPercent(5),
+    flexDirection: 'column',
+    alignItems: 'center',
     backgroundColor: Colors.backgroundGray,
+  },
+  emptySpace: {
+    backgroundColor: 'white',
   },
   qrCode: {
     overflow: 'hidden',
     borderWidth: 2,
-    // borderColor: 'white',
+  },
+  QRtextContainer: {
+    height: viewportHeightPercent(10),
+    width: viewportWidthPercent(80),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.backgroundGray,
+    borderRadius: viewportWidthPercent(5),
   },
   text: {
     color: Colors.labelGray,
-    // margin: 30,
   },
   valText: {
     color: 'red',
@@ -81,6 +130,14 @@ const styles = StyleSheet.create({
 class QrCodeReceive extends Component {
   static propTypes = {
     account: PropTypes.string.isRequired,
+    walletsData: PropTypes.arrayOf(
+      PropTypes.shape({
+        currencyName: PropTypes.string,
+        availBalance: PropTypes.number,
+      }),
+    ).isRequired,
+    curStoreId: PropTypes.number.isRequired,
+    onChoose: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -89,8 +146,8 @@ class QrCodeReceive extends Component {
       qrCodeData: {
         type: 'receive',
         amount: '',
-        account: props.account,
-        storeId: -1,
+        account: '',
+        storeId: '',
       },
       amount: '',
       amountMsg: '',
@@ -104,77 +161,119 @@ class QrCodeReceive extends Component {
     });
   }
 
+  _handleChoose = async (storeId) => {
+    console.log(storeId);
+    const { onChoose } = this.props;
+    await onChoose(storeId);
+  }
+
   _handleRerender = () => {
+    const { account, curStoreId } = this.props;
     const { qrCodeData, amount } = this.state;
-    const amountVal = /^\d+$/g;
-    if (amountVal.test(amount)) {
+    const amountResult = amountValidate(amount);
+
+    if (amountResult.result) {
       this.setState({ amountMsg: '' });
     } else {
-      this.setState({ amountMsg: '收款數量必須為數字' });
+      this.setState({ amountMsg: amountResult.errMsg });
       return false;
     }
 
-    const newQrCodeData = { ...qrCodeData };
+    const newQrCodeData = {
+      ...qrCodeData,
+      account: account,
+      storeId: curStoreId,
+    };
     newQrCodeData.amount = parseInt(amount, 10);
     this.setState({ amount: parseInt(amount, 10).toString() });
     this.setState({ qrCodeData: newQrCodeData });
   }
 
   render = () => {
-    const { qrCodeData, amountMsg, amount } = this.state;
-    let showSize;
+    const { walletsData, curStoreId } = this.props;
+    const { amountMsg, amount, qrCodeData } = this.state;
+    let showQRSize;
+    let showEmptySize;
     let color;
     let notifyString1;
     let notifyString2;
     if (qrCodeData.amount === '' || qrCodeData.amount === 0) {
       color = Colors.backgroundGray;
-      showSize = 0;
+      showEmptySize = 200;
+      showQRSize = 0;
       notifyString1 = '請輸入收款數量';
       notifyString2 = '收款數量不可為0';
     } else {
       color = Colors.labelWhite;
-      showSize = 200;
+      showEmptySize = 0;
+      showQRSize = 200;
       notifyString1 = '請掃描上面的 QR Code';
       notifyString2 = '';
     }
 
     return (
-      <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <View style={styles.amountInput}>
-            <Text style={styles.labeltext}>輸入收款數量</Text>
-            <TextInput
-              style={styles.textinput}
-              autoCapitalize="none"
-              placeholder=""
-              keyboardType="numeric"
-              onChangeText={v => this._handleChange('amount', v)}
-              onSubmitEditing={Keyboard.dsmiss}
-              value={amount}
-            />
-            <Text style={styles.valText}>{amountMsg}</Text>
+      <ImageBackground style={styles.bkContainer} source={require('../../../img/QRCodeReceive/QRCodeReceive_bk.png')}>
+        <View style={styles.container}>
+          <View style={styles.inputContainer}>
+            <View style={styles.input}>
+              <View style={styles.currencyInput}>
+                <Text style={styles.labeltext}>選擇幣別</Text>
+                <View style={styles.pickerContainer}>
+                  <Picker
+                    style={styles.picker}
+                    selectedValue={curStoreId}
+                    onValueChange={itemValue => this._handleChoose(itemValue)}
+                  >
+                    { walletsData.map((i, index) => (
+                      <Picker.Item key={i} label={`${i.storeName} (${i.currencyName})`} value={i.storeId} />
+                    ))}
+                  </Picker>
+                </View>
+              </View>
+              <View style={styles.amountInput}>
+                <Text style={styles.labeltext}>輸入收款數量</Text>
+                <TextInput
+                  style={styles.textinput}
+                  autoCapitalize="none"
+                  placeholder=""
+                  keyboardType="numeric"
+                  onChangeText={v => this._handleChange('amount', v)}
+                  onSubmitEditing={Keyboard.dsmiss}
+                  value={amount}
+                />
+                <Text style={styles.valText}>{amountMsg}</Text>
+              </View>
+            </View>
+            <View style={styles.inputButton}>
+              <TouchableOpacity onPress={() => (this._handleRerender())}>
+                <LinearGradient
+                  colors={['#F3D3A0', '#C4A574', '#967848']}
+                  style={styles.button}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                >
+                  <Text style={styles.labeltext}>產生QRcode</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.inputButton}>
-            <Button block onPress={this._handleRerender} style={styles.button}>
-              <Text style={styles.labeltext}>產生QRcode</Text>
-            </Button>
+          <View style={styles.qrCodeContainer}>
+            <View style={[styles.qrCode, { borderColor: color }]}>
+              <View style={[styles.emptySpace, { height: showEmptySize, width: showEmptySize }]} />
+              <QRCode
+                value={JSON.stringify(qrCodeData)}
+                size={showQRSize}
+                bgColor={Colors.backgroundBlack}
+                fgColor={Colors.labelWhite}
+              />
+            </View>
+            <View style={styles.QRtextContainer}>
+              <Text style={[styles.text, { marginTop: 20 }]}>{notifyString1}</Text>
+              <Text style={styles.text}>{notifyString2}</Text>
+            </View>
           </View>
         </View>
-        <View style={styles.qrCodeContainer}>
-          <View style={[styles.qrCode, { borderColor: color }]}>
-            <QRCode
-              value={JSON.stringify(qrCodeData)}
-              size={showSize}
-              bgColor="black"
-              fgColor="white"
-            />
-          </View>
-          <Text style={[styles.text, { marginTop: 30 }]}>{notifyString1}</Text>
-          <Text style={styles.text}>{notifyString2}</Text>
-        </View>
-      </View>
-      // <BaseLightbox>
-      // </BaseLightbox>
+      </ImageBackground>
     );
   };
 }

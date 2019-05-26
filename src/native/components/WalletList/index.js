@@ -2,37 +2,62 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import {
-  Text, Card, Icon, View,
+  Text, Icon, View,
 } from 'native-base';
-import { LinearGradient } from 'expo';
 
 import {
-  StyleSheet, TouchableOpacity, ScrollView,
+  StyleSheet, TouchableOpacity, ScrollView, ImageBackground, Image,
 } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
 import Colors from '../../constants/colors';
-import IconButton from './IconButton';
+import ImageButton from './ImageButton';
 
 import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 
 const tablePaddingHorizontal = viewportWidthPercent(2);
 
 const styles = StyleSheet.create({
-
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+  },
   layoutContainer: {
     flex: 1,
     flexDirection: 'column',
+  },
+  bkImg: {
+  },
+  mainCurrencyContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: viewportWidthPercent(5),
+    marginTop: viewportHeightPercent(2),
+  },
+  mainCurrencyImg: {
+    width: 20,
+    height: 23,
+    resizeMode: 'contain',
+    marginTop: viewportHeightPercent(2),
+    marginRight: viewportWidthPercent(5),
+  },
+  mainCurrency: {
+    fontSize: 30,
+    color: Colors.labelWhite,
+    marginTop: viewportHeightPercent(2),
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.backgroundGray,
+    height: viewportHeightPercent(12),
+    borderRadius: viewportHeightPercent(12) / 2,
+    marginTop: viewportHeightPercent(2),
+    paddingVertical: viewportHeightPercent(1),
     paddingHorizontal: viewportWidthPercent(5),
-    paddingTop: viewportHeightPercent(3),
-    backgroundColor: Colors.backgroundBlack,
+    marginHorizontal: viewportWidthPercent(5),
   },
-
-  topContainer: {
-    flex: 3,
-  },
-
   bottomContainer: {
-    // flex: 2,
     flexDirection: 'column',
     alignItems: 'center',
     paddingHorizontal: viewportWidthPercent(5),
@@ -42,51 +67,16 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundGray,
     borderRadius: 20,
   },
-
-  cardItem: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-
-  button: {
-    flex: 1,
-    margin: 5,
-    padding: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  topIcon: {
-    flex: 1,
-  },
-
-  topText: {
-    flex: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  text: {
-    fontSize: 40,
-  },
-
-  buttonContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
-  image: {
-    width: '100%',
-    height: '50%',
-  },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: tablePaddingHorizontal,
     height: viewportHeightPercent(7.4),
-    marginTop: viewportHeightPercent(2),
     backgroundColor: Colors.backgroundGray,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.middleLineGray,
+    // marginBottom: viewportWidthPercent(3),
+    marginHorizontal: viewportWidthPercent(5),
   },
   headerCurrency: {
     flex: 1,
@@ -103,8 +93,9 @@ const styles = StyleSheet.create({
   headerDollars: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
+    paddingRight: viewportWidthPercent(2),
   },
   headerText: {
     fontWeight: '200',
@@ -117,32 +108,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: viewportWidthPercent(25),
-    marginBottom: viewportHeightPercent(1),
     paddingBottom: viewportHeightPercent(2),
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.backgroundDarkGray,
     paddingHorizontal: tablePaddingHorizontal,
-    borderTopWidth: 2,
-    borderTopColor: '#2E302F',
-  },
-  contentLeft: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    paddingHorizontal: viewportWidthPercent(2),
-  },
-  contentRight: {
-    flex: 7,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    paddingHorizontal: viewportWidthPercent(2),
   },
   subHeader: {
-    // flex: 1,
     flexDirection: 'row',
     marginTop: viewportHeightPercent(3),
+    marginHorizontal: viewportWidthPercent(5),
   },
   subHeaderLeft: {
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  colorBar: {
+    width: viewportWidthPercent(2),
+    height: viewportWidthPercent(6),
+    borderRadius: viewportWidthPercent(2) / 2,
+    backgroundColor: Colors.purple,
+    marginRight: viewportWidthPercent(2),
   },
   subHeaderRight: {
     flex: 1,
@@ -152,27 +137,29 @@ const styles = StyleSheet.create({
   subHeaderText: {
     fontSize: 20,
     color: Colors.labelWhite,
-    // marginBottom: 20,
   },
-  mainCurrency: {
-    fontSize: 30,
-    color: Colors.labelWhite,
-    marginTop: viewportHeightPercent(2),
+  scrollViewContainer: {
+    flex: 1,
   },
-  mainDiamond: {
-    fontSize: 22,
-    color: Colors.labelWhite,
-    marginTop: viewportHeightPercent(2),
-    marginRight: viewportWidthPercent(5),
+  AccordionContainer: {
+    backgroundColor: Colors.backgroundGray,
+    borderRadius: viewportWidthPercent(4),
+    marginTop: viewportHeightPercent(3),
+    marginHorizontal: viewportWidthPercent(5),
+  },
+  AccordionBottomSpace: {
+    height: viewportHeightPercent(10),
   },
   icon: {
-    fontSize: 30,
+    fontSize: 27,
     color: Colors.labelWhite,
+    marginRight: viewportWidthPercent(4),
   },
-  headerDiamondIcon: {
-    fontSize: 12,
-    color: Colors.labelWhite,
-    marginRight: viewportWidthPercent(2),
+  storeCurrencyImg: {
+    width: 20,
+    height: 23,
+    resizeMode: 'contain',
+    marginRight: viewportWidthPercent(1),
   },
 });
 
@@ -221,14 +208,20 @@ class WalletList extends React.Component {
     Actions.transHistory();
   }
 
-  _handleQRcode = (storeId) => {
-    const { user } = this.props;
+  _handleExchange = () => {
+    console.log();
+    // Actions.Exchange();
+  }
+
+  _handleQRcode = async (storeId) => {
+    const { user, onChoose } = this.props;
     const qrCodeData = {
       type: 'pay',
       account: user.account,
       storeId: storeId,
       amount: 0,
     };
+    await onChoose(storeId);
     Actions.qrCodePay({ qrCodeData: qrCodeData });
     // Actions.qrCodePay();
   }
@@ -240,7 +233,7 @@ class WalletList extends React.Component {
       </View>
       <View style={styles.headerAmount}>
         <View style={styles.headerDollars}>
-          <Icon name="diamond" type="SimpleLineIcons" style={styles.headerDiamondIcon} />
+          <Image source={require('../../../img/walletList/mainSoul.png')} style={styles.storeCurrencyImg} />
           <Text style={styles.headerText}>
             {section.availBalance}
           </Text>
@@ -252,10 +245,9 @@ class WalletList extends React.Component {
 
   _renderContent = section => (
     <View style={styles.contentContainer}>
-      <IconButton iconName="qrcode" iconType="AntDesign" iconColor={Colors.labelLightGray} text="QR碼" onPress={() => this._handleQRcode(section.storeId)} />
-      <IconButton iconName="swap" iconColor={Colors.labelLightGray} text="轉帳" onPress={() => this._handleTransfer(section.storeId)} />
-      <IconButton iconName="dollar" iconType="FontAwesome" iconColor={Colors.labelLightGray} text="交易紀錄" onPress={() => this._handleHistory(section.storeId)} />
-      <IconButton iconName="bank-remove" iconType="MaterialCommunityIcons" iconColor={Colors.labelLightGray} text="轉換" onPress={() => this._handleQRcode(section.storeId)} />
+      <ImageButton imgType="qrCode" text="QR碼" textColor={Colors.labelWhite} onPress={() => this._handleQRcode(section.storeId)} />
+      <ImageButton imgType="transfer" text="轉帳" textColor={Colors.labelWhite} onPress={() => this._handleTransfer(section.storeId)} />
+      <ImageButton imgType="record" text="交易紀錄" textColor={Colors.labelWhite} onPress={() => this._handleHistory(section.storeId)} />
     </View>
   );
 
@@ -268,42 +260,50 @@ class WalletList extends React.Component {
     const { activeSections } = this.state;
 
     return (
-      <ScrollView style={styles.layoutContainer}>
-        <LinearGradient
-          colors={['#32BBDB', '#2372B5', '#255EAB']}
-          style={styles.bottomContainer}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-        >
-          <View style={styles.buttonContainer}>
-            <Icon name="diamond" type="SimpleLineIcons" style={styles.mainDiamond} />
-            <Text style={styles.mainCurrency}>{mainWallet.availBalance}</Text>
-          </View>
-          <View style={styles.buttonContainer}>
-            <IconButton iconName="qrcode" iconType="AntDesign" text="QR碼" iconColor={Colors.labelWhite} onPress={() => this._handleQRcode(-1)} />
-            <IconButton text="轉帳" iconName="swap" iconColor={Colors.labelWhite} onPress={() => this._handleTransfer(mainWallet.storeId)} />
-            <IconButton iconName="dollar" iconType="FontAwesome" text="交易紀錄" iconColor={Colors.labelWhite} onPress={() => this._handleHistory(mainWallet.storeId)} />
-            <IconButton iconName="bank" iconType="MaterialCommunityIcons" text="轉換" iconColor={Colors.labelWhite} onPress={() => console.log()} /> 
-          </View>
-        </LinearGradient>
-        <View style={styles.subHeader}>
-          <View style={styles.subHeaderLeft}>
-            <Text style={styles.subHeaderText}> 錢包列表 </Text>
-          </View>
-          <View style={styles.subHeaderRight}>
-            <TouchableOpacity onPress={() => (Actions.addStore())}>
-              <Icon name="plus" type="AntDesign" style={styles.icon} />
-            </TouchableOpacity>
-          </View>
+      <View style={styles.layoutContainer}>
+        <View style={styles.container}>
+          <ImageBackground style={styles.bkImg} source={require('../../../img/walletList/mainCurrency_bk.png')}>
+            <View style={styles.mainCurrencyContainer} source={require('../../../img/walletList/mainCurrency_bk.png')}>
+              <Image source={require('../../../img/walletList/mainSoul.png')} style={styles.mainCurrencyImg} />
+              <Text style={styles.mainCurrency}>{mainWallet.availBalance}</Text>
+            </View>
+          </ImageBackground>
+          <ImageBackground style={styles.bkImg} source={require('../../../img/walletList/mainButton_bk.png')}>
+            <View style={styles.buttonContainer}>
+              <ImageButton imgType="qrCode" text="QR碼" textColor={Colors.labelWhite} onPress={() => this._handleQRcode(-1)} />
+              <ImageButton imgType="transfer" text="轉帳" textColor={Colors.labelWhite} onPress={() => this._handleTransfer(mainWallet.storeId)} />
+              <ImageButton imgType="record" text="交易紀錄" textColor={Colors.labelWhite} onPress={() => this._handleHistory(mainWallet.storeId)} />
+              <ImageButton imgType="exchange" text="轉換" textColor={Colors.labelWhite} onPress={() => this._handleExchange()} />
+            </View>
+          </ImageBackground>
+          
+          <ImageBackground style={[styles.bkImg, { flex: 1, flexDirection: 'column' }]} source={require('../../../img/walletList/content_bk.png')}>
+            <View style={styles.subHeader}>
+              <View style={styles.subHeaderLeft}>
+                <View style={styles.colorBar} />
+                <Text style={styles.subHeaderText}> 錢包列表 </Text>
+              </View>
+              <View style={styles.subHeaderRight}>
+                <TouchableOpacity onPress={() => (Actions.addStore())}>
+                  <Icon name="plus" type="AntDesign" style={styles.icon} />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <ScrollView style={styles.scrollViewContainer}>
+              <View style={styles.AccordionContainer}>
+                <Accordion
+                  sections={storeWallet}
+                  activeSections={activeSections}
+                  renderHeader={this._renderHeader}
+                  renderContent={this._renderContent}
+                  onChange={this._updateSections}
+                />
+              </View>
+              <View style={styles.AccordionBottomSpace} />
+            </ScrollView>
+          </ImageBackground>
         </View>
-        <Accordion
-          sections={storeWallet}
-          activeSections={activeSections}
-          renderHeader={this._renderHeader}
-          renderContent={this._renderContent}
-          onChange={this._updateSections}
-        />
-      </ScrollView>
+      </View>
     );
   }
 }

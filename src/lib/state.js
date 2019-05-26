@@ -31,11 +31,16 @@ const state = {
   wallets: [
     {
       storeId: 1,
+      storeName: '',
       currencyName: '',
       availBalance: 0,
+      exchangeRate: 1,
+      inflow: 1,
+      outflow: 1,
     },
     {
       storeId: 2,
+      storeName: '',
       currencyName: '',
       availBalance: 0,
     },
@@ -46,7 +51,7 @@ const state = {
     },
   ],
   notifications: [
-    { time: '', thumbnail: '', content: '', hasRead: false},
+    { time: '', thumbnail: '', content: '', hasRead: false },
     {},
     {},
   ],

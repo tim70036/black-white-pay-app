@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  Image,
 } from 'react-native';
 import { Icon } from 'native-base';
 import PropTypes from 'prop-types';
@@ -38,37 +39,41 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  icon: {
-    fontSize: 25,
-  },
-  text: {
-    color: '#717171',
+  img: {
+    width: viewportWidthPercent(8),
+    height: viewportWidthPercent(8),
+    resizeMode: 'contain',
   },
 });
 
-const IconButton = ({ iconName, iconType, iconColor, text, onPress }) => (
+const imglib = {
+  qrCode: require('../../../img/walletList/qrCode.png'),
+  record: require('../../../img/walletList/record.png'),
+  transfer: require('../../../img/walletList/transfer.png'),
+  exchange: require('../../../img/walletList/exchange.png'),
+};
+
+const ImageButton = ({ imgType, text, onPress, textColor }) => (
   <TouchableOpacity style={styles.container} onPress={onPress}>
     <View style={styles.iconContainer}>
-      <Icon name={iconName} type={iconType} style={[styles.icon, { color: iconColor }]} />
+      <Image source={imglib[imgType]} style={styles.img} />
     </View>
     <View style={styles.textContainer}>
-      <Text style={{ color: iconColor }}>{text}</Text>
+      <Text style={{ color: textColor }}>{text}</Text>
     </View>
   </TouchableOpacity>
 );
 
-IconButton.propTypes = {
-  iconName: PropTypes.string.isRequired,
-  iconType: PropTypes.string,
-  iconColor: PropTypes.string,
+ImageButton.propTypes = {
+  imgType: PropTypes.string.isRequired,
   text: PropTypes.string,
+  textColor: PropTypes.string,
   onPress: PropTypes.func.isRequired,
 };
 
-IconButton.defaultProps = {
-  iconType: 'Ionicons',
-  iconColor: 'black',
+ImageButton.defaultProps = {
   text: '',
+  textColor: 'white',
 };
 
-export default IconButton;
+export default ImageButton;
