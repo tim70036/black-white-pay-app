@@ -299,7 +299,7 @@ function changeThumbnail(formData) {
   return async (dispatch, getState) => {
     // Api request
     let result = await apiRequest(dispatch, '/user/update/thumbnail', 'POST', thumbnailFormdata, 'multipart/form-data');
-  
+
     // Process result
     if (result && result.success) {
       // Status

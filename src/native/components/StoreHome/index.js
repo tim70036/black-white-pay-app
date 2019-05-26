@@ -124,12 +124,12 @@ class StoreHome extends Component {
         </View>
         <View style={styles.cardContainer}>
           <View style={styles.cardRow}>
-            <ImageButton text="遊戲" image={require('../../../img/icon/game.png')} />
-            <ImageButton text="優惠券" image={require('../../../img/icon/coupon.png')} />
+            <ImageButton text="遊戲" image={require('../../../img/storeHome/game.png')} />
+            <ImageButton text="優惠券" image={require('../../../img/storeHome/coupon.png')} />
           </View>
           <View style={styles.cardRow}>
-            <ImageButton text="聯絡店家" image={require('../../../img/icon/store2.png')} />
-            <ImageButton text="關於" image={require('../../../img/icon/info.png')} />
+            <ImageButton text="聯絡店家" image={require('../../../img/storeHome/store.png')} />
+            <ImageButton text="關於" image={require('../../../img/storeHome/info.png')} />
           </View>
         </View>
       </ImageBackground>

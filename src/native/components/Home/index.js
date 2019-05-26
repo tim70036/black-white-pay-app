@@ -122,16 +122,16 @@ class Home extends Component {
         </View>
         <View style={styles.cardContainer}>
           <View style={styles.cardRow}>
-            <ImageButton text="掃描" onPress={() => (Actions.qrScanner())} image={require('../../../img/icon/scanner.png')} />
-            <ImageButton text="付款" onPress={() => (Actions.qrCodePay())} image={require('../../../img/icon/pay.png')} />
+            <ImageButton text="掃描" onPress={() => (Actions.qrScanner())} image={require('../../../img/home/scanner.png')} />
+            <ImageButton text="付款" onPress={() => (Actions.qrCodePay())} image={require('../../../img/home/pay.png')} />
           </View>
           <View style={styles.cardRow}>
-            <ImageButton text="轉帳" onPress={() => (Actions.transfer())} image={require('../../../img/icon/transfer.png')} />
-            <ImageButton text="收款" onPress={() => (Actions.qrCodeReceive())} image={require('../../../img/icon/receive.png')} />
+            <ImageButton text="轉帳" onPress={() => (Actions.transfer())} image={require('../../../img/home/transfer.png')} />
+            <ImageButton text="收款" onPress={() => (Actions.qrCodeReceive())} image={require('../../../img/home/receive.png')} />
           </View>
           <View style={styles.cardRow}>
-            <ImageButton text="轉換" onPress={() => (Actions.exchange())} image={require('../../../img/icon/exchange.png')} />
-            <ImageButton text="合作商家" onPress={() => (Actions.qrScanner())} image={require('../../../img/icon/store1.png')} />
+            <ImageButton text="轉換" onPress={() => (Actions.exchange())} image={require('../../../img/home/exchange.png')} />
+            <ImageButton text="合作商家" onPress={() => (Actions.qrScanner())} image={require('../../../img/home/store.png')} />
           </View>
 
         </View>

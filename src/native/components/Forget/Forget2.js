@@ -1,119 +1,19 @@
-import React from 'react';
-import {
-  StyleSheet, Keyboard, TouchableHighlight,
-} from 'react-native';
-import PropTypes from 'prop-types';
-import {
-  Form, Item, Label, Input, Text, View,
-} from 'native-base';
-import Icon from 'react-native-vector-icons/AntDesign';
+import React, { Component } from 'react';
+import { View, Keyboard, TouchableHighlight, TextInput, Text, ImageBackground, Image  } from 'react-native';
+import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
-import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import PropTypes from 'prop-types';
+import { formStyle, elementColors } from '../../lib/styles';
 import Colors from '../../constants/colors';
+import { pwdValidate, transPwdValidate } from '../../lib/validate';
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    flex: 1,
-    backgroundColor: Colors.backgroundBlack,
-    paddingHorizontal: viewportWidthPercent(4),
-    paddingVertical: viewportHeightPercent(3),
-  },
-
-  topContainer: {
-    flex: 3,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  formContainer: {
-    flex: 7,
-    justifyContent: 'center',
-    padding: viewportWidthPercent(4),
-    marginVertical: viewportHeightPercent(2),
-  },
-
-  formStyle: {
-    flexDirection: 'column',
-    flex: 1,
-  },
-
-  formTop: {
-    justifyContent: 'center',
-    flex: 3,
-  },
-
-  formButton: {
-    flex: 1,
-  },
-
-  formInputContainer: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    marginTop: viewportHeightPercent(1),
-  },
-
-  logoStyle: {
-    color: Colors.labelGold,
-    fontSize: 40,
-    fontWeight: 'bold',
-  },
-
-  labelText: {
-    fontSize: 18,
-    color: Colors.labelGold,
-    justifyContent: 'center',
-  },
-
-  textInputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    height: 35,
-  },
-
-  textInputStyle: {
-    height: '100%',
-    color: 'white',
-  },
-
-  iconStyle: {
-    color: Colors.labelGold,
-    justifyContent: 'center',
-    alignSelf: 'center',
-    fontSize: 30,
-  },
-
-  buttonStyle: {
-    width: '100%',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    height: 45,
-    borderWidth: 1,
-    borderColor: Colors.labelGold,
-    borderRadius: 50,
-  },
-
-  text: {
-    color: Colors.labelGold,
-    fontSize: 20,
-    alignSelf: 'center',
-    justifyContent: 'center',
-  },
-
-  valText: {
-    color: 'red',
-    fontSize: 12,
-    paddingTop: 3,
-    marginLeft: 3,
-  },
-});
-
-class Forget extends React.Component {
+class Forget extends Component {
   static propTypes = {
     onFormSubmit: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
+
   }
 
   constructor(props) {
@@ -128,20 +28,18 @@ class Forget extends React.Component {
       confirmPwdMsg: '',
       transPwdMsg: '',
       confirmTransPwdMsg: '',
-      buttonIsPressed: '',
     };
   }
 
   _validate = () => {
-    const passwordVal = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g;
-    const transPwdVal = /([0-9]{6})$/g;
     const { password, confirmPassword, transPwd, confirmTransPwd } = this.state;
+    const pwdResult = pwdValidate(password);
+    const transPwdResult = transPwdValidate(transPwd);
 
-
-    if (passwordVal.test(password)) {
+    if (pwdResult.result) {
       this.setState({ passwordMsg: '' });
     } else {
-      this.setState({ passwordMsg: '密碼至少為八碼，需包含字元和數字' });
+      this.setState({ passwordMsg: pwdResult.errMsg });
       return false;
     }
 
@@ -152,10 +50,10 @@ class Forget extends React.Component {
       return false;
     }
 
-    if (transPwdVal.test(transPwd)) {
+    if (transPwdResult.result) {
       this.setState({ transPwdMsg: '' });
     } else {
-      this.setState({ transPwdMsg: '轉帳密碼必須為6位數字' });
+      this.setState({ transPwdMsg: transPwdResult.errMsg });
       return false;
     }
 
@@ -182,115 +80,100 @@ class Forget extends React.Component {
     if (success) Actions.login();
   }
 
-  _change = () => {
-    const { buttonIsPressed } = this.state;
-    this.setState({ buttonIsPressed: !buttonIsPressed });
-  }
-
-  render = () => {
-    const { buttonIsPressed, passwordMsg, confirmPwdMsg, transPwdMsg, confirmTransPwdMsg } = this.state;
+  render() {
+    const { passwordMsg, confirmPwdMsg, transPwdMsg, confirmTransPwdMsg } = this.state;
     return (
-      <View style={styles.container}>
-        <View style={styles.topContainer}>
-          <Text style={styles.logoStyle}> LOGO </Text>
-        </View>
-        <View style={styles.formContainer}>
-          <Form style={styles.formStyle}>
-            <View style={styles.formTop}>
-              <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 新密碼 </Label>
-                <View style={styles.textInputContainer}>
-                  <Input
-                    style={styles.textInputStyle}
-                    autoCapitalize="none"
-                    placeholderTextColor="white"
-                    keyboardType="default"
-                    onChangeText={v => this._handleChange('password', v)}
-                    onSubmitEditing={Keyboard.dismiss}
-                    secureTextEntry
-                  />
-                  <Icon style={styles.iconStyle} name="lock1" />
-                </View>
-              </Item>
-              <Text style={styles.valText}>{passwordMsg}</Text>
-              <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 再次確認密碼 </Label>
-                <View style={styles.textInputContainer}>
-                  <Input
-                    required
-                    style={styles.textInputStyle}
-                    autoCapitalize="none"
-                    placeholderTextColor="white"
-                    keyboardType="default"
-                    onChangeText={v => this._handleChange('confirmPassword', v)}
-                    onSubmitEditing={Keyboard.dismiss}
-                    secureTextEntry
-                  />
-                  <Icon style={styles.iconStyle} name="lock1" />
-                </View>
-              </Item>
-              <Text style={styles.valText}>{confirmPwdMsg}</Text>
-              <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 新交易密碼 </Label>
-                <View style={styles.textInputContainer}>
-                  <Input
-                    style={styles.textInputStyle}
-                    autoCapitalize="none"
-                    placeholderTextColor="white"
-                    keyboardType="default"
-                    onChangeText={v => this._handleChange('transPwd', v)}
-                    onSubmitEditing={Keyboard.dismiss}
-                    secureTextEntry
-                  />
-                  <Icon style={styles.iconStyle} name="lock1" />
-                </View>
-                <View style={{ height: 20 }} />
-              </Item>
-              <Text style={styles.valText}>{transPwdMsg}</Text>
-              <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 再次確認交易密碼 </Label>
-                <View style={styles.textInputContainer}>
-                  <Input
-                    style={styles.textInputStyle}
-                    autoCapitalize="none"
-                    placeholderTextColor="white"
-                    keyboardType="default"
-                    onChangeText={v => this._handleChange('confirmTransPwd', v)}
-                    onSubmitEditing={Keyboard.dismiss}
-                    secureTextEntry
-                  />
-                  <Icon style={styles.iconStyle} name="lock1" />
-                </View>
-                <View style={{ height: 20 }} />
-              </Item>
-              <Text style={styles.valText}>{confirmTransPwdMsg}</Text>
+      <ImageBackground source={require('../../../img/bg.png')} style={formStyle.bgImage}>
+        <View style={formStyle.container}>
+          <View style={formStyle.inputContainer}>
+            <View style={formStyle.title}>
+              <Text style={formStyle.titleText}>重設密碼</Text>
             </View>
-
-            <View style={{ height: 50 }} />
-            <View padder style={styles.formButton}>
+            <View style={formStyle.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/pwd.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 密碼</Text>
+              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder="請輸入密碼"
+                placeholderTextColor={elementColors.placeholderTextColor}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('password', v)}
+                onSubmitEditing={Keyboard.dismiss}
+                secureTextEntry
+              />
+              <Text style={formStyle.valText}>{passwordMsg}</Text>
+            </View>
+            <View style={formStyle.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/pwd.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 再次確認密碼</Text>
+              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder="請再次輸入密碼"
+                placeholderTextColor={elementColors.placeholderTextColor}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('confirmPassword', v)}
+                onSubmitEditing={Keyboard.dismiss}
+                secureTextEntry
+              />
+              <Text style={formStyle.valText}>{confirmPwdMsg}</Text>
+            </View>
+            <View style={formStyle.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/transPwd.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 交易密碼</Text>
+              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder="請輸入交易密碼"
+                placeholderTextColor={elementColors.placeholderTextColor}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('transPwd', v)}
+                onSubmitEditing={Keyboard.dismiss}
+                secureTextEntry
+              />
+              <Text style={formStyle.valText}>{transPwdMsg}</Text>
+            </View>
+            <View style={formStyle.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/transPwd.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 再次確認交易密碼</Text>
+              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder="請再次輸入交易密碼"
+                placeholderTextColor={elementColors.placeholderTextColor}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('confirmTransPwd', v)}
+                onSubmitEditing={Keyboard.dismiss}
+                secureTextEntry
+              />
+              <Text style={formStyle.valText}>{confirmTransPwdMsg}</Text>
+            </View>
+            <LinearGradient
+              colors={elementColors.buttonLinearGradient}
+              style={formStyle.linearGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
               <TouchableHighlight
-                style={{
-                  ...styles.buttonStyle,
-                }}
+                style={formStyle.button}
                 onPress={this._handleSubmit}
-                onPressIn={this._change}
-                onPressOut={this._change}
-                underlayColor={Colors.labelGold}
+                underlayColor={Colors.gray}
               >
-                <Text
-                  style={{
-                    ...styles.text,
-                    color: buttonIsPressed === true ? 'white' : Colors.labelGold,
-                  }}
-                >
-                  確認送出
-                </Text>
+                <Text style={formStyle.buttonText}>確認送出</Text>
               </TouchableHighlight>
-            </View>
-          </Form>
+            </LinearGradient>
+          </View>
         </View>
-      </View>
-
+      </ImageBackground>
     );
   }
 }

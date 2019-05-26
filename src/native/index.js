@@ -55,19 +55,21 @@ export default class App extends React.Component {
       require('../img/background/background2.png'),
 
       // Icon
-      require('../img/icon/coupon.png'),
-      require('../img/icon/exchange.png'),
-      require('../img/icon/game.png'),
-      require('../img/icon/info.png'),
-      require('../img/icon/pay.png'),
-      require('../img/icon/receive.png'),
-      require('../img/icon/scanner.png'),
-      require('../img/icon/store1.png'),
-      require('../img/icon/store2.png'),
-      require('../img/icon/transfer.png'),
-      require('../img/icon/addPerson.png'),
-      require('../img/icon/addNote.png'),
-      require('../img/icon/qrCode.png'),
+      require('../img/storeHome/coupon.png'),
+      require('../img/storeHome/game.png'),
+      require('../img/storeHome/info.png'),
+      require('../img/storeHome/store.png'),
+
+      require('../img/home/exchange.png'),
+      require('../img/home/pay.png'),
+      require('../img/home/receive.png'),
+      require('../img/home/scanner.png'),
+      require('../img/home/store.png'),
+      require('../img/home/transfer.png'),
+
+      require('../img/friendList/addPerson.png'),
+      require('../img/friendList/addNote.png'),
+      require('../img/friendList/qrCode.png'),
 
       // Tab bar
       require('../img/tabbar/home-focus.png'),

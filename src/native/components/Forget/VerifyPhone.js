@@ -1,119 +1,19 @@
-import React from 'react';
-import {
-  StyleSheet, Keyboard, TouchableHighlight,
-} from 'react-native';
-import PropTypes from 'prop-types';
-import {
-  Form, Item, Label, Input, Text, View,
-} from 'native-base';
-import Icon from 'react-native-vector-icons/AntDesign';
+import React, { Component } from 'react';
+import { View, Keyboard, TouchableHighlight, TextInput, Text, ImageBackground, Image  } from 'react-native';
+import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
-import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import PropTypes from 'prop-types';
+import { formStyle, elementColors } from '../../lib/styles';
 import Colors from '../../constants/colors';
+import { verifyCodeValidate } from '../../lib/validate';
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    flex: 1,
-    backgroundColor: Colors.backgroundBlack,
-    paddingHorizontal: viewportWidthPercent(4),
-    paddingVertical: viewportHeightPercent(3),
-  },
-
-  topContainer: {
-    flex: 3,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  formContainer: {
-    flex: 7,
-    justifyContent: 'center',
-    padding: viewportWidthPercent(4),
-    marginVertical: viewportHeightPercent(2),
-  },
-
-  formStyle: {
-    flexDirection: 'column',
-    flex: 1,
-  },
-
-  formTop: {
-    justifyContent: 'center',
-    flex: 3,
-  },
-
-  formButton: {
-    flex: 1,
-  },
-
-  formInputContainer: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    marginTop: viewportHeightPercent(5),
-  },
-
-  logoStyle: {
-    color: Colors.labelGold,
-    fontSize: 40,
-    fontWeight: 'bold',
-  },
-
-  labelText: {
-    fontSize: 18,
-    color: Colors.labelGold,
-    justifyContent: 'center',
-  },
-
-  textInputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    height: 35,
-  },
-
-  textInputStyle: {
-    height: '100%',
-    color: 'white',
-  },
-
-  iconStyle: {
-    color: Colors.labelGold,
-    justifyContent: 'center',
-    alignSelf: 'center',
-    fontSize: 30,
-  },
-
-  buttonStyle: {
-    width: '100%',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    height: 45,
-    borderWidth: 1,
-    borderColor: Colors.labelGold,
-    borderRadius: 50,
-  },
-
-  text: {
-    color: Colors.labelGold,
-    fontSize: 20,
-    alignSelf: 'center',
-    justifyContent: 'center',
-  },
-
-  valText: {
-    color: 'red',
-    fontSize: 12,
-    paddingTop: 3,
-    marginLeft: 3,
-  },
-});
-
-class Register extends React.Component {
+class Forget extends Component {
   static propTypes = {
     onFormSubmit: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
+
   }
 
   constructor(props) {
@@ -121,18 +21,16 @@ class Register extends React.Component {
     this.state = {
       verifyCode: '',
       verifyCodeMsg: '',
-      buttonIsPressed: '',
     };
   }
 
   _validate = () => {
-    const verifyCodeVal = /([0-9]{6})$/g;
     const { verifyCode } = this.state;
-
-    if (verifyCodeVal.test(verifyCode)) {
+    const result = verifyCodeValidate(verifyCode);
+    if (result.result) {
       this.setState({ verifyCodeMsg: '' });
     } else {
-      this.setState({ verifyCodeMsg: '驗證碼必須為6位數字' });
+      this.setState({ verifyCodeMsg: result.errMsg });
       return false;
     }
     return true;
@@ -148,69 +46,54 @@ class Register extends React.Component {
     const { onFormSubmit } = this.props;
     if (!this._validate()) return;
 
-    let success = await onFormSubmit(this.state);
+    const success = await onFormSubmit(this.state);
     if (success) Actions.forget2();
   }
 
-  _change = () => {
-    const { buttonIsPressed } = this.state;
-    this.setState({ buttonIsPressed: !buttonIsPressed });
-  }
-
-  render = () => {
-    const { buttonIsPressed, verifyCodeMsg } = this.state;
+  render() {
+    const { verifyCodeMsg } = this.state;
     return (
-      <View style={styles.container}>
-        <View style={styles.topContainer}>
-          <Text style={styles.logoStyle}> LOGO </Text>
-        </View>
-        <View style={styles.formContainer}>
-          <Form style={styles.formStyle}>
-            <View style={styles.formTop}>
-              <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 驗證碼 </Label>
-                <View style={styles.textInputContainer}>
-                  <Input
-                    style={styles.textInputStyle}
-                    autoCapitalize="none"
-                    placeholderTextColor="white"
-                    keyboardType="default"
-                    onChangeText={v => this._handleChange('verifyCode', v)}
-                    onSubmitEditing={Keyboard.dismiss}
-                  />
-                  <Icon style={styles.iconStyle} name="user" />
-                </View>
-              </Item>
-              <Text style={styles.valText}>{verifyCodeMsg}</Text>
+      <ImageBackground source={require('../../../img/bg.png')} style={formStyle.bgImage}>
+        <View style={formStyle.container}>
+          <View style={formStyle.inputContainer}>
+            <View style={formStyle.title}>
+              <Text style={formStyle.titleText}>忘記密碼</Text>
             </View>
-
-            <View style={{ height: 50 }} />
-            <View padder style={styles.formButton}>
+            <View style={formStyle.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/pwd.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 驗證碼</Text>
+              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder="請輸入驗證碼"
+                placeholderTextColor={elementColors.placeholderTextColor}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('verifyCode', v)}
+                onSubmitEditing={Keyboard.dismiss}
+              />
+              <Text style={formStyle.valText}>{verifyCodeMsg}</Text>
+            </View>
+            <LinearGradient
+              colors={elementColors.buttonLinearGradient}
+              style={formStyle.linearGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
               <TouchableHighlight
-                style={{
-                  ...styles.buttonStyle,
-                }}
+                style={formStyle.button}
                 onPress={this._handleSubmit}
-                onPressIn={this._change}
-                onPressOut={this._change}
-                underlayColor={Colors.labelGold}
+                underlayColor={Colors.gray}
               >
-                <Text
-                  style={{
-                    ...styles.text,
-                    color: buttonIsPressed === true ? 'white' : Colors.labelGold,
-                  }}
-                >
-                  驗證
-                </Text>
+                <Text style={formStyle.buttonText}>驗證</Text>
               </TouchableHighlight>
-            </View>
-          </Form>
+            </LinearGradient>
+          </View>
         </View>
-      </View>
-
+      </ImageBackground>
     );
   }
 }
 
-export default Register;
+export default Forget;

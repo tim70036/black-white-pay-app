@@ -15,6 +15,7 @@ const Colors = {
   lightGray: '#8f95a6',
   gold: '#b9a078',
   red: '#ffffff',
+  black: '#090909',
 
   buttonGray: '#494949',
   buttonLightGray: '#979797',

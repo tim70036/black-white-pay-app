@@ -1,7 +1,7 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
 import { 
-  Image, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight, ScrollView, Platform
+  Image, StyleSheet, FlatList, TouchableHighlight, ScrollView, Platform, ImageBackground,
 } from 'react-native';
 import { ImagePicker } from 'expo';
 import Modal from 'react-native-modal';
@@ -9,15 +9,20 @@ import {
   Text, View,
 } from 'native-base';
 import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/AntDesign';
-import { STATUSBAR_HEIGHT, viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 import Colors from '../../constants/colors';
 import MineItemCell from './MineItemCell';
 
-const thumbnailSize = 50;
+const pkg = require('../../../../app.json');
+
+const thumbnailSize = 72;
 
 const styles = StyleSheet.create({
-
+  bgImage: {
+    flex: 1,
+    width: null,
+    height: null,
+  },
   cardItem: {
     flex: 3,
     flexDirection: 'column',
@@ -27,21 +32,84 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: Colors.backgroundBlack,
-    paddingHorizontal: viewportWidthPercent(4),
-    paddingVertical: viewportHeightPercent(2),
+    marginTop: 60,
   },
 
-  topContainer: {
-    // flex: 1,
+  profileCard: {
+    flex: 3,
+    flexDirection: 'column',
+    paddingHorizontal: viewportWidthPercent(4) + 15,
+  },
+
+  profile: {
+    flex: 1,
     flexDirection: 'row',
-    height: 55 * 1.7,
-    padding: viewportWidthPercent(2),
-    // marginVertical: viewportHeightPercent(2),
+    alignItems: 'center',
   },
 
-  thumbnailContainer: {
-    width: 55 * 1.7,
+  profileInfo: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+
+  wallet: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  settingList: {
+    flex: 5,
+    paddingTop: 30,
+    paddingHorizontal: viewportWidthPercent(4),
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    opacity: 0.8,
+    backgroundColor: '#191919',
+  },
+
+  thumbnail: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+
+  thumbnailImage: {
+    width: thumbnailSize,
+    height: thumbnailSize,
+    borderRadius: thumbnailSize / 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  qrcodeImage: {
+    marginTop: viewportHeightPercent(2),
+    width: 59,
+    height: 27,
+    justifyContent: 'center',
+  },
+
+  cameraImage: {
+    marginTop: -20,
+    width: 27,
+    height: 27,
+    resizeMode: 'contain',
+  },
+
+  walletImage: {
+    width: 50,
+    height: 50,
+  },
+
+  walletText: {
+    color: 'white',
+    fontSize: 46,
+  },
+
+  profileText: {
+    color: 'white',
+    fontSize: 28,
   },
 
   modalContainer: {
@@ -51,59 +119,25 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
 
-  modalContentContainer: {
+  modalContent: {
     flexDirection: 'column',
     backgroundColor: '#FFFFFF',
-    // alignItems: 'center',
     justifyContent: 'center',
-    height: viewportHeightPercent(23),
+    height: viewportHeightPercent(17),
     width: viewportWidthPercent(66),
   },
 
-  modalTextContainer: {
+  modalItem: {
     flex: 1,
     flexDirection: 'column',
-    color: 'white',
     justifyContent: 'center',
     paddingHorizontal: viewportWidthPercent(4),
-    paddingVertical: viewportHeightPercent(2),
-    fontSize: 18,
   },
 
-  titleText: {
-    fontSize: 25,
-    color: 'white',
-  },
-
-  headerText: {
-    fontSize: 20,
-  },
-
-  buttonText: {
-    fontSize: 18,
-    color: 'white',
-  },
-
-  buttonContainer: {
-    // flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignSelf: 'flex-end',
-  },
-
-  iconStyle: {
-    color: Colors.labelGold,
+  modalText: {
     justifyContent: 'center',
-    alignSelf: 'center',
+    color: Colors.black,
     fontSize: 18,
-  },
-
-  image: {
-    width: thumbnailSize,
-    height: thumbnailSize,
-    borderRadius: thumbnailSize / 2,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 
 });
@@ -120,16 +154,21 @@ class Mine extends React.Component {
       thumbnail: PropTypes.string,
       authenticated: PropTypes.bool,
     }).isRequired,
+    mainWallet: PropTypes.shape({
+      currencyName: PropTypes.string,
+      availBalance: PropTypes.number,
+    }),
   }
 
   static defaultProps = {
+    mainWallet: {},
   }
 
   constructor(props) {
     super(props);
     this.state = {
       visibleModal: false,
-      imageFormdata: null,
+      thumbnailFormdata: null,
     };
   }
 
@@ -146,14 +185,21 @@ class Mine extends React.Component {
     return (
       [
         [
-          { key: 1, title: '設定', subtitle: '', image: require('../../../img/mine/icon_navigation_item_set_white.png'), handle: ()=>{Actions.personalSetting()} },
-        ],
-        [
-          { key: 3, title: '隱私權政策', subtitle: '', image: require('../../../img/mine/icon_mine_collection.png'), handle: ()=>{Actions.privacy()} },
-          { key: 4, title: '客服中心', subtitle: '', image: require('../../../img/mine/icon_mine_customerService.png') },
-          { key: 5, title: '關於我們', subtitle: '', image: require('../../../img/mine/icon_mine_aboutmeituan.png') },
-          { key: 6, title: '版本', subtitle: '5.0.72', image: null, handle: null, arrowIcon: false },
-          { key: 7, title: '登出', subtitle: '', image: null, handle: this._userLogout, arrowIcon: false },
+          {
+            key: 1, title: '設定', subtitle: '', image: require('../../../img/mine/setting.png'), handle: () => { Actions.personalSetting(); },
+          },
+          {
+            key: 2, title: '隱私權政策', subtitle: '', image: require('../../../img/mine/serviceAgent.png'), handle: () => { Actions.privacy(); },
+          },
+          {
+            key: 3, title: '關於我們', subtitle: '', image: require('../../../img/mine/about.png'),
+          },
+          {
+            key: 4, title: '版本', subtitle: pkg.expo.version, image: require('../../../img/mine/version.png'), handle: null, arrowIcon: false,
+          },
+          {
+            key: 5, title: '登出', subtitle: '', image: require('../../../img/mine/logout.png'), handle: this._userLogout, arrowIcon: false,
+          },
         ],
       ]
     );
@@ -162,26 +208,25 @@ class Mine extends React.Component {
   _pickImage = async () => {
     const { onFormSubmit } = this.props;
 
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [3, 3],
     });
 
     if (!result.cancelled) {
       const data = new FormData();
-      let uri =  Platform.OS === "android" ? result.uri : result.uri.replace("file://", "");
-      let name = uri.split('/').pop();
-      let match = /\.(\w+)$/.exec(name);
-      let type = match ? `image/${match[1]}` : `image`;
-      data.append("userThumbnail", {
+      const uri = Platform.OS === 'android' ? result.uri : result.uri.replace('file://', '');
+      const name = uri.split('/').pop();
+      const match = /\.(\w+)$/.exec(name);
+      const type = match ? `image/${match[1]}` : 'image';
+      data.append('userThumbnail', {
         name: name,
         type: type,
-        uri: uri
+        uri: uri,
       });
 
-      this.setState({ imageFormdata: data, visibleModal: false });
+      this.setState({ thumbnailFormdata: data, visibleModal: false });
       const success = await onFormSubmit(this.state);
-
     } else {
       this.setState({ visibleModal: false });
     }
@@ -217,29 +262,23 @@ class Mine extends React.Component {
   }
 
   renderImagePicker = () => {
-
-    const { visibleModal } = this.state;
     return (
-      <View style={styles.modalContentContainer}>
-        <View style={{ ...styles.modalTextContainer, flex: 1.3, borderBottomColor: '#F3F3F3', borderBottomWidth: 2}}>
-          <Text style={{ fontWeight: 'bold', fontSize: 25, color: 'black'}}>設定大頭貼</Text>
+      <View style={styles.modalContent}>
+        <View
+          style={{
+            ...styles.modalItem, flex: 1.3, borderBottomColor: '#F3F3F3', borderBottomWidth: 2,
+          }}
+        >
+          <Text style={{ ...styles.modalText, fontWeight: 'bold', fontSize: 25 }}>設定大頭貼</Text>
         </View>
         <TouchableHighlight
-          style={styles.modalTextContainer}
-          onPress={this._pickImage}
-          underlayColor='#FFFFFF'
-        >
-          <Text>使用相機拍照</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.modalTextContainer}
-          onPress={()=>{
-            // this.setState({ visibleModal: false });
+          style={styles.modalItem}
+          onPress={() => {
             this._pickImage();
           }}
-          underlayColor='#FFFFFF'
+          underlayColor="#FFFFFF"
         >
-          <Text>從相簿選擇</Text>
+          <Text style={styles.modalText}>從相簿選擇</Text>
         </TouchableHighlight>
       </View>
     );
@@ -248,47 +287,67 @@ class Mine extends React.Component {
 
   render() {
     const { visibleModal } = this.state;
-    const { user } = this.props;
-
-    let uri = (user.thumbnail) ? ({uri: user.thumbnail}) : (require('../../../img/users/100_2.jpg'));
-    // let uri = (require('../../../img/users/100_2.jpg'));
-
+    const { user, mainWallet } = this.props;
+    const uri = (user.thumbnail) ? ({ uri: user.thumbnail }) : (require('../../../img/mine/user.png'));
+    console.log(user.thumbnail);
     return (
-      <View style={styles.container}>
-        <ScrollView>
-          <View style={styles.topContainer}>
-            <View style={styles.thumbnailContainer}>
-              <TouchableHighlight onPress={() => this.setState({ visibleModal: !visibleModal })}>
-
+      <ImageBackground source={require('../../../img/mine/bg.png')} style={styles.bgImage}>
+        <View style={styles.container}>
+          <View style={styles.profileCard}>
+            <View style={styles.profile}>
+              <View style={styles.profileInfo}>
+                <Text style={styles.profileText}>霸氣老司機</Text>
+                <TouchableHighlight
+                  style={styles.qrcodeImage}
+                  onPress={() => {}}
+                >
+                  <Image
+                    style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+                    source={require('../../../img/mine/qrcode.png')}
+                  />
+                </TouchableHighlight>
+              </View>
+              <View style={styles.thumbnail}>
+                <TouchableHighlight
+                  style={styles.thumbnailImage}
+                  onPress={() => this.setState({ visibleModal: !visibleModal })}
+                >
+                  <Image
+                    style={styles.thumbnailImage}
+                    source={uri}
+                  />
+                </TouchableHighlight>
                 <Image
-                  style={styles.image}
-                  source={uri}
+                  style={styles.cameraImage}
+                  source={require('../../../img/mine/camera.png')}
                 />
-              </TouchableHighlight>
+              </View>
             </View>
-            <View style={styles.profileContainer}>
-              <Text style={styles.text}>shawn</Text>
-              <Text style={styles.footerText}>gg</Text>
+            <View style={styles.wallet}>
+              <Image
+                style={styles.walletImage}
+                source={require('../../../img/mine/fire.png')}
+              />
+              <Text style={styles.walletText}>{mainWallet.availBalance}</Text>
             </View>
-            <View style={{ flex: 1 }} />
-            {/* <Text style={styles.text}>{subtitle}</Text> */}
-            <Image style={styles.arrow} source={require('../../../img/public/cell_arrow.png')} />
           </View>
           <Modal
             backdropOpacity={0.1}
-            backdropColor='#666666'
+            backdropColor="#666666"
             isVisible={visibleModal}
-            animationOut='fadeOut'
+            animationOut="fadeOut"
             animationOutTiming={100}
-            onBackdropPress={() => this.setState({visibleModal: !visibleModal})}
-            onBackButtonPress={() => this.setState({visibleModal: !visibleModal})}
+            onBackdropPress={() => this.setState({ visibleModal: !visibleModal })}
+            onBackButtonPress={() => this.setState({ visibleModal: !visibleModal })}
             style={styles.modalContainer}
           >
             {this.renderImagePicker()}
           </Modal>
-          {this.renderCells()}
-        </ScrollView>
-      </View>
+          <View style={styles.settingList}>
+            {this.renderCells()}
+          </View>
+        </View>
+      </ImageBackground>
     );
   }
 }

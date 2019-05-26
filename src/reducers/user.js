@@ -61,6 +61,13 @@ function userReducer(state = initState, action) {
       }
       return state;
     }
+    // thumbnail
+    case actionType.REPLACE_USER_THUMBNAIL: {
+      return {
+        ...state,
+        thumbnail: action.data,
+      };
+    }
     // authenticated
     case actionType.REPLACE_USER_AUTH: {
       return {

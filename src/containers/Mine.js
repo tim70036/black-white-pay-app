@@ -9,9 +9,9 @@ import {
   replaceUserPassword,
   replaceUserTransPwd,
   replaceUserName,
-  replaceUserThumbnail,
   logout,
 } from '../actions/user';
+import { getWallets } from '../actions/wallets';
 
 class Mine extends Component {
   static propTypes = {
@@ -24,8 +24,15 @@ class Mine extends Component {
     replacePassword: PropTypes.func.isRequired,
     replaceTransPwd: PropTypes.func.isRequired,
     replaceName: PropTypes.func.isRequired,
-    replaceThumbnail: PropTypes.func.isRequired,
     userLogout: PropTypes.func.isRequired,
+    getWalletsData: PropTypes.func.isRequired,
+
+    walletsData: PropTypes.arrayOf(
+      PropTypes.shape({
+        currencyName: PropTypes.string,
+        availBalance: PropTypes.number,
+      }),
+    ),
 
     user: PropTypes.shape({
       account: PropTypes.string,
@@ -38,9 +45,15 @@ class Mine extends Component {
   }
 
   static defaultProps = {
+    walletsData: [],
   }
 
   state = {
+  }
+
+  constructor(props) {
+    super(props);
+    props.getWalletsData();
   }
 
   _handleSubmit = async (formData) => {
@@ -52,7 +65,6 @@ class Mine extends Component {
       replacePassword,
       replaceTransPwd,
       replaceName,
-      replaceThumbnail,
     } = this.props;
 
     let success = false;
@@ -73,11 +85,15 @@ class Mine extends Component {
 
   render = () => {
     const {
-      Layout, userLogout, user
+      Layout, userLogout, user, walletsData,
     } = this.props;
+    const mainWallet = walletsData.find(row => (row.storeId === -1));
     return (
       <Layout
-        onFormSubmit={this._handleSubmit} userLogout={userLogout} user={user}
+        onFormSubmit={this._handleSubmit}
+        userLogout={userLogout}
+        user={user}
+        mainWallet={mainWallet}
       />
     );
   }
@@ -85,6 +101,7 @@ class Mine extends Component {
 
 const mapStateToProps = state => ({
   user: state.user || {},
+  walletsData: state.wallets,
 });
 
 const mapDispatchToProps = {
@@ -95,8 +112,8 @@ const mapDispatchToProps = {
   replacePassword: replaceUserPassword,
   replaceTransPwd: replaceUserTransPwd,
   replaceName: replaceUserName,
-  replaceThumbnail: replaceUserThumbnail,
   userLogout: logout,
+  getWalletsData: getWallets,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Mine);

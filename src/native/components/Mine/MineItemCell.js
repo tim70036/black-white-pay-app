@@ -3,14 +3,9 @@ import { Actions } from 'react-native-router-flux';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Header } from 'react-native';
 import PropTypes from 'prop-types';
 import Colors from '../../constants/colors';
-// import { Heading2, Paragraph } from './widght/Text';
-// import Separator from './widght/Separator';
-
-// const Dimensions = require('Dimensions');
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.backgroundGray,
   },
   content: {
     height: 44,
@@ -23,11 +18,7 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
     marginRight: 10,
-  },
-  subtitleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    resizeMode: 'contain',
   },
   arrow: {
     width: 14,
@@ -35,14 +26,14 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
 
-  h2: {
-    fontSize: 13,
-    color: 'white',
+  title: {
+    fontSize: 16,
+    color: Colors.white,
   },
 
   text: {
     fontSize: 11,
-    color: '#999999',
+    color: Colors.white,
   },
 });
 
@@ -81,10 +72,10 @@ class MineItemCell extends Component {
         >
           <View style={styles.content}>
             {icon}
-            <Text style={styles.h2}>{title}</Text>
+            <Text style={styles.title}>{title}</Text>
             <View style={{ flex: 1 }} />
             <Text style={styles.text}>{subtitle}</Text>
-            {arrowIcon ? <Image style={styles.arrow} source={require('../../../img/public/cell_arrow.png')} /> : null}
+            {arrowIcon ? <Image style={styles.arrow} source={require('../../../img/mine/arrow.png')} /> : null}
           </View>
           <View style={{ height: 14 }} />
         </TouchableOpacity>

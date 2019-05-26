@@ -1,116 +1,38 @@
-import React from 'react';
-import {
-  StyleSheet, Keyboard, TouchableHighlight,
-} from 'react-native';
-import PropTypes from 'prop-types';
-import {
-  Form, Item, Label, Input, Text, View,
-} from 'native-base';
-import Icon from 'react-native-vector-icons/AntDesign';
+import React, { Component } from 'react';
+import { View, StyleSheet, Keyboard, TouchableHighlight, TextInput, Text, ImageBackground, Image  } from 'react-native';
+import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
-import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
-
+import PropTypes from 'prop-types';
+import { formStyle, elementColors } from '../../lib/styles';
+import Colors from '../../constants/colors';
+import {
+  viewportWidthPercent,
+  viewportHeightPercent,
+} from '../../lib/util';
 import registerForNotifications from '../../lib/expoNotification';
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    flex: 1,
-    backgroundColor: '#1A1B1B',
-  },
-
-  topContainer: {
-    flex: 3,
+const stl = StyleSheet.create({
+  logo: {
     alignItems: 'center',
-    justifyContent: 'center',
   },
-
-  formContainer: {
-    flex: 7,
-    justifyContent: 'center',
+  logoImage: {
+    height: viewportHeightPercent(14),
+    width: viewportHeightPercent(14),
+    resizeMode: 'contain',
   },
-
-  formStyle: {
-    flexDirection: 'column',
-    flex: 1,
-  },
-
-  formTop: {
-    justifyContent: 'center',
-    flex: 1,
-  },
-
-  formBottom: {
-    justifyContent: 'center',
-    flex: 1,
-  },
-
-  formButton: {
-    flex: 1,
-  },
-
-  formInputContainer: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    marginTop: viewportHeightPercent(5),
-  },
-
-  logoStyle: {
-    color: '#AA8049',
-    fontSize: 40,
-    fontWeight: 'bold',
-  },
-
-  labelText: {
-    fontSize: 18,
-    color: '#AA8049',
-    justifyContent: 'center',
-  },
-
-  textInputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    height: 35,
-  },
-
-  textInputStyle: {
-    height: '100%',
-    color: 'white',
-  },
-
-  iconStyle: {
-    color: '#AA8049',
-    justifyContent: 'center',
-    alignSelf: 'center',
-    fontSize: 30,
-  },
-
-  buttonStyle: {
-    width: '100%',
+  button: {
+    marginTop: viewportHeightPercent(3),
+    width: '85%',
     alignSelf: 'center',
     justifyContent: 'center',
-    height: 45,
-    borderWidth: 1,
-    borderColor: '#AA8049',
-    borderRadius: 50,
-    // flex: 1,
-  },
-
-  forgetPasswordStyle: {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    height: 45,
-  },
-
-  text: {
-    color: '#AA8049',
-    fontSize: 20,
-    alignSelf: 'center',
-    justifyContent: 'center',
+    height: 58,
+    borderRadius: 36.5,
+    alignItems: 'center',
+    backgroundColor: Colors.gray,
   },
 });
 
-class Login extends React.Component {
+class Login extends Component {
   static propTypes = {
     user: PropTypes.shape({
       account: PropTypes.string,
@@ -137,9 +59,9 @@ class Login extends React.Component {
     };
   }
 
-  _handleChange = (name, val) => {
+  _handleChange = (key, val) => {
     this.setState({
-      [name]: val,
+      [key]: val,
     });
   }
 
@@ -161,124 +83,80 @@ class Login extends React.Component {
     }
   }
 
-  _changeLoginButton = () => {
-    const { loginButtonIsPressed } = this.state;
-    this.setState({ loginButtonIsPressed: !loginButtonIsPressed });
-  }
 
-  _changeRegisterButton = () => {
-    const { registerButtonIsPressed } = this.state;
-    this.setState({ registerButtonIsPressed: !registerButtonIsPressed });
-  }
-
-  render = () => {
-    const { account, password, loginButtonIsPressed, registerButtonIsPressed } = this.state;
-
+  render() {
+    const { account, password } = this.state;
     return (
-      <View padder style={styles.container}>
-        <View style={styles.topContainer}>
-          <Text style={styles.logoStyle}> LOGO </Text>
-        </View>
-        <View style={styles.formContainer}>
-          <Form style={styles.formStyle}>
-            <View style={styles.formTop}>
-              <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 帳號 </Label>
-                <View style={styles.textInputContainer}>
-                  <Input
-                    style={styles.textInputStyle}
-                    autoCapitalize="none"
-                    placeholderTextColor="white"
-                    keyboardType="default"
-                    onChangeText={v => this._handleChange('account', v)}
-                    onSubmitEditing={Keyboard.dismiss}
-                    defaultValue={account}
-                  />
-                  <Icon style={styles.iconStyle} name="user" />
-                </View>
-              </Item>
-              <Item stackedLabel style={styles.formInputContainer}>
-                <Label style={styles.labelText}> 密碼 </Label>
-                <View style={styles.textInputContainer}>
-                  <Input
-                    style={styles.textInputStyle}
-                    autoCapitalize="none"
-                    placeholderTextColor="white"
-                    keyboardType="default"
-                    onChangeText={v => this._handleChange('password', v)}
-                    onSubmitEditing={Keyboard.dismiss}
-                    defaultValue={password}
-                    secureTextEntry
-                  />
-                  <Icon style={styles.iconStyle} name="lock1" />
-                </View>
-              </Item>
+      <ImageBackground source={require('../../../img/bg.png')} style={formStyle.bgImage}>
+        <View style={formStyle.container}>
+          <View style={formStyle.inputContainer}>
+            <View style={stl.logo}>
+              <Image source={require('../../../img/logo.png')} style={stl.logoImage} />
             </View>
-            <View style={{ height: 30 }} />
-            <View style={styles.formBottom}>
-              <View padder style={styles.formButton}>
-                <TouchableHighlight
-                  style={{
-                    ...styles.buttonStyle,
-                  }}
-                  onPress={this._handleSubmit}
-                  onPressIn={this._changeLoginButton}
-                  onPressOut={this._changeLoginButton}
-                  underlayColor="#AA8049"
-                >
-                  <Text
-                    style={{
-                      ...styles.text,
-                      color: loginButtonIsPressed === true ? 'white' : '#AA8049',
-                    }}
-                  >
-                    登入
-                  </Text>
-                </TouchableHighlight>
+            <View style={formStyle.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/account.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 帳號</Text>
               </View>
-              <View padder style={styles.formButton}>
-                <TouchableHighlight
-                  style={{
-                    ...styles.buttonStyle,
-                  }}
-                  onPress={this._handleRegisterBtn}
-                  onPressIn={this._changeRegisterButton}
-                  onPressOut={this._changeRegisterButton}
-                  underlayColor="#AA8049"
-                >
-                  <Text
-                    style={{
-                      ...styles.text,
-                      color: registerButtonIsPressed === true ? 'white' : '#AA8049',
-                    }}
-                  >
-                    註冊
-                  </Text>
-                </TouchableHighlight>
-              </View>
-              <View padder style={styles.formButton}>
-                <TouchableHighlight
-                  style={{
-                    ...styles.forgetPasswordStyle,
-                  }}
-                  onPress={this._handleForgetBtn}
-                >
-                  <Text
-                    style={{
-                      ...styles.text,
-                      fontSize: 17,
-                      color: '#F7F9F9',
-                    }}
-                  >
-                    忘 記 密 碼
-                  </Text>
-                </TouchableHighlight>
-              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder="請輸入電話號碼"
+                placeholderTextColor={elementColors.placeholderTextColor}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('account', v)}
+                onSubmitEditing={Keyboard.dismiss}
+                defaultValue={account}
+              />
             </View>
-          </Form>
+            <View style={formStyle.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/pwd.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 密碼</Text>
+              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder="請輸入密碼"
+                placeholderTextColor={elementColors.placeholderTextColor}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('password', v)}
+                onSubmitEditing={Keyboard.dismiss}
+                defaultValue={password}
+                secureTextEntry
+              />
+            </View>
+            <LinearGradient
+              colors={elementColors.buttonLinearGradient}
+              style={formStyle.linearGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
+              <TouchableHighlight
+                style={formStyle.button}
+                onPress={this._handleSubmit}
+                underlayColor={Colors.gray}
+              >
+                <Text style={formStyle.buttonText}>登入</Text>
+              </TouchableHighlight>
+            </LinearGradient>
+            <TouchableHighlight
+              style={stl.button}
+              onPress={this._handleRegisterBtn}
+              underlayColor={Colors.gray}
+            >
+              <Text style={formStyle.buttonText}>註冊</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={{ ...stl.button, backgroundColor: 'transparent' }}
+              onPress={this._handleForgetBtn}
+              underlayColor="transparent"
+            >
+              <Text style={formStyle.buttonText}>忘記密碼</Text>
+            </TouchableHighlight>
+          </View>
         </View>
-      </View>
-
+      </ImageBackground>
     );
   }
 }

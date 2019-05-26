@@ -18,9 +18,9 @@ import LoginContainer from '../../containers/Login';
 import LoginComponent from '../components/Login';
 
 import RegisterContainer from '../../containers/Register';
-import RegisterComponent1 from '../components/Register/Register1';
-import RegisterComponent2 from '../components/Register/Register2';
-import RegisterComponent3 from '../components/Register/Register3';
+import RegisterPhoneComponent from '../components/Register/RegisterPhone';
+import RegisterPwdComponent from '../components/Register/RegisterPwd';
+import RegisterNameComponent from '../components/Register/RegisterName';
 import RegisterVerifyPhoneComponent from '../components/Register/VerifyPhone';
 
 import ForgetContainer from '../../containers/Forget';
@@ -28,11 +28,11 @@ import ForgetComponent1 from '../components/Forget/Forget1';
 import ForgetComponent2 from '../components/Forget/Forget2';
 import ForgetVerifyPhoneComponent from '../components/Forget/VerifyPhone';
 
-import StoreListContainer from '../../containers/StoreList/StoreList';
-import StoreListComponent from '../components/StoreList/StoreList';
+import StoreListContainer from '../../containers/StoreList';
+import StoreListComponent from '../components/StoreList';
 
-import AddStoreContainer from '../../containers/StoreList/AddStore';
-import AddStoreComponent from '../components/StoreList/AddStore';
+import AddStoreContainer from '../../containers/AddStore';
+import AddStoreComponent from '../components/AddStore';
 
 import HomeContainer from '../../containers/Home';
 import HomeComponent from '../components/Home';
@@ -69,12 +69,13 @@ import qrCodeReceiveComponent from '../components/QrCodeReceive';
 
 import MineContainer from '../../containers/Mine';
 import MineComponent from '../components/Mine';
-import PersonalSettingComponent from '../components/Mine/PersonalSetting';
-import ChangeThumbnailComponent from '../components/Mine/ChangeThumbnail';
-import ChangeNameComponent from '../components/Mine/ChangeName';
-import ChangePwdComponent from '../components/Mine/ChangePwd';
-import ChangeTransPwdComponent from '../components/Mine/ChangeTransPwd';
-import PrivacyComponent from '../components/Mine/Privacy';
+import PersonalSettingComponent from '../components/PersonalSetting';
+import ChangeNameComponent from '../components/ChangeName';
+import ChangePwdComponent from '../components/ChangePwd';
+import ChangeTransPwdComponent from '../components/ChangeTransPwd';
+import PrivacyComponent from '../components/Privacy';
+
+import AddFriendComponent from '../components/AddFriend';
 
 import TabBar from '../components/TabBar';
 
@@ -181,16 +182,6 @@ const getRoutes = (authenticate, goAuth, refresh) => (
         </Stack>
 
         <Stack
-          hideNavBar
-          key="changeThumbnail"
-          title="更改照片"
-          // {...DefaultProps.navbarProps}
-          back
-        >
-          <Scene component={spinnerHOC(MineContainer)} Layout={ChangeThumbnailComponent} on={authenticate} failure={goAuth} />
-        </Stack>
-
-        <Stack
           key="changeName"
           title="更改暱稱"
           {...DefaultProps.navbarProps}
@@ -262,11 +253,12 @@ const getRoutes = (authenticate, goAuth, refresh) => (
     <Stack key="auth" hideNavBar>
       <Scene key="login" component={spinnerHOC(LoginContainer)} Layout={LoginComponent} />
       <Stack key="register" hideNavBar>
-        <Scene key="register1" component={spinnerHOC(RegisterContainer)} Layout={RegisterComponent1} />
+        <Scene key="registerName" component={RegisterContainer} Layout={RegisterNameComponent} />
+        <Scene key="registerPhone" component={spinnerHOC(RegisterContainer)} Layout={RegisterPhoneComponent} />
         <Scene key="registerVerifyPhone" component={spinnerHOC(RegisterContainer)} Layout={RegisterVerifyPhoneComponent} />
-        <Scene key="register2" component={RegisterContainer} Layout={RegisterComponent2} />
-        <Scene key="register3" component={RegisterContainer} Layout={RegisterComponent3} />
-        <Scene key="privacy" title="隱私權政策" {...DefaultProps.navbarProps} back component={spinnerHOC(MineContainer)} Layout={PrivacyComponent} on={authenticate} failure={goAuth} />
+        <Scene key="registerPwd" component={RegisterContainer} Layout={RegisterPwdComponent} />
+        <Scene key="registerName" component={RegisterContainer} Layout={RegisterNameComponent} />
+        <Scene key="privacy" title="隱私權政策" component={PrivacyComponent} />
       </Stack>
       <Stack key="forget" hideNavBar>
         <Scene key="forget1" component={spinnerHOC(ForgetContainer)} Layout={ForgetComponent1} />
