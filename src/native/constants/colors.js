@@ -5,15 +5,11 @@ const Colors = {
   barfocusText: '#FEFEFE',
 
 
-  labelGray: '#dcdddd',
-  labelLightGray: '#737172',
-  labelGold: '#D79D44',
-  labelWhite: '#f7f9f9',
-
-  middleLineGray: '#3E3E3E',
-
+  
   white: '#ffffff',
   gray: '#1a1a1a',
+  // gray: '#262727',
+  middleLineGray: '#3E3E3E',
   lightGray: '#8f95a6',
   gold: '#b9a078',
   red: '#BB1A3C',
@@ -22,6 +18,7 @@ const Colors = {
   orange: '#FF7F34',
   crystal_green: '#3AF8D2',
   black: '#090909',
+  darkGray: '#191919',
 
   buttonGray: '#494949',
   buttonLightGray: '#979797',

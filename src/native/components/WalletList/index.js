@@ -11,7 +11,7 @@ import {
 import Accordion from 'react-native-collapsible/Accordion';
 import Colors from '../../constants/colors';
 import ImageButton from './ImageButton';
-
+import NavBar from '../NavBar';
 import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 
 const tablePaddingHorizontal = viewportWidthPercent(2);
@@ -32,24 +32,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: viewportWidthPercent(5),
-    marginTop: viewportHeightPercent(2),
+    // borderWidth: 1,
+    // borderColor: 'white',
+    // marginTop: viewportHeightPercent(1),
   },
   mainCurrencyImg: {
-    width: 20,
-    height: 23,
+    width: 45,
+    height: 45,
     resizeMode: 'contain',
-    marginTop: viewportHeightPercent(2),
+    // marginTop: viewportHeightPercent(1),
     marginRight: viewportWidthPercent(5),
   },
   mainCurrency: {
     fontSize: 30,
     color: Colors.labelWhite,
-    marginTop: viewportHeightPercent(2),
+    // marginTop: viewportHeightPercent(1),
   },
   buttonContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.gray,
     height: viewportHeightPercent(12),
     borderRadius: viewportHeightPercent(12) / 2,
     marginTop: viewportHeightPercent(2),
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
     paddingVertical: viewportHeightPercent(1.7),
     height: viewportHeightPercent(23),
     justifyContent: 'center',
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.gray,
     borderRadius: 20,
   },
   headerContainer: {
@@ -72,7 +74,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: tablePaddingHorizontal,
     height: viewportHeightPercent(7.4),
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.gray,
     borderBottomWidth: 1,
     borderBottomColor: Colors.middleLineGray,
     // marginBottom: viewportWidthPercent(3),
@@ -99,17 +101,17 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontWeight: '200',
-    color: Colors.labelWhite,
+    color: Colors.white,
   },
   headerIcon: {
-    color: Colors.labelWhite,
+    color: Colors.white,
   },
   contentContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     height: viewportWidthPercent(25),
     paddingBottom: viewportHeightPercent(2),
-    backgroundColor: Colors.backgroundDarkGray,
+    backgroundColor: Colors.darkGray,
     paddingHorizontal: tablePaddingHorizontal,
   },
   subHeader: {
@@ -136,13 +138,13 @@ const styles = StyleSheet.create({
   },
   subHeaderText: {
     fontSize: 20,
-    color: Colors.labelWhite,
+    color: Colors.white,
   },
   scrollViewContainer: {
     flex: 1,
   },
   AccordionContainer: {
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.gray,
     borderRadius: viewportWidthPercent(4),
     marginTop: viewportHeightPercent(3),
     marginHorizontal: viewportWidthPercent(5),
@@ -152,7 +154,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 27,
-    color: Colors.labelWhite,
+    color: Colors.white,
     marginRight: viewportWidthPercent(4),
   },
   storeCurrencyImg: {
@@ -209,8 +211,7 @@ class WalletList extends React.Component {
   }
 
   _handleExchange = () => {
-    console.log();
-    // Actions.Exchange();
+    Actions.exchange();
   }
 
   _handleQRcode = async (storeId) => {
@@ -223,7 +224,6 @@ class WalletList extends React.Component {
     };
     await onChoose(storeId);
     Actions.qrCodePay({ qrCodeData: qrCodeData });
-    // Actions.qrCodePay();
   }
 
   _renderHeader = section => (
@@ -263,6 +263,7 @@ class WalletList extends React.Component {
       <View style={styles.layoutContainer}>
         <View style={styles.container}>
           <ImageBackground style={styles.bkImg} source={require('../../../img/walletList/mainCurrency_bk.png')}>
+            <NavBar title="我的錢包" /> 
             <View style={styles.mainCurrencyContainer} source={require('../../../img/walletList/mainCurrency_bk.png')}>
               <Image source={require('../../../img/walletList/mainSoul.png')} style={styles.mainCurrencyImg} />
               <Text style={styles.mainCurrency}>{mainWallet.availBalance}</Text>

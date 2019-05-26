@@ -14,7 +14,7 @@ import {
 import { LinearGradient } from 'expo';
 import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 import { amountValidate } from '../../lib/validate';
-
+import NavBar from '../NavBar';
 import Colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     height: viewportHeightPercent(20),
     width: viewportWidthPercent(80),
     borderRadius: viewportWidthPercent(5),
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.gray,
   },
   input: {
     flexDirection: 'row',
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   picker: {
     color: 'white',
     height: 30,
-    backgroundColor: '#373737',
+    backgroundColor: Colors.middleLineGray,
     width: viewportWidthPercent(35),
   },
   amountInput: {
@@ -67,16 +67,16 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   textinput: {
-    color: Colors.labelGray,
+    color: Colors.lightGray,
     height: 30,
-    backgroundColor: '#373737',
+    backgroundColor: Colors.middleLineGray,
     width: viewportWidthPercent(35),
     borderRadius: viewportWidthPercent(3),
     paddingLeft: viewportWidthPercent(3),
     paddingBottom: 0,
   },
   labeltext: {
-    color: Colors.labelWhite,
+    color: Colors.white,
   },
   inputButton: {
     flexDirection: 'row',
@@ -99,10 +99,10 @@ const styles = StyleSheet.create({
     borderRadius: viewportWidthPercent(5),
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.gray,
   },
   emptySpace: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.middleLineGray,
   },
   qrCode: {
     overflow: 'hidden',
@@ -113,11 +113,11 @@ const styles = StyleSheet.create({
     width: viewportWidthPercent(80),
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.gray,
     borderRadius: viewportWidthPercent(5),
   },
   text: {
-    color: Colors.labelGray,
+    color: Colors.lightGray,
   },
   valText: {
     color: 'red',
@@ -194,25 +194,29 @@ class QrCodeReceive extends Component {
     const { amountMsg, amount, qrCodeData } = this.state;
     let showQRSize;
     let showEmptySize;
+    let QrboderWidth;
     let color;
     let notifyString1;
     let notifyString2;
     if (qrCodeData.amount === '' || qrCodeData.amount === 0) {
-      color = Colors.backgroundGray;
+      color = Colors.middleLineGray;
       showEmptySize = 200;
       showQRSize = 0;
+      QrboderWidth = 0;
       notifyString1 = '請輸入收款數量';
       notifyString2 = '收款數量不可為0';
     } else {
       color = Colors.labelWhite;
       showEmptySize = 0;
       showQRSize = 200;
+      QrboderWidth = 1;
       notifyString1 = '請掃描上面的 QR Code';
       notifyString2 = '';
     }
 
     return (
       <ImageBackground style={styles.bkContainer} source={require('../../../img/QRCodeReceive/QRCodeReceive_bk.png')}>
+        <NavBar title="收款" back />
         <View style={styles.container}>
           <View style={styles.inputContainer}>
             <View style={styles.input}>
@@ -258,8 +262,8 @@ class QrCodeReceive extends Component {
             </View>
           </View>
           <View style={styles.qrCodeContainer}>
-            <View style={[styles.qrCode, { borderColor: color }]}>
-              <View style={[styles.emptySpace, { height: showEmptySize, width: showEmptySize }]} />
+            <View style={[styles.emptySpace, { height: showEmptySize, width: showEmptySize }]} />
+            <View style={[styles.qrCode, { borderColor: color, borderWidth: QrboderWidth }]}>
               <QRCode
                 value={JSON.stringify(qrCodeData)}
                 size={showQRSize}

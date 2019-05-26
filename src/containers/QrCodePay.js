@@ -53,8 +53,6 @@ class QrCodePay extends Component {
       walletsData,
       curStoreId,
     } = this.props;
-    console.log('@@@@@');
-    console.log(walletsData);
 
     return (
       <Layout

@@ -10,7 +10,7 @@ import {
   PickerIOS,
 } from 'react-native';
 import { Picker } from 'native-base';
-
+import NavBar from '../NavBar';
 import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 
 import Colors from '../../constants/colors';
@@ -116,6 +116,7 @@ class QrCodePay extends Component {
 
     return (
       <ImageBackground style={styles.bkContainer} source={require('../../../img/QRCodePay/QRCodePay_bk.png')}>
+        <NavBar title="付款" back />
         <View style={styles.container}>
           <View style={styles.inputContainer}>
             <Text style={styles.labeltext}>選擇幣別</Text>

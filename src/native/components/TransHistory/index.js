@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import Accordion from 'react-native-collapsible/Accordion';
 import moment from 'moment';
 import Colors from '../../constants/colors';
-
+import NavBar from '../NavBar';
 import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 
 
@@ -295,6 +295,7 @@ class TransHistory extends Component {
 
     return (
       <View style={styles.layoutContainer}>
+        <NavBar title="轉帳紀錄" back />
         <View style={styles.container}>
           <ImageBackground style={styles.bkImg} source={require('../../../img/TransferHistory/topbk.png')}>
             <View style={styles.inputsContainer}>

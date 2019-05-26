@@ -17,6 +17,7 @@ import { LinearGradient } from 'expo';
 
 
 import PropTypes from 'prop-types';
+import NavBar from '../NavBar';
 import Colors from '../../constants/colors';
 import { amountValidate, transPwdValidate } from '../../lib/validate';
 import {
@@ -29,7 +30,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: Colors.backgroundBlack,
   },
   inputsContainer: {
     flex: 1,
@@ -312,6 +312,7 @@ class Transfer extends Component {
 
     return (
       <ImageBackground style={styles.container} source={require('../../../img/exchange/exchange_bk.png')}>
+        <NavBar title="兌換" back />
         <View style={styles.inputsContainer}>
           <View style={styles.storeContainer}>
             <View style={styles.pickerContainer}>
@@ -321,6 +322,8 @@ class Transfer extends Component {
                   style={styles.picker}
                   selectedValue={outflowStoreId}
                   onValueChange={itemValue => this._handlePick('outflow', itemValue)}
+                
+
                 >
                   { outflowWallet.map((i, index) => (
                     <Picker.Item key={i} label={i.currencyName} value={i.storeId} />
@@ -424,7 +427,7 @@ class Transfer extends Component {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
               >
-                <Text style={styles.label}>確認轉換</Text>
+                <Text style={styles.label}>確認兌換</Text>
               </LinearGradient>
             </TouchableOpacity>
           </View>
