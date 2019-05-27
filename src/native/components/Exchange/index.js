@@ -11,6 +11,7 @@ import {
 import {
   Text,
   Icon,
+  Picker as IosPicker,
 } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { LinearGradient } from 'expo';
@@ -23,6 +24,7 @@ import { amountValidate, transPwdValidate } from '../../lib/validate';
 import {
   viewportWidthPercent,
   viewportHeightPercent,
+  IS_IOS,
 } from '../../lib/util';
 
 
@@ -45,7 +47,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     height: viewportHeightPercent(7),
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.cardLightGray,
     borderRadius: viewportWidthPercent(4),
   },
   outflowPicker: {
@@ -57,7 +59,7 @@ const styles = StyleSheet.create({
   middleLine: {
     height: viewportHeightPercent(4),
     width: 1,
-    backgroundColor: Colors.middleLineGray,
+    backgroundColor: Colors.placeholderGray,
   },
   inflowPicker: {
     flex: 1,
@@ -67,20 +69,29 @@ const styles = StyleSheet.create({
   },
   picker: {
     color: Colors.labelWhite,
-    height: 30,
-    width: viewportWidthPercent(20),
-    backgroundColor: Colors.backgroundGray,
+    height: 35,
+    width: viewportWidthPercent(25),
+    backgroundColor: Colors.cardLightGray,
+  },
+  iospicker: {
+    height: 35,
+    width: viewportWidthPercent(25),
+    backgroundColor: Colors.cardLightGray,
   },
   amountContainer: {
     flexDirection: 'column',
+    justifyContent: 'center',
+    marginTop: viewportHeightPercent(4),
+    backgroundColor: Colors.cardLightGray,
+    borderRadius: viewportWidthPercent(4),
   },
   amountInputContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     alignItems: 'center',
     height: viewportHeightPercent(9),
-    backgroundColor: Colors.backgroundBlack,
-    marginTop: viewportHeightPercent(4),
+    backgroundColor: Colors.cardLightGray,
+    marginTop: viewportHeightPercent(2),
   },
   ValTextContainer: {
     flexDirection: 'row',
@@ -117,7 +128,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: viewportHeightPercent(4),
     height: viewportHeightPercent(14),
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.cardLightGray,
     borderRadius: viewportWidthPercent(4),
     paddingLeft: viewportWidthPercent(6),
   },
@@ -126,7 +137,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: viewportHeightPercent(2),
     height: viewportHeightPercent(14),
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.cardLightGray,
     borderRadius: viewportWidthPercent(4),
     paddingLeft: viewportWidthPercent(6),
   },
@@ -148,7 +159,7 @@ const styles = StyleSheet.create({
     color: Colors.labelWhite,
   },
   valText: {
-    color: Colors.red,
+    color: Colors.labelRed,
     fontSize: 12,
     paddingTop: 3,
     marginLeft: 3,
@@ -245,9 +256,11 @@ class Transfer extends Component {
     const { outflowWallet, inflowWallet } = this.props;
     let targetWallet;
     if (name === 'inflow') {
+      console.log('%%%%%%%%%');
       targetWallet = inflowWallet.find(element => element.storeId === storeId);
       this.setState({ inflowStoreId: storeId, inflowRate: targetWallet.exchangeRate });
     } else if (name === 'outflow') {
+      console.log('@@@@@@@@@');
       targetWallet = outflowWallet.find(element => element.storeId === storeId);
       this.setState({ outflowStoreId: storeId, outflowRate: targetWallet.exchangeRate });
     }
@@ -317,31 +330,69 @@ class Transfer extends Component {
           <View style={styles.storeContainer}>
             <View style={styles.pickerContainer}>
               <View style={styles.outflowPicker}>
-                <Icon name="upload" type="MaterialCommunityIcons" style={[styles.icon, { color: Colors.orange }]} />
-                <Picker
-                  style={styles.picker}
-                  selectedValue={outflowStoreId}
-                  onValueChange={itemValue => this._handlePick('outflow', itemValue)}
-                
-
-                >
-                  { outflowWallet.map((i, index) => (
-                    <Picker.Item key={i} label={i.currencyName} value={i.storeId} />
-                  ))}
-                </Picker>
+                <Icon name="upload" type="MaterialCommunityIcons" style={[styles.icon, { color: '#FF7F34' }]} />
+                {
+                  IS_IOS ? (
+                    <IosPicker
+                      mode="dropdown"
+                      style={styles.iospicker}
+                      textStyle={{ color: Colors.labelWhite }}
+                      itemStyle={{
+                        marginLeft: 0,
+                        paddingLeft: 10,
+                      }}
+                      selectedValue={outflowStoreId}
+                      onValueChange={itemValue => this._handlePick('outflow', itemValue)}
+                    >
+                      { outflowWallet.map((i, index) => (
+                        <IosPicker.Item key={i} label={i.currencyName} value={i.storeId} />
+                      ))}
+                    </IosPicker>
+                  ) : (
+                    <Picker
+                      style={styles.picker}
+                      selectedValue={outflowStoreId}
+                      onValueChange={itemValue => this._handlePick('outflow', itemValue)}
+                    >
+                      { outflowWallet.map((i, index) => (
+                        <Picker.Item key={i} label={i.currencyName} value={i.storeId} />
+                      ))}
+                    </Picker>
+                  )
+                }
               </View>
               <View style={styles.middleLine} />
               <View style={styles.inflowPicker}>
-                <Icon name="download" type="MaterialCommunityIcons" style={[styles.icon, { color: Colors.crystal_green }]} />
-                <Picker
-                  style={styles.picker}
-                  selectedValue={inflowStoreId}
-                  onValueChange={itemValue => this._handlePick('inflow', itemValue)}
-                >
-                  { inflowWallet.map((i, index) => (
-                    <Picker.Item key={i} label={i.currencyName} value={i.storeId} />
-                  ))}
-                </Picker>
+                <Icon name="download" type="MaterialCommunityIcons" style={[styles.icon, { color: '#3AF8D2' }]} />
+                {
+                  IS_IOS ? (
+                    <IosPicker
+                      mode="dropdown"
+                      style={styles.iospicker}
+                      textStyle={{ color: Colors.labelWhite }}
+                      itemStyle={{
+                        marginLeft: 0,
+                        paddingLeft: 10,
+                      }}
+                      selectedValue={inflowStoreId}
+                      onValueChange={itemValue => this._handlePick('inflow', itemValue)}
+                    >
+                      { inflowWallet.map((i, index) => (
+                        <IosPicker.Item key={i} label={i.currencyName} value={i.storeId} />
+                      ))}
+                    </IosPicker>
+                  ) : (
+                    <Picker
+                      style={styles.picker}
+                      selectedValue={inflowStoreId}
+                      onValueChange={itemValue => this._handlePick('inflow', itemValue)}
+                    >
+                      { inflowWallet.map((i, index) => (
+                        <Picker.Item key={i} label={i.currencyName} value={i.storeId} />
+                      ))}
+                    </Picker>
+                  )
+                }
               </View>
             </View>
             <View style={styles.ValTextContainer}>
@@ -352,7 +403,7 @@ class Transfer extends Component {
             <View style={styles.amountInputContainer}>
               <View style={styles.outflowAmount}>
                 <View style={styles.outflowAmountText}>
-                  <View style={[styles.dot, { backgroundColor: Colors.orange }]} />
+                  <View style={[styles.dot, { backgroundColor: '#FF7F34' }]} />
                   <Text style={styles.label}>轉出數量</Text>
                 </View>
                 <View style={styles.outflowAmountInput}>
@@ -360,7 +411,7 @@ class Transfer extends Component {
                     style={[styles.inputText, { width: viewportWidthPercent(30) }]}
                     autoCapitalize="none"
                     placeholder="輸入轉出數量"
-                    placeholderTextColor={Colors.middleLineGray}
+                    placeholderTextColor={Colors.placeholderGray}
                     keyboardType="numeric"
                     onChangeText={v => this._handleChange('outflowAmount', v)}
                     onSubmitEditing={Keyboard.dsmiss}
@@ -371,7 +422,7 @@ class Transfer extends Component {
               <View style={[styles.middleLine, { height: viewportHeightPercent(8) }]} />
               <View style={styles.outflowAmount}>
                 <View style={styles.outflowAmountText}>
-                  <View style={[styles.dot, { backgroundColor: Colors.crystal_green }]} />
+                  <View style={[styles.dot, { backgroundColor: '#3AF8D2' }]} />
                   <Text style={styles.label}>轉入數量</Text>
                 </View>
                 <View style={styles.outflowAmountInput}>
@@ -379,7 +430,7 @@ class Transfer extends Component {
                     style={[styles.inputText, { width: viewportWidthPercent(30) }]}
                     autoCapitalize="none"
                     placeholder="輸入轉入數量"
-                    placeholderTextColor={Colors.middleLineGray}
+                    placeholderTextColor={Colors.placeholderGray}
                     keyboardType="numeric"
                     onChangeText={v => this._handleChange('inflowAmount', v)}
                     onSubmitEditing={Keyboard.dsmiss}
@@ -399,7 +450,7 @@ class Transfer extends Component {
                 { width: viewportWidthPercent(35), marginTop: viewportWidthPercent(2) }]}
               autoCapitalize="none"
               placeholder="輸入個人轉帳密碼"
-              placeholderTextColor={Colors.middleLineGray}
+              placeholderTextColor={Colors.placeholderGray}
               keyboardType="numeric"
               onChangeText={v => this._handleChange('transPwd', v)}
               onSubmitEditing={Keyboard.dsmiss}
@@ -413,7 +464,7 @@ class Transfer extends Component {
                 { width: viewportWidthPercent(35), marginTop: viewportWidthPercent(2) }]}
               autoCapitalize="none"
               placeholder="輸入備註"
-              placeholderTextColor={Colors.middleLineGray}
+              placeholderTextColor={Colors.placeholderGray}
               keyboardType="numeric"
               onChangeText={v => this._handleChange('comment', v)}
               onSubmitEditing={Keyboard.dsmiss}

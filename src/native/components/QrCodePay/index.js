@@ -6,12 +6,11 @@ import {
   View,
   Text,
   ImageBackground,
-  // Picker,
-  PickerIOS,
+  Picker,
 } from 'react-native';
-import { Picker } from 'native-base';
+import { Picker as IosPicker } from 'native-base';
 import NavBar from '../NavBar';
-import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { viewportWidthPercent, viewportHeightPercent, IS_IOS } from '../../lib/util';
 
 import Colors from '../../constants/colors';
 
@@ -33,7 +32,7 @@ const styles = StyleSheet.create({
     height: viewportHeightPercent(14),
     width: viewportWidthPercent(80),
     borderRadius: viewportWidthPercent(5),
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.cardLightGray,
   },
   pickerContainer: {
     // height: 30,
@@ -45,7 +44,12 @@ const styles = StyleSheet.create({
   picker: {
     color: Colors.labelWhite,
     height: 30,
-    backgroundColor: Colors.middleLineGray,
+    backgroundColor: Colors.placeholderGray,
+    width: viewportWidthPercent(35),
+  },
+  iospicker: {
+    height: 30,
+    backgroundColor: Colors.placeholderGray,
     width: viewportWidthPercent(35),
   },
   qrCodeContainer: {
@@ -55,7 +59,7 @@ const styles = StyleSheet.create({
     borderRadius: viewportWidthPercent(5),
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.cardLightGray,
   },
   qrCode: {
     overflow: 'hidden',
@@ -71,10 +75,10 @@ const styles = StyleSheet.create({
     borderRadius: viewportWidthPercent(5),
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.cardLightGray,
   },
   text: {
-    color: Colors.labelGray,
+    color: Colors.labelLightGray,
   },
   labeltext: {
     color: Colors.labelWhite,
@@ -121,16 +125,35 @@ class QrCodePay extends Component {
           <View style={styles.inputContainer}>
             <Text style={styles.labeltext}>選擇幣別</Text>
             <View style={styles.pickerContainer}>
-              <Picker
-                style={styles.picker}
-                selectedValue={curStoreId}
-                onValueChange={itemValue => this._handleChoose(itemValue)}
-                textStyle={{ color: 'white' }}
-              >
-                { walletsData.map((i, index) => (
-                  <Picker.Item key={i} label={`${i.storeName} (${i.currencyName})`} value={i.storeId} />
-                ))}
-              </Picker>
+              {
+                IS_IOS ? (
+                  <IosPicker
+                    mode="dropdown"
+                    style={styles.iospicker}
+                    textStyle={{ color: Colors.labelWhite }}
+                    itemStyle={{
+                      marginLeft: 0,
+                      paddingLeft: 10,
+                    }}
+                    selectedValue={curStoreId}
+                    onValueChange={itemValue => this._handleChoose(itemValue)}
+                  >
+                    { walletsData.map((i, index) => (
+                      <IosPicker.Item key={i} label={`${i.storeName} (${i.currencyName})`} value={i.storeId} />
+                    ))}
+                  </IosPicker>
+                ) : (
+                  <Picker
+                    style={styles.picker}
+                    selectedValue={curStoreId}
+                    onValueChange={itemValue => this._handleChoose(itemValue)}
+                  >
+                    { walletsData.map((i, index) => (
+                      <Picker.Item key={i} label={`${i.storeName} (${i.currencyName})`} value={i.storeId} />
+                    ))}
+                  </Picker>
+                )
+              }
             </View>
           </View>
           <View style={styles.qrCodeContainer}>
@@ -138,7 +161,7 @@ class QrCodePay extends Component {
               <QRCode
                 value={JSON.stringify(qrCodeData)}
                 size={200}
-                bgColor={Colors.backgroundBlack}
+                bgColor="#090909"
                 fgColor={Colors.labelWhite}
               />
             </View>

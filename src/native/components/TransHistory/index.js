@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   layoutContainer: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: Colors.backgroundBlack,
+    backgroundColor: Colors.cardLightGray,
   },
   container: {
     flex: 1,
@@ -42,14 +42,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    width: viewportWidthPercent(55),
+    width: viewportWidthPercent(45),
   },
   datePickerText: {
     color: Colors.labelWhite,
     fontSize: 20,
   },
   middleLine: {
-    width: viewportWidthPercent(55),
+    width: viewportWidthPercent(45),
     height: 1,
     backgroundColor: Colors.labelWhite,
   },
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     width: viewportWidthPercent(2),
     height: viewportWidthPercent(6),
     borderRadius: viewportWidthPercent(2) / 2,
-    backgroundColor: Colors.green,
+    backgroundColor: '#56D62C',
     marginRight: viewportWidthPercent(2),
   },
   headerContainer: {
@@ -79,9 +79,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: viewportWidthPercent(2),
     marginHorizontal: viewportWidthPercent(5),
     height: viewportHeightPercent(7.4),
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.accordianHeaderGray,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.middleLineGray,
+    borderBottomColor: Colors.placeholderGray,
   },
   headerTime: {
     flex: 1,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   AccordionContainer: {
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.cardLightGray,
     borderRadius: viewportWidthPercent(4),
     marginTop: viewportHeightPercent(3),
     marginHorizontal: viewportWidthPercent(5),
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    backgroundColor: Colors.backgroundDarkGray,
+    backgroundColor: Colors.accordianContentGray,
     paddingHorizontal: viewportWidthPercent(10),
     paddingVertical: viewportHeightPercent(1),
   },
@@ -250,7 +250,7 @@ class TransHistory extends Component {
   _renderHeader = (section) => {
     let amountColor;
     if (section.amount < 0) {
-      amountColor = Colors.red;
+      amountColor = Colors.labelRed;
     } else {
       amountColor = Colors.labelWhite;
     }
@@ -295,75 +295,73 @@ class TransHistory extends Component {
 
     return (
       <View style={styles.layoutContainer}>
-        <NavBar title="轉帳紀錄" back />
-        <View style={styles.container}>
-          <ImageBackground style={styles.bkImg} source={require('../../../img/TransferHistory/topbk.png')}>
-            <View style={styles.inputsContainer}>
-              <View style={styles.dateContainer}>
-                <View style={styles.datePickerContainer}>
-                  <View style={styles.dot} />
-                  <DatePicker
-                    defaultDate={new Date()}
-                    minimumDate={new Date(2018, 1, 1)}
-                    maximumDate={new Date()}
-                    locale="zh"
-                    formatChosenDate={this._handleDateFormat}
-                    timeZoneOffsetInMinutes={undefined}
-                    modalTransparent={false}
-                    animationType="fade"
-                    androidMode="spinner"
-                    placeHolderText={defaultStartTime}
-                    textStyle={styles.datePickerText}
-                    placeHolderTextStyle={styles.datePickerText}
-                    onDateChange={this._setStartTime}
-                  />
-                </View>
-                <View style={styles.middleLine} />
-                <View style={styles.datePickerContainer}>
-                  <View style={styles.dot} />
-                  <DatePicker
-                    defaultDate={new Date()}
-                    minimumDate={new Date(2018, 1, 1)}
-                    maximumDate={new Date()}
-                    locale="zh"
-                    formatChosenDate={this._handleDateFormat}
-                    timeZoneOffsetInMinutes={undefined}
-                    modalTransparent={false}
-                    animationType="fade"
-                    androidMode="spinner"
-                    placeHolderText={defaultEndTime}
-                    textStyle={styles.datePickerText}
-                    placeHolderTextStyle={styles.datePickerText}
-                    onDateChange={this._setEndTime}
-                  />
-                </View>
-              </View>
-              <View style={styles.searchImgContainer}>
-                <TouchableOpacity onPress={this._handleHistorySearch}>
-                  <Image source={require('../../../img/TransferHistory/search.png')} style={styles.searchImg} />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </ImageBackground>
-          <ImageBackground style={[styles.bkImg, { flex: 1, flexDirection: 'column' }]} source={require('../../../img/TransferHistory/contentbk.png')}>
-            <View style={styles.subHeader}>
-              <View style={styles.colorBar} />
-              <Text style={styles.subHeaderText}>交易紀錄列表</Text>
-            </View>
-            <ScrollView style={styles.scrollViewContainer}>
-              <View style={styles.AccordionContainer}>
-                <Accordion
-                  sections={historyData}
-                  activeSections={activeSections}
-                  renderHeader={this._renderHeader}
-                  renderContent={this._renderContent}
-                  onChange={this._updateSections}
+        <ImageBackground style={styles.bkImg} source={require('../../../img/TransferHistory/topbk.png')}>
+          <NavBar title="轉帳紀錄" back />
+          <View style={styles.inputsContainer}>
+            <View style={styles.dateContainer}>
+              <View style={styles.datePickerContainer}>
+                <View style={styles.dot} />
+                <DatePicker
+                  defaultDate={new Date()}
+                  minimumDate={new Date(2018, 1, 1)}
+                  maximumDate={new Date()}
+                  locale="zh"
+                  formatChosenDate={this._handleDateFormat}
+                  timeZoneOffsetInMinutes={undefined}
+                  modalTransparent={false}
+                  animationType="fade"
+                  androidMode="spinner"
+                  placeHolderText={defaultStartTime}
+                  textStyle={styles.datePickerText}
+                  placeHolderTextStyle={styles.datePickerText}
+                  onDateChange={this._setStartTime}
                 />
               </View>
-              <View style={styles.AccordionBottomSpace} />
-            </ScrollView>
-          </ImageBackground>
-        </View>
+              <View style={styles.middleLine} />
+              <View style={styles.datePickerContainer}>
+                <View style={styles.dot} />
+                <DatePicker
+                  defaultDate={new Date()}
+                  minimumDate={new Date(2018, 1, 1)}
+                  maximumDate={new Date()}
+                  locale="zh"
+                  formatChosenDate={this._handleDateFormat}
+                  timeZoneOffsetInMinutes={undefined}
+                  modalTransparent={false}
+                  animationType="fade"
+                  androidMode="spinner"
+                  placeHolderText={defaultEndTime}
+                  textStyle={styles.datePickerText}
+                  placeHolderTextStyle={styles.datePickerText}
+                  onDateChange={this._setEndTime}
+                />
+              </View>
+            </View>
+            <View style={styles.searchImgContainer}>
+              <TouchableOpacity onPress={this._handleHistorySearch}>
+                <Image source={require('../../../img/TransferHistory/search.png')} style={styles.searchImg} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ImageBackground>
+        <ImageBackground style={[styles.bkImg, { flex: 1, flexDirection: 'column' }]} source={require('../../../img/TransferHistory/contentbk.png')}>
+          <View style={styles.subHeader}>
+            <View style={styles.colorBar} />
+            <Text style={styles.subHeaderText}>交易紀錄列表</Text>
+          </View>
+          <ScrollView style={styles.scrollViewContainer}>
+            <View style={styles.AccordionContainer}>
+              <Accordion
+                sections={historyData}
+                activeSections={activeSections}
+                renderHeader={this._renderHeader}
+                renderContent={this._renderContent}
+                onChange={this._updateSections}
+              />
+            </View>
+            <View style={styles.AccordionBottomSpace} />
+          </ScrollView>
+        </ImageBackground>
       </View>
     );
   };

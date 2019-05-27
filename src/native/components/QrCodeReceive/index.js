@@ -12,7 +12,8 @@ import {
   ImageBackground,
 } from 'react-native';
 import { LinearGradient } from 'expo';
-import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { Picker as IosPicker } from 'native-base';
+import { viewportWidthPercent, viewportHeightPercent, IS_IOS } from '../../lib/util';
 import { amountValidate } from '../../lib/validate';
 import NavBar from '../NavBar';
 import Colors from '../../constants/colors';
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     height: viewportHeightPercent(20),
     width: viewportWidthPercent(80),
     borderRadius: viewportWidthPercent(5),
-    backgroundColor: Colors.gray,
+    backgroundColor: Colors.cardLightGray,
   },
   input: {
     flexDirection: 'row',
@@ -57,7 +58,12 @@ const styles = StyleSheet.create({
   picker: {
     color: 'white',
     height: 30,
-    backgroundColor: Colors.middleLineGray,
+    backgroundColor: Colors.placeholderGray,
+    width: viewportWidthPercent(35),
+  },
+  iospicker: {
+    height: 30,
+    backgroundColor: Colors.placeholderGray,
     width: viewportWidthPercent(35),
   },
   amountInput: {
@@ -67,16 +73,16 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   textinput: {
-    color: Colors.lightGray,
+    color: Colors.labelWhite,
     height: 30,
-    backgroundColor: Colors.middleLineGray,
+    backgroundColor: Colors.placeholderGray,
     width: viewportWidthPercent(35),
     borderRadius: viewportWidthPercent(3),
     paddingLeft: viewportWidthPercent(3),
     paddingBottom: 0,
   },
   labeltext: {
-    color: Colors.white,
+    color: Colors.labelWhite,
   },
   inputButton: {
     flexDirection: 'row',
@@ -99,10 +105,10 @@ const styles = StyleSheet.create({
     borderRadius: viewportWidthPercent(5),
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: Colors.gray,
+    backgroundColor: Colors.cardLightGray,
   },
   emptySpace: {
-    backgroundColor: Colors.middleLineGray,
+    backgroundColor: Colors.placeholderGray,
   },
   qrCode: {
     overflow: 'hidden',
@@ -113,14 +119,14 @@ const styles = StyleSheet.create({
     width: viewportWidthPercent(80),
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.gray,
+    backgroundColor: Colors.cardLightGray,
     borderRadius: viewportWidthPercent(5),
   },
   text: {
-    color: Colors.lightGray,
+    color: Colors.labelLightGray,
   },
   valText: {
-    color: 'red',
+    color: Colors.labelRed,
     fontSize: 12,
     paddingTop: 3,
     marginLeft: 3,
@@ -162,6 +168,7 @@ class QrCodeReceive extends Component {
   }
 
   _handleChoose = async (storeId) => {
+    console.log('@@@@@@@@@');
     console.log(storeId);
     const { onChoose } = this.props;
     await onChoose(storeId);
@@ -199,7 +206,7 @@ class QrCodeReceive extends Component {
     let notifyString1;
     let notifyString2;
     if (qrCodeData.amount === '' || qrCodeData.amount === 0) {
-      color = Colors.middleLineGray;
+      color = Colors.placeholderGray;
       showEmptySize = 200;
       showQRSize = 0;
       QrboderWidth = 0;
@@ -223,15 +230,35 @@ class QrCodeReceive extends Component {
               <View style={styles.currencyInput}>
                 <Text style={styles.labeltext}>選擇幣別</Text>
                 <View style={styles.pickerContainer}>
-                  <Picker
-                    style={styles.picker}
-                    selectedValue={curStoreId}
-                    onValueChange={itemValue => this._handleChoose(itemValue)}
-                  >
-                    { walletsData.map((i, index) => (
-                      <Picker.Item key={i} label={`${i.storeName} (${i.currencyName})`} value={i.storeId} />
-                    ))}
-                  </Picker>
+                  {
+                    IS_IOS ? (
+                      <IosPicker
+                        mode="dropdown"
+                        style={styles.iospicker}
+                        textStyle={{ color: Colors.labelWhite }}
+                        itemStyle={{
+                          marginLeft: 0,
+                          paddingLeft: 10,
+                        }}
+                        selectedValue={curStoreId}
+                        onValueChange={itemValue => this._handleChoose(itemValue)}
+                      >
+                        { walletsData.map((i, index) => (
+                          <IosPicker.Item key={i} label={`${i.storeName} (${i.currencyName})`} value={i.storeId} />
+                        ))}
+                      </IosPicker>
+                    ) : (
+                      <Picker
+                        style={styles.picker}
+                        selectedValue={curStoreId}
+                        onValueChange={itemValue => this._handleChoose(itemValue)}
+                      >
+                        { walletsData.map((i, index) => (
+                          <Picker.Item key={i} label={`${i.storeName} (${i.currencyName})`} value={i.storeId} />
+                        ))}
+                      </Picker>
+                    )
+                  }
                 </View>
               </View>
               <View style={styles.amountInput}>
@@ -267,7 +294,7 @@ class QrCodeReceive extends Component {
               <QRCode
                 value={JSON.stringify(qrCodeData)}
                 size={showQRSize}
-                bgColor={Colors.backgroundBlack}
+                bgColor="#090909"
                 fgColor={Colors.labelWhite}
               />
             </View>

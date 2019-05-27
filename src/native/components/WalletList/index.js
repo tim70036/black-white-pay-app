@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.gray,
+    backgroundColor: Colors.cardLightGray,
     height: viewportHeightPercent(12),
     borderRadius: viewportHeightPercent(12) / 2,
     marginTop: viewportHeightPercent(2),
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     paddingVertical: viewportHeightPercent(1.7),
     height: viewportHeightPercent(23),
     justifyContent: 'center',
-    backgroundColor: Colors.gray,
+    backgroundColor: Colors.cardLightGray,
     borderRadius: 20,
   },
   headerContainer: {
@@ -74,9 +74,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: tablePaddingHorizontal,
     height: viewportHeightPercent(7.4),
-    backgroundColor: Colors.gray,
+    backgroundColor: Colors.accordianHeaderGray,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.middleLineGray,
+    borderBottomColor: Colors.placeholderGray,
     // marginBottom: viewportWidthPercent(3),
     marginHorizontal: viewportWidthPercent(5),
   },
@@ -101,17 +101,17 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontWeight: '200',
-    color: Colors.white,
+    color: Colors.labelWhite,
   },
   headerIcon: {
-    color: Colors.white,
+    color: Colors.labelWhite,
   },
   contentContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     height: viewportWidthPercent(25),
     paddingBottom: viewportHeightPercent(2),
-    backgroundColor: Colors.darkGray,
+    backgroundColor: Colors.accordianContentGray,
     paddingHorizontal: tablePaddingHorizontal,
   },
   subHeader: {
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     width: viewportWidthPercent(2),
     height: viewportWidthPercent(6),
     borderRadius: viewportWidthPercent(2) / 2,
-    backgroundColor: Colors.purple,
+    backgroundColor: '#7152FF',
     marginRight: viewportWidthPercent(2),
   },
   subHeaderRight: {
@@ -138,13 +138,13 @@ const styles = StyleSheet.create({
   },
   subHeaderText: {
     fontSize: 20,
-    color: Colors.white,
+    color: Colors.labelWhite,
   },
   scrollViewContainer: {
     flex: 1,
   },
   AccordionContainer: {
-    backgroundColor: Colors.gray,
+    backgroundColor: Colors.cardLightGray,
     borderRadius: viewportWidthPercent(4),
     marginTop: viewportHeightPercent(3),
     marginHorizontal: viewportWidthPercent(5),
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 27,
-    color: Colors.white,
+    color: Colors.labelWhite,
     marginRight: viewportWidthPercent(4),
   },
   storeCurrencyImg: {
@@ -263,7 +263,7 @@ class WalletList extends React.Component {
       <View style={styles.layoutContainer}>
         <View style={styles.container}>
           <ImageBackground style={styles.bkImg} source={require('../../../img/walletList/mainCurrency_bk.png')}>
-            <NavBar title="我的錢包" /> 
+            <NavBar title="我的錢包" />
             <View style={styles.mainCurrencyContainer} source={require('../../../img/walletList/mainCurrency_bk.png')}>
               <Image source={require('../../../img/walletList/mainSoul.png')} style={styles.mainCurrencyImg} />
               <Text style={styles.mainCurrency}>{mainWallet.availBalance}</Text>
