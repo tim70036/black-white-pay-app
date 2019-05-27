@@ -71,6 +71,35 @@ export default class App extends React.Component {
       require('../img/friendList/addNote.png'),
       require('../img/friendList/qrCode.png'),
 
+      require('../img/form/account.png'),
+      require('../img/form/currency.png'),
+      require('../img/form/name.png'),
+      require('../img/form/pwd.png'),
+      require('../img/form/store.png'),
+      require('../img/form/transNum.png'),
+      require('../img/form/transPwd.png'),
+
+      require('../img/addFriend/qr.png'),
+
+      require('../img/addStore/ad.png'),
+
+      require('../img/mine/about.png'),
+      require('../img/mine/bg.png'),
+      require('../img/mine/camera.png'),
+      require('../img/mine/fire.png'),
+      require('../img/mine/logout.png'),
+      require('../img/mine/qrcode.png'),
+      require('../img/mine/serviceAgent.png'),
+      require('../img/mine/setting.png'),
+      require('../img/mine/user.png'),
+      require('../img/mine/version.png'),
+
+      require('../img/personalSetting/name_icon.png'),
+      require('../img/personalSetting/pwd_icon.png'),
+      require('../img/personalSetting/transPwd_icon.png'),
+
+      require('../img/login/logo.png'),
+
       // Tab bar
       require('../img/tabbar/home-focus.png'),
       require('../img/tabbar/home-unfocus.png'),
@@ -81,7 +110,6 @@ export default class App extends React.Component {
       require('../img/tabbar/friend-unfocus.png'),
       require('../img/tabbar/person-focus.png'),
       require('../img/tabbar/person-unfocus.png'),
-
     ]);
 
     // Font

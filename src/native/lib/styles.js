@@ -7,32 +7,23 @@ import Colors from '../constants/colors';
 
 const elementColors = {
   buttonLinearGradient: ['#FDDCA9', '#BB9E6E', '#83693C'],
-  placeholderTextColor: '#4C4F58',
 };
 
 const formStyle = StyleSheet.create({
-  bgImage: {
-    // flex: 1,
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain',
-  },
   container: {
     flex: 1,
     flexDirection: 'column',
-    paddingHorizontal: viewportWidthPercent(4),
-    marginTop: 60,
   },
   inputContainer: {
     flex: 1,
-    padding: viewportWidthPercent(4),
+    paddingHorizontal: viewportWidthPercent(8),
   },
   title: {
     marginVertical: viewportHeightPercent(2),
   },
   titleText: {
     fontSize: 30,
-    color: Colors.white,
+    color: Colors.labelWhite,
   },
   inputItem: {
     marginTop: viewportHeightPercent(3),
@@ -43,7 +34,7 @@ const formStyle = StyleSheet.create({
   },
   labelText: {
     fontSize: 23,
-    color: Colors.white,
+    color: Colors.labelWhite,
   },
   icon: {
     width: 20,
@@ -54,11 +45,11 @@ const formStyle = StyleSheet.create({
     color: Colors.labelWhite,
     fontSize: 14,
     borderBottomWidth: 1,
-    borderBottomColor: '#2D2D2D',
+    borderBottomColor: Colors.inputBorderGray,
     paddingVertical: viewportHeightPercent(1),
   },
   valText: {
-    color: 'red',
+    color: Colors.labelRed,
     fontSize: 12,
     paddingTop: 3,
     marginLeft: 3,
@@ -87,7 +78,7 @@ const formStyle = StyleSheet.create({
     borderRadius: 36.5,
   },
   buttonText: {
-    color: Colors.white,
+    color: Colors.labelWhite,
     fontSize: 20,
   },
 });

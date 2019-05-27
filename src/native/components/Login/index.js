@@ -11,7 +11,7 @@ import {
 } from '../../lib/util';
 import registerForNotifications from '../../lib/expoNotification';
 
-const stl = StyleSheet.create({
+const styles = StyleSheet.create({
   logo: {
     alignItems: 'center',
   },
@@ -28,7 +28,7 @@ const stl = StyleSheet.create({
     height: 58,
     borderRadius: 36.5,
     alignItems: 'center',
-    backgroundColor: Colors.gray,
+    backgroundColor: Colors.buttonGray,
   },
 });
 
@@ -87,74 +87,72 @@ class Login extends Component {
   render() {
     const { account, password } = this.state;
     return (
-      <ImageBackground source={require('../../../img/bg.png')} style={formStyle.bgImage}>
-        <View style={formStyle.container}>
-          <View style={formStyle.inputContainer}>
-            <View style={stl.logo}>
-              <Image source={require('../../../img/logo.png')} style={stl.logoImage} />
-            </View>
-            <View style={formStyle.inputItem}>
-              <View style={formStyle.label}>
-                <Image source={require('../../../img/form/account.png')} style={formStyle.icon} />
-                <Text style={formStyle.labelText}> 帳號</Text>
-              </View>
-              <TextInput
-                style={formStyle.inputText}
-                autoCapitalize="none"
-                placeholder="請輸入電話號碼"
-                placeholderTextColor={elementColors.placeholderTextColor}
-                keyboardType="default"
-                onChangeText={v => this._handleChange('account', v)}
-                onSubmitEditing={Keyboard.dismiss}
-                defaultValue={account}
-              />
-            </View>
-            <View style={formStyle.inputItem}>
-              <View style={formStyle.label}>
-                <Image source={require('../../../img/form/pwd.png')} style={formStyle.icon} />
-                <Text style={formStyle.labelText}> 密碼</Text>
-              </View>
-              <TextInput
-                style={formStyle.inputText}
-                autoCapitalize="none"
-                placeholder="請輸入密碼"
-                placeholderTextColor={elementColors.placeholderTextColor}
-                keyboardType="default"
-                onChangeText={v => this._handleChange('password', v)}
-                onSubmitEditing={Keyboard.dismiss}
-                defaultValue={password}
-                secureTextEntry
-              />
-            </View>
-            <LinearGradient
-              colors={elementColors.buttonLinearGradient}
-              style={formStyle.linearGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-            >
-              <TouchableHighlight
-                style={formStyle.button}
-                onPress={this._handleSubmit}
-                underlayColor={Colors.gray}
-              >
-                <Text style={formStyle.buttonText}>登入</Text>
-              </TouchableHighlight>
-            </LinearGradient>
-            <TouchableHighlight
-              style={stl.button}
-              onPress={this._handleRegisterBtn}
-              underlayColor={Colors.gray}
-            >
-              <Text style={formStyle.buttonText}>註冊</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={{ ...stl.button, backgroundColor: 'transparent' }}
-              onPress={this._handleForgetBtn}
-              underlayColor="transparent"
-            >
-              <Text style={formStyle.buttonText}>忘記密碼</Text>
-            </TouchableHighlight>
+      <ImageBackground source={require('../../../img/background/background2.png')} style={formStyle.container}>
+        <View style={{ ...formStyle.inputContainer, marginTop: 60 }}>
+          <View style={styles.logo}>
+            <Image source={require('../../../img/login/logo.png')} style={styles.logoImage} />
           </View>
+          <View style={formStyle.inputItem}>
+            <View style={formStyle.label}>
+              <Image source={require('../../../img/form/account.png')} style={formStyle.icon} />
+              <Text style={formStyle.labelText}> 帳號</Text>
+            </View>
+            <TextInput
+              style={formStyle.inputText}
+              autoCapitalize="none"
+              placeholder="請輸入電話號碼"
+              placeholderTextColor={Colors.placeholderGray}
+              keyboardType="default"
+              onChangeText={v => this._handleChange('account', v)}
+              onSubmitEditing={Keyboard.dismiss}
+              defaultValue={account}
+            />
+          </View>
+          <View style={formStyle.inputItem}>
+            <View style={formStyle.label}>
+              <Image source={require('../../../img/form/pwd.png')} style={formStyle.icon} />
+              <Text style={formStyle.labelText}> 密碼</Text>
+            </View>
+            <TextInput
+              style={formStyle.inputText}
+              autoCapitalize="none"
+              placeholder="請輸入密碼"
+              placeholderTextColor={Colors.placeholderGray}
+              keyboardType="default"
+              onChangeText={v => this._handleChange('password', v)}
+              onSubmitEditing={Keyboard.dismiss}
+              defaultValue={password}
+              secureTextEntry
+            />
+          </View>
+          <LinearGradient
+            colors={elementColors.buttonLinearGradient}
+            style={formStyle.linearGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+          >
+            <TouchableHighlight
+              style={formStyle.button}
+              onPress={this._handleSubmit}
+              underlayColor={Colors.buttonGray}
+            >
+              <Text style={formStyle.buttonText}>登入</Text>
+            </TouchableHighlight>
+          </LinearGradient>
+          <TouchableHighlight
+            style={styles.button}
+            onPress={this._handleRegisterBtn}
+            underlayColor={Colors.buttonGray}
+          >
+            <Text style={formStyle.buttonText}>註冊</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={{ ...styles.button, backgroundColor: 'transparent' }}
+            onPress={this._handleForgetBtn}
+            underlayColor="transparent"
+          >
+            <Text style={formStyle.buttonText}>忘記密碼</Text>
+          </TouchableHighlight>
         </View>
       </ImageBackground>
     );

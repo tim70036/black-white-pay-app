@@ -7,13 +7,9 @@ import PropTypes from 'prop-types';
 import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 import Colors from '../../constants/colors';
 import ItemCell from './ItemCell';
+import NavBar from '../NavBar';
 
 const styles = StyleSheet.create({
-  bgImage: {
-    flex: 1,
-    width: null,
-    height: null,
-  },
 
   settingContainer: {
     flex: 1,
@@ -28,17 +24,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    marginTop: 60,
   },
 
   title: {
-    marginVertical: viewportHeightPercent(4),
+    marginVertical: viewportHeightPercent(3),
     paddingHorizontal: viewportWidthPercent(7),
   },
 
   titleText: {
     fontSize: 30,
-    color: Colors.white,
+    color: Colors.labelWhite,
   },
 
   list: {
@@ -108,17 +103,16 @@ class PersonalSetting extends React.Component {
 
   render() {
     return (
-      <ImageBackground source={require('../../../img/bg.png')} style={styles.bgImage}>
-        <View style={styles.container}>
-          <View style={styles.title}>
-            <Text style={styles.titleText}>設定</Text>
-          </View>
-          <View style={styles.settingContainer}>
-            <View style={styles.list}>
-              <ScrollView>
-                {this.renderCells()}
-              </ScrollView>
-            </View>
+      <ImageBackground source={require('../../../img/background/background2.png')} style={styles.container}>
+        <NavBar back />
+        <View style={styles.title}>
+          <Text style={styles.titleText}>設定</Text>
+        </View>
+        <View style={styles.settingContainer}>
+          <View style={styles.list}>
+            <ScrollView>
+              {this.renderCells()}
+            </ScrollView>
           </View>
         </View>
       </ImageBackground>

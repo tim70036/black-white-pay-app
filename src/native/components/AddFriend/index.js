@@ -10,6 +10,7 @@ import {
   viewportWidthPercent,
   viewportHeightPercent,
 } from '../../lib/util';
+import NavBar from '../NavBar';
 
 const styles = StyleSheet.create({
   scanButton: {
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
     borderRadius: 143,
     borderWidth: 1,
     borderColor: '#979797',
-    backgroundColor: Colors.gray,
+    backgroundColor: Colors.buttonGray,
     width: 143,
     height: 143,
   },
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    color: Colors.white,
+    color: Colors.labelWhite,
     fontSize: 14,
   },
 });
@@ -92,50 +93,49 @@ class AddFriend extends Component {
   render() {
     const { accountMsg } = this.state;
     return (
-      <ImageBackground source={require('../../../img/bg.png')} style={formStyle.bgImage}>
-        <View style={formStyle.container}>
-          <View style={formStyle.inputContainer}>
-            <TouchableHighlight
-              style={styles.scanButton}
-              onPress={this._handleSubmit}
-              underlayColor={Colors.gray}
-            >
-              <Image source={require('../../../img/addFriend/qr.png')} style={styles.image} />
-            </TouchableHighlight>
-            <View style={styles.scanText}>
-              <Text style={styles.text}>點我掃描加好友</Text>
-            </View>
-            <View style={formStyle.inputItem}>
-              <View style={formStyle.label}>
-                <Image source={require('../../../img/form/account.png')} style={formStyle.icon} />
-                <Text style={formStyle.labelText}> 帳號</Text>
-              </View>
-              <TextInput
-                style={formStyle.inputText}
-                autoCapitalize="none"
-                placeholder="請輸入電話號碼"
-                placeholderTextColor={elementColors.placeholderTextColor}
-                keyboardType="default"
-                onChangeText={v => this._handleChange('name', v)}
-                onSubmitEditing={Keyboard.dismiss}
-              />
-              <Text style={formStyle.valText}>{accountMsg}</Text>
-            </View>
-            <LinearGradient
-              colors={elementColors.buttonLinearGradient}
-              style={formStyle.linearGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-            >
-              <TouchableHighlight
-                style={formStyle.button}
-                onPress={this._handleSubmit}
-                underlayColor={Colors.gray}
-              >
-                <Text style={formStyle.buttonText}>搜尋</Text>
-              </TouchableHighlight>
-            </LinearGradient>
+      <ImageBackground source={require('../../../img/background/background2.png')} style={formStyle.container}>
+        <NavBar back />
+        <View style={formStyle.inputContainer}>
+          <TouchableHighlight
+            style={styles.scanButton}
+            onPress={this._handleSubmit}
+            underlayColor={Colors.buttonGray}
+          >
+            <Image source={require('../../../img/addFriend/qr.png')} style={styles.image} />
+          </TouchableHighlight>
+          <View style={styles.scanText}>
+            <Text style={styles.text}>點我掃描加好友</Text>
           </View>
+          <View style={formStyle.inputItem}>
+            <View style={formStyle.label}>
+              <Image source={require('../../../img/form/account.png')} style={formStyle.icon} />
+              <Text style={formStyle.labelText}> 帳號</Text>
+            </View>
+            <TextInput
+              style={formStyle.inputText}
+              autoCapitalize="none"
+              placeholder="請輸入電話號碼"
+              placeholderTextColor={Colors.placeholderGray}
+              keyboardType="default"
+              onChangeText={v => this._handleChange('name', v)}
+              onSubmitEditing={Keyboard.dismiss}
+            />
+            <Text style={formStyle.valText}>{accountMsg}</Text>
+          </View>
+          <LinearGradient
+            colors={elementColors.buttonLinearGradient}
+            style={formStyle.linearGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+          >
+            <TouchableHighlight
+              style={formStyle.button}
+              onPress={this._handleSubmit}
+              underlayColor={Colors.buttonGray}
+            >
+              <Text style={formStyle.buttonText}>搜尋</Text>
+            </TouchableHighlight>
+          </LinearGradient>
         </View>
       </ImageBackground>
     );

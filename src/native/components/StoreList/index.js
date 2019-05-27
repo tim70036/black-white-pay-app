@@ -7,13 +7,9 @@ import PropTypes from 'prop-types';
 import ActionButton from 'react-native-action-button';
 import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 import Colors from '../../constants/colors';
+import NavBar from '../NavBar';
 
 const styles = StyleSheet.create({
-  bgImage: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain',
-  },
 
   container: {
     flex: 1,
@@ -94,27 +90,26 @@ class StoreList extends React.Component {
     const { storesData } = this.props;
 
     return (
-      <ImageBackground source={require('../../../img/bg.png')} style={styles.bgImage}>
-        <View style={styles.container}>
-          <View style={styles.cardContainer}>
-            <FlatList
-              data={storesData}
-              renderItem={this._renderStore}
-              keyExtractor={(item, index) => index.toString()}
-              showsVerticalScrollIndicator={false}
-            />
-            <ActionButton
-              buttonColor={Colors.white}
-              offsetY={viewportHeightPercent(2)}
-              offsetX={viewportWidthPercent(3)}
-              onPress={this._handleAddStore}
-              buttonTextStyle={{ color: '#DAC3A2', fontSize: 40 }}
-              size={56}
-              buttonText="+"
-              position="right"
-              nativeFeedbackRippleColor="rgba(255,255,255,0)"
-            />
-          </View>
+      <ImageBackground source={require('../../../img/background/background2.png')} style={styles.container}>
+        <NavBar title="商店列表" />
+        <View style={styles.cardContainer}>
+          <FlatList
+            data={storesData}
+            renderItem={this._renderStore}
+            keyExtractor={(item, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
+          />
+          <ActionButton
+            buttonColor={Colors.labelWhite}
+            offsetY={viewportHeightPercent(2)}
+            offsetX={viewportWidthPercent(3)}
+            onPress={this._handleAddStore}
+            buttonTextStyle={{ color: '#DAC3A2', fontSize: 40 }}
+            size={56}
+            buttonText="+"
+            position="right"
+            nativeFeedbackRippleColor="rgba(255,255,255,0)"
+          />
         </View>
       </ImageBackground>
     );

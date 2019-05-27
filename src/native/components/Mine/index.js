@@ -18,11 +18,6 @@ const pkg = require('../../../../app.json');
 const thumbnailSize = 72;
 
 const styles = StyleSheet.create({
-  bgImage: {
-    flex: 1,
-    width: null,
-    height: null,
-  },
   cardItem: {
     flex: 3,
     flexDirection: 'column',
@@ -32,13 +27,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    marginTop: 60,
   },
 
   profileCard: {
     flex: 3,
     flexDirection: 'column',
     paddingHorizontal: viewportWidthPercent(4) + 15,
+    marginTop: 60,
   },
 
   profile: {
@@ -103,12 +98,12 @@ const styles = StyleSheet.create({
   },
 
   walletText: {
-    color: 'white',
+    color: Colors.labelWhite,
     fontSize: 46,
   },
 
   profileText: {
-    color: 'white',
+    color: Colors.labelWhite,
     fontSize: 28,
   },
 
@@ -121,10 +116,10 @@ const styles = StyleSheet.create({
 
   modalContent: {
     flexDirection: 'column',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.cardLightGray,
     justifyContent: 'center',
-    height: viewportHeightPercent(17),
-    width: viewportWidthPercent(66),
+    height: viewportHeightPercent(20),
+    width: viewportWidthPercent(75),
   },
 
   modalItem: {
@@ -136,7 +131,7 @@ const styles = StyleSheet.create({
 
   modalText: {
     justifyContent: 'center',
-    color: Colors.black,
+    color: Colors.labelWhite,
     fontSize: 18,
   },
 
@@ -266,7 +261,7 @@ class Mine extends React.Component {
       <View style={styles.modalContent}>
         <View
           style={{
-            ...styles.modalItem, flex: 1.3, borderBottomColor: '#F3F3F3', borderBottomWidth: 2,
+            ...styles.modalItem, flex: 1.3, borderBottomColor: Colors.labelWhite, borderBottomWidth: 1,
           }}
         >
           <Text style={{ ...styles.modalText, fontWeight: 'bold', fontSize: 25 }}>設定大頭貼</Text>
@@ -276,7 +271,7 @@ class Mine extends React.Component {
           onPress={() => {
             this._pickImage();
           }}
-          underlayColor="#FFFFFF"
+          underlayColor={Colors.cardLightGray}
         >
           <Text style={styles.modalText}>從相簿選擇</Text>
         </TouchableHighlight>
@@ -289,63 +284,59 @@ class Mine extends React.Component {
     const { visibleModal } = this.state;
     const { user, mainWallet } = this.props;
     const uri = (user.thumbnail) ? ({ uri: user.thumbnail }) : (require('../../../img/mine/user.png'));
-    console.log(user.thumbnail);
     return (
-      <ImageBackground source={require('../../../img/mine/bg.png')} style={styles.bgImage}>
-        <View style={styles.container}>
-          <View style={styles.profileCard}>
-            <View style={styles.profile}>
-              <View style={styles.profileInfo}>
-                <Text style={styles.profileText}>霸氣老司機</Text>
-                <TouchableHighlight
-                  style={styles.qrcodeImage}
-                  onPress={() => {}}
-                >
-                  <Image
-                    style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
-                    source={require('../../../img/mine/qrcode.png')}
-                  />
-                </TouchableHighlight>
-              </View>
-              <View style={styles.thumbnail}>
-                <TouchableHighlight
-                  style={styles.thumbnailImage}
-                  onPress={() => this.setState({ visibleModal: !visibleModal })}
-                >
-                  <Image
-                    style={styles.thumbnailImage}
-                    source={uri}
-                  />
-                </TouchableHighlight>
+      <ImageBackground source={require('../../../img/mine/bg.png')} style={styles.container}>
+        <View style={styles.profileCard}>
+          <View style={styles.profile}>
+            <View style={styles.profileInfo}>
+              <Text style={styles.profileText}>{user.name}</Text>
+              <TouchableHighlight
+                style={styles.qrcodeImage}
+                onPress={() => {}}
+              >
                 <Image
-                  style={styles.cameraImage}
-                  source={require('../../../img/mine/camera.png')}
+                  style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+                  source={require('../../../img/mine/qrcode.png')}
                 />
-              </View>
+              </TouchableHighlight>
             </View>
-            <View style={styles.wallet}>
+            <View style={styles.thumbnail}>
+              <TouchableHighlight
+                style={styles.thumbnailImage}
+                onPress={() => this.setState({ visibleModal: !visibleModal })}
+              >
+                <Image
+                  style={styles.thumbnailImage}
+                  source={uri}
+                />
+              </TouchableHighlight>
               <Image
-                style={styles.walletImage}
-                source={require('../../../img/mine/fire.png')}
+                style={styles.cameraImage}
+                source={require('../../../img/mine/camera.png')}
               />
-              <Text style={styles.walletText}>{mainWallet.availBalance}</Text>
             </View>
           </View>
-          <Modal
-            backdropOpacity={0.1}
-            backdropColor="#666666"
-            isVisible={visibleModal}
-            animationOut="fadeOut"
-            animationOutTiming={100}
-            onBackdropPress={() => this.setState({ visibleModal: !visibleModal })}
-            onBackButtonPress={() => this.setState({ visibleModal: !visibleModal })}
-            style={styles.modalContainer}
-          >
-            {this.renderImagePicker()}
-          </Modal>
-          <View style={styles.settingList}>
-            {this.renderCells()}
+          <View style={styles.wallet}>
+            <Image
+              style={styles.walletImage}
+              source={require('../../../img/mine/fire.png')}
+            />
+            <Text style={styles.walletText}>{mainWallet.availBalance}</Text>
           </View>
+        </View>
+        <Modal
+          backdropOpacity={0.8}
+          isVisible={visibleModal}
+          animationOut="fadeOut"
+          animationOutTiming={100}
+          onBackdropPress={() => this.setState({ visibleModal: !visibleModal })}
+          onBackButtonPress={() => this.setState({ visibleModal: !visibleModal })}
+          style={styles.modalContainer}
+        >
+          {this.renderImagePicker()}
+        </Modal>
+        <View style={styles.settingList}>
+          {this.renderCells()}
         </View>
       </ImageBackground>
     );

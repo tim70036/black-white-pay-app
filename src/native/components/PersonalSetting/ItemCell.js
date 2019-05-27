@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Actions } from 'react-native-router-flux';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Header } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Icon } from 'native-base';
 import PropTypes from 'prop-types';
 import Colors from '../../constants/colors';
 
@@ -22,19 +22,18 @@ const styles = StyleSheet.create({
   },
 
   arrow: {
-    width: 14,
-    height: 14,
-    marginLeft: 5,
+    color: Colors.labelLightGray,
+    fontSize: 16,
   },
 
   title: {
     fontSize: 16,
-    color: Colors.white,
+    color: Colors.labelWhite,
   },
 
   text: {
     fontSize: 11,
-    color: Colors.white,
+    color: Colors.labelWhite,
   },
 });
 
@@ -76,7 +75,7 @@ class ItemCell extends Component {
             <Text style={styles.title}>{title}</Text>
             <View style={{ flex: 1 }} />
             <Text style={styles.text}>{subtitle}</Text>
-            {arrowIcon ? <Image style={styles.arrow} source={require('../../../img/personalSetting/left_arrow.png')} /> : null}
+            {arrowIcon ? <Icon name="right" type="AntDesign" style={styles.arrow} /> : null}
           </View>
           <View style={{ height: 14 }} />
         </TouchableOpacity>

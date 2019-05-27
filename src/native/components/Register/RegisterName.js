@@ -7,8 +7,9 @@ import { CheckBox } from 'react-native-elements';
 import { formStyle, elementColors } from '../../lib/styles';
 import Colors from '../../constants/colors';
 import { nameValidate } from '../../lib/validate';
+import NavBar from '../NavBar';
 
-import '@expo/vector-icons';
+// import '@expo/vector-icons';
 
 
 const styles = StyleSheet.create({
@@ -17,11 +18,10 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    // backgroundColor: 'red',
   },
 
   checkboxText: {
-    color: 'white',
+    color: Colors.labelWhite,
     fontSize: 14,
     alignSelf: 'center',
     justifyContent: 'center',
@@ -98,66 +98,65 @@ class Register extends Component {
   render() {
     const { checked, nameMsg, checkedMsg } = this.state;
     return (
-      <ImageBackground source={require('../../../img/bg.png')} style={formStyle.bgImage}>
-        <View style={formStyle.container}>
-          <View style={formStyle.inputContainer}>
-            <View style={formStyle.title}>
-              <Text style={formStyle.titleText}>註冊</Text>
-            </View>
-            <View style={formStyle.inputItem}>
-              <View style={formStyle.label}>
-                <Image source={require('../../../img/form/pwd.png')} style={formStyle.icon} />
-                <Text style={formStyle.labelText}> 暱稱</Text>
-              </View>
-              <TextInput
-                style={formStyle.inputText}
-                autoCapitalize="none"
-                placeholder="請輸入暱稱"
-                placeholderTextColor={elementColors.placeholderTextColor}
-                keyboardType="default"
-                onChangeText={v => this._handleChange('name', v)}
-                onSubmitEditing={Keyboard.dismiss}
-              />
-              <Text style={formStyle.valText}>{nameMsg}</Text>
-            </View>
-            <View style={formStyle.inputItem}>
-              <View style={styles.checkBox}>
-                <CheckBox
-                  containerStyle={{ /* backgroundColor: 'green',*/ marginHorizontal: 0, paddingHorizontal: 0 }}
-                  checked={checked}
-                  checkedColor="#B9A078"
-                  uncheckedColor="#B9A078"
-                  onPress={() => this.setState({ checked: !checked })}
-                />
-                <Text style={styles.checkboxText}>我已詳讀並同意遵守 </Text>
-                <Text
-                  style={{
-                    ...styles.checkboxText,
-                    color: '#E4954D',
-                    textDecorationLine: 'underline',
-                  }}
-                  onPress={this._onPressPrivacy}
-                >
-                  放飛協議
-                </Text>
-              </View>
-              <Text style={formStyle.valText}>{checkedMsg}</Text>
-            </View>
-            <LinearGradient
-              colors={elementColors.buttonLinearGradient}
-              style={formStyle.linearGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-            >
-              <TouchableHighlight
-                style={formStyle.button}
-                onPress={this._handleSubmit}
-                underlayColor={Colors.gray}
-              >
-                <Text style={formStyle.buttonText}>確認</Text>
-              </TouchableHighlight>
-            </LinearGradient>
+      <ImageBackground source={require('../../../img/background/background2.png')} style={formStyle.container}>
+        <NavBar back />
+        <View style={formStyle.inputContainer}>
+          <View style={formStyle.title}>
+            <Text style={formStyle.titleText}>註冊</Text>
           </View>
+          <View style={formStyle.inputItem}>
+            <View style={formStyle.label}>
+              <Image source={require('../../../img/form/pwd.png')} style={formStyle.icon} />
+              <Text style={formStyle.labelText}> 暱稱</Text>
+            </View>
+            <TextInput
+              style={formStyle.inputText}
+              autoCapitalize="none"
+              placeholder="請輸入暱稱"
+              placeholderTextColor={Colors.placeholderGray}
+              keyboardType="default"
+              onChangeText={v => this._handleChange('name', v)}
+              onSubmitEditing={Keyboard.dismiss}
+            />
+            <Text style={formStyle.valText}>{nameMsg}</Text>
+          </View>
+          <View style={formStyle.inputItem}>
+            <View style={styles.checkBox}>
+              <CheckBox
+                containerStyle={{ marginHorizontal: 0, paddingHorizontal: 0 }}
+                checked={checked}
+                checkedColor="#B9A078"
+                uncheckedColor="#B9A078"
+                onPress={() => this.setState({ checked: !checked })}
+              />
+              <Text style={styles.checkboxText}>我已詳讀並同意遵守 </Text>
+              <Text
+                style={{
+                  ...styles.checkboxText,
+                  color: '#E4954D',
+                  textDecorationLine: 'underline',
+                }}
+                onPress={this._onPressPrivacy}
+              >
+                放飛協議
+              </Text>
+            </View>
+            <Text style={formStyle.valText}>{checkedMsg}</Text>
+          </View>
+          <LinearGradient
+            colors={elementColors.buttonLinearGradient}
+            style={formStyle.linearGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+          >
+            <TouchableHighlight
+              style={formStyle.button}
+              onPress={this._handleSubmit}
+              underlayColor={Colors.buttonGray}
+            >
+              <Text style={formStyle.buttonText}>確認</Text>
+            </TouchableHighlight>
+          </LinearGradient>
         </View>
       </ImageBackground>
     );

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { formStyle, elementColors } from '../../lib/styles';
 import Colors from '../../constants/colors';
 import { accountValidate } from '../../lib/validate';
+import NavBar from '../NavBar';
 
 class Register extends Component {
   static propTypes = {
@@ -53,43 +54,42 @@ class Register extends Component {
   render() {
     const { accountMsg } = this.state;
     return (
-      <ImageBackground source={require('../../../img/bg.png')} style={formStyle.bgImage}>
-        <View style={formStyle.container}>
-          <View style={formStyle.inputContainer}>
-            <View style={formStyle.title}>
-              <Text style={formStyle.titleText}>註冊</Text>
-            </View>
-            <View style={formStyle.inputItem}>
-              <View style={formStyle.label}>
-                <Image source={require('../../../img/form/account.png')} style={formStyle.icon} />
-                <Text style={formStyle.labelText}> 手機號碼</Text>
-              </View>
-              <TextInput
-                style={formStyle.inputText}
-                autoCapitalize="none"
-                placeholder="登入帳號為手機密碼"
-                placeholderTextColor={elementColors.placeholderTextColor}
-                keyboardType="default"
-                onChangeText={v => this._handleChange('account', v)}
-                onSubmitEditing={Keyboard.dismiss}
-              />
-              <Text style={formStyle.valText}>{accountMsg}</Text>
-            </View>
-            <LinearGradient
-              colors={elementColors.buttonLinearGradient}
-              style={formStyle.linearGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-            >
-              <TouchableHighlight
-                style={formStyle.button}
-                onPress={this._handleSubmit}
-                underlayColor={Colors.gray}
-              >
-                <Text style={formStyle.buttonText}>取得驗證碼</Text>
-              </TouchableHighlight>
-            </LinearGradient>
+      <ImageBackground source={require('../../../img/background/background2.png')} style={formStyle.container}>
+        <NavBar back />
+        <View style={formStyle.inputContainer}>
+          <View style={formStyle.title}>
+            <Text style={formStyle.titleText}>註冊</Text>
           </View>
+          <View style={formStyle.inputItem}>
+            <View style={formStyle.label}>
+              <Image source={require('../../../img/form/account.png')} style={formStyle.icon} />
+              <Text style={formStyle.labelText}> 手機號碼</Text>
+            </View>
+            <TextInput
+              style={formStyle.inputText}
+              autoCapitalize="none"
+              placeholder="登入帳號為手機密碼"
+              placeholderTextColor={Colors.placeholderGray}
+              keyboardType="default"
+              onChangeText={v => this._handleChange('account', v)}
+              onSubmitEditing={Keyboard.dismiss}
+            />
+            <Text style={formStyle.valText}>{accountMsg}</Text>
+          </View>
+          <LinearGradient
+            colors={elementColors.buttonLinearGradient}
+            style={formStyle.linearGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+          >
+            <TouchableHighlight
+              style={formStyle.button}
+              onPress={this._handleSubmit}
+              underlayColor={Colors.buttonGray}
+            >
+              <Text style={formStyle.buttonText}>取得驗證碼</Text>
+            </TouchableHighlight>
+          </LinearGradient>
         </View>
       </ImageBackground>
     );

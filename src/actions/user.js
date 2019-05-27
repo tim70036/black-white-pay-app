@@ -303,6 +303,7 @@ function changeThumbnail(formData) {
     // Process result
     if (result && result.success) {
       // Status
+      dispatch(replaceUserThumbnail(result.data.url));
       dispatch(statusMessage('success', '更改成功'));
       return true;
     }

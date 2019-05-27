@@ -2,6 +2,7 @@ const Colors = {
   labelLightGray: '#8f95a6',
   labelGold: '#b9a078',
   labelWhite: '#ffffff',
+  labelRed: '#b20000',
 
   cardLightGray: '#2a2a2a',
   cardGray: '#1a1a1a',
@@ -11,6 +12,7 @@ const Colors = {
 
   placeholderGray: '#4C4F58',
   buttonGray: '#2A2A2A',
+  inputBorderGray: '#2D2D2D',
 };
 
 // const Colors = {
