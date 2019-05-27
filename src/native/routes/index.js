@@ -75,6 +75,8 @@ import ChangePwdComponent from '../components/ChangePwd';
 import ChangeTransPwdComponent from '../components/ChangeTransPwd';
 import PrivacyComponent from '../components/Privacy';
 
+import FriendRequestContainer from '../../containers/FriendRequest';
+import FriendRequestComponent from '../components/FriendRequest';
 import AddFriendComponent from '../components/AddFriend';
 
 import TabBar from '../components/TabBar';
@@ -131,9 +133,7 @@ const getRoutes = (authenticate, goAuth, refresh) => (
         {/* Specific Function Page */}
         <Stack
           key="addStore"
-          title="新增商店"
           {...DefaultProps.navbarProps}
-          back
         >
           <Scene component={spinnerHOC(AddStoreContainer)} Layout={AddStoreComponent} on={authenticate} failure={goAuth} />
         </Stack>
@@ -147,102 +147,88 @@ const getRoutes = (authenticate, goAuth, refresh) => (
 
         <Stack
           key="exchange"
-          title="兌換"
           {...DefaultProps.navbarProps}
-          back
         >
           <Scene component={spinnerHOC(ExchangeContainer)} Layout={ExchangeComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         <Stack
           key="transfer"
-          title="轉帳"
           {...DefaultProps.navbarProps}
-          back
         >
           <Scene component={spinnerHOC(TransferContainer)} Layout={TransferComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         <Stack
           key="transHistory"
-          title="轉帳紀錄"
           {...DefaultProps.navbarProps}
-          back
         >
           <Scene component={spinnerHOC(TransHistoryContainer)} Layout={TransHistoryComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         <Stack
           key="personalSetting"
-          title="設定"
           {...DefaultProps.navbarProps}
-          back
         >
           <Scene component={spinnerHOC(MineContainer)} Layout={PersonalSettingComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         <Stack
           key="changeName"
-          title="更改暱稱"
           {...DefaultProps.navbarProps}
-          back
         >
           <Scene component={spinnerHOC(MineContainer)} Layout={ChangeNameComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         <Stack
           key="changeTransPwd"
-          title="更改交易密碼"
           {...DefaultProps.navbarProps}
-          back
         >
           <Scene component={spinnerHOC(MineContainer)} Layout={ChangeTransPwdComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         <Stack
           key="changePwd"
-          title="更改密碼"
           {...DefaultProps.navbarProps}
-          back
         >
           <Scene component={spinnerHOC(MineContainer)} Layout={ChangePwdComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         <Stack
           key="privacy"
-          title="隱私權政策"
           {...DefaultProps.navbarProps}
-          back
         >
           <Scene component={spinnerHOC(MineContainer)} Layout={PrivacyComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         <Stack
           key="qrCodePay"
-          title="付款"
           {...DefaultProps.navbarProps}
-          back
         >
           <Scene component={spinnerHOC(qrCodePayContainer)} Layout={qrCodePayComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         <Stack
           key="qrScanner"
-          title="掃描"
           {...DefaultProps.navbarProps}
-          back
         >
           <Scene component={spinnerHOC(qrScannerContainer)} Layout={qrScannerComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         <Stack
           key="qrCodeReceive"
-          title="收款"
           {...DefaultProps.navbarProps}
-          back
         >
           <Scene component={spinnerHOC(qrCodeReceiveContainer)} Layout={qrCodeReceiveComponent} on={authenticate} failure={goAuth} />
         </Stack>
+
+        <Stack
+          key="friendRequest"
+          {...DefaultProps.navbarProps}
+        >
+          <Scene component={spinnerHOC(FriendRequestContainer)} Layout={FriendRequestComponent} on={authenticate} failure={goAuth} />
+        </Stack>
+
       </Stack>
 
       { /* Lightbox components will lay over the screen, allowing transparency */ }

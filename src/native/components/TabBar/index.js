@@ -8,7 +8,7 @@ import ImageButton from './ImageButton';
 import { STATUSBAR_HEIGHT, IS_IOS, IS_ANDROID, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 import Colors from '../../constants/colors';
 
-const tabbarHeight = 55 + viewportHeightPercent(3);
+const tabbarHeight = IS_IOS ? 55 + viewportHeightPercent(3) : 45 + viewportHeightPercent(3);
 
 
 const styles = StyleSheet.create({

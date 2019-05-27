@@ -63,6 +63,7 @@
     "react-native-qrcode": "^0.2.7",
     "react-native-router-flux": "4.0.6",
     "react-native-snap-carousel": "^3.7.5",
+    "react-native-tab-view": "^2.4.0",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.2.2",
     "react-timer-mixin": "^0.13.4",

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import { StyleSheet, View, ImageBackground, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import { StyleSheet, View, ImageBackground, FlatList } from 'react-native';
 
 import NavBar from '../NavBar';
 import ShortcutButton from './ShortcutButton';
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
 
 const shortCutData = [
   { text: '新增好友', onPress: null, textColor: Colors.white, image: require('../../../img/friendList/addPerson.png') },
-  { text: '好友邀請', onPress: null, textColor: Colors.white, image: require('../../../img/friendList/addNote.png') },
+  { text: '好友邀請', onPress: () => (Actions.friendRequest()), textColor: Colors.white, image: require('../../../img/friendList/addNote.png') },
   { text: '我的QR', onPress: null, textColor: Colors.white, image: require('../../../img/friendList/qrCode.png') },
 ];
 
