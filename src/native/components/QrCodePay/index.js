@@ -119,7 +119,7 @@ class QrCodePay extends Component {
     };
 
     return (
-      <ImageBackground style={styles.bkContainer} source={require('../../../img/QRCodePay/QRCodePay_bk.png')}>
+      <ImageBackground style={styles.bkContainer} source={require('../../../img/background/background2.png')}>
         <NavBar title="付款" back />
         <View style={styles.container}>
           <View style={styles.inputContainer}>

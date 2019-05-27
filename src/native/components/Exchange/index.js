@@ -38,9 +38,16 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     padding: viewportWidthPercent(4),
+
+    backgroundColor: 'rgba(0,0,0,0)',
+    borderWidth: 1,
+    borderColor: 'blue',
   },
   storeContainer: {
     flexDirection: 'column',
+
+    borderWidth: 1,
+    borderColor: 'yellow',
   },
   pickerContainer: {
     flexDirection: 'row',
@@ -49,6 +56,9 @@ const styles = StyleSheet.create({
     height: viewportHeightPercent(7),
     backgroundColor: Colors.cardLightGray,
     borderRadius: viewportWidthPercent(4),
+
+    borderWidth: 1,
+    borderColor: 'red',
   },
   outflowPicker: {
     flex: 1,
@@ -93,7 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cardLightGray,
     marginTop: viewportHeightPercent(2),
   },
-  ValTextContainer: {
+  valTextContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
   },
@@ -324,7 +334,7 @@ class Transfer extends Component {
     }
 
     return (
-      <ImageBackground style={styles.container} source={require('../../../img/exchange/exchange_bk.png')}>
+      <ImageBackground style={styles.container} source={require('../../../img/background/background3.png')}>
         <NavBar title="兌換" back />
         <View style={styles.inputsContainer}>
           <View style={styles.storeContainer}>
@@ -395,7 +405,7 @@ class Transfer extends Component {
                 }
               </View>
             </View>
-            <View style={styles.ValTextContainer}>
+            <View style={styles.valTextContainer}>
               <Text style={styles.valText}>{storeIdMsg}</Text>
             </View>
           </View>
@@ -439,7 +449,7 @@ class Transfer extends Component {
                 </View>
               </View>
             </View>
-            <View style={styles.ValTextContainer}>
+            <View style={styles.valTextContainer}>
               <Text style={styles.valText}>{amountMsg}</Text>
             </View>
           </View>

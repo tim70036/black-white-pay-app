@@ -222,7 +222,7 @@ class QrCodeReceive extends Component {
     }
 
     return (
-      <ImageBackground style={styles.bkContainer} source={require('../../../img/QRCodeReceive/QRCodeReceive_bk.png')}>
+      <ImageBackground style={styles.bkContainer} source={require('../../../img/background/background2.png')}>
         <NavBar title="收款" back />
         <View style={styles.container}>
           <View style={styles.inputContainer}>

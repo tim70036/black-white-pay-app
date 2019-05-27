@@ -53,6 +53,7 @@ export default class App extends React.Component {
       // Bg
       require('../img/background/background1.png'),
       require('../img/background/background2.png'),
+      require('../img/background/background3.png'),
 
       // Icon
       require('../img/storeHome/coupon.png'),
@@ -66,6 +67,22 @@ export default class App extends React.Component {
       require('../img/home/scanner.png'),
       require('../img/home/store.png'),
       require('../img/home/transfer.png'),
+
+      require('../img/walletList/mainSoul.png'),
+      require('../img/walletList/mainCurrency_bk.png'),
+      require('../img/walletList/mainButton_bk.png'),
+      require('../img/walletList/content_bk.png'),
+      require('../img/walletList/qrCode.png'),
+      require('../img/walletList/record.png'),
+      require('../img/walletList/transfer.png'),
+      require('../img/walletList/exchange.png'),
+
+      require('../img/transHistory/time.png'),
+      require('../img/transHistory/target.png'),
+      require('../img/transHistory/comment.png'),
+      require('../img/transHistory/topbk.png'),
+      require('../img/transHistory/search.png'),
+      require('../img/transHistory/contentbk.png'),
 
       require('../img/friendList/addPerson.png'),
       require('../img/friendList/addNote.png'),

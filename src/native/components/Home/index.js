@@ -130,7 +130,7 @@ class Home extends Component {
             <ImageButton text="收款" onPress={() => (Actions.qrCodeReceive())} image={require('../../../img/home/receive.png')} />
           </View>
           <View style={styles.cardRow}>
-            <ImageButton text="轉換" onPress={() => (Actions.exchange())} image={require('../../../img/home/exchange.png')} />
+            <ImageButton text="兌換" onPress={() => (Actions.exchange())} image={require('../../../img/home/exchange.png')} />
             <ImageButton text="合作商家" onPress={() => (Actions.qrScanner())} image={require('../../../img/home/store.png')} />
           </View>
 

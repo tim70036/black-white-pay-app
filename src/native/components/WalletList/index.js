@@ -264,7 +264,7 @@ class WalletList extends React.Component {
         <View style={styles.container}>
           <ImageBackground style={styles.bkImg} source={require('../../../img/walletList/mainCurrency_bk.png')}>
             <NavBar title="我的錢包" />
-            <View style={styles.mainCurrencyContainer} source={require('../../../img/walletList/mainCurrency_bk.png')}>
+            <View style={styles.mainCurrencyContainer}>
               <Image source={require('../../../img/walletList/mainSoul.png')} style={styles.mainCurrencyImg} />
               <Text style={styles.mainCurrency}>{mainWallet.availBalance}</Text>
             </View>
@@ -274,7 +274,7 @@ class WalletList extends React.Component {
               <ImageButton imgType="qrCode" text="QR碼" textColor={Colors.labelWhite} onPress={() => this._handleQRcode(-1)} />
               <ImageButton imgType="transfer" text="轉帳" textColor={Colors.labelWhite} onPress={() => this._handleTransfer(mainWallet.storeId)} />
               <ImageButton imgType="record" text="交易紀錄" textColor={Colors.labelWhite} onPress={() => this._handleHistory(mainWallet.storeId)} />
-              <ImageButton imgType="exchange" text="轉換" textColor={Colors.labelWhite} onPress={() => this._handleExchange()} />
+              <ImageButton imgType="exchange" text="兌換" textColor={Colors.labelWhite} onPress={() => this._handleExchange()} />
             </View>
           </ImageBackground>
           

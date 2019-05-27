@@ -275,15 +275,15 @@ class TransHistory extends Component {
   _renderContent = section => (
     <View style={styles.contentContainer}>
       <View style={styles.contentItem}>
-        <Image source={require('../../../img/TransferHistory/time.png')} style={styles.contentImg} />
+        <Image source={require('../../../img/transHistory/time.png')} style={styles.contentImg} />
         <Text style={styles.contentText}>{section.createtime.split(' ')[1]}</Text>
       </View>
       <View style={styles.contentItem}>
-        <Image source={require('../../../img/TransferHistory/target.png')} style={styles.contentImg} />
+        <Image source={require('../../../img/transHistory/target.png')} style={styles.contentImg} />
         <Text style={styles.contentText}>{section.relatedName}</Text>
       </View>
       <View style={styles.contentItem}>
-        <Image source={require('../../../img/TransferHistory/comment.png')} style={styles.contentImg} />
+        <Image source={require('../../../img/transHistory/comment.png')} style={styles.contentImg} />
         <Text style={styles.contentText}>{section.comment}</Text>
       </View>
     </View>
@@ -295,7 +295,7 @@ class TransHistory extends Component {
 
     return (
       <View style={styles.layoutContainer}>
-        <ImageBackground style={styles.bkImg} source={require('../../../img/TransferHistory/topbk.png')}>
+        <ImageBackground style={styles.bkImg} source={require('../../../img/transHistory/topbk.png')}>
           <NavBar title="轉帳紀錄" back />
           <View style={styles.inputsContainer}>
             <View style={styles.dateContainer}>
@@ -339,12 +339,12 @@ class TransHistory extends Component {
             </View>
             <View style={styles.searchImgContainer}>
               <TouchableOpacity onPress={this._handleHistorySearch}>
-                <Image source={require('../../../img/TransferHistory/search.png')} style={styles.searchImg} />
+                <Image source={require('../../../img/transHistory/search.png')} style={styles.searchImg} />
               </TouchableOpacity>
             </View>
           </View>
         </ImageBackground>
-        <ImageBackground style={[styles.bkImg, { flex: 1, flexDirection: 'column' }]} source={require('../../../img/TransferHistory/contentbk.png')}>
+        <ImageBackground style={[styles.bkImg, { flex: 1, flexDirection: 'column' }]} source={require('../../../img/transHistory/contentbk.png')}>
           <View style={styles.subHeader}>
             <View style={styles.colorBar} />
             <Text style={styles.subHeaderText}>交易紀錄列表</Text>
