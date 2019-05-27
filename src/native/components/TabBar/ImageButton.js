@@ -68,7 +68,7 @@ ImageButton.propTypes = {
 
 ImageButton.defaultProps = {
   text: '',
-  textColor: Colors.lightGray,
+  textColor: Colors.labelLightGray,
   onPress: null,
 };
 

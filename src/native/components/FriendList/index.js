@@ -51,16 +51,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: viewportWidthPercent(5),
     paddingVertical: viewportHeightPercent(1),
 
-    backgroundColor: Colors.gray,
+    backgroundColor: Colors.cardGray,
     borderRadius: 20,
   },
 
 });
 
 const shortCutData = [
-  { text: '新增好友', onPress: null, textColor: Colors.white, image: require('../../../img/friendList/addPerson.png') },
-  { text: '好友邀請', onPress: () => (Actions.friendRequest()), textColor: Colors.white, image: require('../../../img/friendList/addNote.png') },
-  { text: '我的QR', onPress: null, textColor: Colors.white, image: require('../../../img/friendList/qrCode.png') },
+  { text: '新增好友', onPress: null, textColor: Colors.labelWhite, image: require('../../../img/friendList/addPerson.png') },
+  { text: '好友邀請', onPress: () => (Actions.friendRequest()), textColor: Colors.labelWhite, image: require('../../../img/friendList/addNote.png') },
+  { text: '我的QR', onPress: null, textColor: Colors.labelWhite, image: require('../../../img/friendList/qrCode.png') },
 ];
 
 const FriendList = ({ friendData }) => {
@@ -81,7 +81,7 @@ const FriendList = ({ friendData }) => {
   );
 
   const _renderFriend = ({ item }) => (
-    <FriendButton text={item.name} textColor={Colors.white} image={item.thumbnail} />
+    <FriendButton text={item.name} textColor={Colors.labelWhite} image={item.thumbnail} />
   );
 
   return (

@@ -89,11 +89,11 @@ class TabBar extends Component {
     };
 
     const textColors = {
-      home: currentScene === 'home' ? Colors.gold : Colors.lightGray,
-      storeList: currentScene === 'storeList' ? Colors.gold : Colors.lightGray,
+      home: currentScene === 'home' ? Colors.labelGold : Colors.labelLightGray,
+      storeList: currentScene === 'storeList' ? Colors.labelGold : Colors.labelLightGray,
       walletList: null,
-      friendList: currentScene === 'friendList' ? Colors.gold : Colors.lightGray,
-      mine: currentScene === 'mine' ? Colors.gold : Colors.lightGray,
+      friendList: currentScene === 'friendList' ? Colors.labelGold : Colors.labelLightGray,
+      mine: currentScene === 'mine' ? Colors.labelGold : Colors.labelLightGray,
     };
 
     return (

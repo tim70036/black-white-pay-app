@@ -46,12 +46,12 @@ const styles = {
     // borderColor: 'red',
   },
   title: {
-    color: Colors.white,
+    color: Colors.labelWhite,
     letterSpacing: 2,
     fontSize: 19,
   },
   icon: {
-    color: Colors.white,
+    color: Colors.labelWhite,
     fontSize: 28,
   },
 
@@ -61,7 +61,7 @@ const NavBar = ({ title, back, notification }) => (
   <View style={styles.container}>
     <View style={styles.leftButtonContainer}>
       <TouchableOpacity onPress={() => (Actions.pop())}>
-        {back? (<Icon name="left" type="AntDesign" style={styles.icon} />) : null}
+        {back ? (<Icon name="left" type="AntDesign" style={styles.icon} />) : null}
       </TouchableOpacity>
     </View>
     <View style={styles.titleContainer}>
@@ -69,7 +69,7 @@ const NavBar = ({ title, back, notification }) => (
     </View>
     <View style={styles.rightButtonContainer}>
       <TouchableOpacity onPress={() => (Actions.notifyList())}>
-        {notification? (<Icon name="bell" type="MaterialCommunityIcons" style={styles.icon} />) : null}
+        {notification ? (<Icon name="bell" type="MaterialCommunityIcons" style={styles.icon} />) : null}
       </TouchableOpacity>
     </View>
   </View>

@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   text: {
     marginTop: viewportHeightPercent(3),
     fontSize: 16,
-    color: Colors.lightGray,
+    color: Colors.labelLightGray,
   },
 });
 

@@ -1,31 +1,16 @@
 const Colors = {
-  barBackground: '#262727',
-  barBackgroundFocus: '#222323',
-  barText: '#ffffff',
-  barfocusText: '#FEFEFE',
+  labelLightGray: '#8f95a6',
+  labelGold: '#b9a078',
+  labelWhite: '#ffffff',
 
+  cardLightGray: '#2a2a2a',
+  cardGray: '#1a1a1a',
 
-  
-  white: '#ffffff',
-  gray: '#1a1a1a',
-  // gray: '#262727',
-  middleLineGray: '#3E3E3E',
-  lightGray: '#8f95a6',
-  gold: '#b9a078',
-  red: '#BB1A3C',
-  purple: '#7152FF',
-  green: '#56D62C',
-  orange: '#FF7F34',
-  crystal_green: '#3AF8D2',
-  black: '#090909',
-  darkGray: '#191919',
+  accordianHeaderGray: '#2a2a2a',
+  accordianContentGray: '#1a1a1a',
 
-  buttonGray: '#494949',
-  buttonLightGray: '#979797',
-
-  backgroundBlack: '#090909',
-  backgroundGray: '#262727',
-  backgroundDarkGray: '#191919',
+  placeholderGray: '#4C4F58',
+  buttonGray: '#2A2A2A',
 };
 
 // const Colors = {

@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
 
   icon: {
-    color: Colors.lightGray,
+    color: Colors.labelLightGray,
     fontSize: 16,
   },
 });
@@ -87,7 +87,7 @@ ShortcutButton.propTypes = {
 
 ShortcutButton.defaultProps = {
   text: '',
-  textColor: Colors.lightGray,
+  textColor: Colors.labelLightGray,
   onPress: null,
 };
 

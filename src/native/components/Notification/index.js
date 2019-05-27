@@ -46,13 +46,13 @@ const styles = StyleSheet.create({
 
   text: {
     fontSize: 15,
-    color: Colors.white,
+    color: Colors.labelWhite,
   },
 
   footerText: {
     fontSize: 10,
     marginTop: 10,
-    color: Colors.gold,
+    color: Colors.labelGold,
   },
 
   image: {
