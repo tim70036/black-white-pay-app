@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Dimensions, ImageBackground, FlatList, Image, Text } from 'react-native';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { View, StyleSheet, ImageBackground, FlatList, Image, Text, TouchableOpacity } from 'react-native';
+import { TabView, TabBar } from 'react-native-tab-view';
 import PropTypes from 'prop-types';
 
 import NavBar from '../NavBar';
@@ -9,7 +9,9 @@ import Colors from '../../constants/colors';
 
 const thumbnailSize = viewportHeightPercent(7);
 const cardWidth = viewportWidthPercent(100);
-const cardHeight = viewportHeightPercent(10);
+const cardHeight = viewportHeightPercent(11);
+const buttonWidth = viewportWidthPercent(15);
+const buttonHeight = buttonWidth / 2;
 
 const styles = StyleSheet.create({
   container: {
@@ -41,7 +43,6 @@ const styles = StyleSheet.create({
 
     width: cardWidth,
     height: cardHeight,
-    
     backgroundColor: Colors.cardGray,
 
     // borderWidth: 1,
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
   cardItemRight: {
     flex: 5,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
     alignItems: 'center',
 
   },
@@ -67,27 +68,100 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  text: {
+  nameText: {
     marginHorizontal: viewportWidthPercent(4),
     fontSize: 15,
     color: Colors.labelWhite,
   },
+  acceptButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    width: buttonWidth,
+    height: buttonHeight,
+    borderRadius: buttonHeight / 2,
+
+    backgroundColor: '#00cfb7',
+  },
+  denyButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    width: buttonWidth,
+    height: buttonHeight,
+    borderRadius: buttonHeight / 2,
+
+    backgroundColor: '#ff486c',
+    marginLeft: viewportWidthPercent(4), // avoid button too close to each other
+  },
+  requestButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    width: buttonWidth * 1.4, // this button is slightly wider
+    height: buttonHeight,
+    borderRadius: buttonHeight / 2,
+
+    backgroundColor: '#b9a078',
+  },
+  buttonText: {
+    fontSize: 13,
+    color: Colors.labelWhite,
+  },
 });
 
-const InvitationCard = ({ thumbnail, name, account}) => (
+
+const _renderInvitation = ({ item }) => (
   <View style={styles.card}>
     <View style={styles.cardItemLeft}>
-      <Image style={styles.image} source={thumbnail} />
-      <Text style={styles.text}>{name}</Text>
+      <Image style={styles.image} source={item.thumbnail} />
+      <Text style={styles.nameText}>{item.name}</Text>
     </View>
     <View style={styles.cardItemRight}>
+      <TouchableOpacity style={styles.acceptButton}>
+        <Text style={styles.buttonText}>同意</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.denyButton}>
+        <Text style={styles.buttonText}>拒絕</Text>
+      </TouchableOpacity>
     </View>
   </View>
 );
 
-const RequestCard = () => (
+const _renderRequest = ({ item }) => (
   <View style={styles.card}>
+    <View style={styles.cardItemLeft}>
+      <Image style={styles.image} source={item.thumbnail} />
+      <Text style={styles.nameText}>{item.name}</Text>
+    </View>
+    <View style={styles.cardItemRight}>
+      <TouchableOpacity style={styles.requestButton}>
+        <Text style={styles.buttonText}>取消邀請</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+);
 
+const FirstRoute = ({ invitationData }) => (
+  <View style={styles.scene}>
+    <FlatList
+      data={invitationData}
+      renderItem={_renderInvitation}
+      keyExtractor={(item, index) => index.toString()}
+    />
+  </View>
+);
+
+const SecondRoute = ({ requestData }) => (
+  <View style={styles.scene}>
+    <FlatList
+      data={requestData}
+      renderItem={_renderRequest}
+      keyExtractor={(item, index) => index.toString()}
+    />
   </View>
 );
 
@@ -106,21 +180,20 @@ class FriendRequest extends Component {
     carouselData: [],
   };
 
-  state = {
-    index: 0,
-    routes: [
-      { key: 'firstRoute', title: '待通過' },
-      { key: 'secondRoute', title: '已送出' },
-    ],
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      index: 0,
+      routes: [
+        { key: 'firstRoute', title: '待通過' },
+        { key: 'secondRoute', title: '已送出' },
+      ],
+    };
+  }
 
-  _renderInvitation = ({ item }) => (
-    <InvitationCard thumbnail={item.thumbnail} name={item.name} account={item.account} />
-  );
-
-  _renderRequest = ({ item }) => (
-    <RequestCard />
-  );
+  _onIndexChange = (index) => {
+    this.setState({ index: index });
+  }
 
   _renderTabBar= props => (
     <TabBar
@@ -135,25 +208,9 @@ class FriendRequest extends Component {
     const { invitationData, requestData } = this.props;
     switch (route.key) {
       case 'firstRoute':
-        return (
-          <View style={styles.scene}>
-            <FlatList
-              data={invitationData}
-              renderItem={this._renderInvitation}
-              keyExtractor={(item, index) => index.toString()}
-            />
-          </View>
-        );
+        return <FirstRoute invitationData={invitationData} />;
       case 'secondRoute':
-        return (
-          <View style={styles.scene}>
-            <FlatList
-              data={invitationData}
-              renderItem={this._renderRequest}
-              keyExtractor={(item, index) => index.toString()}
-            />
-          </View>
-        );
+        return <SecondRoute requestData={requestData} />;
       default:
         return null;
     }
@@ -166,8 +223,7 @@ class FriendRequest extends Component {
         navigationState={this.state}
         renderScene={this._renderScene}
         renderTabBar={this._renderTabBar}
-        onIndexChange={index => this.setState({ index })}
-        initialLayout={{ width: Dimensions.get('window').width }}
+        onIndexChange={this._onIndexChange}
       />
     </ImageBackground>
   );
