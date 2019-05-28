@@ -1,0 +1,88 @@
+import React from 'react';
+import { Image, StyleSheet, FlatList, View, ImageBackground, Text } from 'react-native';
+import PropTypes from 'prop-types';
+
+import NavBar from '../NavBar';
+import ShortcutButton from './ShortcutButton';
+import Colors from '../../constants/colors';
+import {
+  viewportWidthPercent,
+  viewportHeightPercent,
+} from '../../lib/util';
+
+const thumbnailSize = viewportHeightPercent(15);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  profileContainer: {
+    flex: 4,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  shortcutContainer: {
+    flex: 6,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+
+  image: {
+    width: thumbnailSize,
+    height: thumbnailSize,
+    borderRadius: thumbnailSize / 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  nameText: {
+    color: Colors.labelWhite,
+    fontSize: 24,
+    marginTop: 20,
+  }
+});
+
+const UserDetail = ({ userData }) => {
+  return (
+    <ImageBackground style={styles.container} source={require('../../../img/background/background2.png')}>
+      <ImageBackground style={styles.profileContainer} source={require('../../../img/userDetail/profileBackground.png')}>
+        <NavBar back />
+        <Image style={styles.image} source={userData.thumbnail} />
+        <Text style={styles.nameText}>{userData.name}</Text>
+      </ImageBackground>
+      <View style={styles.shortcutContainer}>
+        <ShortcutButton
+          image={require('../../../img/userDetail/transfer.png')}
+          text="立即轉帳"
+          textColor={Colors.labelWhite}
+        />
+
+        {userData.isFriend ? (
+          <ShortcutButton
+            image={require('../../../img/userDetail/addFriend.png')}
+            text="刪除好友"
+            textColor={Colors.labelWhite}
+          />
+        ) : (
+          <ShortcutButton
+            image={require('../../../img/userDetail/addFriend.png')}
+            text="新增好友"
+            textColor={Colors.labelWhite}
+          />
+        )}
+        
+      </View>
+    </ImageBackground>
+  );
+};
+
+UserDetail.propTypes = {
+};
+
+UserDetail.defaultProps = {
+};
+
+export default UserDetail;

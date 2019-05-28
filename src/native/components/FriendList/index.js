@@ -77,12 +77,25 @@ const FriendList = ({ friendData }) => {
   );
 
   const _renderShortcut = ({ item }) => (
-    <ShortcutButton text={item.text} textColor={item.textColor} image={item.image} onPress={item.onPress} />
+    <ShortcutButton
+      text={item.text}
+      textColor={item.textColor}
+      image={item.image}
+      onPress={item.onPress}
+    />
   );
 
-  const _renderFriend = ({ item }) => (
-    <FriendButton text={item.name} textColor={Colors.labelWhite} image={item.thumbnail} />
-  );
+  const _renderFriend = ({ item }) => {
+    const userData = { ...item, isFriend: true };
+    return (
+      <FriendButton
+        text={item.name}
+        textColor={Colors.labelWhite}
+        image={item.thumbnail}
+        onPress={() => (Actions.userDetail({ userData: userData }))}
+      />
+    );
+  }
 
   return (
     <ImageBackground style={styles.container} source={require('../../../img/background/background2.png')}>
