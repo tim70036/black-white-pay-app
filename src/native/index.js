@@ -99,6 +99,8 @@ export default class App extends React.Component {
       require('../img/addFriend/qr.png'),
 
       require('../img/userDetail/profileBackground.png'),
+      require('../img/userDetail/addFriend.png'),
+      require('../img/userDetail/transfer.png'),
 
       require('../img/addStore/ad.png'),
 

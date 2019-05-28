@@ -10,7 +10,7 @@ import {
   viewportHeightPercent,
 } from '../../lib/util';
 
-const thumbnailSize = viewportHeightPercent(15);
+const thumbnailSize = viewportHeightPercent(12);
 
 const styles = StyleSheet.create({
   container: {
@@ -18,13 +18,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   profileContainer: {
-    flex: 4,
+    flex: 37,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
+    
   },
   shortcutContainer: {
-    flex: 6,
+    flex: 63,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
 const UserDetail = ({ userData }) => {
   return (
     <ImageBackground style={styles.container} source={require('../../../img/background/background2.png')}>
-      <ImageBackground style={styles.profileContainer} source={require('../../../img/userDetail/profileBackground.png')}>
+      <ImageBackground style={styles.profileContainer} imageStyle={{ resizeMode: 'stretch' }} source={require('../../../img/userDetail/profileBackground.png')}>
         <NavBar back />
         <Image style={styles.image} source={userData.thumbnail} />
         <Text style={styles.nameText}>{userData.name}</Text>
@@ -80,6 +81,12 @@ const UserDetail = ({ userData }) => {
 };
 
 UserDetail.propTypes = {
+  userData: PropTypes.shape({
+    thumbnail: PropTypes.number,
+    name: PropTypes.string,
+    account: PropTypes.string,
+    isFriend: PropTypes.bool,
+  }).isRequired,
 };
 
 UserDetail.defaultProps = {

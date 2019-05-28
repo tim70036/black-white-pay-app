@@ -167,17 +167,25 @@ const SecondRoute = ({ requestData }) => (
 
 class FriendRequest extends Component {
   static propTypes = {
-    carouselData: PropTypes.arrayOf(
+    invitationData: PropTypes.arrayOf(
       PropTypes.shape({
-        title: PropTypes.string,
-        subtitle: PropTypes.string,
-        imgUrl: PropTypes.string,
+        thumbnail: PropTypes.number,
+        name: PropTypes.string,
+        account: PropTypes.string,
+      }),
+    ),
+    requestData: PropTypes.arrayOf(
+      PropTypes.shape({
+        thumbnail: PropTypes.number,
+        name: PropTypes.string,
+        account: PropTypes.string,
       }),
     ),
   };
 
   static defaultProps = {
-    carouselData: [],
+    invitationData: [],
+    requestData: [],
   };
 
   constructor(props) {

@@ -18,9 +18,9 @@ import Colors from '../../constants/colors';
 
 // Sizing based on the viewport
 const buttonWidth = viewportWidthPercent(95);
-const buttonHeight = viewportHeightPercent(12);
-const imageWidth = 40;
-const imageHeight = 40;
+const buttonHeight = viewportHeightPercent(10);
+const imageWidth = 35;
+const imageHeight = 35;
 
 const styles = StyleSheet.create({
   container: {
@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
 
-    backgroundColor: Colors.cardGray,
+    backgroundColor: Colors.cardLightGray,
+    borderRadius: 5,
     marginVertical: 5,
     paddingHorizontal: viewportWidthPercent(5),
 
@@ -61,12 +62,12 @@ const styles = StyleSheet.create({
 
   text: {
     marginHorizontal: 14,
-    fontSize: 16,
+    fontSize: 14,
   },
 
   icon: {
     color: Colors.labelLightGray,
-    fontSize: 18,
+    fontSize: 16,
   },
 });
 

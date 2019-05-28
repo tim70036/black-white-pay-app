@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
 });
 
 const shortCutData = [
-  { text: '新增好友', onPress: null, textColor: Colors.labelWhite, image: require('../../../img/friendList/addPerson.png') },
+  { text: '新增好友', onPress: () => (Actions.addFriend()), textColor: Colors.labelWhite, image: require('../../../img/friendList/addPerson.png') },
   { text: '好友邀請', onPress: () => (Actions.friendRequest()), textColor: Colors.labelWhite, image: require('../../../img/friendList/addNote.png') },
   { text: '我的QR', onPress: null, textColor: Colors.labelWhite, image: require('../../../img/friendList/qrCode.png') },
 ];
@@ -86,7 +86,9 @@ const FriendList = ({ friendData }) => {
   );
 
   const _renderFriend = ({ item }) => {
+    // For RNRF
     const userData = { ...item, isFriend: true };
+
     return (
       <FriendButton
         text={item.name}

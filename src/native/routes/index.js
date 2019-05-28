@@ -77,6 +77,8 @@ import PrivacyComponent from '../components/Privacy';
 
 import FriendRequestContainer from '../../containers/FriendRequest';
 import FriendRequestComponent from '../components/FriendRequest';
+
+import AddFriendContainer from '../../containers/AddFriend';
 import AddFriendComponent from '../components/AddFriend';
 
 import UserDetailContainer from '../../containers/UserDetail';
@@ -223,6 +225,13 @@ const getRoutes = (authenticate, goAuth, refresh) => (
           {...DefaultProps.navbarProps}
         >
           <Scene component={spinnerHOC(qrCodeReceiveContainer)} Layout={qrCodeReceiveComponent} on={authenticate} failure={goAuth} />
+        </Stack>
+
+        <Stack
+          key="addFriend"
+          {...DefaultProps.navbarProps}
+        >
+          <Scene component={spinnerHOC(AddFriendContainer)} Layout={AddFriendComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         <Stack

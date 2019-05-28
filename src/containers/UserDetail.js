@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 const example = {
   thumbnail: require('../img/test.png'),
-  name: '小王八',
+  name: '花惹發克拉',
   account: '0911547964',
   isFriend: true,
 };
@@ -12,14 +12,17 @@ const example = {
 class UserDetail extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
+    userData: PropTypes.shape({
+      thumbnail: PropTypes.number,
+      name: PropTypes.string,
+      account: PropTypes.string,
+      isFriend: PropTypes.bool,
+    }).isRequired,
   }
 
   static defaultProps = {
   }
 
-  constructor(props) {
-    super(props);
-  }
   state = {
   }
 
@@ -29,10 +32,8 @@ class UserDetail extends Component {
       userData, // From RNRF
     } = this.props;
 
-    console.log({userData});
-
     return (
-      <Layout userData={example} />
+      <Layout userData={userData} />
     );
   }
 }
