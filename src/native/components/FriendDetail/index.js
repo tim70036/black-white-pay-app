@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const UserDetail = ({ userData }) => {
+const FriendDetail = ({ userData }) => {
   return (
     <ImageBackground style={styles.container} source={require('../../../img/background/background2.png')}>
       <ImageBackground style={styles.profileContainer} imageStyle={{ resizeMode: 'stretch' }} source={require('../../../img/userDetail/profileBackground.png')}>
@@ -80,7 +80,7 @@ const UserDetail = ({ userData }) => {
   );
 };
 
-UserDetail.propTypes = {
+FriendDetail.propTypes = {
   userData: PropTypes.shape({
     thumbnail: PropTypes.number,
     name: PropTypes.string,
@@ -89,7 +89,7 @@ UserDetail.propTypes = {
   }).isRequired,
 };
 
-UserDetail.defaultProps = {
+FriendDetail.defaultProps = {
 };
 
-export default UserDetail;
+export default FriendDetail;

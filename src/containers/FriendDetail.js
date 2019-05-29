@@ -9,7 +9,7 @@ const example = {
   isFriend: true,
 };
 
-class UserDetail extends Component {
+class FriendDetail extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
     userData: PropTypes.shape({
@@ -44,4 +44,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(FriendDetail);

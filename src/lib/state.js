@@ -76,6 +76,23 @@ const state = {
       { id: '', thumbnail: '', title: '', subtitle: '' },
     ],
   },
+  friend: {
+    friends: [
+      { account: '', name: '', thumbnail: '', },
+      { account: '', name: '', thumbnail: '', },
+      { account: '', name: '', thumbnail: '', },
+    ],
+    invitations: [],
+    requests: [],
+    curFriend: {
+      account: '',
+      name: '',
+      thumbnail: '',
+      isFriend: false,
+    },
+  },
+  
+  
   status: {
     loading: false,
     success: null,

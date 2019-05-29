@@ -81,8 +81,8 @@ import FriendRequestComponent from '../components/FriendRequest';
 import AddFriendContainer from '../../containers/AddFriend';
 import AddFriendComponent from '../components/AddFriend';
 
-import UserDetailContainer from '../../containers/UserDetail';
-import UserDetailComponent from '../components/UserDetail';
+import FriendDetailContainer from '../../containers/FriendDetail';
+import FriendDetailComponent from '../components/FriendDetail';
 
 import TabBar from '../components/TabBar';
 
@@ -242,10 +242,10 @@ const getRoutes = (authenticate, goAuth, refresh) => (
         </Stack>
 
         <Stack
-          key="userDetail"
+          key="friendDetail"
           {...DefaultProps.navbarProps}
         >
-          <Scene component={spinnerHOC(UserDetailContainer)} Layout={UserDetailComponent} on={authenticate} failure={goAuth} />
+          <Scene component={spinnerHOC(FriendDetailContainer)} Layout={FriendDetailComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
       </Stack>

@@ -5,6 +5,7 @@ import curStore from './curStore';
 import wallets from './wallets';
 import curWallet from './curWallet';
 import notifications from './notifications';
+import friend from './friend';
 import status from './status';
 
 // Redux persist
@@ -33,5 +34,6 @@ export default {
   wallets: wallets,
   curWallet: curWallet,
   notifications: notifications,
+  friend: friend,
   status: status,
 };

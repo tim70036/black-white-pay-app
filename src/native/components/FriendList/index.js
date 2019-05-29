@@ -94,7 +94,7 @@ const FriendList = ({ friendData }) => {
         text={item.name}
         textColor={Colors.labelWhite}
         image={item.thumbnail}
-        onPress={() => (Actions.userDetail({ userData: userData }))}
+        onPress={() => (Actions.friendDetail({ userData: userData }))}
       />
     );
   }
