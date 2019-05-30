@@ -46,12 +46,25 @@ const styles = StyleSheet.create({
   }
 });
 
-const FriendDetail = ({ userData }) => {
+const FriendDetail = ({ userData, onAddFriend, onDeleteFriend}) => {
+
+  const _handleAddFriend = async () => {
+    //userData.account
+  };
+
+  const _handleDeleteFriend = async () => {
+
+  };
+
+  const _handleTransfer = () => {
+
+  };
+
   return (
     <ImageBackground style={styles.container} source={require('../../../img/background/background2.png')}>
       <ImageBackground style={styles.profileContainer} imageStyle={{ resizeMode: 'stretch' }} source={require('../../../img/userDetail/profileBackground.png')}>
         <NavBar back />
-        <Image style={styles.image} source={userData.thumbnail} />
+        <Image style={styles.image} source={{ uri: userData.thumbnail }} />
         <Text style={styles.nameText}>{userData.name}</Text>
       </ImageBackground>
       <View style={styles.shortcutContainer}>
@@ -81,8 +94,10 @@ const FriendDetail = ({ userData }) => {
 };
 
 FriendDetail.propTypes = {
+  onAddFriend: PropTypes.func.isRequired,
+  onDeleteFriend: PropTypes.func.isRequired,
   userData: PropTypes.shape({
-    thumbnail: PropTypes.number,
+    thumbnail: PropTypes.string,
     name: PropTypes.string,
     account: PropTypes.string,
     isFriend: PropTypes.bool,

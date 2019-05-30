@@ -54,12 +54,11 @@ class AddStore extends Component {
 
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
+    if (!this._validate()) return;
 
-    if (this._validate()) {
-      const success = await onFormSubmit(this.state);
-      if (success) {
-        Actions.pop();
-      }
+    const success = await onFormSubmit(this.state);
+    if (success) {
+      Actions.pop();
     }
   }
 

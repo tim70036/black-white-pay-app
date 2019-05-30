@@ -27,11 +27,11 @@ function clearRequests() {
 }
 
 function replaceCurFriend(newCurFriendData) {
-  return { type: actionType.REPLACE_CURFRIEND, data: newCurFriendData };
+  return { type: actionType.REPLACE_FRIEND_CURFRIEND, data: newCurFriendData };
 }
 
 function clearCurFriend() {
-  return { type: actionType.CLEAR_CURFRIEND };
+  return { type: actionType.CLEAR_FRIEND_CURFRIEND };
 }
 
 function getFriends() {
@@ -50,7 +50,7 @@ function getFriends() {
 function getInvitations() {
   return async (dispatch, getState) => {
     // Api request
-    let result = await apiRequest(dispatch, '/invitation/list', 'GET');
+    let result = await apiRequest(dispatch, '/friend/invitation/list', 'GET');
 
     // Process result
     if (result && result.success) {
@@ -63,13 +63,35 @@ function getInvitations() {
 function getRequests() {
   return async (dispatch, getState) => {
     // Api request
-    let result = await apiRequest(dispatch, '/request/list', 'GET');
+    let result = await apiRequest(dispatch, '/friend/request/list', 'GET');
 
     // Process result
     if (result && result.success) {
       const requestList = result.data;
       dispatch(replaceRequests(requestList));
     }
+  };
+}
+
+function getDetail(formData) {
+  const { account } = formData;
+  
+  return async (dispatch, getState) => {
+    const requestBody = JSON.stringify({
+      account: account,
+    });
+
+    // Api request
+    let result = await apiRequest(dispatch, '/friend/detail', 'POST', requestBody);
+
+    // Process result
+    if (result && result.success) {
+      const friendDetail = result.data;
+      dispatch(replaceCurFriend(friendDetail));
+      return true;
+    }
+
+    return false;
   };
 }
 
@@ -86,4 +108,5 @@ export {
   getFriends,
   getInvitations,
   getRequests,
+  getDetail,
 };

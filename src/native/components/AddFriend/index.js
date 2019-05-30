@@ -49,7 +49,6 @@ class AddFriend extends Component {
   }
 
   static defaultProps = {
-
   }
 
   constructor(props) {
@@ -81,12 +80,11 @@ class AddFriend extends Component {
 
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
+    if (!this._validate()) return;
 
-    if (this._validate()) {
-      const success = await onFormSubmit(this.state);
-      if (success) {
-        Actions.pop();
-      }
+    const success = await onFormSubmit(this.state);
+    if (success) {
+      Actions.friendDetail();
     }
   }
 
@@ -117,7 +115,7 @@ class AddFriend extends Component {
               placeholder="請輸入電話號碼"
               placeholderTextColor={Colors.placeholderGray}
               keyboardType="default"
-              onChangeText={v => this._handleChange('name', v)}
+              onChangeText={v => this._handleChange('account', v)}
               onSubmitEditing={Keyboard.dismiss}
             />
             <Text style={formStyle.valText}>{accountMsg}</Text>

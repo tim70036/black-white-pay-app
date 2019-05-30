@@ -13,7 +13,7 @@ class FriendDetail extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
     userData: PropTypes.shape({
-      thumbnail: PropTypes.number,
+      thumbnail: PropTypes.string,
       name: PropTypes.string,
       account: PropTypes.string,
       isFriend: PropTypes.bool,
@@ -26,19 +26,29 @@ class FriendDetail extends Component {
   state = {
   }
 
+  _handleAddFriend = async () => {
+
+  };
+
+  _handleDeleteFriend = async () => {
+
+  };
+
+
   render = () => {
     const {
       Layout,
-      userData, // From RNRF
+      userData, // redux
     } = this.props;
 
     return (
-      <Layout userData={userData} />
+      <Layout userData={userData} onAddFriend={this._handleAddFriend} onDeleteFriend={this._handleDeleteFriend} />
     );
   }
 }
 
 const mapStateToProps = state => ({
+  userData: state.friend.curFriend,
 });
 
 const mapDispatchToProps = {

@@ -6,8 +6,7 @@ import { bindStores, getStores } from '../actions/stores';
 class AddStore extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
-    getStoresData: PropTypes.func.isRequired,
-    onFormSubmit: PropTypes.func.isRequired,
+    userBindStores: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -16,9 +15,9 @@ class AddStore extends Component {
   state = {
   }
 
-  _handleSubmit = async (bindCode) => {
-    const { onFormSubmit } = this.props;
-    const success = await onFormSubmit(bindCode);
+  _handleSubmit = async (formData) => {
+    const { userBindStores } = this.props;
+    const success = await userBindStores(formData);
     return success;
   }
 
@@ -39,8 +38,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getStoresData: getStores,
-  onFormSubmit: bindStores,
+  userBindStores: bindStores,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddStore);

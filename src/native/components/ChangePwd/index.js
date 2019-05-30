@@ -71,12 +71,10 @@ class ChangePwd extends Component {
 
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
-
-    if (this._validate()) {
-      const success = await onFormSubmit(this.state);
-      if (success) {
-        Actions.pop();
-      }
+    if (!this._validate()) return;
+    const success = await onFormSubmit(this.state);
+    if (success) {
+      Actions.pop();
     }
   }
 
