@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { createRequest, deleteFriend } from '../actions/friend';
 
 const example = {
   thumbnail: require('../img/test.png'),
@@ -12,6 +13,8 @@ const example = {
 class FriendDetail extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
+    createFriendRequest: PropTypes.func.isRequired,
+    deleteFriend: PropTypes.func.isRequired,
     userData: PropTypes.shape({
       thumbnail: PropTypes.string,
       name: PropTypes.string,
@@ -27,11 +30,15 @@ class FriendDetail extends Component {
   }
 
   _handleAddFriend = async () => {
-
+    const { createFriendRequest, userData } = this.props;
+    const formData = { account: userData.account };
+    await createFriendRequest(formData);
   };
 
   _handleDeleteFriend = async () => {
-
+    const { deleteFriend, userData } = this.props;
+    const formData = { account: userData.account };
+    await deleteFriend(formData);
   };
 
 
@@ -52,6 +59,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  createFriendRequest: createRequest,
+  deleteFriend: deleteFriend,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FriendDetail);

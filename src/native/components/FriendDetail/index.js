@@ -49,11 +49,11 @@ const styles = StyleSheet.create({
 const FriendDetail = ({ userData, onAddFriend, onDeleteFriend}) => {
 
   const _handleAddFriend = async () => {
-    //userData.account
+    await onAddFriend();
   };
 
   const _handleDeleteFriend = async () => {
-
+    await onDeleteFriend();
   };
 
   const _handleTransfer = () => {
@@ -62,32 +62,34 @@ const FriendDetail = ({ userData, onAddFriend, onDeleteFriend}) => {
 
   return (
     <ImageBackground style={styles.container} source={require('../../../img/background/background2.png')}>
-      <ImageBackground style={styles.profileContainer} imageStyle={{ resizeMode: 'stretch' }} source={require('../../../img/userDetail/profileBackground.png')}>
+      <ImageBackground style={styles.profileContainer} imageStyle={{ resizeMode: 'stretch' }} source={require('../../../img/friendDetail/profileBackground.png')}>
         <NavBar back />
         <Image style={styles.image} source={{ uri: userData.thumbnail }} />
         <Text style={styles.nameText}>{userData.name}</Text>
       </ImageBackground>
       <View style={styles.shortcutContainer}>
         <ShortcutButton
-          image={require('../../../img/userDetail/transfer.png')}
+          image={require('../../../img/friendDetail/transfer.png')}
           text="立即轉帳"
           textColor={Colors.labelWhite}
         />
 
         {userData.isFriend ? (
           <ShortcutButton
-            image={require('../../../img/userDetail/addFriend.png')}
+            image={require('../../../img/friendDetail/deleteFriend.png')}
             text="刪除好友"
-            textColor={Colors.labelWhite}
+            textColor={Colors.labelRed}
+            onPress={_handleDeleteFriend}
           />
         ) : (
           <ShortcutButton
-            image={require('../../../img/userDetail/addFriend.png')}
+            image={require('../../../img/friendDetail/addFriend.png')}
             text="新增好友"
             textColor={Colors.labelWhite}
+            onPress={_handleAddFriend}
           />
         )}
-        
+
       </View>
     </ImageBackground>
   );

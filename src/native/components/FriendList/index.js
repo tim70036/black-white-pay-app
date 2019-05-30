@@ -94,7 +94,12 @@ const FriendList = ({ friendData }) => {
         text={item.name}
         textColor={Colors.labelWhite}
         image={item.thumbnail}
-        onPress={() => (Actions.friendDetail({ userData: userData }))}
+        onPress={
+          async () => {
+            const success = await item.onChoose();
+            if (success) Actions.friendDetail();
+          }
+        }
       />
     );
   }
@@ -126,7 +131,7 @@ const FriendList = ({ friendData }) => {
 FriendList.propTypes = {
   friendData: PropTypes.arrayOf(
     PropTypes.shape({
-      thumbnail: PropTypes.number,
+      thumbnail: PropTypes.string,
       name: PropTypes.string,
       account: PropTypes.string,
     }),

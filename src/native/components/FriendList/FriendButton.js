@@ -67,10 +67,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const ShortcutButton = ({ image, text, textColor, onPress }) => (
+const FriendButton = ({ image, text, textColor, onPress }) => (
   <TouchableOpacity style={styles.container} onPress={onPress}>
     <View style={styles.textContainer}>
-      <Image style={styles.image} source={image} />
+      <Image style={styles.image} source={{ uri: image }} />
       <Text style={[styles.text, { color: textColor }]}>{text}</Text>
     </View>
     <View style={styles.iconContainer}>
@@ -79,17 +79,17 @@ const ShortcutButton = ({ image, text, textColor, onPress }) => (
   </TouchableOpacity>
 );
 
-ShortcutButton.propTypes = {
-  image: PropTypes.number.isRequired,
+FriendButton.propTypes = {
+  image: PropTypes.string.isRequired,
   text: PropTypes.string,
   textColor: PropTypes.string,
   onPress: PropTypes.func,
 };
 
-ShortcutButton.defaultProps = {
+FriendButton.defaultProps = {
   text: '',
   textColor: Colors.labelLightGray,
   onPress: null,
 };
 
-export default ShortcutButton;
+export default FriendButton;

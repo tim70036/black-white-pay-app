@@ -117,14 +117,14 @@ const styles = StyleSheet.create({
 const _renderInvitation = ({ item }) => (
   <View style={styles.card}>
     <View style={styles.cardItemLeft}>
-      <Image style={styles.image} source={item.thumbnail} />
+      <Image style={styles.image} source={{ uri: item.thumbnail }} />
       <Text style={styles.nameText}>{item.name}</Text>
     </View>
     <View style={styles.cardItemRight}>
-      <TouchableOpacity style={styles.acceptButton}>
+      <TouchableOpacity style={styles.acceptButton} onPress={item.onAccept}>
         <Text style={styles.buttonText}>同意</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.denyButton}>
+      <TouchableOpacity style={styles.denyButton} onPress={item.onDecline}>
         <Text style={styles.buttonText}>拒絕</Text>
       </TouchableOpacity>
     </View>
@@ -134,11 +134,11 @@ const _renderInvitation = ({ item }) => (
 const _renderRequest = ({ item }) => (
   <View style={styles.card}>
     <View style={styles.cardItemLeft}>
-      <Image style={styles.image} source={item.thumbnail} />
+      <Image style={styles.image} source={{ uri: item.thumbnail }} />
       <Text style={styles.nameText}>{item.name}</Text>
     </View>
     <View style={styles.cardItemRight}>
-      <TouchableOpacity style={styles.requestButton}>
+      <TouchableOpacity style={styles.requestButton} onPress={item.onCancel}>
         <Text style={styles.buttonText}>取消邀請</Text>
       </TouchableOpacity>
     </View>
@@ -169,14 +169,14 @@ class FriendRequest extends Component {
   static propTypes = {
     invitationData: PropTypes.arrayOf(
       PropTypes.shape({
-        thumbnail: PropTypes.number,
+        thumbnail: PropTypes.string,
         name: PropTypes.string,
         account: PropTypes.string,
       }),
     ),
     requestData: PropTypes.arrayOf(
       PropTypes.shape({
-        thumbnail: PropTypes.number,
+        thumbnail: PropTypes.string,
         name: PropTypes.string,
         account: PropTypes.string,
       }),

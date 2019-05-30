@@ -95,6 +95,127 @@ function getDetail(formData) {
   };
 }
 
+function createRequest(formData) {
+  const { account } = formData;
+  
+  return async (dispatch, getState) => {
+    const requestBody = JSON.stringify({
+      account: account,
+    });
+
+    // Api request
+    let result = await apiRequest(dispatch, '/friend/request/create', 'POST', requestBody);
+
+    // Process result
+    if (result && result.success) {
+      // Status
+      dispatch(statusMessage('success', '好友邀請已送出'));
+      // Call actions to refresh data
+      dispatch(getRequests());
+      return true;
+    }
+
+    return false;
+  };
+}
+
+function cancelRequest(formData) {
+  const { account } = formData;
+
+  return async (dispatch, getState) => {
+    const requestBody = JSON.stringify({
+      account: account,
+    });
+
+    // Api request
+    let result = await apiRequest(dispatch, '/friend/request/cancel', 'POST', requestBody);
+
+    // Process result
+    if (result && result.success) {
+      // Status
+      dispatch(statusMessage('success', '好友邀請已收回'));
+      // Call actions to refresh data
+      dispatch(getRequests());
+      return true;
+    }
+
+    return false;
+  };
+}
+
+function acceptInvitation(formData) {
+  const { account } = formData;
+
+  return async (dispatch, getState) => {
+    const requestBody = JSON.stringify({
+      account: account,
+    });
+
+    // Api request
+    let result = await apiRequest(dispatch, '/friend/invitation/accept', 'POST', requestBody);
+
+    // Process result
+    if (result && result.success) {
+      // Status
+      dispatch(statusMessage('success', '接受好友邀請成功'));
+      // Call actions to refresh data
+      dispatch(getInvitations());
+      dispatch(getFriends());
+      return true;
+    }
+
+    return false;
+  };
+}
+
+function declineInvitation(formData) {
+  const { account } = formData;
+
+  return async (dispatch, getState) => {
+    const requestBody = JSON.stringify({
+      account: account,
+    });
+
+    // Api request
+    let result = await apiRequest(dispatch, '/friend/invitation/decline', 'POST', requestBody);
+
+    // Process result
+    if (result && result.success) {
+      // Status
+      dispatch(statusMessage('success', '拒絕好友邀請成功'));
+      // Call actions to refresh data
+      dispatch(getInvitations());
+      return true;
+    }
+
+    return false;
+  };
+}
+
+function deleteFriend(formData) {
+  const { account } = formData;
+
+  return async (dispatch, getState) => {
+    const requestBody = JSON.stringify({
+      account: account,
+    });
+
+    // Api request
+    let result = await apiRequest(dispatch, '/friend/delete', 'POST', requestBody);
+
+    // Process result
+    if (result && result.success) {
+      // Status
+      dispatch(statusMessage('success', '刪除好友成功'));
+      // Call actions to refresh data
+      dispatch(getFriends());
+      return true;
+    }
+
+    return false;
+  };
+}
+
 export {
   replaceFriends,
   clearFriends,
@@ -109,4 +230,12 @@ export {
   getInvitations,
   getRequests,
   getDetail,
+
+  createRequest,
+  cancelRequest,
+
+  acceptInvitation,
+  declineInvitation,
+
+  deleteFriend,
 };
