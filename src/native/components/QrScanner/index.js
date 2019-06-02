@@ -2,13 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
 import { BarCodeScanner, Camera, Permissions } from 'expo';
-import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 import { Actions } from 'react-native-router-flux';
-import { Action } from 'rxjs/internal/scheduler/Action';
+
+import NavBar from '../NavBar';
+import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
   },
   cameraView: {
     flex: 1,
@@ -112,6 +114,7 @@ class QrScanner extends React.Component {
       //   </View>
       // </View>
       <View style={styles.container}>
+        <NavBar back />
         <BarCodeScanner
           onBarCodeScanned={this.handleBarCodeScanned}
           style={styles.cameraView}
