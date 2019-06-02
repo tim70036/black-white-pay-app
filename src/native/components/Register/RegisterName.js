@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Keyboard, TouchableHighlight, TextInput, Text, ImageBackground, Image  } from 'react-native';
+import { View, StyleSheet, Keyboard, TouchableHighlight, TextInput, Text, ImageBackground, Image, ScrollView  } from 'react-native';
 import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
@@ -99,65 +99,67 @@ class Register extends Component {
     const { checked, nameMsg, checkedMsg } = this.state;
     return (
       <ImageBackground source={require('../../../img/background/background2.png')} style={formStyle.container}>
-        <NavBar back />
-        <View style={formStyle.inputContainer}>
-          <View style={formStyle.title}>
-            <Text style={formStyle.titleText}>註冊</Text>
-          </View>
-          <View style={formStyle.inputItem}>
-            <View style={formStyle.label}>
-              <Image source={require('../../../img/form/pwd.png')} style={formStyle.icon} />
-              <Text style={formStyle.labelText}> 暱稱</Text>
+        <ScrollView>
+          <NavBar back />
+          <View style={formStyle.inputContainer}>
+            <View style={formStyle.title}>
+              <Text style={formStyle.titleText}>註冊</Text>
             </View>
-            <TextInput
-              style={formStyle.inputText}
-              autoCapitalize="none"
-              placeholder="請輸入暱稱"
-              placeholderTextColor={Colors.placeholderGray}
-              keyboardType="default"
-              onChangeText={v => this._handleChange('name', v)}
-              onSubmitEditing={Keyboard.dismiss}
-            />
-            <Text style={formStyle.valText}>{nameMsg}</Text>
-          </View>
-          <View style={formStyle.inputItem}>
-            <View style={styles.checkBox}>
-              <CheckBox
-                containerStyle={{ marginHorizontal: 0, paddingHorizontal: 0 }}
-                checked={checked}
-                checkedColor="#B9A078"
-                uncheckedColor="#B9A078"
-                onPress={() => this.setState({ checked: !checked })}
+            <View style={formStyle.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/pwd.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 暱稱</Text>
+              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder="請輸入暱稱"
+                placeholderTextColor={Colors.placeholderGray}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('name', v)}
+                onSubmitEditing={Keyboard.dismiss}
               />
-              <Text style={styles.checkboxText}>我已詳讀並同意遵守 </Text>
-              <Text
-                style={{
-                  ...styles.checkboxText,
-                  color: '#E4954D',
-                  textDecorationLine: 'underline',
-                }}
-                onPress={this._onPressPrivacy}
-              >
-                放飛協議
-              </Text>
+              <Text style={formStyle.valText}>{nameMsg}</Text>
             </View>
-            <Text style={formStyle.valText}>{checkedMsg}</Text>
-          </View>
-          <LinearGradient
-            colors={elementColors.buttonLinearGradient}
-            style={formStyle.linearGradient}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-          >
-            <TouchableHighlight
-              style={formStyle.button}
-              onPress={this._handleSubmit}
-              underlayColor={Colors.buttonGray}
+            <View style={formStyle.inputItem}>
+              <View style={styles.checkBox}>
+                <CheckBox
+                  containerStyle={{ marginHorizontal: 0, paddingHorizontal: 0 }}
+                  checked={checked}
+                  checkedColor="#B9A078"
+                  uncheckedColor="#B9A078"
+                  onPress={() => this.setState({ checked: !checked })}
+                />
+                <Text style={styles.checkboxText}>我已詳讀並同意遵守 </Text>
+                <Text
+                  style={{
+                    ...styles.checkboxText,
+                    color: '#E4954D',
+                    textDecorationLine: 'underline',
+                  }}
+                  onPress={this._onPressPrivacy}
+                >
+                  放飛協議
+                </Text>
+              </View>
+              <Text style={formStyle.valText}>{checkedMsg}</Text>
+            </View>
+            <LinearGradient
+              colors={elementColors.buttonLinearGradient}
+              style={formStyle.linearGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
             >
-              <Text style={formStyle.buttonText}>確認</Text>
-            </TouchableHighlight>
-          </LinearGradient>
-        </View>
+              <TouchableHighlight
+                style={formStyle.button}
+                onPress={this._handleSubmit}
+                underlayColor={Colors.buttonGray}
+              >
+                <Text style={formStyle.buttonText}>確認</Text>
+              </TouchableHighlight>
+            </LinearGradient>
+          </View>
+        </ScrollView>
       </ImageBackground>
     );
   }

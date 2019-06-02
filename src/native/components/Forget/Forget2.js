@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Keyboard, TouchableHighlight, TextInput, Text, ImageBackground, Image  } from 'react-native';
+import { View, Keyboard, TouchableHighlight, TextInput, Text, ImageBackground, Image, ScrollView  } from 'react-native';
 import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
@@ -85,94 +85,96 @@ class Forget extends Component {
     const { passwordMsg, confirmPwdMsg, transPwdMsg, confirmTransPwdMsg } = this.state;
     return (
       <ImageBackground source={require('../../../img/background/background2.png')} style={formStyle.container}>
-        <NavBar back />
-        <View style={formStyle.inputContainer}>
-          <View style={formStyle.title}>
-            <Text style={formStyle.titleText}>重設密碼</Text>
-          </View>
-          <View style={formStyle.inputItem}>
-            <View style={formStyle.label}>
-              <Image source={require('../../../img/form/pwd.png')} style={formStyle.icon} />
-              <Text style={formStyle.labelText}> 密碼</Text>
+        <ScrollView>
+          <NavBar back />
+          <View style={formStyle.inputContainer}>
+            <View style={formStyle.title}>
+              <Text style={formStyle.titleText}>重設密碼</Text>
             </View>
-            <TextInput
-              style={formStyle.inputText}
-              autoCapitalize="none"
-              placeholder="請輸入密碼"
-              placeholderTextColor={Colors.placeholderGray}
-              keyboardType="default"
-              onChangeText={v => this._handleChange('password', v)}
-              onSubmitEditing={Keyboard.dismiss}
-              secureTextEntry
-            />
-            <Text style={formStyle.valText}>{passwordMsg}</Text>
-          </View>
-          <View style={formStyle.inputItem}>
-            <View style={formStyle.label}>
-              <Image source={require('../../../img/form/pwd.png')} style={formStyle.icon} />
-              <Text style={formStyle.labelText}> 再次確認密碼</Text>
+            <View style={formStyle.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/pwd.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 密碼</Text>
+              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder="請輸入密碼"
+                placeholderTextColor={Colors.placeholderGray}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('password', v)}
+                onSubmitEditing={Keyboard.dismiss}
+                secureTextEntry
+              />
+              <Text style={formStyle.valText}>{passwordMsg}</Text>
             </View>
-            <TextInput
-              style={formStyle.inputText}
-              autoCapitalize="none"
-              placeholder="請再次輸入密碼"
-              placeholderTextColor={Colors.placeholderGray}
-              keyboardType="default"
-              onChangeText={v => this._handleChange('confirmPassword', v)}
-              onSubmitEditing={Keyboard.dismiss}
-              secureTextEntry
-            />
-            <Text style={formStyle.valText}>{confirmPwdMsg}</Text>
-          </View>
-          <View style={formStyle.inputItem}>
-            <View style={formStyle.label}>
-              <Image source={require('../../../img/form/transPwd.png')} style={formStyle.icon} />
-              <Text style={formStyle.labelText}> 交易密碼</Text>
+            <View style={formStyle.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/pwd.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 再次確認密碼</Text>
+              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder="請再次輸入密碼"
+                placeholderTextColor={Colors.placeholderGray}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('confirmPassword', v)}
+                onSubmitEditing={Keyboard.dismiss}
+                secureTextEntry
+              />
+              <Text style={formStyle.valText}>{confirmPwdMsg}</Text>
             </View>
-            <TextInput
-              style={formStyle.inputText}
-              autoCapitalize="none"
-              placeholder="請輸入交易密碼"
-              placeholderTextColor={Colors.placeholderGray}
-              keyboardType="default"
-              onChangeText={v => this._handleChange('transPwd', v)}
-              onSubmitEditing={Keyboard.dismiss}
-              secureTextEntry
-            />
-            <Text style={formStyle.valText}>{transPwdMsg}</Text>
-          </View>
-          <View style={formStyle.inputItem}>
-            <View style={formStyle.label}>
-              <Image source={require('../../../img/form/transPwd.png')} style={formStyle.icon} />
-              <Text style={formStyle.labelText}> 再次確認交易密碼</Text>
+            <View style={formStyle.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/transPwd.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 交易密碼</Text>
+              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder="請輸入交易密碼"
+                placeholderTextColor={Colors.placeholderGray}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('transPwd', v)}
+                onSubmitEditing={Keyboard.dismiss}
+                secureTextEntry
+              />
+              <Text style={formStyle.valText}>{transPwdMsg}</Text>
             </View>
-            <TextInput
-              style={formStyle.inputText}
-              autoCapitalize="none"
-              placeholder="請再次輸入交易密碼"
-              placeholderTextColor={Colors.placeholderGray}
-              keyboardType="default"
-              onChangeText={v => this._handleChange('confirmTransPwd', v)}
-              onSubmitEditing={Keyboard.dismiss}
-              secureTextEntry
-            />
-            <Text style={formStyle.valText}>{confirmTransPwdMsg}</Text>
-          </View>
-          <LinearGradient
-            colors={elementColors.buttonLinearGradient}
-            style={formStyle.linearGradient}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-          >
-            <TouchableHighlight
-              style={formStyle.button}
-              onPress={this._handleSubmit}
-              underlayColor={Colors.buttonGray}
+            <View style={formStyle.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/transPwd.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 再次確認交易密碼</Text>
+              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder="請再次輸入交易密碼"
+                placeholderTextColor={Colors.placeholderGray}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('confirmTransPwd', v)}
+                onSubmitEditing={Keyboard.dismiss}
+                secureTextEntry
+              />
+              <Text style={formStyle.valText}>{confirmTransPwdMsg}</Text>
+            </View>
+            <LinearGradient
+              colors={elementColors.buttonLinearGradient}
+              style={formStyle.linearGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
             >
-              <Text style={formStyle.buttonText}>確認送出</Text>
-            </TouchableHighlight>
-          </LinearGradient>
-        </View>
+              <TouchableHighlight
+                style={formStyle.button}
+                onPress={this._handleSubmit}
+                underlayColor={Colors.buttonGray}
+              >
+                <Text style={formStyle.buttonText}>確認送出</Text>
+              </TouchableHighlight>
+            </LinearGradient>
+          </View>
+        </ScrollView>
       </ImageBackground>
     );
   }

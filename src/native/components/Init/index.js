@@ -61,13 +61,13 @@ class Init extends React.Component {
 
   render() {
     return (
-      <ImageBackground source={require('../../../images/bkimg.png')} style={{ width: '100%', height: '100%' }}>
+      <ImageBackground source={require('../../../img/bkimg.png')} style={{ width: '100%', height: '100%' }}>
         <View style={styles.container}>
           <View padder style={styles.imageContainer}>
             <Image
               resizeMode="cover"
               style={styles.imageStyle}
-              source={require('../../../images/app-icon.png')}
+              source={require('../../../img/logo.png')}
             />
           </View>
           <View padder style={styles.buttonContainer}>

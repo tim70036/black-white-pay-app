@@ -131,7 +131,7 @@ class Home extends Component {
           </View>
           <View style={styles.cardRow}>
             <ImageButton text="兌換" onPress={() => (Actions.exchange())} image={require('../../../img/home/exchange.png')} />
-            <ImageButton text="合作商家" onPress={() => (Actions.qrScanner())} image={require('../../../img/home/store.png')} />
+            <ImageButton text="合作商家" onPress={null} image={require('../../../img/home/store.png')} />
           </View>
 
         </View>

@@ -5,8 +5,10 @@ import {
   Keyboard,
   TextInput,
   Picker,
-  TouchableOpacity,
   ImageBackground,
+  ScrollView,
+  TouchableHighlight,
+  Image,
 } from 'react-native';
 import {
   Text,
@@ -20,6 +22,7 @@ import { LinearGradient } from 'expo';
 import PropTypes from 'prop-types';
 import NavBar from '../NavBar';
 import Colors from '../../constants/colors';
+import { formStyle, elementColors } from '../../lib/styles';
 import { amountValidate, transPwdValidate } from '../../lib/validate';
 import {
   viewportWidthPercent,
@@ -39,15 +42,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: viewportWidthPercent(4),
 
-    backgroundColor: 'rgba(0,0,0,0)',
-    borderWidth: 1,
-    borderColor: 'blue',
   },
   storeContainer: {
     flexDirection: 'column',
-
-    borderWidth: 1,
-    borderColor: 'yellow',
   },
   pickerContainer: {
     flexDirection: 'row',
@@ -56,9 +53,6 @@ const styles = StyleSheet.create({
     height: viewportHeightPercent(7),
     backgroundColor: Colors.cardLightGray,
     borderRadius: viewportWidthPercent(4),
-
-    borderWidth: 1,
-    borderColor: 'red',
   },
   outflowPicker: {
     flex: 1,
@@ -187,6 +181,12 @@ const styles = StyleSheet.create({
   icon: {
     fontSize: 25,
   },
+  pickerIcon: {
+    marginRight: 12,
+    width: 12,
+    height: 22,
+    resizeMode: 'contain',
+  },
 });
 
 class Transfer extends Component {
@@ -303,10 +303,11 @@ class Transfer extends Component {
 
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
-    if (!this._validate()) return;
-    const success = await onFormSubmit(this.state);
-    if (success) {
-      Actions.pop();
+    if (this._validate()) {
+      const success = await onFormSubmit(this.state);
+      if (success) {
+        Actions.pop();
+      }
     }
   }
 
@@ -334,164 +335,171 @@ class Transfer extends Component {
 
     return (
       <ImageBackground style={styles.container} source={require('../../../img/background/background3.png')}>
-        <NavBar title="兌換" back />
-        <View style={styles.inputsContainer}>
-          <View style={styles.storeContainer}>
-            <View style={styles.pickerContainer}>
-              <View style={styles.outflowPicker}>
-                <Icon name="upload" type="MaterialCommunityIcons" style={[styles.icon, { color: '#FF7F34' }]} />
-                {
-                  IS_IOS ? (
-                    <IosPicker
-                      mode="dropdown"
-                      style={styles.iospicker}
-                      textStyle={{ color: Colors.labelWhite }}
-                      itemStyle={{
-                        marginLeft: 0,
-                        paddingLeft: 10,
-                      }}
-                      selectedValue={outflowStoreId}
-                      onValueChange={itemValue => this._handlePick('outflow', itemValue)}
-                    >
-                      { outflowWallet.map((i, index) => (
-                        <IosPicker.Item key={i} label={i.currencyName} value={i.storeId} />
-                      ))}
-                    </IosPicker>
-                  ) : (
-                    <Picker
-                      style={styles.picker}
-                      selectedValue={outflowStoreId}
-                      onValueChange={itemValue => this._handlePick('outflow', itemValue)}
-                    >
-                      { outflowWallet.map((i, index) => (
-                        <Picker.Item key={i} label={i.currencyName} value={i.storeId} />
-                      ))}
-                    </Picker>
-                  )
-                }
-              </View>
-              <View style={styles.middleLine} />
-              <View style={styles.inflowPicker}>
-                <Icon name="download" type="MaterialCommunityIcons" style={[styles.icon, { color: '#3AF8D2' }]} />
-                {
-                  IS_IOS ? (
-                    <IosPicker
-                      mode="dropdown"
-                      style={styles.iospicker}
-                      textStyle={{ color: Colors.labelWhite }}
-                      itemStyle={{
-                        marginLeft: 0,
-                        paddingLeft: 10,
-                      }}
-                      selectedValue={inflowStoreId}
-                      onValueChange={itemValue => this._handlePick('inflow', itemValue)}
-                    >
-                      { inflowWallet.map((i, index) => (
-                        <IosPicker.Item key={i} label={i.currencyName} value={i.storeId} />
-                      ))}
-                    </IosPicker>
-                  ) : (
-                    <Picker
-                      style={styles.picker}
-                      selectedValue={inflowStoreId}
-                      onValueChange={itemValue => this._handlePick('inflow', itemValue)}
-                    >
-                      { inflowWallet.map((i, index) => (
-                        <Picker.Item key={i} label={i.currencyName} value={i.storeId} />
-                      ))}
-                    </Picker>
-                  )
-                }
-              </View>
-            </View>
-            <View style={styles.valTextContainer}>
-              <Text style={styles.valText}>{storeIdMsg}</Text>
-            </View>
-          </View>
-          <View style={styles.amountContainer}>
-            <View style={styles.amountInputContainer}>
-              <View style={styles.outflowAmount}>
-                <View style={styles.outflowAmountText}>
-                  <View style={[styles.dot, { backgroundColor: '#FF7F34' }]} />
-                  <Text style={styles.label}>轉出數量</Text>
+        <ScrollView>
+          <NavBar title="兌換" back />
+          <View style={styles.inputsContainer}>
+            <View style={styles.storeContainer}>
+              <View style={styles.pickerContainer}>
+                <View style={styles.outflowPicker}>
+                  <Icon name="upload" type="MaterialCommunityIcons" style={[styles.icon, { color: '#FF7F34' }]} />
+                  {
+                    IS_IOS ? (
+                      <IosPicker
+                        mode="dropdown"
+                        style={styles.iospicker}
+                        textStyle={{ color: Colors.labelWhite }}
+                        itemStyle={{
+                          marginLeft: 0,
+                          paddingLeft: 10,
+                        }}
+                        selectedValue={outflowStoreId}
+                        onValueChange={itemValue => this._handlePick('outflow', itemValue)}
+                      >
+                        { outflowWallet.map((i, index) => (
+                          <IosPicker.Item key={i} label={i.currencyName} value={i.storeId} />
+                        ))}
+                      </IosPicker>
+                    ) : (
+                      <Picker
+                        style={styles.picker}
+                        selectedValue={outflowStoreId}
+                        onValueChange={itemValue => this._handlePick('outflow', itemValue)}
+                      >
+                        { outflowWallet.map((i, index) => (
+                          <Picker.Item key={i} label={i.currencyName} value={i.storeId} />
+                        ))}
+                      </Picker>
+                    )
+                  }
+                  <Image style={{ ...formStyle.pickerIcon, marginLeft: -12 }} source={require('../../../img/form/trianglePicker.png')} />
                 </View>
-                <View style={styles.outflowAmountInput}>
-                  <TextInput
-                    style={[styles.inputText, { width: viewportWidthPercent(30) }]}
-                    autoCapitalize="none"
-                    placeholder="輸入轉出數量"
-                    placeholderTextColor={Colors.placeholderGray}
-                    keyboardType="numeric"
-                    onChangeText={v => this._handleChange('outflowAmount', v)}
-                    onSubmitEditing={Keyboard.dsmiss}
-                    value={outflowAmount}
-                  />
+                <View style={styles.middleLine} />
+                <View style={styles.inflowPicker}>
+                  <Icon name="download" type="MaterialCommunityIcons" style={[styles.icon, { color: '#3AF8D2' }]} />
+                  {
+                    IS_IOS ? (
+                      <IosPicker
+                        mode="dropdown"
+                        style={styles.iospicker}
+                        textStyle={{ color: Colors.labelWhite }}
+                        itemStyle={{
+                          marginLeft: 0,
+                          paddingLeft: 10,
+                        }}
+                        selectedValue={inflowStoreId}
+                        onValueChange={itemValue => this._handlePick('inflow', itemValue)}
+                      >
+                        { inflowWallet.map((i, index) => (
+                          <IosPicker.Item key={i} label={i.currencyName} value={i.storeId} />
+                        ))}
+                      </IosPicker>
+                    ) : (
+                      <Picker
+                        style={styles.picker}
+                        selectedValue={inflowStoreId}
+                        onValueChange={itemValue => this._handlePick('inflow', itemValue)}
+                      >
+                        { inflowWallet.map((i, index) => (
+                          <Picker.Item key={i} label={i.currencyName} value={i.storeId} />
+                        ))}
+                      </Picker>
+                    )
+                  }
+                  <Image style={{ ...formStyle.pickerIcon, marginRight: 12 }} source={require('../../../img/form/trianglePicker.png')} />
                 </View>
               </View>
-              <View style={[styles.middleLine, { height: viewportHeightPercent(8) }]} />
-              <View style={styles.outflowAmount}>
-                <View style={styles.outflowAmountText}>
-                  <View style={[styles.dot, { backgroundColor: '#3AF8D2' }]} />
-                  <Text style={styles.label}>轉入數量</Text>
-                </View>
-                <View style={styles.outflowAmountInput}>
-                  <TextInput
-                    style={[styles.inputText, { width: viewportWidthPercent(30) }]}
-                    autoCapitalize="none"
-                    placeholder="輸入轉入數量"
-                    placeholderTextColor={Colors.placeholderGray}
-                    keyboardType="numeric"
-                    onChangeText={v => this._handleChange('inflowAmount', v)}
-                    onSubmitEditing={Keyboard.dsmiss}
-                    value={inflowAmount}
-                  />
-                </View>
+              <View style={styles.valTextContainer}>
+                <Text style={styles.valText}>{storeIdMsg}</Text>
               </View>
             </View>
-            <View style={styles.valTextContainer}>
-              <Text style={styles.valText}>{amountMsg}</Text>
+            <View style={styles.amountContainer}>
+              <View style={styles.amountInputContainer}>
+                <View style={styles.outflowAmount}>
+                  <View style={styles.outflowAmountText}>
+                    <View style={[styles.dot, { backgroundColor: '#FF7F34' }]} />
+                    <Text style={styles.label}>轉出數量</Text>
+                  </View>
+                  <View style={styles.outflowAmountInput}>
+                    <TextInput
+                      style={[styles.inputText, { width: viewportWidthPercent(30) }]}
+                      autoCapitalize="none"
+                      placeholder="輸入轉出數量"
+                      placeholderTextColor={Colors.placeholderGray}
+                      keyboardType="numeric"
+                      onChangeText={v => this._handleChange('outflowAmount', v)}
+                      onSubmitEditing={Keyboard.dsmiss}
+                      value={outflowAmount}
+                    />
+                  </View>
+                </View>
+                <View style={[styles.middleLine, { height: viewportHeightPercent(8) }]} />
+                <View style={styles.outflowAmount}>
+                  <View style={styles.outflowAmountText}>
+                    <View style={[styles.dot, { backgroundColor: '#3AF8D2' }]} />
+                    <Text style={styles.label}>轉入數量</Text>
+                  </View>
+                  <View style={styles.outflowAmountInput}>
+                    <TextInput
+                      style={[styles.inputText, { width: viewportWidthPercent(30) }]}
+                      autoCapitalize="none"
+                      placeholder="輸入轉入數量"
+                      placeholderTextColor={Colors.placeholderGray}
+                      keyboardType="numeric"
+                      onChangeText={v => this._handleChange('inflowAmount', v)}
+                      onSubmitEditing={Keyboard.dsmiss}
+                      value={inflowAmount}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={styles.valTextContainer}>
+                <Text style={styles.valText}>{amountMsg}</Text>
+              </View>
             </View>
-          </View>
-          <View style={styles.transPwdContainer}>
-            <Text style={styles.label}>個人轉帳密碼</Text>
-            <TextInput
-              style={[styles.inputText,
-                { width: viewportWidthPercent(35), marginTop: viewportWidthPercent(2) }]}
-              autoCapitalize="none"
-              placeholder="輸入個人轉帳密碼"
-              placeholderTextColor={Colors.placeholderGray}
-              keyboardType="numeric"
-              onChangeText={v => this._handleChange('transPwd', v)}
-              onSubmitEditing={Keyboard.dsmiss}
-            />
-            <Text style={styles.valText}>{transPwdMsg}</Text>
-          </View>
-          <View style={styles.commentContainer}>
-            <Text style={styles.label}>備註</Text>
-            <TextInput
-              style={[styles.inputText,
-                { width: viewportWidthPercent(35), marginTop: viewportWidthPercent(2) }]}
-              autoCapitalize="none"
-              placeholder="輸入備註"
-              placeholderTextColor={Colors.placeholderGray}
-              keyboardType="numeric"
-              onChangeText={v => this._handleChange('comment', v)}
-              onSubmitEditing={Keyboard.dsmiss}
-            />
-          </View>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={() => (this._handleSubmit())}>
-              <LinearGradient
-                colors={['#F3D3A0', '#C4A574', '#967848']}
-                style={styles.button}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
+            <View style={styles.transPwdContainer}>
+              <Text style={styles.label}>個人轉帳密碼</Text>
+              <TextInput
+                style={[styles.inputText,
+                  { width: viewportWidthPercent(35), marginTop: viewportWidthPercent(2) }]}
+                autoCapitalize="none"
+                placeholder="輸入個人轉帳密碼"
+                placeholderTextColor={Colors.placeholderGray}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('transPwd', v)}
+                onSubmitEditing={Keyboard.dsmiss}
+                secureTextEntry
+              />
+              <Text style={styles.valText}>{transPwdMsg}</Text>
+            </View>
+            <View style={styles.commentContainer}>
+              <Text style={styles.label}>備註</Text>
+              <TextInput
+                style={[styles.inputText,
+                  { width: viewportWidthPercent(35), marginTop: viewportWidthPercent(2) }]}
+                autoCapitalize="none"
+                placeholder="輸入備註"
+                placeholderTextColor={Colors.placeholderGray}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('comment', v)}
+                onSubmitEditing={Keyboard.dsmiss}
+              />
+            </View>
+            <LinearGradient
+              colors={elementColors.buttonLinearGradient}
+              style={formStyle.linearGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
+              <TouchableHighlight
+                style={formStyle.button}
+                onPress={this._handleSubmit}
+                underlayColor={Colors.buttonGray}
               >
-                <Text style={styles.label}>確認兌換</Text>
-              </LinearGradient>
-            </TouchableOpacity>
+                <Text style={formStyle.buttonText}>確認兌換</Text>
+              </TouchableHighlight>
+            </LinearGradient>
           </View>
-        </View>
+        </ScrollView>
       </ImageBackground>
     );
   }

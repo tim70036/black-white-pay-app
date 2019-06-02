@@ -67,6 +67,10 @@ import qrScannerComponent from '../components/QrScanner';
 import qrCodeReceiveContainer from '../../containers/QrCodeReceive';
 import qrCodeReceiveComponent from '../components/QrCodeReceive';
 
+import QrCodeFriendContainer from '../../containers/QrCodeFriend';
+import QrCodeFriendComponent from '../components/QrCodeFriend';
+
+
 import MineContainer from '../../containers/Mine';
 import MineComponent from '../components/Mine';
 import PersonalSettingComponent from '../components/PersonalSetting';
@@ -225,6 +229,13 @@ const getRoutes = (authenticate, goAuth, refresh) => (
           {...DefaultProps.navbarProps}
         >
           <Scene component={spinnerHOC(qrCodeReceiveContainer)} Layout={qrCodeReceiveComponent} on={authenticate} failure={goAuth} />
+        </Stack>
+
+        <Stack
+          key="qrCodeFriend"
+          {...DefaultProps.navbarProps}
+        >
+          <Scene component={spinnerHOC(QrCodeFriendContainer)} Layout={QrCodeFriendComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         <Stack

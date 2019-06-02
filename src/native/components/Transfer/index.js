@@ -1,88 +1,89 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Keyboard, TextInput } from 'react-native';
 import {
-  Button,
+  View,
+  Keyboard,
+  TouchableHighlight,
+  TextInput,
   Text,
-  Form,
-  Item,
-  Input,
-  Label,
-} from 'native-base';
+  ImageBackground,
+  Image,
+  Picker,
+  StyleSheet,
+  ScrollView,
+  KeyboardAvoidingView,
+  Fragment,
+} from 'react-native';
+import { Picker as IosPicker } from 'native-base';
+import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
-
-
 import PropTypes from 'prop-types';
+import { __values } from 'tslib';
+import NavBar from '../NavBar';
+import { formStyle, elementColors } from '../../lib/styles';
 import Colors from '../../constants/colors';
+import { accountValidate, amountValidate, transPwdValidate } from '../../lib/validate';
 import {
   viewportWidthPercent,
   viewportHeightPercent,
+  IS_IOS,
 } from '../../lib/util';
 
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    paddingVertical: viewportHeightPercent(3),
-    paddingHorizontal: viewportWidthPercent(4),
-    backgroundColor: Colors.backgroundBlack,
-  },
-  inputsContainer: { // no flex 1, so container will not stretch too much
-    flex: 1,
-    justifyContent: 'center',
-    padding: viewportWidthPercent(4),
-    marginVertical: viewportHeightPercent(2),
-    backgroundColor: Colors.backgroundGray,
-    borderRadius: 8,
-  },
   inputItem: {
-    // marginTop: viewportHeightPercent(4),
-    marginBottom: viewportHeightPercent(3),
+    marginTop: viewportHeightPercent(1),
   },
-  label: {
-    color: Colors.labelGold,
-  },
-  button: {
-    backgroundColor: Colors.backgroundGray,
-    marginVertical: viewportHeightPercent(3),
-    borderRadius: 50,
-    borderWidth: 2,
-    borderColor: Colors.labelGold,
-  },
-  buttonText: {
-    color: Colors.labelGold,
-  },
-  inputText: {
+  picker: {
     color: Colors.labelWhite,
-    fontSize: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: 'white',
-    marginTop: viewportHeightPercent(2),
+    height: 35,
+    width: '100%',
   },
-  valText: {
-    color: 'red',
-    fontSize: 12,
-    paddingTop: 3,
-    marginLeft: 3,
+  iospicker: {
+    height: 35,
+    // width: '100%', plant bug haha
+    width: viewportWidthPercent(84),
+  },
+  linearGradient: {
+    marginTop: viewportHeightPercent(5),
+    width: '85%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    height: 58,
+    borderRadius: 36.5,
+
+    shadowColor: '#D3BD99',
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.44,
+    shadowRadius: 37,
+    elevation: 14,
   },
 });
-
 class Transfer extends Component {
   static propTypes = {
     onFormSubmit: PropTypes.func.isRequired,
     defaultAccount: PropTypes.string.isRequired,
-    defaultAmount: PropTypes.number.isRequired,
+    defaultAmount: PropTypes.string.isRequired,
+    curStoreId: PropTypes.number.isRequired,
+    walletsData: PropTypes.arrayOf(
+      PropTypes.shape({
+        currencyName: PropTypes.string,
+        availBalance: PropTypes.number,
+      }),
+    ),
+    onChoose: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
-
+    walletsData: [],
   }
 
   constructor(props) {
     super(props);
     this.state = {
       accountTo: props.defaultAccount,
-      amount: (props.defaultAmount === 0) ? '' : props.defaultAmount,
+      amount: props.defaultAmount,
       transPwd: '',
       comment: '',
       accountMsg: '',
@@ -91,58 +92,59 @@ class Transfer extends Component {
     };
   }
 
-  // async componentDidMount() {
-  //   const { defaultAccount, defaultAmount } = this.props;
-  //   this.validate(defaultAccount, 'accountTo');
-  //   this.validate(defaultAmount, 'amount');
-  // }
+  _validate = () => {
+    const { transPwd, accountTo, amount } = this.state;
 
-  validate = () => {
-    const accountVal = /^[a-z0-9]+$/ig;
-    const amountVal = /^\d+$/g;
-    const passwordVal = /^[a-z0-9]+$/ig;
-    const { accountTo, amount, transPwd } = this.state;
-    if (accountVal.test(accountTo)) {
+    const accountResult = accountValidate(accountTo);
+    const amountResult = amountValidate(amount);
+    const transPwdResult = transPwdValidate(transPwd);
+
+    if (accountResult.result) {
       this.setState({ accountMsg: '' });
     } else {
-      this.setState({ accountMsg: '轉入帳號必須為英文及數字' });
+      this.setState({ accountMsg: accountResult.errMsg });
       return false;
     }
 
-    if (amountVal.test(amount)) {
+    if (amountResult.result) {
       this.setState({ amountMsg: '' });
     } else {
-      this.setState({ amountMsg: '轉帳數量必須為數字' });
+      this.setState({ amountMsg: amountResult.errMsg });
       return false;
     }
 
-    if (parseInt(amount, 10) !== 0) {
-      this.setState({ amountMsg: '' });
-      this.setState({ amount: parseInt(amount, 10).toString() });
-    } else {
-      this.setState({ amountMsg: '轉帳數量不可為0' });
-      return false;
-    }
-
-    if (passwordVal.test(transPwd)) {
+    if (transPwdResult.result) {
       this.setState({ transPwdMsg: '' });
     } else {
-      this.setState({ transPwdMsg: '轉帳密碼必須為英文及數字' });
+      this.setState({ transPwdMsg: transPwdResult.errMsg });
       return false;
     }
+
     return true;
   }
 
   _handleChange = (name, val) => {
-    console.log(val);
-    this.setState({
-      [name]: val,
-    });
+    if (name === 'amount') {
+      const amount = parseInt(val, 10).toString();
+      this.setState({
+        amount: amount,
+      });
+    } else {
+      this.setState({
+        [name]: val,
+      });
+    }
+  }
+
+  _handleChoose = async (storeId) => {
+    const { onChoose } = this.props;
+    await onChoose(storeId);
   }
 
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
-    if (this.validate()) {
+
+    if (this._validate()) {
       const success = await onFormSubmit(this.state);
       if (success) {
         Actions.pop();
@@ -150,67 +152,142 @@ class Transfer extends Component {
     }
   }
 
-  render = () => {
+  render() {
+    const { curStoreId, walletsData } = this.props;
     const { accountTo, amount } = this.state;
     const { accountMsg, amountMsg, transPwdMsg } = this.state;
     return (
-      <View style={styles.container}>
-        <View style={styles.inputsContainer}>
-          <View style={styles.inputItem}>
-            <Text style={styles.label}>轉入帳號</Text>
-            <TextInput
-              style={styles.inputText}
-              autoCapitalize="none"
-              placeholder=""
-              keyboardType="default"
-              onChangeText={v => this._handleChange('accountTo', v)}
-              onSubmitEditing={Keyboard.dismiss}
-              value={accountTo}
-            />
-            <Text style={styles.valText}>{accountMsg}</Text>
+      <ImageBackground source={require('../../../img/background/background2.png')} style={formStyle.container}>
+        <ScrollView>
+          <NavBar title="轉帳" back />
+          <View style={formStyle.inputContainer}>
+            <View style={styles.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/currency.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 幣別選擇</Text>
+              </View>
+              <View
+                style={{
+                  ...formStyle.inputText, flexDirection: 'row', alignItems: 'center',
+                }}
+              >
+                {
+                  IS_IOS ? (
+                    <IosPicker
+                      iosHeader="請選擇幣別"
+                      mode="dropdown"
+                      style={styles.iospicker}
+                      textStyle={{ color: Colors.labelWhite }}
+                      itemStyle={{
+                        marginLeft: 0,
+                        paddingLeft: 10,
+                      }}
+                      selectedValue={curStoreId}
+                      onValueChange={itemValue => this._handleChoose(itemValue)}
+                    >
+                      { walletsData.map((i, index) => (
+                        <IosPicker.Item key={i} label={i.currencyName} value={i.storeId} />
+                      ))}
+                    </IosPicker>
+                  ) : (
+                    <Picker
+                      style={styles.picker}
+                      selectedValue={curStoreId}
+                      onValueChange={itemValue => this._handleChoose(itemValue)}
+                      prompt="請選擇幣別"
+                    >
+                      { walletsData.map((i, index) => (
+                        <Picker.Item key={i} label={i.currencyName} value={i.storeId} />
+                      ))}
+                    </Picker>
+                  )
+                }
+                <Image style={{ ...formStyle.pickerIcon, marginLeft: -12 }} source={require('../../../img/form/picker.png')} />
+              </View>
+            </View>
+            <View style={styles.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/account.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 轉入帳號</Text>
+              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder="請輸入轉入帳號"
+                placeholderTextColor={Colors.placeholderGray}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('accountTo', v)}
+                onSubmitEditing={Keyboard.dismiss}
+                value={accountTo}
+              />
+              <Text style={formStyle.valText}>{accountMsg}</Text>
+            </View>
+            <View style={styles.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/transNum.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 轉帳數量</Text>
+              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder="請輸入轉帳數量"
+                placeholderTextColor={Colors.placeholderGray}
+                keyboardType="numeric"
+                onChangeText={v => this._handleChange('amount', v)}
+                onSubmitEditing={Keyboard.dismiss}
+                value={amount}
+              />
+              <Text style={formStyle.valText}>{amountMsg}</Text>
+            </View>
+            <View style={styles.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/transPwd.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 個人轉帳密碼</Text>
+              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder="請輸入轉帳密碼"
+                placeholderTextColor={Colors.placeholderGray}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('transPwd', v)}
+                onSubmitEditing={Keyboard.dismiss}
+                secureTextEntry
+              />
+              <Text style={formStyle.valText}>{transPwdMsg}</Text>
+            </View>
+            <View style={styles.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/name.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 備註</Text>
+              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder=""
+                placeholderTextColor={Colors.placeholderGray}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('comment', v)}
+                onSubmitEditing={Keyboard.dismiss}
+              />
+            </View>
+            <LinearGradient
+              colors={elementColors.buttonLinearGradient}
+              style={styles.linearGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
+              <TouchableHighlight
+                style={formStyle.button}
+                onPress={this._handleSubmit}
+                underlayColor={Colors.buttonGray}
+              >
+                <Text style={formStyle.buttonText}>確認</Text>
+              </TouchableHighlight>
+            </LinearGradient>
           </View>
-          <View stackedLabel style={styles.inputItem}>
-            <Text style={styles.label}>轉帳數量</Text>
-            <TextInput
-              style={styles.inputText}
-              autoCapitalize="none"
-              placeholder=""
-              keyboardType="numeric"
-              onChangeText={v => this._handleChange('amount', v)}
-              onSubmitEditing={Keyboard.dsmiss}
-              value={amount}
-            />
-            <Text style={styles.valText}>{amountMsg}</Text>
-          </View>
-          <View stackedLabel style={styles.inputItem}>
-            <Text style={styles.label}>個人轉帳密碼</Text>
-            <TextInput
-              style={styles.inputText}
-              autoCapitalize="none"
-              placeholder=""
-              keyboardType="default"
-              onChangeText={v => this._handleChange('transPwd', v)}
-              onSubmitEditing={Keyboard.dismiss}
-              secureTextEntry
-            />
-            <Text style={styles.valText}>{transPwdMsg}</Text>
-          </View>
-          <View stackedLabel style={styles.inputItem}>
-            <Text style={styles.label}>備註</Text>
-            <TextInput
-              style={styles.inputText}
-              autoCapitalize="none"
-              placeholder=""
-              keyboardType="default"
-              onChangeText={v => this._handleChange('comment', v)}
-              onSubmitEditing={Keyboard.dismiss}
-            />
-          </View>
-          <Button block onPress={this._handleSubmit} style={styles.button}>
-            <Text style={styles.buttonText}>確認轉帳</Text>
-          </Button>
-        </View>
-      </View>
+        </ScrollView>
+      </ImageBackground>
     );
   }
 }

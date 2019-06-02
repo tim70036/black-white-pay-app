@@ -5,16 +5,21 @@ import { BarCodeScanner, Camera, Permissions } from 'expo';
 import { Actions } from 'react-native-router-flux';
 
 import NavBar from '../NavBar';
-import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import {
+ viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent 
+} from '../../lib/util';
+
+const maskRowHeight = Math.round((viewportHeight - 300) / 20);
+const maskColWidth = (viewportWidth - 300) / 2;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
   },
   cameraView: {
     flex: 1,
     justifyContent: 'flex-start',
+    zIndex: -1000,
   },
   maskOutter: {
     position: 'absolute',
@@ -42,7 +47,8 @@ const styles = StyleSheet.create({
 
 class QrScanner extends React.Component {
   static propTypes = {
-    onChoose: PropTypes.func.isRequired,
+    onScanReceive: PropTypes.func.isRequired,
+    onScanFriend: PropTypes.func.isRequired,
   }
 
   state = {
@@ -56,67 +62,47 @@ class QrScanner extends React.Component {
     this.setState({ hasReadQRcode: false });
   }
 
-  handleBarCodeScanned = async ({ type, data }) => {
-    const { onChoose } = this.props;
+  _handleBarCodeScanned = async ({ type, data }) => {
+    const { onScanReceive, onScanFriend } = this.props;
     const { hasReadQRcode } = this.state;
     let query;
-    let qrData;
-    console.log('getgetgetget');
     if (hasReadQRcode === true) return;
     this.setState({ hasReadQRcode: true });
     // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
     try {
       query = JSON.parse(data);
-      qrData = query;
-      console.log(query);
     } catch (error) {
-      console.log(error);
-      alert(`此條碼無法使用`);
+      alert('此條碼無法使用');
       this.setState({ hasReadQRcode: false });
       return;
     }
 
-    if (query.type === 'pay') {
-      // [TODO]
-      await onChoose(query.storeId);
-      // Actions.pop();
-      // Actions.transfer({ qrData: query });
-      Actions.replace('transfer', { qrData: query });
-      console.log('AAAAAAAAAAAA');
-    } else if (query.type === 'receive') {
-      // [TODO]
-      await onChoose(query.storeId);
-      Actions.replace('transfer', { qrData: query });
+    if (query.type === 'receive') {
+      await onScanReceive(query.storeId);
+      Actions.replace('transfer', { defaultAccount: query.account, defaultAmount: query.amount });
+    } else if (query.type === 'friend') {
+      await onScanFriend(query);
+      Actions.replace('friendDetail');
     } else {
-      alert(`此條碼無法使用`);
+      alert('此條碼無法使用');
       this.setState({ hasReadQRcode: false });
     }
   }
 
   render() {
     const { hasCameraPermission, type } = this.state;
-    const maskRowHeight = Math.round((viewportHeight - 300) / 20);
-    const maskColWidth = (viewportWidth - 300) / 2;
 
-    if (hasCameraPermission === null) {
-      return <Text>Requesting for camera permission</Text>;
+    if (!hasCameraPermission) {
+      return <View />;
     }
-    if (hasCameraPermission === false) {
-      return <Text>No access to camera</Text>;
-    }
+
     return (
-      // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      //   <View style={styles.testing}>
-      //     <BarCodeScanner
-      //       onBarCodeScanned={this.handleBarCodeScanned}
-      //       style={StyleSheet.absoluteFill}
-      //     />
-      //   </View>
-      // </View>
       <View style={styles.container}>
-        <NavBar back />
+        <View style={{ backgroundColor: 'black' }}>
+          <NavBar back />
+        </View>
         <BarCodeScanner
-          onBarCodeScanned={this.handleBarCodeScanned}
+          onBarCodeScanned={this._handleBarCodeScanned}
           style={styles.cameraView}
         >
           <View style={styles.maskOutter}>

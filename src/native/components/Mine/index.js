@@ -93,8 +93,9 @@ const styles = StyleSheet.create({
   },
 
   walletImage: {
-    width: 50,
-    height: 50,
+    width: 70,
+    height: 70,
+    resizeMode: 'contain',
   },
 
   walletText: {
@@ -292,7 +293,7 @@ class Mine extends React.Component {
               <Text style={styles.profileText}>{user.name}</Text>
               <TouchableHighlight
                 style={styles.qrcodeImage}
-                onPress={() => {}}
+                onPress={() => (Actions.qrCodeFriend())}
               >
                 <Image
                   style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
@@ -319,7 +320,7 @@ class Mine extends React.Component {
           <View style={styles.wallet}>
             <Image
               style={styles.walletImage}
-              source={require('../../../img/mine/fire.png')}
+              source={require('../../../img/mainCurrency.png')}
             />
             <Text style={styles.walletText}>{mainWallet.availBalance}</Text>
           </View>

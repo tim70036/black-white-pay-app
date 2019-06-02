@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, FlatList, View, ImageBackground, Text } from 'react-native';
 import PropTypes from 'prop-types';
+import { Actions } from 'react-native-router-flux';
 
 import NavBar from '../NavBar';
 import ShortcutButton from './ShortcutButton';
@@ -43,11 +44,10 @@ const styles = StyleSheet.create({
     color: Colors.labelWhite,
     fontSize: 24,
     marginTop: 20,
-  }
+  },
 });
 
-const FriendDetail = ({ userData, onAddFriend, onDeleteFriend}) => {
-
+const FriendDetail = ({ userData, onAddFriend, onDeleteFriend }) => {
   const _handleAddFriend = async () => {
     await onAddFriend();
   };
@@ -57,7 +57,7 @@ const FriendDetail = ({ userData, onAddFriend, onDeleteFriend}) => {
   };
 
   const _handleTransfer = () => {
-
+    Actions.transfer({ defaultAccount: userData.account });
   };
 
   return (
@@ -72,6 +72,7 @@ const FriendDetail = ({ userData, onAddFriend, onDeleteFriend}) => {
           image={require('../../../img/friendDetail/transfer.png')}
           text="立即轉帳"
           textColor={Colors.labelWhite}
+          onPress={_handleTransfer}
         />
 
         {userData.isFriend ? (

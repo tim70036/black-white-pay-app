@@ -41,6 +41,12 @@ const formStyle = StyleSheet.create({
     height: 23,
     resizeMode: 'contain',
   },
+
+  pickerIcon: {
+    width: 12,
+    height: 22,
+    resizeMode: 'contain',
+  },
   inputText: {
     color: Colors.labelWhite,
     fontSize: 14,

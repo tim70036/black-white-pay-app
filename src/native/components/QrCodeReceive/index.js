@@ -8,8 +8,10 @@ import {
   TextInput,
   Keyboard,
   Picker,
+  TouchableHighlight,
   TouchableOpacity,
   ImageBackground,
+  ScrollView,
 } from 'react-native';
 import { LinearGradient } from 'expo';
 import { Picker as IosPicker } from 'native-base';
@@ -17,6 +19,7 @@ import { viewportWidthPercent, viewportHeightPercent, IS_IOS } from '../../lib/u
 import { amountValidate } from '../../lib/validate';
 import NavBar from '../NavBar';
 import Colors from '../../constants/colors';
+import { formStyle, elementColors } from '../../lib/styles';
 
 const styles = StyleSheet.create({
   bkContainer: {
@@ -32,12 +35,13 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'column',
     alignItems: 'center',
-    height: viewportHeightPercent(20),
+   // height: viewportHeightPercent(22),
     width: viewportWidthPercent(80),
     borderRadius: viewportWidthPercent(5),
     backgroundColor: Colors.cardLightGray,
   },
   input: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'center',
@@ -46,59 +50,56 @@ const styles = StyleSheet.create({
   currencyInput: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    marginHorizontal: viewportWidthPercent(5),
   },
   pickerContainer: {
     height: 30,
-    width: viewportWidthPercent(35),
-    borderRadius: viewportWidthPercent(3),
+    width: '100%',
+    borderRadius: viewportWidthPercent(1),
     overflow: 'hidden',
   },
   picker: {
     color: 'white',
     height: 30,
     backgroundColor: Colors.placeholderGray,
-    width: viewportWidthPercent(35),
+    width: '100%',
   },
   iospicker: {
     height: 30,
     backgroundColor: Colors.placeholderGray,
-    width: viewportWidthPercent(35),
+    width: '100%',
   },
   amountInput: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    marginHorizontal: viewportWidthPercent(5),
   },
   textinput: {
     color: Colors.labelWhite,
     height: 30,
     backgroundColor: Colors.placeholderGray,
-    width: viewportWidthPercent(35),
-    borderRadius: viewportWidthPercent(3),
+    width: '100%',
+    borderRadius: viewportWidthPercent(1),
     paddingLeft: viewportWidthPercent(3),
     paddingBottom: 0,
   },
   labeltext: {
     color: Colors.labelWhite,
+    marginVertical: 2,
+    marginLeft: 4,
   },
   inputButton: {
+    flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: viewportHeightPercent(5) / 2,
-    height: viewportHeightPercent(5),
-    width: viewportWidthPercent(70),
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
   },
   qrCodeContainer: {
-    height: viewportHeightPercent(40),
+    // height: viewportHeightPercent(40),
     width: viewportWidthPercent(80),
     marginTop: viewportHeightPercent(2),
     paddingTop: viewportWidthPercent(5),
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cardLightGray,
   },
   emptySpace: {
-    backgroundColor: Colors.placeholderGray,
+    backgroundColor: Colors.cardGray,
   },
   qrCode: {
     overflow: 'hidden',
@@ -119,8 +120,6 @@ const styles = StyleSheet.create({
     width: viewportWidthPercent(80),
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.cardLightGray,
-    borderRadius: viewportWidthPercent(5),
   },
   text: {
     color: Colors.labelLightGray,
@@ -130,6 +129,34 @@ const styles = StyleSheet.create({
     fontSize: 12,
     paddingTop: 3,
     marginLeft: 3,
+  },
+  linearGradient: {
+    marginTop: 5,
+    width: '60%',
+    alignSelf: 'flex-start',
+    justifyContent: 'center',
+    height: '60%',
+    borderRadius: 36.5,
+
+    shadowColor: '#D3BD99',
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.44,
+    shadowRadius: 37,
+    elevation: 14,
+  },
+  button: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 36.5,
+  },
+
+  buttonText: {
+    color: Colors.labelWhite,
+    fontSize: 16,
   },
 });
 
@@ -161,15 +188,12 @@ class QrCodeReceive extends Component {
   }
 
   _handleChange = (name, val) => {
-    console.log(val);
     this.setState({
       [name]: val,
     });
   }
 
   _handleChoose = async (storeId) => {
-    console.log('@@@@@@@@@');
-    console.log(storeId);
     const { onChoose } = this.props;
     await onChoose(storeId);
   }
@@ -191,7 +215,7 @@ class QrCodeReceive extends Component {
       account: account,
       storeId: curStoreId,
     };
-    newQrCodeData.amount = parseInt(amount, 10);
+    newQrCodeData.amount = parseInt(amount, 10).toString();
     this.setState({ amount: parseInt(amount, 10).toString() });
     this.setState({ qrCodeData: newQrCodeData });
   }
@@ -223,87 +247,93 @@ class QrCodeReceive extends Component {
 
     return (
       <ImageBackground style={styles.bkContainer} source={require('../../../img/background/background2.png')}>
-        <NavBar title="收款" back />
-        <View style={styles.container}>
-          <View style={styles.inputContainer}>
-            <View style={styles.input}>
-              <View style={styles.currencyInput}>
-                <Text style={styles.labeltext}>選擇幣別</Text>
-                <View style={styles.pickerContainer}>
-                  {
-                    IS_IOS ? (
-                      <IosPicker
-                        mode="dropdown"
-                        style={styles.iospicker}
-                        textStyle={{ color: Colors.labelWhite }}
-                        itemStyle={{
-                          marginLeft: 0,
-                          paddingLeft: 10,
-                        }}
-                        selectedValue={curStoreId}
-                        onValueChange={itemValue => this._handleChoose(itemValue)}
-                      >
-                        { walletsData.map((i, index) => (
-                          <IosPicker.Item key={i} label={`${i.storeName} (${i.currencyName})`} value={i.storeId} />
-                        ))}
-                      </IosPicker>
-                    ) : (
-                      <Picker
-                        style={styles.picker}
-                        selectedValue={curStoreId}
-                        onValueChange={itemValue => this._handleChoose(itemValue)}
-                      >
-                        { walletsData.map((i, index) => (
-                          <Picker.Item key={i} label={`${i.storeName} (${i.currencyName})`} value={i.storeId} />
-                        ))}
-                      </Picker>
-                    )
-                  }
+        <ScrollView>
+          <NavBar title="收款" back />
+          <View style={styles.container}>
+            <View style={styles.inputContainer}>
+              <View style={styles.input}>
+                <View style={styles.currencyInput}>
+                  <Text style={styles.labeltext}>選擇幣別</Text>
+                  <View style={styles.pickerContainer}>
+                    {
+                      IS_IOS ? (
+                        <IosPicker
+                          mode="dropdown"
+                          style={styles.iospicker}
+                          textStyle={{ color: Colors.labelWhite }}
+                          itemStyle={{
+                            marginLeft: 0,
+                            paddingLeft: 10,
+                          }}
+                          selectedValue={curStoreId}
+                          onValueChange={itemValue => this._handleChoose(itemValue)}
+                        >
+                          { walletsData.map((i, index) => (
+                            <IosPicker.Item key={i} label={`${i.storeName} (${i.currencyName})`} value={i.storeId} />
+                          ))}
+                        </IosPicker>
+                      ) : (
+                        <Picker
+                          style={styles.picker}
+                          selectedValue={curStoreId}
+                          onValueChange={itemValue => this._handleChoose(itemValue)}
+                        >
+                          { walletsData.map((i, index) => (
+                            <Picker.Item key={i} label={`${i.storeName} (${i.currencyName})`} value={i.storeId} />
+                          ))}
+                        </Picker>
+                      )
+                    }
+                  </View>
+                </View>
+                <View style={styles.amountInput}>
+                  <Text style={styles.labeltext}>輸入收款數量</Text>
+                  <TextInput
+                    style={styles.textinput}
+                    autoCapitalize="none"
+                    placeholder=""
+                    keyboardType="numeric"
+                    onChangeText={v => this._handleChange('amount', v)}
+                    onSubmitEditing={Keyboard.dsmiss}
+                    value={amount}
+                  />
+                  <Text style={styles.valText}>{amountMsg}</Text>
                 </View>
               </View>
-              <View style={styles.amountInput}>
-                <Text style={styles.labeltext}>輸入收款數量</Text>
-                <TextInput
-                  style={styles.textinput}
-                  autoCapitalize="none"
-                  placeholder=""
-                  keyboardType="numeric"
-                  onChangeText={v => this._handleChange('amount', v)}
-                  onSubmitEditing={Keyboard.dsmiss}
-                  value={amount}
-                />
-                <Text style={styles.valText}>{amountMsg}</Text>
-              </View>
-            </View>
-            <View style={styles.inputButton}>
-              <TouchableOpacity onPress={() => (this._handleRerender())}>
+              <View style={styles.inputButton}>
                 <LinearGradient
-                  colors={['#F3D3A0', '#C4A574', '#967848']}
-                  style={styles.button}
+                  colors={elementColors.buttonLinearGradient}
+                  style={styles.linearGradient}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
                 >
-                  <Text style={styles.labeltext}>產生QRcode</Text>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={this._handleRerender}
+                    activeOpacity={0.7}
+                  >
+                    <Text style={styles.buttonText}>產生QRcode</Text>
+                  </TouchableOpacity>
                 </LinearGradient>
-              </TouchableOpacity>
+              </View>
+            </View>
+            <View style={styles.qrCodeContainer}>
+              <View style={[styles.emptySpace, { height: showEmptySize, width: showEmptySize }]} />
+              <View style={[styles.qrCode, { borderColor: color, borderWidth: QrboderWidth }]}>
+                <QRCode
+                  value={JSON.stringify(qrCodeData)}
+                  size={showQRSize}
+                  bgColor="#090909"
+                  fgColor={Colors.labelWhite}
+                />
+              </View>
+              <View style={styles.QRtextContainer}>
+                <Text style={styles.text}>{notifyString1}</Text>
+                <Text style={styles.text}>{notifyString2}</Text>
+              </View>
             </View>
           </View>
-          <View style={styles.qrCodeContainer}>
-            <View style={[styles.emptySpace, { height: showEmptySize, width: showEmptySize }]} />
-            <View style={[styles.qrCode, { borderColor: color, borderWidth: QrboderWidth }]}>
-              <QRCode
-                value={JSON.stringify(qrCodeData)}
-                size={showQRSize}
-                bgColor="#090909"
-                fgColor={Colors.labelWhite}
-              />
-            </View>
-            <View style={styles.QRtextContainer}>
-              <Text style={[styles.text, { marginTop: 20 }]}>{notifyString1}</Text>
-              <Text style={styles.text}>{notifyString2}</Text>
-            </View>
-          </View>
-        </View>
+        </ScrollView>
       </ImageBackground>
     );
   };

@@ -77,11 +77,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: viewportWidthPercent(2),
-    marginHorizontal: viewportWidthPercent(5),
     height: viewportHeightPercent(7.4),
-    backgroundColor: Colors.accordianHeaderGray,
+    // backgroundColor: Colors.accordianHeaderGray,
+    backgroundColor: 'rgba(0,0,0,0)',
     borderBottomWidth: 1,
     borderBottomColor: Colors.placeholderGray,
+    // marginBottom: viewportWidthPercent(3),
+    marginHorizontal: viewportWidthPercent(5),
   },
   headerTime: {
     flex: 1,
@@ -140,12 +142,12 @@ const styles = StyleSheet.create({
     color: Colors.labelWhite,
   },
   contentContainer: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: viewportWidthPercent(25),
+    paddingBottom: viewportHeightPercent(2),
     backgroundColor: Colors.accordianContentGray,
-    paddingHorizontal: viewportWidthPercent(10),
-    paddingVertical: viewportHeightPercent(1),
+    paddingHorizontal: viewportWidthPercent(2),
   },
   contentItem: {
     flex: 1,
@@ -186,10 +188,12 @@ class TransHistory extends Component {
     defaultEndTime: PropTypes.string.isRequired,
     defaultStartTimeUtc: PropTypes.string.isRequired,
     defaultEndTimeUtc: PropTypes.string.isRequired,
+    currencySrc: PropTypes.string,
   };
 
   static defaultProps ={
     historyData: [],
+    currencySrc: '',
   }
 
   constructor(props) {
@@ -248,6 +252,8 @@ class TransHistory extends Component {
   };
 
   _renderHeader = (section) => {
+    const { currencySrc } = this.props;
+    const uri = (currencySrc) ? ({ uri: currencySrc }) : (require('../../../img/storeCurrency.png'));
     let amountColor;
     if (section.amount < 0) {
       amountColor = Colors.labelRed;
@@ -261,7 +267,7 @@ class TransHistory extends Component {
         </View>
         <View style={styles.headerAmountContainer}>
           <View style={styles.headerAmount}>
-            <Image source={require('../../../img/walletList/mainSoul.png')} style={styles.currencyImg} />
+            <Image source={uri} style={styles.currencyImg} />
             <Text style={[styles.headerText, { color: amountColor }]}>
               {section.amount}
             </Text>
@@ -357,6 +363,7 @@ class TransHistory extends Component {
                 renderHeader={this._renderHeader}
                 renderContent={this._renderContent}
                 onChange={this._updateSections}
+                underlayColor={Colors.accordianContentGray}
               />
             </View>
             <View style={styles.AccordionBottomSpace} />

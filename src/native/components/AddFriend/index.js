@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Keyboard, TouchableHighlight, TextInput, Text, ImageBackground, Image, StyleSheet  } from 'react-native';
+import { View, Keyboard, TouchableHighlight, TextInput, Text, ImageBackground, Image, StyleSheet, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
@@ -92,49 +92,51 @@ class AddFriend extends Component {
     const { accountMsg } = this.state;
     return (
       <ImageBackground source={require('../../../img/background/background2.png')} style={formStyle.container}>
-        <NavBar back />
-        <View style={formStyle.inputContainer}>
-          <TouchableHighlight
-            style={styles.scanButton}
-            onPress={this._handleSubmit}
-            underlayColor={Colors.buttonGray}
-          >
-            <Image source={require('../../../img/addFriend/qr.png')} style={styles.image} />
-          </TouchableHighlight>
-          <View style={styles.scanText}>
-            <Text style={styles.text}>點我掃描加好友</Text>
-          </View>
-          <View style={formStyle.inputItem}>
-            <View style={formStyle.label}>
-              <Image source={require('../../../img/form/account.png')} style={formStyle.icon} />
-              <Text style={formStyle.labelText}> 帳號</Text>
-            </View>
-            <TextInput
-              style={formStyle.inputText}
-              autoCapitalize="none"
-              placeholder="請輸入電話號碼"
-              placeholderTextColor={Colors.placeholderGray}
-              keyboardType="default"
-              onChangeText={v => this._handleChange('account', v)}
-              onSubmitEditing={Keyboard.dismiss}
-            />
-            <Text style={formStyle.valText}>{accountMsg}</Text>
-          </View>
-          <LinearGradient
-            colors={elementColors.buttonLinearGradient}
-            style={formStyle.linearGradient}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-          >
+        <ScrollView>
+          <NavBar back />
+          <View style={formStyle.inputContainer}>
             <TouchableHighlight
-              style={formStyle.button}
-              onPress={this._handleSubmit}
+              style={styles.scanButton}
+              onPress={() => (Actions.qrScanner())}
               underlayColor={Colors.buttonGray}
             >
-              <Text style={formStyle.buttonText}>搜尋</Text>
+              <Image source={require('../../../img/addFriend/qr.png')} style={styles.image} />
             </TouchableHighlight>
-          </LinearGradient>
-        </View>
+            <View style={styles.scanText}>
+              <Text style={styles.text}>點我掃描加好友</Text>
+            </View>
+            <View style={formStyle.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/account.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 帳號</Text>
+              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder="請輸入電話號碼"
+                placeholderTextColor={Colors.placeholderGray}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('name', v)}
+                onSubmitEditing={Keyboard.dismiss}
+              />
+              <Text style={formStyle.valText}>{accountMsg}</Text>
+            </View>
+            <LinearGradient
+              colors={elementColors.buttonLinearGradient}
+              style={formStyle.linearGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
+              <TouchableHighlight
+                style={formStyle.button}
+                onPress={this._handleSubmit}
+                underlayColor={Colors.buttonGray}
+              >
+                <Text style={formStyle.buttonText}>搜尋</Text>
+              </TouchableHighlight>
+            </LinearGradient>
+          </View>
+        </ScrollView>
       </ImageBackground>
     );
   }

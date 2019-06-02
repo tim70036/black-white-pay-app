@@ -3,13 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createRequest, deleteFriend } from '../actions/friend';
 
-const example = {
-  thumbnail: require('../img/test.png'),
-  name: '花惹發克拉',
-  account: '0911547964',
-  isFriend: true,
-};
-
 class FriendDetail extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,

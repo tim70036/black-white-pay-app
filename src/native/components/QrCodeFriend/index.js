@@ -7,13 +7,11 @@ import {
   Text,
   ImageBackground,
   Picker,
-  Image,
 } from 'react-native';
 import { Picker as IosPicker } from 'native-base';
-
 import NavBar from '../NavBar';
-import { formStyle } from '../../lib/styles';
 import { viewportWidthPercent, viewportHeightPercent, IS_IOS } from '../../lib/util';
+
 import Colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
@@ -37,19 +35,22 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cardLightGray,
   },
   pickerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: viewportWidthPercent(50),
-    height: '50%',
+    // height: 30,
+    width: viewportWidthPercent(35),
+    borderRadius: viewportWidthPercent(3),
+    marginTop: viewportHeightPercent(1),
+    // overflow: 'hidden',
   },
   picker: {
-    flex: 1,
     color: Colors.labelWhite,
+    height: 30,
     backgroundColor: Colors.placeholderGray,
+    width: viewportWidthPercent(35),
   },
   iospicker: {
-    flex: 1,
+    height: 30,
     backgroundColor: Colors.placeholderGray,
+    width: viewportWidthPercent(35),
   },
   qrCodeContainer: {
     width: viewportWidthPercent(80),
@@ -84,17 +85,9 @@ const styles = StyleSheet.create({
   },
 });
 
-class QrCodePay extends Component {
+class QrCodeFriend extends Component {
   static propTypes = {
     account: PropTypes.string.isRequired,
-    walletsData: PropTypes.arrayOf(
-      PropTypes.shape({
-        currencyName: PropTypes.string,
-        availBalance: PropTypes.number,
-      }),
-    ).isRequired,
-    curStoreId: PropTypes.number.isRequired,
-    onChoose: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -103,62 +96,18 @@ class QrCodePay extends Component {
     };
   }
 
-  _handleChoose = async (storeId) => {
-    const { onChoose } = this.props;
-    await onChoose(storeId);
-  }
 
   render = () => {
-    const { walletsData, account, curStoreId } = this.props;
+    const { account } = this.props;
     const qrCodeData = {
-      type: 'pay',
-      amount: '',
+      type: 'friend',
       account: account,
-      storeId: curStoreId,
     };
 
     return (
       <ImageBackground style={styles.bkContainer} source={require('../../../img/background/background2.png')}>
-        <NavBar title="付款" back />
+        <NavBar title="我的QR" back />
         <View style={styles.container}>
-          <View style={styles.inputContainer}>
-            <View style={styles.pickerContainer}>
-              {
-                IS_IOS ? (
-                  <IosPicker
-                    iosHeader="請選擇幣別"
-                    iosIcon={<Image style={{ height: 9, width: 16, resizeMode: 'contain' }} source={require('../../../img/form/trianglePicker.png')} />}
-                    mode="dropdown"
-                    style={styles.iospicker}
-                    textStyle={{ color: Colors.labelWhite }}
-                    itemStyle={{
-                      marginLeft: 0,
-                      paddingLeft: 10,
-                    }}
-                    selectedValue={curStoreId}
-                    onValueChange={itemValue => this._handleChoose(itemValue)}
-                  >
-                    { walletsData.map((i, index) => (
-                      <IosPicker.Item key={i} label={`${i.storeName} (${i.currencyName})`} value={i.storeId} />
-                    ))}
-                  </IosPicker>
-
-                ) : (
-                  <Picker
-                    style={styles.picker}
-                    selectedValue={curStoreId}
-                    onValueChange={itemValue => this._handleChoose(itemValue)}
-                    prompt="請選擇幣別"
-                  >
-                    { walletsData.map((i, index) => (
-                      <Picker.Item key={i} label={`${i.storeName} (${i.currencyName})`} value={i.storeId} />
-                    ))}
-                  </Picker>
-                )
-              }
-              <Image style={{ height: 9, width: 16, resizeMode: 'contain', marginLeft: -24 }} source={require('../../../img/form/trianglePicker.png')} />
-            </View>
-          </View>
           <View style={styles.qrCodeContainer}>
             <View style={styles.qrCode}>
               <QRCode
@@ -178,4 +127,4 @@ class QrCodePay extends Component {
   };
 }
 
-export default QrCodePay;
+export default QrCodeFriend;

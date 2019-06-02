@@ -10,10 +10,8 @@ class Transfer extends Component {
     userTransfer: PropTypes.func.isRequired,
     getWalletsData: PropTypes.func.isRequired,
     chooseWallet: PropTypes.func.isRequired,
-    qrData: PropTypes.shape({
-      account: PropTypes.string,
-      amount: PropTypes.number,
-    }),
+    defaultAccount: PropTypes.string,
+    defaultAmount: PropTypes.string,
     walletsData: PropTypes.arrayOf(
       PropTypes.shape({
         currencyName: PropTypes.string,
@@ -24,10 +22,8 @@ class Transfer extends Component {
   }
 
   static defaultProps = {
-    qrData: {
-      account: '',
-      amount: 0,
-    },
+    defaultAccount: '',
+    defaultAmount: '',
     curStoreId: -1,
     walletsData: [],
   }
@@ -42,7 +38,6 @@ class Transfer extends Component {
 
   _handleSubmit = async (formData) => {
     const { userTransfer } = this.props;
-    console.log({ formData });
     const success = await userTransfer(formData);
     return success;
   };
@@ -55,19 +50,19 @@ class Transfer extends Component {
   render = () => {
     const {
       Layout,
-      qrData,
+      defaultAccount,
+      defaultAmount,
       curStoreId,
       walletsData,
     } = this.props;
-    console.log(qrData);
 
     return (
       <Layout
         onFormSubmit={this._handleSubmit}
         onChoose={this._handleChoose}
         walletsData={walletsData}
-        defaultAccount={qrData.account}
-        defaultAmount={qrData.amount}
+        defaultAccount={defaultAccount}
+        defaultAmount={defaultAmount}
         curStoreId={curStoreId}
       />
     );

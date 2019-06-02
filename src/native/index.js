@@ -55,6 +55,12 @@ export default class App extends React.Component {
       require('../img/background/background2.png'),
       require('../img/background/background3.png'),
 
+      // Init
+      require('../img/launch.png'),
+      require('../img/logo.png'),
+      require('../img/mainCurrency.png'),
+      require('../img/storeCurrency.png'),
+
       // Icon
       require('../img/storeHome/coupon.png'),
       require('../img/storeHome/game.png'),
@@ -68,7 +74,6 @@ export default class App extends React.Component {
       require('../img/home/store.png'),
       require('../img/home/transfer.png'),
 
-      require('../img/walletList/mainSoul.png'),
       require('../img/walletList/mainCurrency_bk.png'),
       require('../img/walletList/mainButton_bk.png'),
       require('../img/walletList/content_bk.png'),
@@ -108,7 +113,6 @@ export default class App extends React.Component {
       require('../img/mine/about.png'),
       require('../img/mine/bg.png'),
       require('../img/mine/camera.png'),
-      require('../img/mine/fire.png'),
       require('../img/mine/logout.png'),
       require('../img/mine/qrcode.png'),
       require('../img/mine/serviceAgent.png'),
@@ -119,8 +123,6 @@ export default class App extends React.Component {
       require('../img/personalSetting/name_icon.png'),
       require('../img/personalSetting/pwd_icon.png'),
       require('../img/personalSetting/transPwd_icon.png'),
-
-      require('../img/login/logo.png'),
 
       // Tab bar
       require('../img/tabbar/home-focus.png'),

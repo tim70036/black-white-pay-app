@@ -74,7 +74,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: tablePaddingHorizontal,
     height: viewportHeightPercent(7.4),
-    backgroundColor: Colors.accordianHeaderGray,
+    // backgroundColor: Colors.accordianHeaderGray,
+    backgroundColor: 'rgba(0,0,0,0)',
     borderBottomWidth: 1,
     borderBottomColor: Colors.placeholderGray,
     // marginBottom: viewportWidthPercent(3),
@@ -113,6 +114,7 @@ const styles = StyleSheet.create({
     paddingBottom: viewportHeightPercent(2),
     backgroundColor: Colors.accordianContentGray,
     paddingHorizontal: tablePaddingHorizontal,
+    // marginHorizontal: viewportWidthPercent(5),
   },
   subHeader: {
     flexDirection: 'row',
@@ -226,22 +228,25 @@ class WalletList extends React.Component {
     Actions.qrCodePay({ qrCodeData: qrCodeData });
   }
 
-  _renderHeader = section => (
-    <View style={styles.headerContainer}>
-      <View style={styles.headerCurrency}>
-        <Text style={styles.headerText}>{section.currencyName}</Text>
-      </View>
-      <View style={styles.headerAmount}>
-        <View style={styles.headerDollars}>
-          <Image source={require('../../../img/walletList/mainSoul.png')} style={styles.storeCurrencyImg} />
-          <Text style={styles.headerText}>
-            {section.availBalance}
-          </Text>
+  _renderHeader = (section) => {
+    const uri = (section.currencySrc) ? ({ uri: section.currencySrc }) : (require('../../../img/storeCurrency.png'));
+    return (
+      <View style={styles.headerContainer}>
+        <View style={styles.headerCurrency}>
+          <Text style={styles.headerText}>{section.currencyName}</Text>
         </View>
-        <Icon type="FontAwesome" name="angle-down" style={styles.headerIcon} />
+        <View style={styles.headerAmount}>
+          <View style={styles.headerDollars}>
+            <Image source={uri} style={styles.storeCurrencyImg} />
+            <Text style={styles.headerText}>
+              {section.availBalance}
+            </Text>
+          </View>
+          <Icon type="FontAwesome" name="angle-down" style={styles.headerIcon} />
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
 
   _renderContent = section => (
     <View style={styles.contentContainer}>
@@ -265,7 +270,7 @@ class WalletList extends React.Component {
           <ImageBackground style={styles.bkImg} source={require('../../../img/walletList/mainCurrency_bk.png')}>
             <NavBar title="我的錢包" />
             <View style={styles.mainCurrencyContainer}>
-              <Image source={require('../../../img/walletList/mainSoul.png')} style={styles.mainCurrencyImg} />
+              <Image source={require('../../../img/mainCurrency.png')} style={styles.mainCurrencyImg} />
               <Text style={styles.mainCurrency}>{mainWallet.availBalance}</Text>
             </View>
           </ImageBackground>
@@ -277,7 +282,7 @@ class WalletList extends React.Component {
               <ImageButton imgType="exchange" text="兌換" textColor={Colors.labelWhite} onPress={() => this._handleExchange()} />
             </View>
           </ImageBackground>
-          
+
           <ImageBackground style={[styles.bkImg, { flex: 1, flexDirection: 'column' }]} source={require('../../../img/walletList/content_bk.png')}>
             <View style={styles.subHeader}>
               <View style={styles.subHeaderLeft}>
@@ -298,6 +303,7 @@ class WalletList extends React.Component {
                   renderHeader={this._renderHeader}
                   renderContent={this._renderContent}
                   onChange={this._updateSections}
+                  underlayColor={Colors.accordianContentGray}
                 />
               </View>
               <View style={styles.AccordionBottomSpace} />

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Keyboard, TouchableHighlight, TextInput, Text, ImageBackground, Image  } from 'react-native';
+import { View, Keyboard, TouchableHighlight, TextInput, Text, ImageBackground, Image, ScrollView  } from 'react-native';
 import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
@@ -55,42 +55,44 @@ class Forget extends Component {
     const { verifyCodeMsg } = this.state;
     return (
       <ImageBackground source={require('../../../img/background/background2.png')} style={formStyle.container}>
-        <NavBar back />
-        <View style={formStyle.inputContainer}>
-          <View style={formStyle.title}>
-            <Text style={formStyle.titleText}>忘記密碼</Text>
-          </View>
-          <View style={formStyle.inputItem}>
-            <View style={formStyle.label}>
-              <Image source={require('../../../img/form/pwd.png')} style={formStyle.icon} />
-              <Text style={formStyle.labelText}> 驗證碼</Text>
+        <ScrollView>
+          <NavBar back />
+          <View style={formStyle.inputContainer}>
+            <View style={formStyle.title}>
+              <Text style={formStyle.titleText}>忘記密碼</Text>
             </View>
-            <TextInput
-              style={formStyle.inputText}
-              autoCapitalize="none"
-              placeholder="請輸入驗證碼"
-              placeholderTextColor={Colors.placeholderGray}
-              keyboardType="default"
-              onChangeText={v => this._handleChange('verifyCode', v)}
-              onSubmitEditing={Keyboard.dismiss}
-            />
-            <Text style={formStyle.valText}>{verifyCodeMsg}</Text>
-          </View>
-          <LinearGradient
-            colors={elementColors.buttonLinearGradient}
-            style={formStyle.linearGradient}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-          >
-            <TouchableHighlight
-              style={formStyle.button}
-              onPress={this._handleSubmit}
-              underlayColor={Colors.buttonGray}
+            <View style={formStyle.inputItem}>
+              <View style={formStyle.label}>
+                <Image source={require('../../../img/form/pwd.png')} style={formStyle.icon} />
+                <Text style={formStyle.labelText}> 驗證碼</Text>
+              </View>
+              <TextInput
+                style={formStyle.inputText}
+                autoCapitalize="none"
+                placeholder="請輸入驗證碼"
+                placeholderTextColor={Colors.placeholderGray}
+                keyboardType="default"
+                onChangeText={v => this._handleChange('verifyCode', v)}
+                onSubmitEditing={Keyboard.dismiss}
+              />
+              <Text style={formStyle.valText}>{verifyCodeMsg}</Text>
+            </View>
+            <LinearGradient
+              colors={elementColors.buttonLinearGradient}
+              style={formStyle.linearGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
             >
-              <Text style={formStyle.buttonText}>驗證</Text>
-            </TouchableHighlight>
-          </LinearGradient>
-        </View>
+              <TouchableHighlight
+                style={formStyle.button}
+                onPress={this._handleSubmit}
+                underlayColor={Colors.buttonGray}
+              >
+                <Text style={formStyle.buttonText}>驗證</Text>
+              </TouchableHighlight>
+            </LinearGradient>
+          </View>
+        </ScrollView>
       </ImageBackground>
     );
   }
