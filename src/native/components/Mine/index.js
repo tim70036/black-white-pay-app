@@ -1,19 +1,17 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
 import { 
-  Image, StyleSheet, FlatList, TouchableHighlight, ScrollView, Platform, ImageBackground,
+  Image, StyleSheet, TouchableHighlight, Platform, ImageBackground,
 } from 'react-native';
-import { ImagePicker } from 'expo';
+import { Constants } from 'expo';
 import Modal from 'react-native-modal';
-import {
-  Text, View,
-} from 'native-base';
+import { Text, View } from 'native-base';
 import PropTypes from 'prop-types';
+
+import { getCameraRollImage } from '../../lib/expo';
 import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 import Colors from '../../constants/colors';
 import MineItemCell from './MineItemCell';
-
-const pkg = require('../../../../app.json');
 
 const thumbnailSize = 72;
 
@@ -191,7 +189,7 @@ class Mine extends React.Component {
             key: 3, title: '關於我們', subtitle: '', image: require('../../../img/mine/about.png'),
           },
           {
-            key: 4, title: '版本', subtitle: pkg.expo.version, image: require('../../../img/mine/version.png'), handle: null, arrowIcon: false,
+            key: 4, title: '版本', subtitle: Constants.manifest.version, image: require('../../../img/mine/version.png'), handle: null, arrowIcon: false,
           },
           {
             key: 5, title: '登出', subtitle: '', image: require('../../../img/mine/logout.png'), handle: this._userLogout, arrowIcon: false,

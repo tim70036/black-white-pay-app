@@ -3,13 +3,14 @@ import { View, StyleSheet, Keyboard, TouchableHighlight, TextInput, Text, ImageB
 import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
+
 import { formStyle, elementColors } from '../../lib/styles';
 import Colors from '../../constants/colors';
+import { registerForNotifications } from '../../lib/expo';
 import {
   viewportWidthPercent,
   viewportHeightPercent,
 } from '../../lib/util';
-import registerForNotifications from '../../lib/expoNotification';
 
 const styles = StyleSheet.create({
   logo: {

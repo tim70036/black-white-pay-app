@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'column',
     alignItems: 'center',
-   // height: viewportHeightPercent(22),
+    height: viewportHeightPercent(22),
     width: viewportWidthPercent(80),
     borderRadius: viewportWidthPercent(5),
     backgroundColor: Colors.cardLightGray,

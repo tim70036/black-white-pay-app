@@ -20,9 +20,6 @@ import getRoutes from './routes/index';
 import Loading from './components/Loading';
 import { appendNotifications } from '../actions/notifications';
 
-import Colors from './constants/colors';
-
-
 // Invert status bar text color
 StatusBar.setBarStyle('light-content');
 // Hide StatusBar on Android as it overlaps tabs
