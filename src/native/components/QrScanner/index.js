@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
-import { BarCodeScanner, Camera, Permissions } from 'expo';
+import { StyleSheet, View } from 'react-native';
+import { BarCodeScanner } from 'expo';
 import { Actions } from 'react-native-router-flux';
 
 import NavBar from '../NavBar';
+import { checkCameraPermission } from '../../lib/expo';
 import {
  viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent 
 } from '../../lib/util';
@@ -52,14 +53,17 @@ class QrScanner extends React.Component {
   }
 
   state = {
-    hasCameraPermission: null,
     hasReadQRcode: false,
+    hasCameraPermission: false,
   }
 
-  async componentDidMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
-    this.setState({ hasReadQRcode: false });
+  async componentWillMount() {
+    const allowCamera = await checkCameraPermission();
+    if (!allowCamera) {
+      // If user denied, return to last page
+      Actions.pop();
+    }
+    this.setState({ hasCameraPermission: allowCamera });
   }
 
   _handleBarCodeScanned = async ({ type, data }) => {
@@ -90,11 +94,8 @@ class QrScanner extends React.Component {
   }
 
   render() {
-    const { hasCameraPermission, type } = this.state;
-
-    if (!hasCameraPermission) {
-      return <View />;
-    }
+    const { hasCameraPermission } = this.state;
+    if (!hasCameraPermission) return <View style={{ backgroundColor: 'black' }} />;
 
     return (
       <View style={styles.container}>

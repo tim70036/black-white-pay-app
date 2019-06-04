@@ -14,10 +14,9 @@ async function registerForNotifications() {
     let finalStatus = existingStatus;
 
     // only ask if permissions have not already been determined, because
-    // iOS won't necessarily prompt the user a second time.
+    // IOS won't necessarily prompt the user a second time.
     if (existingStatus !== 'granted') {
-      // Android remote notification permissions are granted during the app
-      // install, so this will only ask on iOS
+      // If denied IOS once, user will have to go to iphone setting to allow permission
       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
       finalStatus = status;
     }
@@ -30,7 +29,6 @@ async function registerForNotifications() {
     // Get the token that uniquely identifies this device
     token = await Notifications.getExpoPushTokenAsync();
   }
-
 
   // Post token to server
   let response;
@@ -63,25 +61,21 @@ async function registerForNotifications() {
 }
 
 async function getCameraRollImage() {
-  // Init image data
-  const imageData = new FormData();
-
   // Check permission first
   const { status: existingStatus } = await Permissions.getAsync(Permissions.CAMERA_ROLL);
   let finalStatus = existingStatus;
 
   // only ask if permissions have not already been determined, because
-  // iOS won't necessarily prompt the user a second time.
+  // IOS won't necessarily prompt the user a second time.
   if (existingStatus !== 'granted') {
-    // Android remote notification permissions are granted during the app
-    // install, so this will only ask on iOS
+    // If denied IOS once, user will have to go to iphone setting to allow permission
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     finalStatus = status;
   }
 
   // Stop here if the user did not grant permissions
   if (finalStatus !== 'granted') {
-    return imageData;
+    return null;
   }
 
   // Start image picker
@@ -92,8 +86,11 @@ async function getCameraRollImage() {
 
   // Stop here if the user cancel
   if (result.cancelled) {
-    return imageData;
+    return null;
   }
+
+  // Init image data
+  const imageData = new FormData();
 
   const uri = Platform.OS === 'android' ? result.uri : result.uri.replace('file://', '');
   const name = uri.split('/').pop();
@@ -108,7 +105,29 @@ async function getCameraRollImage() {
   return imageData;
 }
 
+async function checkCameraPermission() {
+  // Check permission
+  const { status: existingStatus } = await Permissions.getAsync(Permissions.CAMERA);
+  let finalStatus = existingStatus;
+
+  // only ask if permissions have not already been determined, because
+  // IOS won't necessarily prompt the user a second time.
+  if (existingStatus !== 'granted') {
+    // If denied IOS once, user will have to go to iphone setting to allow permission
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    finalStatus = status;
+  }
+
+  // Stop here if the user did not grant permissions
+  if (finalStatus !== 'granted') {
+    return false;
+  }
+
+  return true;
+}
+
 export {
   registerForNotifications,
   getCameraRollImage,
+  checkCameraPermission,
 };

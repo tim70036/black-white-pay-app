@@ -26,7 +26,11 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourcompany.yourappname"
+      "bundleIdentifier": "com.yourcompany.yourappname",
+      "infoPlist": {
+        "NSCameraUsageDescription": "黑白 Pay 只會使用相機來掃描 QR Code",
+        "NSPhotoLibraryUsageDescription": "黑白 Pay 將讀取相簿來選擇相片"
+      }
     },
     "android": {
       "package": "com.yourcompany.yourappname"

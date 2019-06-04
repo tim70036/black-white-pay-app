@@ -202,28 +202,17 @@ class Mine extends React.Component {
   _pickImage = async () => {
     const { onFormSubmit } = this.props;
 
-    const result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [3, 3],
-    });
+    const imageData = await getCameraRollImage();
 
-    if (!result.cancelled) {
-      const data = new FormData();
-      const uri = Platform.OS === 'android' ? result.uri : result.uri.replace('file://', '');
-      const name = uri.split('/').pop();
-      const match = /\.(\w+)$/.exec(name);
-      const type = match ? `image/${match[1]}` : 'image';
-      data.append('userThumbnail', {
-        name: name,
-        type: type,
-        uri: uri,
-      });
-
-      this.setState({ thumbnailFormdata: data, visibleModal: false });
-      const success = await onFormSubmit(this.state);
-    } else {
+    // If didn't get image data, return
+    if (!imageData) {
       this.setState({ visibleModal: false });
+      return;
     }
+
+    // Success
+    this.setState({ thumbnailFormdata: imageData, visibleModal: false });
+    const success = await onFormSubmit(this.state);
   };
 
   renderCells = () => {
