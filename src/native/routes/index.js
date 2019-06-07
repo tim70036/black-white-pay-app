@@ -78,6 +78,7 @@ import ChangeNameComponent from '../components/ChangeName';
 import ChangePwdComponent from '../components/ChangePwd';
 import ChangeTransPwdComponent from '../components/ChangeTransPwd';
 import PrivacyComponent from '../components/Privacy';
+import AboutComponent from '../components/About';
 
 import FriendRequestContainer from '../../containers/FriendRequest';
 import FriendRequestComponent from '../components/FriendRequest';
@@ -208,6 +209,13 @@ const getRoutes = (authenticate, goAuth, refresh) => (
           {...DefaultProps.navbarProps}
         >
           <Scene component={spinnerHOC(MineContainer)} Layout={PrivacyComponent} on={authenticate} failure={goAuth} />
+        </Stack>
+
+        <Stack
+          key="about"
+          {...DefaultProps.navbarProps}
+        >
+          <Scene component={spinnerHOC(MineContainer)} Layout={AboutComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
         <Stack

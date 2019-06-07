@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
   adsContainer: {
     flex: 25,
-
+    resizeMode: 'contain',
     // borderWidth: 2,
     // borderColor: 'blue',
   },

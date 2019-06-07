@@ -93,18 +93,10 @@ class Transfer extends Component {
   }
 
   _validate = () => {
-    const { transPwd, accountTo, amount } = this.state;
+    const { transPwd, amount } = this.state;
 
-    const accountResult = accountValidate(accountTo);
     const amountResult = amountValidate(amount);
     const transPwdResult = transPwdValidate(transPwd);
-
-    if (accountResult.result) {
-      this.setState({ accountMsg: '' });
-    } else {
-      this.setState({ accountMsg: accountResult.errMsg });
-      return false;
-    }
 
     if (amountResult.result) {
       this.setState({ amountMsg: '' });
