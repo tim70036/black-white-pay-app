@@ -142,19 +142,20 @@ const styles = StyleSheet.create({
     color: Colors.labelWhite,
   },
   contentContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: viewportWidthPercent(25),
-    paddingBottom: viewportHeightPercent(2),
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    // height: viewportWidthPercent(25),
+    paddingVertical: viewportHeightPercent(2),
     backgroundColor: Colors.accordianContentGray,
-    paddingHorizontal: viewportWidthPercent(2),
+    paddingHorizontal: viewportWidthPercent(6),
   },
   contentItem: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginVertical: viewportHeightPercent(1),
+    marginVertical: viewportWidthPercent(1),
   },
   contentText: {
     color: Colors.labelWhite,
@@ -189,11 +190,13 @@ class TransHistory extends Component {
     defaultStartTimeUtc: PropTypes.string.isRequired,
     defaultEndTimeUtc: PropTypes.string.isRequired,
     currencySrc: PropTypes.string,
+    storeId: PropTypes.number,
   };
 
   static defaultProps ={
     historyData: [],
     currencySrc: '',
+    storeId: -1,
   }
 
   constructor(props) {
@@ -252,8 +255,13 @@ class TransHistory extends Component {
   };
 
   _renderHeader = (section) => {
-    const { currencySrc } = this.props;
-    const uri = (currencySrc) ? ({ uri: currencySrc }) : (require('../../../img/storeCurrency.png'));
+    const { currencySrc, storeId } = this.props;
+    let uri;
+    if (storeId === -1) {
+      uri = (require('../../../img/mainCurrency.png'));
+    } else {
+      uri = (currencySrc) ? ({ uri: currencySrc }) : (require('../../../img/storeCurrency.png'));
+    }
     let amountColor;
     if (section.amount < 0) {
       amountColor = Colors.labelRed;
@@ -300,7 +308,7 @@ class TransHistory extends Component {
     const { historyData, defaultStartTime, defaultEndTime } = this.props;
 
     return (
-      <View style={styles.layoutContainer}>
+      <ImageBackground style={styles.layoutContainer} source={require('../../../img/background/background2.png')}>
         <ImageBackground style={styles.bkImg} source={require('../../../img/transHistory/topbk.png')}>
           <NavBar title="轉帳紀錄" back />
           <View style={styles.inputsContainer}>
@@ -350,7 +358,7 @@ class TransHistory extends Component {
             </View>
           </View>
         </ImageBackground>
-        <ImageBackground style={[styles.bkImg, { flex: 1, flexDirection: 'column' }]} source={require('../../../img/transHistory/contentbk.png')}>
+        <View style={{ flex: 1, flexDirection: 'column' }}>
           <View style={styles.subHeader}>
             <View style={styles.colorBar} />
             <Text style={styles.subHeaderText}>交易紀錄列表</Text>
@@ -368,8 +376,8 @@ class TransHistory extends Component {
             </View>
             <View style={styles.AccordionBottomSpace} />
           </ScrollView>
-        </ImageBackground>
-      </View>
+        </View>
+      </ImageBackground>
     );
   };
 }

@@ -8,7 +8,6 @@ import {
   ImageBackground,
   ScrollView,
   TouchableHighlight,
-  Image,
 } from 'react-native';
 import {
   Text,
@@ -266,11 +265,9 @@ class Transfer extends Component {
     const { outflowWallet, inflowWallet } = this.props;
     let targetWallet;
     if (name === 'inflow') {
-      console.log('%%%%%%%%%');
       targetWallet = inflowWallet.find(element => element.storeId === storeId);
       this.setState({ inflowStoreId: storeId, inflowRate: targetWallet.exchangeRate });
     } else if (name === 'outflow') {
-      console.log('@@@@@@@@@');
       targetWallet = outflowWallet.find(element => element.storeId === storeId);
       this.setState({ outflowStoreId: storeId, outflowRate: targetWallet.exchangeRate });
     }
@@ -371,7 +368,7 @@ class Transfer extends Component {
                       </Picker>
                     )
                   }
-                  <Image style={{ ...formStyle.pickerIcon, marginLeft: -12 }} source={require('../../../img/form/trianglePicker.png')} />
+                  <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white' }]} />
                 </View>
                 <View style={styles.middleLine} />
                 <View style={styles.inflowPicker}>
@@ -405,7 +402,7 @@ class Transfer extends Component {
                       </Picker>
                     )
                   }
-                  <Image style={{ ...formStyle.pickerIcon, marginRight: 12 }} source={require('../../../img/form/trianglePicker.png')} />
+                  <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white' }]} />
                 </View>
               </View>
               <View style={styles.valTextContainer}>

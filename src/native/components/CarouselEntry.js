@@ -16,8 +16,9 @@ import {
   viewportHeightPercent,
 } from '../lib/util';
 
-export const slideHeight = viewportHeightPercent(20); // Carousel Height (orignal: viewportHeight *  0.36)
+// Fixed aspect ratio 0.4 * 1
 export const slideWidth = viewportWidthPercent(90);
+export const slideHeight = slideWidth * 0.4;
 
 const itemHorizontalMargin = viewportWidthPercent(5);
 const entryBorderRadius = 4;
@@ -31,49 +32,31 @@ const styles = StyleSheet.create({
     height: slideHeight,
     paddingHorizontal: itemHorizontalMargin,
     paddingBottom: 18, // needed for shadow
-  },
-  shadow: {
-    position: 'absolute',
-    top: 0,
-    left: itemHorizontalMargin,
-    right: itemHorizontalMargin,
-    bottom: 18,
-    shadowColor: '#1a1917',
-    shadowOpacity: 0.25,
-    shadowOffset: { width: 0, height: 10 },
-    shadowRadius: 10,
-    borderRadius: entryBorderRadius,
+    // borderWidth: 1,
+    // borderColor: 'yellow',
   },
   imageContainer: {
     flex: 1,
+    width: slideWidth,
+    height: slideHeight,
+
     marginBottom: IS_IOS ? 0 : -1, // Prevent a random Android rendering issue
     backgroundColor: 'white',
-    borderTopLeftRadius: entryBorderRadius,
-    borderTopRightRadius: entryBorderRadius,
+    // borderWidth: 1,
+    // borderColor: 'red',
   },
   imageContainerEven: {
     backgroundColor: '#1a1917',
   },
   image: {
     ...StyleSheet.absoluteFillObject,
+    width: '100%',
+    height: '100%',
     resizeMode: 'cover',
-    // borderRadius: IS_IOS ? entryBorderRadius : 0,
-    borderRadius: entryBorderRadius,
-    borderTopLeftRadius: entryBorderRadius,
-    borderTopRightRadius: entryBorderRadius,
+    // borderWidth: 1,
+    // borderColor: 'blue',
   },
-  // image's border radius is buggy on iOS; let's hack it!
-  radiusMask: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: entryBorderRadius,
-    backgroundColor: 'white',
-  },
-  radiusMaskEven: {
-    backgroundColor: '#1a1917',
-  },
+  
 });
 
 class CarouselEntry extends Component {
@@ -91,7 +74,7 @@ class CarouselEntry extends Component {
   static defaultProps ={
     data: {},
     even: false,
-    parallax: true,
+    parallax: false,
   }
 
   _rednerImage = () => {
@@ -127,12 +110,10 @@ class CarouselEntry extends Component {
       <TouchableOpacity
         activeOpacity={1}
         style={styles.slideInnerContainer}
-        onPress={() => { alert(`You've clicked '${title}'`); }}
+        // onPress={() => { alert(`You've clicked '${title}'`); }}
       >
-        <View style={styles.shadow} />
         <View style={[styles.imageContainer, even ? styles.imageContainerEven : {}]}>
           { this._rednerImage() }
-          <View style={[styles.radiusMask, even ? styles.radiusMaskEven : {}]} />
         </View>
       </TouchableOpacity>
     );

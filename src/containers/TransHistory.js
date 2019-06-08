@@ -17,11 +17,13 @@ class TransHistory extends Component {
       }),
     ),
     currencySrc: PropTypes.string,
+    storeId: PropTypes.number,
   }
 
   static defaultProps = {
     transHistory: [],
     currencySrc: '',
+    storeId: -1,
   }
 
   componentWillMount() {
@@ -41,6 +43,7 @@ class TransHistory extends Component {
       Layout,
       transHistory,
       currencySrc,
+      storeId,
     } = this.props;
     const defaultStartTime = moment().startOf('day').subtract(1, 'months').format('YYYY-MM-DD');
     const defaultEndTime = moment(new Date()).endOf('day').format('YYYY-MM-DD');
@@ -50,6 +53,7 @@ class TransHistory extends Component {
 
     return (
       <Layout
+        storeId={storeId}
         currencySrc={currencySrc}
         historyData={transHistory}
         onSearchSubmit={this._handleSubmit}
@@ -65,6 +69,7 @@ class TransHistory extends Component {
 const mapStateToProps = state => ({
   transHistory: state.curWallet.transHistory,
   currencySrc: state.curWallet.currencySrc,
+  storeId: state.curWallet.storeId,
 });
 
 const mapDispatchToProps = {

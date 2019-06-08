@@ -19,13 +19,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   adsContainer: {
-    flex: 25,
-    resizeMode: 'contain',
+    width: '100%',
+    // height decide by content
+
     // borderWidth: 2,
     // borderColor: 'blue',
   },
   cardContainer: {
-    flex: 75,
+    flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     height: slideHeight,
   },
   pagination: {
-    marginTop: -50,
+    marginTop: -70,
   },
 });
 
@@ -73,12 +74,10 @@ class Home extends Component {
     curEntryIndex: 1,
   }
 
-  _renderItemWithParallax = ({ item, index }, parallaxProps) => (
+  _renderCarouselItem = ({ item, index }, parallaxProps) => (
     <CarouselEntry
       data={item}
       even={(index + 1) % 2 === 0}
-      parallax
-      parallaxProps={parallaxProps}
     />
   )
 
@@ -93,10 +92,9 @@ class Home extends Component {
           <Carousel
             ref={(c) => { this._slider1Ref = c; }}
             data={carouselData}
-            renderItem={this._renderItemWithParallax}
+            renderItem={this._renderCarouselItem}
             sliderWidth={sliderWidth}
             itemWidth={itemWidth}
-            hasParallaxImages
             firstItem={1}
             inactiveSlideScale={0.94}
             inactiveSlideOpacity={0.7}

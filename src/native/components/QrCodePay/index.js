@@ -9,7 +9,7 @@ import {
   Picker,
   Image,
 } from 'react-native';
-import { Picker as IosPicker } from 'native-base';
+import { Picker as IosPicker, Icon } from 'native-base';
 
 import NavBar from '../NavBar';
 import { formStyle } from '../../lib/styles';
@@ -40,15 +40,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: viewportWidthPercent(50),
-    height: '50%',
+	height: '50%',
+	backgroundColor: Colors.placeholderGray,
+	// borderWidth: 1,
+	// borderColor: 'red',
   },
   picker: {
     flex: 1,
-    color: Colors.labelWhite,
-    backgroundColor: Colors.placeholderGray,
+	color: Colors.labelWhite,
+	height: viewportHeightPercent(7),
+	backgroundColor: Colors.placeholderGray,
   },
   iospicker: {
-    flex: 1,
+	flex: 1,
+	height: viewportHeightPercent(7),
     backgroundColor: Colors.placeholderGray,
   },
   qrCodeContainer: {
@@ -81,6 +86,11 @@ const styles = StyleSheet.create({
   },
   labeltext: {
     color: Colors.labelWhite,
+  },
+  icon: {
+	fontSize: 25,
+	// borderWidth: 1,
+	// borderColor: 'blue',
   },
 });
 
@@ -156,7 +166,7 @@ class QrCodePay extends Component {
                   </Picker>
                 )
               }
-              <Image style={{ height: 9, width: 16, resizeMode: 'contain', marginLeft: -24 }} source={require('../../../img/form/trianglePicker.png')} />
+              <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white', marginRight: 5 }]} />
             </View>
           </View>
           <View style={styles.qrCodeContainer}>

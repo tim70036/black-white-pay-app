@@ -265,7 +265,7 @@ class WalletList extends React.Component {
     const { activeSections } = this.state;
 
     return (
-      <View style={styles.layoutContainer}>
+      <ImageBackground style={styles.layoutContainer} source={require('../../../img/background/background2.png')}>
         <View style={styles.container}>
           <ImageBackground style={styles.bkImg} source={require('../../../img/walletList/mainCurrency_bk.png')}>
             <NavBar title="我的錢包" />
@@ -283,7 +283,7 @@ class WalletList extends React.Component {
             </View>
           </ImageBackground>
 
-          <ImageBackground style={[styles.bkImg, { flex: 1, flexDirection: 'column' }]} source={require('../../../img/walletList/content_bk.png')}>
+          <View style={{ flex: 1, flexDirection: 'column' }}>
             <View style={styles.subHeader}>
               <View style={styles.subHeaderLeft}>
                 <View style={styles.colorBar} />
@@ -308,9 +308,9 @@ class WalletList extends React.Component {
               </View>
               <View style={styles.AccordionBottomSpace} />
             </ScrollView>
-          </ImageBackground>
+          </View>
         </View>
-      </View>
+      </ImageBackground>
     );
   }
 }

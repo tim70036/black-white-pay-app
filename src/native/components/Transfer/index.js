@@ -10,10 +10,8 @@ import {
   Picker,
   StyleSheet,
   ScrollView,
-  KeyboardAvoidingView,
-  Fragment,
 } from 'react-native';
-import { Picker as IosPicker } from 'native-base';
+import { Picker as IosPicker, Icon } from 'native-base';
 import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
@@ -21,7 +19,7 @@ import { __values } from 'tslib';
 import NavBar from '../NavBar';
 import { formStyle, elementColors } from '../../lib/styles';
 import Colors from '../../constants/colors';
-import { accountValidate, amountValidate, transPwdValidate } from '../../lib/validate';
+import { amountValidate, transPwdValidate } from '../../lib/validate';
 import {
   viewportWidthPercent,
   viewportHeightPercent,
@@ -59,6 +57,9 @@ const styles = StyleSheet.create({
     shadowRadius: 37,
     elevation: 14,
   },
+  icon: {
+    fontSize: 25,
+  },
 });
 class Transfer extends Component {
   static propTypes = {
@@ -95,8 +96,17 @@ class Transfer extends Component {
   _validate = () => {
     const { transPwd, amount } = this.state;
 
+    // do not check account here, since other role's account may not be phone number
+    // const accountResult = accountValidate(accountTo);
     const amountResult = amountValidate(amount);
     const transPwdResult = transPwdValidate(transPwd);
+
+    // if (accountResult.result) {
+    //   this.setState({ accountMsg: '' });
+    // } else {
+    //   this.setState({ accountMsg: accountResult.errMsg });
+    //   return false;
+    // }
 
     if (amountResult.result) {
       this.setState({ amountMsg: '' });
@@ -194,7 +204,7 @@ class Transfer extends Component {
                     </Picker>
                   )
                 }
-                <Image style={{ ...formStyle.pickerIcon, marginLeft: -12 }} source={require('../../../img/form/picker.png')} />
+                <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white', marginLeft: -20 }]} />
               </View>
             </View>
             <View style={styles.inputItem}>

@@ -35,17 +35,18 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'column',
     alignItems: 'center',
-    height: viewportHeightPercent(22),
+    // height: viewportHeightPercent(22),
     width: viewportWidthPercent(80),
     borderRadius: viewportWidthPercent(5),
     backgroundColor: Colors.cardLightGray,
+    paddingVertical: viewportHeightPercent(2),
   },
   input: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    paddingTop: viewportHeightPercent(2),
+    // paddingTop: viewportHeightPercent(2),
   },
   currencyInput: {
     flex: 1,
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
     width: '60%',
     alignSelf: 'flex-start',
     justifyContent: 'center',
-    height: '60%',
+    height: 30,
     borderRadius: 36.5,
 
     shadowColor: '#D3BD99',
