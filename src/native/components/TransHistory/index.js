@@ -264,7 +264,7 @@ class TransHistory extends Component {
     }
     let amountColor;
     if (section.amount < 0) {
-      amountColor = Colors.labelRed;
+      amountColor = Colors.labelLightRed;
     } else {
       amountColor = Colors.labelWhite;
     }

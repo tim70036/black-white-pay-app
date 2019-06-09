@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     marginTop: viewportHeightPercent(4),
-    backgroundColor: Colors.cardLightGray,
     borderRadius: viewportWidthPercent(4),
   },
   amountInputContainer: {
@@ -93,8 +92,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: viewportHeightPercent(9),
-    backgroundColor: Colors.cardLightGray,
-    marginTop: viewportHeightPercent(2),
+    marginTop: viewportHeightPercent(1),
   },
   valTextContainer: {
     flexDirection: 'row',

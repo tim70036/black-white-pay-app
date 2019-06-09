@@ -1,19 +1,17 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
-import { 
-  Image, StyleSheet, FlatList, TouchableHighlight, ScrollView, Platform, ImageBackground,
-} from 'react-native';
-import { ImagePicker } from 'expo';
-import Modal from 'react-native-modal';
 import {
-  Text, View,
-} from 'native-base';
+  Image, StyleSheet, TouchableHighlight, Platform, ImageBackground,
+} from 'react-native';
+import { Constants } from 'expo';
+import Modal from 'react-native-modal';
+import { Text, View } from 'native-base';
 import PropTypes from 'prop-types';
+
+import { getCameraRollImage } from '../../lib/expo';
 import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 import Colors from '../../constants/colors';
 import MineItemCell from './MineItemCell';
-
-const pkg = require('../../../../app.json');
 
 const thumbnailSize = 72;
 
@@ -191,7 +189,7 @@ class Mine extends React.Component {
             key: 3, title: '關於我們', subtitle: '', image: require('../../../img/mine/about.png'), handle: () => { Actions.about(); },
           },
           {
-            key: 4, title: '版本', subtitle: pkg.expo.version, image: require('../../../img/mine/version.png'), handle: null, arrowIcon: false,
+            key: 4, title: '版本', subtitle: Constants.manifest.version, image: require('../../../img/mine/version.png'), handle: null, arrowIcon: false,
           },
           {
             key: 5, title: '登出', subtitle: '', image: require('../../../img/mine/logout.png'), handle: this._userLogout, arrowIcon: false,
@@ -204,28 +202,17 @@ class Mine extends React.Component {
   _pickImage = async () => {
     const { onFormSubmit } = this.props;
 
-    const result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [3, 3],
-    });
+    const imageData = await getCameraRollImage();
 
-    if (!result.cancelled) {
-      const data = new FormData();
-      const uri = Platform.OS === 'android' ? result.uri : result.uri.replace('file://', '');
-      const name = uri.split('/').pop();
-      const match = /\.(\w+)$/.exec(name);
-      const type = match ? `image/${match[1]}` : 'image';
-      data.append('userThumbnail', {
-        name: name,
-        type: type,
-        uri: uri,
-      });
-
-      this.setState({ thumbnailFormdata: data, visibleModal: false });
-      const success = await onFormSubmit(this.state);
-    } else {
+    // If didn't get image data, return 
+    if (!imageData) {
       this.setState({ visibleModal: false });
+      return;
     }
+
+    // Success 
+    this.setState({ thumbnailFormdata: imageData, visibleModal: false });
+    const success = await onFormSubmit(this.state);
   };
 
   renderCells = () => {
@@ -247,7 +234,7 @@ class Mine extends React.Component {
         );
         cells.push(cell);
       }
-      cells.push(<View key={'section'+i.toString()} style={{ height: 14 }} />);
+      cells.push(<View key={'section' + i.toString()} style={{ height: 14 }} />);
     }
 
     return (
@@ -344,4 +331,4 @@ class Mine extends React.Component {
   }
 }
 
-export default Mine;
+export default Mine; 

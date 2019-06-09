@@ -34,9 +34,7 @@ async function apiRequest(dispatch, apiPath, method, body = '', contentType = ''
     response = await fetch( `${config.apiUrl}${apiPath}`, fetchPayload);
     response = await response.json();
     if (!response) throw Error('沒有回應');
-    console.log(response);
   } catch (error) {
-    console.log(error.message);
     // Status
     dispatch(statusMessage('error', '網路發生問題，請重試'));
     return result;

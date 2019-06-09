@@ -42,18 +42,18 @@ const styles = StyleSheet.create({
     width: viewportWidthPercent(50),
 	height: '50%',
 	backgroundColor: Colors.placeholderGray,
-	// borderWidth: 1,
-	// borderColor: 'red',
   },
   picker: {
     flex: 1,
 	color: Colors.labelWhite,
-	height: viewportHeightPercent(7),
+  height: viewportHeightPercent(7),
+  width: viewportWidthPercent(50),
 	backgroundColor: Colors.placeholderGray,
   },
   iospicker: {
 	flex: 1,
-	height: viewportHeightPercent(7),
+  height: viewportHeightPercent(7),
+  width: viewportWidthPercent(50),
     backgroundColor: Colors.placeholderGray,
   },
   qrCodeContainer: {
@@ -89,8 +89,6 @@ const styles = StyleSheet.create({
   },
   icon: {
 	fontSize: 25,
-	// borderWidth: 1,
-	// borderColor: 'blue',
   },
 });
 
@@ -137,7 +135,7 @@ class QrCodePay extends Component {
                 IS_IOS ? (
                   <IosPicker
                     iosHeader="請選擇幣別"
-                    iosIcon={<Image style={{ height: 9, width: 16, resizeMode: 'contain' }} source={require('../../../img/form/trianglePicker.png')} />}
+                    // iosIcon={<Image style={{ height: 9, width: 16, resizeMode: 'contain' }} source={require('../../../img/form/trianglePicker.png')} />}
                     mode="dropdown"
                     style={styles.iospicker}
                     textStyle={{ color: Colors.labelWhite }}
@@ -166,7 +164,7 @@ class QrCodePay extends Component {
                   </Picker>
                 )
               }
-              <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white', marginRight: 5 }]} />
+              <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white', marginLeft: -20 }]} />
             </View>
           </View>
           <View style={styles.qrCodeContainer}>

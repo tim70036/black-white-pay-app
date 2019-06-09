@@ -51,12 +51,6 @@ class Init extends React.Component {
   };
 
   componentDidMount = () => {
-    // console.log(this.props.resetRouteStack);
-    // if (this.props.resetRouteStack) {
-    //   // Prevent user go back to previos sreen
-
-    //   Actions.reset('auth', { resetRouteStack: false });
-    // }
   }
 
   render() {

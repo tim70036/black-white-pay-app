@@ -45,7 +45,7 @@ async function registerForNotifications() {
     });
     response = await response.json();
   } catch (error) {
-    console.log(error.message);
+    // console.log(error.message);
   }
 
   // Process response

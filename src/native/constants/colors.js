@@ -3,6 +3,7 @@ const Colors = {
   labelGold: '#b9a078',
   labelWhite: '#ffffff',
   labelRed: '#b20000',
+  labelLightRed: '#FF3333',
 
   cardLightGray: '#2a2a2a',
   cardGray: '#1a1a1a',

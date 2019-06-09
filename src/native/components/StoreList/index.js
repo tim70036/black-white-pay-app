@@ -25,6 +25,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   card: {
@@ -34,6 +36,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     marginTop: viewportHeightPercent(2),
+  },
+
+  text: {
+    fontSize: 40,
+    color: Colors.labelWhite,
   },
 
 });
@@ -71,24 +78,34 @@ class StoreList extends React.Component {
   }
 
 
-  _renderStore = ({ item }) => (
-    <View style={styles.card}>
-      <TouchableOpacity
-        style={{ flex: 1 }}
-        onPress={() => this._handleChoose(item.storeId)}
-      >
+  _renderStore = ({ item }) => {
+    const image = (item.thumbnail.length > 0)
+      ? (
         <Image
           style={styles.image}
           resizeMode="cover"
           source={{ uri: item.thumbnail }}
         />
-      </TouchableOpacity>
-    </View>
-  );
+      )
+      : (
+        <View style={{ ...styles.image, backgroundColor: Colors.cardLightGray }}>
+          <Text style={styles.text}>{item.name}</Text>
+        </View>
+      );
+    return (
+      <View style={styles.card}>
+        <TouchableOpacity
+          style={{ flex: 1 }}
+          onPress={() => this._handleChoose(item.storeId)}
+        >
+          {image}
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
   render() {
     const { storesData } = this.props;
-
     return (
       <ImageBackground source={require('../../../img/background/background2.png')} style={styles.container}>
         <NavBar title="商店列表" />
