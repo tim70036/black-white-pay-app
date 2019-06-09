@@ -19,7 +19,7 @@ import { __values } from 'tslib';
 import NavBar from '../NavBar';
 import { formStyle, elementColors } from '../../lib/styles';
 import Colors from '../../constants/colors';
-import { amountValidate, transPwdValidate } from '../../lib/validate';
+import { amountValidate, transPwdValidate, accountValidate } from '../../lib/validate';
 import {
   viewportWidthPercent,
   viewportHeightPercent,
@@ -94,19 +94,19 @@ class Transfer extends Component {
   }
 
   _validate = () => {
-    const { transPwd, amount } = this.state;
+    const { accountTo, transPwd, amount } = this.state;
 
     // do not check account here, since other role's account may not be phone number
-    // const accountResult = accountValidate(accountTo);
+    const accountResult = accountValidate(accountTo);
     const amountResult = amountValidate(amount);
     const transPwdResult = transPwdValidate(transPwd);
 
-    // if (accountResult.result) {
-    //   this.setState({ accountMsg: '' });
-    // } else {
-    //   this.setState({ accountMsg: accountResult.errMsg });
-    //   return false;
-    // }
+    if (accountResult.result) {
+      this.setState({ accountMsg: '' });
+    } else {
+      this.setState({ accountMsg: accountResult.errMsg });
+      return false;
+    }
 
     if (amountResult.result) {
       this.setState({ amountMsg: '' });
@@ -126,16 +126,9 @@ class Transfer extends Component {
   }
 
   _handleChange = (name, val) => {
-    if (name === 'amount') {
-      const amount = parseInt(val, 10).toString();
-      this.setState({
-        amount: amount,
-      });
-    } else {
-      this.setState({
-        [name]: val,
-      });
-    }
+    this.setState({
+      [name]: val,
+    });
   }
 
   _handleChoose = async (storeId) => {

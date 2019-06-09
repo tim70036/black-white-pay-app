@@ -35,15 +35,24 @@ function setCurStore(curStoreId) {
       coupons: [],
     };
 
+    dispatch(replaceCurStore(curStore));
+  };
+}
+
+function getAds() {
+  return async (dispatch, getState) => {
+    const requestBody = JSON.stringify({
+      storeId: getState().curStore.storeId.toString(),
+    });
+
     // Api request
-    let result = await apiRequest(dispatch, '/store/ads', 'GET');
+    let result = await apiRequest(dispatch, '/store/ad', 'POST', requestBody);
 
     // Process result
     if (result && result.success) {
-      curStore.ads = result.data;
+      const adList = result.data;
+      dispatch(replaceAds(adList));
     }
-
-    dispatch(replaceCurStore(curStore));
   };
 }
 
@@ -58,4 +67,5 @@ export {
   clearCoupons,
 
   setCurStore,
+  getAds,
 };

@@ -62,8 +62,7 @@ class StoreHome extends Component {
     carouselData: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string,
-        subtitle: PropTypes.string,
-        imgUrl: PropTypes.string,
+        image: PropTypes.string,
       }),
     ),
   };

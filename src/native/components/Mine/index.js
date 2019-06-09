@@ -1,7 +1,7 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
 import {
-  Image, StyleSheet, TouchableHighlight, Platform, ImageBackground,
+  Image, StyleSheet, TouchableHighlight, ImageBackground,
 } from 'react-native';
 import { Constants } from 'expo';
 import Modal from 'react-native-modal';
@@ -271,7 +271,6 @@ class Mine extends React.Component {
   render() {
     const { visibleModal } = this.state;
     const { user, mainWallet } = this.props;
-    const uri = (user.thumbnail) ? ({ uri: user.thumbnail }) : (require('../../../img/mine/user.png'));
     return (
       <ImageBackground source={require('../../../img/mine/bg.png')} style={styles.container}>
         <View style={styles.profileCard}>
@@ -295,7 +294,7 @@ class Mine extends React.Component {
               >
                 <Image
                   style={styles.thumbnailImage}
-                  source={uri}
+                  source={{ uri: user.thumbnail }}
                 />
               </TouchableHighlight>
               <Image

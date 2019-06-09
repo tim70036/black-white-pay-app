@@ -63,8 +63,7 @@ class CarouselEntry extends Component {
   static propTypes = {
     data: PropTypes.shape({
       title: PropTypes.string,
-      subtitle: PropTypes.string,
-      imgUrl: PropTypes.string,
+      image: PropTypes.string,
     }),
     even: PropTypes.bool,
     parallax: PropTypes.bool,

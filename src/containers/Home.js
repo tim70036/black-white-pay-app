@@ -2,16 +2,22 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-// For test
-import { logout } from '../actions/user';
 import { getAnnouncements } from '../actions/announcements';
 
 class Home extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
+    getAnnouncementList: PropTypes.func.isRequired,
+    announcementList: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string,
+        image: PropTypes.string,
+      }),
+    ),
   }
 
   static defaultProps = {
+    announcementList: [],
   }
 
   constructor(props) {
@@ -33,7 +39,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  userLogout: logout,
   getAnnouncementList: getAnnouncements,
 };
 

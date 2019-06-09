@@ -215,10 +215,9 @@ class QrCodeReceive extends Component {
       ...qrCodeData,
       account: account,
       storeId: curStoreId,
+      amount: amount,
     };
-    newQrCodeData.amount = parseInt(amount, 10).toString();
-    this.setState({ amount: parseInt(amount, 10).toString() });
-    this.setState({ qrCodeData: newQrCodeData });
+    this.setState({ amount: amount, qrCodeData: newQrCodeData });
   }
 
   render = () => {

@@ -2,61 +2,44 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const EXAMPLE_DATA = [
-  {
-    title: 'Beautiful and dramatic Antelope Canyon',
-    subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
-    imgUrl: 'https://i.imgur.com/UYiroysl.jpg',
-  },
-  {
-    title: 'Earlier this morning, NYC',
-    subtitle: 'Lorem ipsum dolor sit amet',
-    imgUrl: 'https://i.imgur.com/UPrs1EWl.jpg',
-  },
-  {
-    title: 'White Pocket Sunset',
-    subtitle: 'Lorem ipsum dolor sit amet et nuncat ',
-    imgUrl: 'https://i.imgur.com/MABUbpDl.jpg',
-  },
-  {
-    title: 'Acrocorinth, Greece',
-    subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
-    imgUrl: 'https://i.imgur.com/KZsmUi2l.jpg',
-  },
-  {
-    title: 'The lone tree, majestic landscape of New Zealand',
-    subtitle: 'Lorem ipsum dolor sit amet',
-    imgUrl: 'https://i.imgur.com/2nCt3Sbl.jpg',
-  },
-  {
-    title: 'Middle Earth, Germany',
-    subtitle: 'Lorem ipsum dolor sit amet',
-    imgUrl: 'https://i.imgur.com/lceHsT6l.jpg',
-  },
-];
-
+import { getAds } from '../actions/curStore';
 
 class StoreHome extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
+    getAdList: PropTypes.func.isRequired,
+    adList: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string,
+        image: PropTypes.string,
+      }),
+    ),
   }
 
   static defaultProps = {
+    adList: [],
+  }
+
+  constructor(props) {
+    super(props);
+    props.getAdList();
   }
 
   state = {
   }
 
   render = () => {
-    const { Layout } = this.props;
-    return <Layout carouselData={EXAMPLE_DATA} />;
+    const { Layout, adList } = this.props;
+    return <Layout carouselData={adList} />;
   }
 }
 
 const mapStateToProps = state => ({
+  adList: state.curStore.ads,
 });
 
 const mapDispatchToProps = {
+  getAdList: getAds,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(StoreHome);

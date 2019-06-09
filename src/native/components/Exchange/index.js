@@ -235,18 +235,17 @@ class Transfer extends Component {
     const amountResult = amountValidate(amount);
     const transPwdResult = transPwdValidate(transPwd);
 
-    if (amountResult.result) {
-      this.setState({ amountMsg: '' });
-      this.setState({ amount: parseInt(amount, 10).toString() });
-    } else {
-      this.setState({ amountMsg: amountResult.errMsg });
-      return false;
-    }
-
     if (outflowStoreId === inflowStoreId) {
       this.setState({ storeIdMsg: '轉出轉入店家不可相同' });
     } else {
       this.setState({ storeIdMsg: '' });
+    }
+
+    if (amountResult.result) {
+      this.setState({ amountMsg: '' });
+    } else {
+      this.setState({ amountMsg: amountResult.errMsg });
+      return false;
     }
 
     if (transPwdResult.result) {
@@ -274,21 +273,31 @@ class Transfer extends Component {
   _handleChange = (name, val) => {
     const { inflowRate, outflowRate } = this.state;
     if (name === 'outflowAmount') {
-      let amount;
-      if (val === '') {
-        amount = '';
-      } else {
-        amount = parseInt(val, 10) / outflowRate;
+      // If empty
+      if (!val) {
+        this.setState({ amount: '' });
+        return;
       }
-      this.setState({ amount: amount });
+
+      const parsedVal = parseInt(val, 10) / outflowRate;
+      // If valid
+      if (parsedVal) {
+        const newAmount = parsedVal.toString();
+        this.setState({ amount: newAmount });
+      }
     } else if (name === 'inflowAmount') {
-      let amount;
-      if (val === '') {
-        amount = '';
-      } else {
-        amount = parseInt(val, 10) / inflowRate;
+      // If empty
+      if (!val) {
+        this.setState({ amount: '' });
+        return;
       }
-      this.setState({ amount: amount });
+
+      const parsedVal = parseInt(val, 10) / inflowRate;
+      // If valid
+      if (parsedVal) {
+        const newAmount = parsedVal.toString();
+        this.setState({ amount: newAmount });
+      }
     } else {
       this.setState({
         [name]: val,
