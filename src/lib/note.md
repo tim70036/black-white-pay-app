@@ -81,3 +81,8 @@ state 要有 newest time
 
 enter scene 撈 幾筆?
 收到通知時?
+
+QR Code
+store secret key in UserAccount when create person
+gen totp token when qrCode 
+POS take token and verify with customer's key
