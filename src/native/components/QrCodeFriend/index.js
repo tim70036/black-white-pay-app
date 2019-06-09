@@ -118,7 +118,7 @@ class QrCodeFriend extends Component {
               />
             </View>
             <View style={styles.QRtextContainer}>
-              <Text style={[styles.text, { marginTop: 20 }]}>請掃描上面的 QR Code</Text>
+              <Text style={[styles.text, { marginTop: 20 }]}>掃描我的 QR Code來加入好友</Text>
             </View>
           </View>
         </View>
