@@ -48,7 +48,7 @@ function exchange(formData) {
     // Process result
     if (result && result.success) {
       // Status
-      dispatch(statusMessage('success', '轉帳成功'));
+      dispatch(statusMessage('success', '兌換成功'));
       return true;
     }
 

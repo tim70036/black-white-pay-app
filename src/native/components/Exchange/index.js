@@ -333,8 +333,8 @@ class Transfer extends Component {
       outflowAmount = '';
       inflowAmount = '';
     } else {
-      outflowAmount = (parseInt(amount, 10) * outflowRate).toString();
-      inflowAmount = (parseInt(amount, 10) * inflowRate).toString();
+      outflowAmount = (Math.floor(parseInt(amount, 10) * outflowRate)).toString();
+      inflowAmount = (Math.floor(parseInt(amount, 10) * inflowRate)).toString();
     }
 
     return (
