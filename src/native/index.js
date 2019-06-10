@@ -64,6 +64,8 @@ export default class App extends React.Component {
       require('../img/storeHome/info.png'),
       require('../img/storeHome/store.png'),
 
+      require('../img/storeList/defaultStore.png'),
+
       require('../img/home/exchange.png'),
       require('../img/home/pay.png'),
       require('../img/home/receive.png'),

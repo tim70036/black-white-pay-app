@@ -88,9 +88,13 @@ class StoreList extends React.Component {
         />
       )
       : (
-        <View style={{ ...styles.image, backgroundColor: Colors.cardLightGray }}>
+        <ImageBackground
+          style={styles.image}
+          resizeMode="cover"
+          source={require('../../../img/storeList/defaultStore.png')}
+        >
           <Text style={styles.text}>{item.name}</Text>
-        </View>
+        </ImageBackground>
       );
     return (
       <TouchableOpacity
