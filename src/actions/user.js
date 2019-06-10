@@ -1,4 +1,11 @@
 import actionType from '../constants/actionTypes';
+import { clearAnnouncements } from './announcements';
+import { clearCurStore } from './curStore';
+import { clearCurWallet } from './curWallet';
+import { clearFriend } from './friend';
+import { clearNotifications } from './notifications';
+import { clearStores } from './stores';
+import { clearWallets } from './wallets';
 import { statusMessage } from './status';
 import { apiRequest } from '../lib/util';
 
@@ -219,7 +226,17 @@ function logout() {
     // Process result
     if (result && result.success) {
       // Logout user in state
+      // Reset all data
       dispatch(replaceUserAuth(false));
+      dispatch(clearAnnouncements());
+      dispatch(clearCurStore());
+      dispatch(clearCurWallet());
+      dispatch(clearFriend());
+      dispatch(clearNotifications());
+      dispatch(clearStores());
+      dispatch(clearWallets());
+
+      // Status
       dispatch(statusMessage('success', '登出成功'));
       return true;
     }

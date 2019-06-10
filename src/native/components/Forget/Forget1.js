@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import { formStyle, elementColors } from '../../lib/styles';
 import Colors from '../../constants/colors';
-import { accountValidate } from '../../lib/validate';
+import { phoneValidate } from '../../lib/validate';
 import NavBar from '../NavBar';
 
 
@@ -28,7 +28,7 @@ class Forget extends Component {
 
   _validate = () => {
     const { account } = this.state;
-    const result = accountValidate(account);
+    const result = phoneValidate(account);
     if (result.result) {
       this.setState({ accountMsg: '' });
     } else {
@@ -72,7 +72,7 @@ class Forget extends Component {
                 autoCapitalize="none"
                 placeholder="請輸入電話號碼"
                 placeholderTextColor={Colors.placeholderGray}
-                keyboardType="default"
+                keyboardType="phone-pad"
                 onChangeText={v => this._handleChange('account', v)}
                 onSubmitEditing={Keyboard.dismiss}
               />

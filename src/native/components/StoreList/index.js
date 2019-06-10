@@ -93,14 +93,12 @@ class StoreList extends React.Component {
         </View>
       );
     return (
-      <View style={styles.card}>
-        <TouchableOpacity
-          style={{ flex: 1 }}
-          onPress={() => this._handleChoose(item.storeId)}
-        >
-          {image}
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        style={styles.card}
+        onPress={() => this._handleChoose(item.storeId)}
+      >
+        {image}
+      </TouchableOpacity>
     );
   };
 

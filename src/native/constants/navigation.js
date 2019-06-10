@@ -1,4 +1,3 @@
-
 import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../lib/util';
 import Colors from './colors';
 
@@ -6,6 +5,7 @@ export default {
 
   navbarProps: {
     hideNavBar: true,
+    panHandlers: null, // IOS drag down from top bug
   },
 
   tabProps: {

@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import { formStyle, elementColors } from '../../lib/styles';
 import Colors from '../../constants/colors';
-import { accountValidate } from '../../lib/validate';
+import { phoneValidate } from '../../lib/validate';
 import NavBar from '../NavBar';
 
 class Register extends Component {
@@ -27,7 +27,7 @@ class Register extends Component {
 
   _validate = () => {
     const { account } = this.state;
-    const result = accountValidate(account);
+    const result = phoneValidate(account);
     if (result.result) {
       this.setState({ accountMsg: '' });
     } else {
@@ -71,7 +71,7 @@ class Register extends Component {
                 autoCapitalize="none"
                 placeholder="登入帳號為手機密碼"
                 placeholderTextColor={Colors.placeholderGray}
-                keyboardType="default"
+                keyboardType="phone-pad"
                 onChangeText={v => this._handleChange('account', v)}
                 onSubmitEditing={Keyboard.dismiss}
               />

@@ -113,7 +113,7 @@ class AddFriend extends Component {
               <TextInput
                 style={formStyle.inputText}
                 autoCapitalize="none"
-                placeholder="請輸入電話號碼"
+                placeholder="請輸入對方帳號"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="default"
                 onChangeText={v => this._handleChange('account', v)}

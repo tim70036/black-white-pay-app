@@ -88,9 +88,9 @@ class AddStore extends Component {
               <TextInput
                 style={formStyle.inputText}
                 autoCapitalize="none"
-                placeholder="請輸入新暱稱"
+                placeholder="請輸入綁定代碼"
                 placeholderTextColor={Colors.placeholderGray}
-                keyboardType="default"
+                keyboardType="number-pad"
                 onChangeText={v => this._handleChange('bindCode', v)}
                 onSubmitEditing={Keyboard.dismiss}
               />

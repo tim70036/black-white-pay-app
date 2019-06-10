@@ -2,6 +2,14 @@ import actionType from '../constants/actionTypes';
 import { statusMessage } from './status';
 import { apiRequest } from '../lib/util';
 
+function replaceFriend(newFriendData) {
+  return { type: actionType.REPLACE_FRIEND, data: newFriendData };
+}
+
+function clearFriend() {
+  return { type: actionType.CLEAR_FRIEND };
+}
+
 function replaceFriends(newFriendsData) {
   return { type: actionType.REPLACE_FRIEND_FRIENDS, data: newFriendsData };
 }
@@ -217,6 +225,8 @@ function deleteFriend(formData) {
 }
 
 export {
+  replaceFriend,
+  clearFriend,
   replaceFriends,
   clearFriends,
   replaceInvitations,

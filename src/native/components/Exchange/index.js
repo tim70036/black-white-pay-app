@@ -429,7 +429,7 @@ class Transfer extends Component {
                       autoCapitalize="none"
                       placeholder="輸入轉出數量"
                       placeholderTextColor={Colors.placeholderGray}
-                      keyboardType="numeric"
+                      keyboardType="number-pad"
                       onChangeText={v => this._handleChange('outflowAmount', v)}
                       onSubmitEditing={Keyboard.dsmiss}
                       value={outflowAmount}
@@ -448,7 +448,7 @@ class Transfer extends Component {
                       autoCapitalize="none"
                       placeholder="輸入轉入數量"
                       placeholderTextColor={Colors.placeholderGray}
-                      keyboardType="numeric"
+                      keyboardType="number-pad"
                       onChangeText={v => this._handleChange('inflowAmount', v)}
                       onSubmitEditing={Keyboard.dsmiss}
                       value={inflowAmount}
@@ -468,7 +468,7 @@ class Transfer extends Component {
                 autoCapitalize="none"
                 placeholder="輸入個人轉帳密碼"
                 placeholderTextColor={Colors.placeholderGray}
-                keyboardType="default"
+                keyboardType="number-pad"
                 onChangeText={v => this._handleChange('transPwd', v)}
                 onSubmitEditing={Keyboard.dsmiss}
                 secureTextEntry

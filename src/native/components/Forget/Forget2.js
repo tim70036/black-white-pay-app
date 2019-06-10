@@ -135,7 +135,7 @@ class Forget extends Component {
                 autoCapitalize="none"
                 placeholder="請輸入交易密碼"
                 placeholderTextColor={Colors.placeholderGray}
-                keyboardType="default"
+                keyboardType="number-pad"
                 onChangeText={v => this._handleChange('transPwd', v)}
                 onSubmitEditing={Keyboard.dismiss}
                 secureTextEntry
@@ -152,7 +152,7 @@ class Forget extends Component {
                 autoCapitalize="none"
                 placeholder="請再次輸入交易密碼"
                 placeholderTextColor={Colors.placeholderGray}
-                keyboardType="default"
+                keyboardType="number-pad"
                 onChangeText={v => this._handleChange('confirmTransPwd', v)}
                 onSubmitEditing={Keyboard.dismiss}
                 secureTextEntry

@@ -43,11 +43,9 @@ const state = {
       storeName: '',
       currencyName: '',
       availBalance: 0,
-    },
-    {
-      storeId: 3,
-      currencyName: '',
-      availBalance: 0,
+      exchangeRate: 1,
+      inflow: 1,
+      outflow: 1,
     },
   ],
   notifications: [
@@ -91,8 +89,6 @@ const state = {
       isFriend: false,
     },
   },
-  
-  
   status: {
     loading: false,
     success: null,

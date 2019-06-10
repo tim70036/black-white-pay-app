@@ -71,7 +71,7 @@ class Forget extends Component {
                 autoCapitalize="none"
                 placeholder="請輸入驗證碼"
                 placeholderTextColor={Colors.placeholderGray}
-                keyboardType="default"
+                keyboardType="number-pad"
                 onChangeText={v => this._handleChange('verifyCode', v)}
                 onSubmitEditing={Keyboard.dismiss}
               />

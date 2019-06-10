@@ -96,7 +96,7 @@ async function getCameraRollImage() {
   const name = uri.split('/').pop();
   const match = /\.(\w+)$/.exec(name);
   const type = match ? `image/${match[1]}` : 'image';
-  imageData.append('userThumbnail', {
+  imageData.append('userImg', {
     name: name,
     type: type,
     uri: uri,

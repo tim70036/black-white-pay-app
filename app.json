@@ -12,7 +12,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#ffffff",
-    "icon": "./src/img/logo.png",
+    "icon": "./src/img/icon.png",
     "splash": {
       "image": "./src/img/launch.png",
       "resizeMode": "contain",

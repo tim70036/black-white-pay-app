@@ -292,7 +292,7 @@ class QrCodeReceive extends Component {
                     style={styles.textinput}
                     autoCapitalize="none"
                     placeholder=""
-                    keyboardType="numeric"
+                    keyboardType="number-pad"
                     onChangeText={v => this._handleChange('amount', v)}
                     onSubmitEditing={Keyboard.dsmiss}
                     value={amount}
