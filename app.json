@@ -34,7 +34,15 @@
     },
     "android": {
       "icon": "./src/img/iconAndroid.png",
-      "package": "com.gamesoultech.bwp"
+      "package": "com.gamesoultech.bwp",
+      "splash": {
+        "resizeMode": "cover",
+        "mdpi": "./src/img/launchAndroidMDPI.png",
+        "hdpi": "./src/img/launchAndroidHDPI.png",
+        "xhdpi": "./src/img/launchAndroidXHDPI.png",
+        "xxhdpi": "./src/img/launchAndroidXXHDPI.png",
+        "xxxhdpi": "./src/img/launchAndroidXXXHDPI.png"
+      }
     }
   }
 }
