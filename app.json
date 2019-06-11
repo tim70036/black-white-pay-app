@@ -15,7 +15,7 @@
     "icon": "./src/img/icon.png",
     "splash": {
       "image": "./src/img/launch.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#111111"
     },
     "updates": {
