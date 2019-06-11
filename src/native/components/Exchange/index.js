@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class Transfer extends Component {
+class Exchange extends Component {
   static propTypes = {
     onFormSubmit: PropTypes.func.isRequired,
     outflowWallet: PropTypes.arrayOf(
@@ -216,6 +216,8 @@ class Transfer extends Component {
       outflowStoreId: -1,
       inflowStoreId: -1,
       amount: '',
+      inflowAmount: '',
+      outflowAmount: '',
       transPwd: '',
       comment: '',
       amountMsg: '',
@@ -228,17 +230,35 @@ class Transfer extends Component {
     const {
       outflowStoreId,
       inflowStoreId,
+      outflowAmount,
+      inflowAmount,
       amount,
       transPwd,
     } = this.state;
 
     const amountResult = amountValidate(amount);
+    const inflowAmountResult = amountValidate(inflowAmount);
+    const outflowAmountResult = amountValidate(outflowAmount);
     const transPwdResult = transPwdValidate(transPwd);
 
     if (outflowStoreId === inflowStoreId) {
       this.setState({ storeIdMsg: '轉出轉入店家不可相同' });
     } else {
       this.setState({ storeIdMsg: '' });
+    }
+
+    if (outflowAmountResult.result) {
+      this.setState({ amountMsg: '' });
+    } else {
+      this.setState({ amountMsg: outflowAmountResult.errMsg });
+      return false;
+    }
+
+    if (inflowAmountResult.result) {
+      this.setState({ amountMsg: '' });
+    } else {
+      this.setState({ amountMsg: inflowAmountResult.errMsg });
+      return false;
     }
 
     if (amountResult.result) {
@@ -263,10 +283,10 @@ class Transfer extends Component {
     let targetWallet;
     if (name === 'inflow') {
       targetWallet = inflowWallet.find(element => element.storeId === storeId);
-      this.setState({ inflowStoreId: storeId, inflowRate: targetWallet.exchangeRate });
+      this.setState({ inflowStoreId: storeId, inflowRate: targetWallet.exchangeRate, inflowAmount: '', outflowAmount: '', amount: '' });
     } else if (name === 'outflow') {
       targetWallet = outflowWallet.find(element => element.storeId === storeId);
-      this.setState({ outflowStoreId: storeId, outflowRate: targetWallet.exchangeRate });
+      this.setState({ outflowStoreId: storeId, outflowRate: targetWallet.exchangeRate, inflowAmount: '', outflowAmount: '', amount: '' });
     }
   }
 
@@ -275,28 +295,32 @@ class Transfer extends Component {
     if (name === 'outflowAmount') {
       // If empty
       if (!val) {
-        this.setState({ amount: '' });
+        this.setState({ outflowAmount: '', inflowAmount: '', amount: '' });
         return;
       }
 
-      const parsedVal = parseInt(val, 10) / outflowRate;
+      const parsedVal = Math.floor((parseInt(val, 10) / outflowRate) * inflowRate);
+      const parsedMidVal = Math.floor(val / outflowRate);
       // If valid
-      if (parsedVal) {
+      if (parsedVal || parsedVal === 0) {
         const newAmount = parsedVal.toString();
-        this.setState({ amount: newAmount });
+        const newMidAmount = parsedMidVal.toString();
+        this.setState({ outflowAmount: val, inflowAmount: newAmount, amount: newMidAmount });
       }
     } else if (name === 'inflowAmount') {
       // If empty
       if (!val) {
-        this.setState({ amount: '' });
+        this.setState({ outflowAmount: '', inflowAmount: '', amount: '' });
         return;
       }
 
-      const parsedVal = parseInt(val, 10) / inflowRate;
+      const parsedVal = Math.ceil((parseInt(val, 10) / inflowRate) * outflowRate);
+      const parsedMidVal = Math.floor(parsedVal / outflowRate);
       // If valid
-      if (parsedVal) {
+      if (parsedVal || parsedVal === 0) {
         const newAmount = parsedVal.toString();
-        this.setState({ amount: newAmount });
+        const newMidAmount = parsedMidVal.toString();
+        this.setState({ outflowAmount: newAmount, inflowAmount: val, amount: newMidAmount });
       }
     } else {
       this.setState({
@@ -318,24 +342,14 @@ class Transfer extends Component {
   render = () => {
     const { outflowWallet, inflowWallet } = this.props;
     const {
-      inflowRate,
-      outflowRate,
-      amount,
+      inflowAmount,
+      outflowAmount,
       amountMsg,
       transPwdMsg,
       storeIdMsg,
       outflowStoreId,
       inflowStoreId,
     } = this.state;
-    let outflowAmount;
-    let inflowAmount;
-    if (amount === '') {
-      outflowAmount = '';
-      inflowAmount = '';
-    } else {
-      outflowAmount = (Math.floor(parseInt(amount, 10) * outflowRate)).toString();
-      inflowAmount = (Math.floor(parseInt(amount, 10) * inflowRate)).toString();
-    }
 
     return (
       <ImageBackground style={styles.container} source={require('../../../img/background/background3.png')}>
@@ -509,4 +523,4 @@ class Transfer extends Component {
   }
 }
 
-export default Transfer;
+export default Exchange;

@@ -161,7 +161,7 @@ export default class App extends React.Component {
     const { store } = this.props;
     // If not login, reset to login/register screen
     if (!store.getState().user.authenticated) {
-      console.log(`in ${Actions.currentScene}, but not logined`);
+      // console.log(`in ${Actions.currentScene}, but not logined`);
       return false;
     }
     return true;
