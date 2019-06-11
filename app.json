@@ -12,7 +12,6 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#ffffff",
-    "icon": "./src/img/icon.png",
     "splash": {
       "image": "./src/img/launch.png",
       "resizeMode": "cover",
@@ -25,7 +24,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
+      "icon": "./src/img/iconIos.png",
+      "supportsTablet": false,
       "bundleIdentifier": "com.gamesoultech.bwp",
       "infoPlist": {
         "NSCameraUsageDescription": "黑白 Pay 只會使用相機來掃描 QR Code",
@@ -33,6 +33,7 @@
       }
     },
     "android": {
+      "icon": "./src/img/iconAndroid.png",
       "package": "com.gamesoultech.bwp"
     }
   }
