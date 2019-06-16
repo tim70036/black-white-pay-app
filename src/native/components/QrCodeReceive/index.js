@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   },
   textinput: {
     color: Colors.labelWhite,
-    fontSize: 18,
+    fontSize: 15,
     height: 35,
     backgroundColor: Colors.cardLightGray,
     width: '100%',
@@ -280,7 +280,7 @@ class QrCodeReceive extends Component {
                         <IosPicker
                           mode="dropdown"
                           style={styles.iospicker}
-                          textStyle={{ color: Colors.labelWhite }}
+                          textStyle={{ color: Colors.labelWhite, fontSize: 15 }}
                           itemStyle={{
                             marginLeft: 0,
                             paddingLeft: 10,
@@ -296,6 +296,7 @@ class QrCodeReceive extends Component {
                         <Picker
                           style={styles.picker}
                           selectedValue={curStoreId}
+                          activeItemTextStyle={{ fontSize: 15 }}
                           onValueChange={itemValue => this._handleChoose(itemValue)}
                         >
                           { walletsData.map((i, index) => (
