@@ -8,6 +8,7 @@ import {
   ImageBackground,
   Picker,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import { Picker as IosPicker, Icon } from 'native-base';
 
@@ -31,30 +32,45 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: viewportHeightPercent(14),
+    // height: viewportHeightPercent(14),
+    height: viewportHeightPercent(7),
     width: viewportWidthPercent(80),
     borderRadius: viewportWidthPercent(5),
     backgroundColor: Colors.cardLightGray,
   },
-  pickerContainer: {
+  currencyInputText: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: viewportWidthPercent(50),
-	height: '50%',
-	backgroundColor: Colors.placeholderGray,
+  },
+  dot: {
+    height: viewportHeightPercent(1),
+    width: viewportHeightPercent(1),
+    borderRadius: viewportHeightPercent(1) / 2,
+    marginRight: viewportHeightPercent(1),
+  },
+  pickerContainer: {
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    width: viewportWidthPercent(25),
+    // height: '25%',
+    height: 35,
+    // marginTop: viewportHeightPercent(1),
+    // paddingLeft: viewportWidthPercent(12),
+    backgroundColor: Colors.cardLightGray,
   },
   picker: {
     flex: 1,
-	color: Colors.labelWhite,
-  height: viewportHeightPercent(7),
-  width: viewportWidthPercent(50),
-	backgroundColor: Colors.placeholderGray,
+    color: Colors.labelWhite,
+    height: viewportHeightPercent(7),
+    width: viewportWidthPercent(50),
+	  backgroundColor: Colors.cardLightGray,
   },
   iospicker: {
-	flex: 1,
-  height: viewportHeightPercent(7),
-  width: viewportWidthPercent(50),
-    backgroundColor: Colors.placeholderGray,
+    // flex: 1,
+    // height: viewportHeightPercent(7),
+    height: 35,
+    width: viewportWidthPercent(20),
+    backgroundColor: Colors.cardLightGray,
   },
   qrCodeContainer: {
     width: viewportWidthPercent(80),
@@ -86,9 +102,22 @@ const styles = StyleSheet.create({
   },
   labeltext: {
     color: Colors.labelWhite,
+    marginVertical: 2,
+    marginLeft: 4,
   },
   icon: {
-	fontSize: 25,
+    fontSize: 25,
+  },
+  qrCodeRefreshContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: viewportHeightPercent(2),
+    paddingVertical: viewportWidthPercent(5),
+    width: viewportWidthPercent(80),
+    // height: buttonHeight,
+    backgroundColor: Colors.cardLightGray,
+    borderRadius: viewportWidthPercent(5),
   },
 });
 
@@ -130,12 +159,50 @@ class QrCodePay extends Component {
         <NavBar title="付款" back />
         <View style={styles.container}>
           <View style={styles.inputContainer}>
-            <View style={styles.pickerContainer}>
+            <View style={styles.currencyInputText}>
+              <View style={[styles.dot, { backgroundColor: '#3AF8D2' }]} />
+              {/* <Text style={styles.labeltext}>選擇幣別</Text> */}
+              <View style={styles.pickerContainer}>
+                {
+                  IS_IOS ? (
+                    <IosPicker
+                      iosHeader="請選擇幣別"
+                      mode="dropdown"
+                      style={styles.iospicker}
+                      textStyle={{ color: Colors.labelWhite }}
+                      itemStyle={{
+                        marginLeft: 0,
+                        paddingLeft: 10,
+                      }}
+                      selectedValue={curStoreId}
+                      onValueChange={itemValue => this._handleChoose(itemValue)}
+                    >
+                      { walletsData.map((i, index) => (
+                        <IosPicker.Item key={i} label={`${i.currencyName}`} value={i.storeId} />
+                      ))}
+                    </IosPicker>
+
+                  ) : (
+                    <Picker
+                      style={styles.picker}
+                      selectedValue={curStoreId}
+                      onValueChange={itemValue => this._handleChoose(itemValue)}
+                      prompt="請選擇幣別"
+                    >
+                      { walletsData.map((i, index) => (
+                        <Picker.Item key={i} label={`${i.currencyName}`} value={i.storeId} />
+                      ))}
+                    </Picker>
+                  )
+                }
+              </View>
+              <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white', marginLeft: 15 }]} />
+            </View>
+            {/* <View style={styles.pickerContainer}>
               {
                 IS_IOS ? (
                   <IosPicker
                     iosHeader="請選擇幣別"
-                    // iosIcon={<Image style={{ height: 9, width: 16, resizeMode: 'contain' }} source={require('../../../img/form/trianglePicker.png')} />}
                     mode="dropdown"
                     style={styles.iospicker}
                     textStyle={{ color: Colors.labelWhite }}
@@ -147,7 +214,7 @@ class QrCodePay extends Component {
                     onValueChange={itemValue => this._handleChoose(itemValue)}
                   >
                     { walletsData.map((i, index) => (
-                      <IosPicker.Item key={i} label={`${i.storeName} (${i.currencyName})`} value={i.storeId} />
+                      <IosPicker.Item key={i} label={`${i.currencyName}`} value={i.storeId} />
                     ))}
                   </IosPicker>
 
@@ -159,13 +226,12 @@ class QrCodePay extends Component {
                     prompt="請選擇幣別"
                   >
                     { walletsData.map((i, index) => (
-                      <Picker.Item key={i} label={`${i.storeName} (${i.currencyName})`} value={i.storeId} />
+                      <Picker.Item key={i} label={`${i.currencyName}`} value={i.storeId} />
                     ))}
                   </Picker>
                 )
               }
-              <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white', marginLeft: -20 }]} />
-            </View>
+            </View> */}
           </View>
           <View style={styles.qrCodeContainer}>
             <View style={styles.qrCode}>
@@ -180,6 +246,10 @@ class QrCodePay extends Component {
               <Text style={[styles.text, { marginTop: 20 }]}>請掃描上面的 QR Code</Text>
             </View>
           </View>
+          <TouchableOpacity style={styles.qrCodeRefreshContainer} onPress={console.log()}>
+            <Icon name="md-refresh" type="Ionicons" style={[styles.icon, { color: Colors.labelGold, marginRight: 15 }]} />
+            <Text style={[styles.text, { color: Colors.labelGold }]}>刷新二維碼</Text>
+          </TouchableOpacity>
         </View>
       </ImageBackground>
     );

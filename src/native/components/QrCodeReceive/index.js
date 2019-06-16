@@ -14,7 +14,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { LinearGradient } from 'expo';
-import { Picker as IosPicker } from 'native-base';
+import { Picker as IosPicker, Icon } from 'native-base';
 import { viewportWidthPercent, viewportHeightPercent, IS_IOS } from '../../lib/util';
 import { amountValidate } from '../../lib/validate';
 import NavBar from '../NavBar';
@@ -42,38 +42,52 @@ const styles = StyleSheet.create({
     paddingVertical: viewportHeightPercent(2),
   },
   input: {
-    flex: 1,
     flexDirection: 'row',
-    alignItems: 'flex-start',
     justifyContent: 'center',
-    // paddingTop: viewportHeightPercent(2),
+    alignItems: 'center',
+    height: viewportHeightPercent(9),
+    marginTop: viewportHeightPercent(1),
   },
   currencyInput: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    marginHorizontal: viewportWidthPercent(5),
+  },
+  currencyInputText: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: viewportWidthPercent(6),
+  },
+  dot: {
+    height: viewportHeightPercent(1),
+    width: viewportHeightPercent(1),
+    borderRadius: viewportHeightPercent(1) / 2,
+    marginRight: viewportHeightPercent(1),
+  },
+  middleLine: {
+    height: viewportHeightPercent(4),
+    width: 1,
+    backgroundColor: Colors.placeholderGray,
   },
   pickerContainer: {
-    height: 30,
-    width: '100%',
-    borderRadius: viewportWidthPercent(1),
+    height: 35,
+    width: '80%',
+    marginLeft: '20%',
     overflow: 'hidden',
   },
   picker: {
     color: 'white',
-    height: 30,
-    backgroundColor: Colors.placeholderGray,
+    height: 35,
+    backgroundColor: Colors.cardLightGray,
     width: '100%',
   },
   iospicker: {
-    height: 30,
-    backgroundColor: Colors.placeholderGray,
+    height: 35,
+    backgroundColor: Colors.cardLightGray,
     width: '100%',
   },
   amountInput: {
-    flex: 1,
+    // flex: 1,
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
@@ -81,12 +95,12 @@ const styles = StyleSheet.create({
   },
   textinput: {
     color: Colors.labelWhite,
-    height: 30,
-    backgroundColor: Colors.placeholderGray,
+    fontSize: 18,
+    height: 35,
+    backgroundColor: Colors.cardLightGray,
     width: '100%',
     borderRadius: viewportWidthPercent(1),
     paddingLeft: viewportWidthPercent(3),
-    paddingBottom: 0,
   },
   labeltext: {
     color: Colors.labelWhite,
@@ -136,7 +150,7 @@ const styles = StyleSheet.create({
     width: '60%',
     alignSelf: 'flex-start',
     justifyContent: 'center',
-    height: 30,
+    height: viewportHeightPercent(5),
     borderRadius: 36.5,
 
     shadowColor: '#D3BD99',
@@ -154,10 +168,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 36.5,
   },
-
   buttonText: {
     color: Colors.labelWhite,
     fontSize: 16,
+  },
+  icon: {
+    fontSize: 25,
   },
 });
 
@@ -253,7 +269,11 @@ class QrCodeReceive extends Component {
             <View style={styles.inputContainer}>
               <View style={styles.input}>
                 <View style={styles.currencyInput}>
-                  <Text style={styles.labeltext}>選擇幣別</Text>
+                  <View style={styles.currencyInputText}>
+                    <View style={[styles.dot, { backgroundColor: '#FF7F34' }]} />
+                    <Text style={styles.labeltext}>選擇幣別</Text>
+                    <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white', marginLeft: 15 }]} />
+                  </View>
                   <View style={styles.pickerContainer}>
                     {
                       IS_IOS ? (
@@ -269,7 +289,7 @@ class QrCodeReceive extends Component {
                           onValueChange={itemValue => this._handleChoose(itemValue)}
                         >
                           { walletsData.map((i, index) => (
-                            <IosPicker.Item key={i} label={`${i.storeName} (${i.currencyName})`} value={i.storeId} />
+                            <IosPicker.Item key={i} label={`${i.currencyName}`} value={i.storeId} />
                           ))}
                         </IosPicker>
                       ) : (
@@ -279,26 +299,35 @@ class QrCodeReceive extends Component {
                           onValueChange={itemValue => this._handleChoose(itemValue)}
                         >
                           { walletsData.map((i, index) => (
-                            <Picker.Item key={i} label={`${i.storeName} (${i.currencyName})`} value={i.storeId} />
+                            <Picker.Item key={i} label={`${i.currencyName}`} value={i.storeId} />
                           ))}
                         </Picker>
                       )
                     }
                   </View>
                 </View>
-                <View style={styles.amountInput}>
-                  <Text style={styles.labeltext}>輸入收款數量</Text>
-                  <TextInput
-                    style={styles.textinput}
-                    autoCapitalize="none"
-                    placeholder=""
-                    keyboardType="number-pad"
-                    onChangeText={v => this._handleChange('amount', v)}
-                    onSubmitEditing={Keyboard.dsmiss}
-                    value={amount}
-                  />
-                  <Text style={styles.valText}>{amountMsg}</Text>
+                <View style={[styles.middleLine, { height: viewportHeightPercent(8) }]} />
+                <View style={styles.currencyInput}>
+                  <View style={styles.currencyInputText}>
+                    <View style={[styles.dot, { backgroundColor: '#3AF8D2' }]} />
+                    <Text style={styles.labeltext}>輸入收款數量</Text>
+                  </View>
+                  <View style={styles.amountInput}>
+                    <TextInput
+                      style={styles.textinput}
+                      autoCapitalize="none"
+                      placeholder="輸入收款數量"
+                      placeholderTextColor={Colors.placeholderGray}
+                      keyboardType="number-pad"
+                      onChangeText={v => this._handleChange('amount', v)}
+                      onSubmitEditing={Keyboard.dsmiss}
+                      value={amount}
+                    />
+                  </View>
                 </View>
+              </View>
+              <View style={styles.valTextContainer}>
+                <Text style={styles.valText}>{amountMsg}</Text>
               </View>
               <View style={styles.inputButton}>
                 <LinearGradient
