@@ -9,7 +9,7 @@
       "ios",
       "android"
     ],
-    "version": "1.0.0",
+    "version": "1.0.4",
     "orientation": "portrait",
     "primaryColor": "#ffffff",
     "splash": {
@@ -26,7 +26,7 @@
     "ios": {
       "icon": "./src/img/iconIos.png",
       "supportsTablet": false,
-      "bundleIdentifier": "com.gamesoultech.bwp",
+      "bundleIdentifier": "com.gamesoultech.BlackWhitePay",
       "infoPlist": {
         "NSCameraUsageDescription": "黑白 Pay 只會使用相機來掃描 QR Code",
         "NSPhotoLibraryUsageDescription": "黑白 Pay 將讀取相簿來選擇相片"

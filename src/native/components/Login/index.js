@@ -83,7 +83,7 @@ class Login extends Component {
     const success = await onFormSubmit(this.state);
 
     if (success) {
-      registerForNotifications();
+      await registerForNotifications();
       Actions.main(); // need reset?
     }
   }

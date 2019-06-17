@@ -1,6 +1,7 @@
 import React from 'react';
 import { StatusBar, StyleSheet } from 'react-native';
-import { Font, Asset } from 'expo';
+import { Font, Asset, Notifications } from 'expo';
+import { Audio } from 'expo-av';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
@@ -19,12 +20,14 @@ import theme from '../../native-base-theme/variables/commonColor';
 import getRoutes from './routes/index';
 import Loading from './components/Loading';
 import { appendNotifications } from '../actions/notifications';
+import { IS_IOS } from './lib/util';
 
 // Invert status bar text color
 StatusBar.setBarStyle('light-content');
 // Hide StatusBar on Android as it overlaps tabs
 // if (Platform.OS === 'android') StatusBar.setHidden(false);
 
+const notificationSound = new Audio.Sound();
 
 const styles = StyleSheet.create({
   rootContainer: {
@@ -142,19 +145,35 @@ export default class App extends React.Component {
       Ionicons: require('@expo/vector-icons/fonts/Ionicons.ttf'),
     });
 
+    // Handle notifications that are received or selected while the app
+    // is open. If the app was closed and then opened by tapping the
+    // notification (rather than just tapping the app icon to open it),
+    // this function will fire on the next tick after the app starts
+    // with the notification data.
+    this._notificationSubscription = Notifications.addListener(this._handleNotification);
+
     this.setState({ loading: false });
   }
 
-  _handleNotifications = (receivedData) => {
+  _handleNotifications = async (receivedData) => {
     const { data, origin } = receivedData;
     const { store } = this.props;
 
     // Process notification
     let notificationData = data.notifications;
-    notificationData = notificationData.map(item => ({ ...item, hasRead: false }));
 
-    // Into redux
-    store.dispatch(appendNotifications(notificationData));
+    // Notification is received when user using the app
+    // Only IOS won't show notificaiton when user is using the app
+    // So we gotta handle it
+    if (origin === 'received' && IS_IOS) {
+      try {
+        await notificationSound.loadAsync(require('../audio/notification.mp3'));
+        await notificationSound.playAsync();
+        // Your sound is playing!
+      } catch (error) {
+        // An error occurred!
+      }
+    }
   }
 
   _authenticateUser = () => {
