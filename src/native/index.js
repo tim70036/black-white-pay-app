@@ -1,7 +1,6 @@
 import React from 'react';
 import { StatusBar, StyleSheet } from 'react-native';
-import { Font, Asset, Notifications } from 'expo';
-import { Audio } from 'expo-av';
+import { Font, Asset, Notifications, Audio } from 'expo';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
@@ -136,6 +135,9 @@ export default class App extends React.Component {
       require('../img/tabbar/friend-unfocus.png'),
       require('../img/tabbar/person-focus.png'),
       require('../img/tabbar/person-unfocus.png'),
+
+      // Audio
+      require('../audio/notification.mp3'),
     ]);
 
     // Font
@@ -150,7 +152,7 @@ export default class App extends React.Component {
     // notification (rather than just tapping the app icon to open it),
     // this function will fire on the next tick after the app starts
     // with the notification data.
-    this._notificationSubscription = Notifications.addListener(this._handleNotification);
+    this._notificationSubscription = Notifications.addListener(this._handleNotifications);
 
     this.setState({ loading: false });
   }
