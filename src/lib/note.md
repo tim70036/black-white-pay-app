@@ -1,3 +1,9 @@
+Android keystore
+Keystore password: 508bd40ee9ac4eb8b1861a37c8e53b14
+Key alias:         QHRpbTcwMDM2L0JsYWNrV2hpdGVQYXk=
+Key password:      ffeac4260b2648a2943239b29ce8482a
+
+
 adb devices
 adb reverse tcp:8080 tcp:8080
 

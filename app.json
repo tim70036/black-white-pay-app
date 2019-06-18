@@ -33,6 +33,7 @@
       }
     },
     "android": {
+      "versionCode": 2,
       "icon": "./src/img/iconAndroid.png",
       "package": "com.gamesoultech.bwp",
       "splash": {
