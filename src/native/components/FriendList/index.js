@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
   },
 
   friendContainer: {
+    flex: 1, // scroll bug
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -114,6 +115,7 @@ const FriendList = ({ friendData }) => {
           ItemSeparatorComponent={_renderShortcutSeparator}
           renderItem={_renderShortcut}
           keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
         />
       </View>
       <View style={styles.friendContainer}>
@@ -122,6 +124,7 @@ const FriendList = ({ friendData }) => {
           ItemSeparatorComponent={_renderFriendSeparator}
           renderItem={_renderFriend}
           keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     </ImageBackground>

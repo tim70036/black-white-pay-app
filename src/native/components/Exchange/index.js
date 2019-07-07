@@ -475,12 +475,12 @@ class Exchange extends Component {
               </View>
             </View>
             <View style={styles.transPwdContainer}>
-              <Text style={styles.label}>個人轉帳密碼</Text>
+              <Text style={styles.label}>個人交易密碼</Text>
               <TextInput
                 style={[styles.inputText,
                   { width: viewportWidthPercent(35), marginTop: viewportWidthPercent(2) }]}
                 autoCapitalize="none"
-                placeholder="輸入個人轉帳密碼"
+                placeholder="輸入個人交易密碼"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="number-pad"
                 onChangeText={v => this._handleChange('transPwd', v)}

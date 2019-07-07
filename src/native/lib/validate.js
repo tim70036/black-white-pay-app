@@ -34,11 +34,11 @@ const pwdValidate = (data) => {
 const transPwdValidate = (data) => {
   const transPwdVal = /^\d{6}$/g;
   if (data.length < 1) {
-    return { result: false, errMsg: '轉帳密碼必須為6位數字' };
+    return { result: false, errMsg: '交易密碼必須為6位數字' };
   }
 
   if (!transPwdVal.test(data)) {
-    return { result: false, errMsg: '轉帳密碼必須為6位數字' };
+    return { result: false, errMsg: '交易密碼必須為6位數字' };
   }
   return { result: true, errMsg: '' };
 };

@@ -5,7 +5,7 @@ export default {
 
   navbarProps: {
     hideNavBar: true,
-    panHandlers: null, // IOS drag down from top bug
+    // panHandlers: null, // IOS drag down from top bug
   },
 
   tabProps: {

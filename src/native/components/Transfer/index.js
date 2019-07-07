@@ -237,12 +237,12 @@ class Transfer extends Component {
             <View style={styles.inputItem}>
               <View style={formStyle.label}>
                 <Image source={require('../../../img/form/transPwd.png')} style={formStyle.icon} />
-                <Text style={formStyle.labelText}> 個人轉帳密碼</Text>
+                <Text style={formStyle.labelText}> 個人交易密碼</Text>
               </View>
               <TextInput
                 style={formStyle.inputText}
                 autoCapitalize="none"
-                placeholder="請輸入轉帳密碼"
+                placeholder="請輸入交易密碼"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="number-pad"
                 onChangeText={v => this._handleChange('transPwd', v)}
