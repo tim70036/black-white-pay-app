@@ -27,7 +27,7 @@ class TransHistory extends Component {
   }
 
   componentWillMount() {
-    const startTime = moment().startOf('day').subtract(1, 'months').utc()
+    const startTime = moment().startOf('day').subtract(1, 'weeks').utc()
       .format('YYYY-MM-DD HH:mm');
     const endTime = moment(new Date()).endOf('day').utc().format('YYYY-MM-DD HH:mm');
     this._handleSubmit(startTime, endTime);
@@ -45,10 +45,9 @@ class TransHistory extends Component {
       currencySrc,
       storeId,
     } = this.props;
-    const defaultStartTime = moment().startOf('day').subtract(1, 'months').format('YYYY-MM-DD');
+    const defaultStartTime = moment().startOf('day').subtract(1, 'weeks').format('YYYY-MM-DD');
     const defaultEndTime = moment(new Date()).endOf('day').format('YYYY-MM-DD');
-    const defaultStartTimeUtc = moment().startOf('day').subtract(1, 'months').utc()
-      .format('YYYY-MM-DD HH:mm');
+    const defaultStartTimeUtc = moment().startOf('day').subtract(1, 'weeks').utc().format('YYYY-MM-DD HH:mm');
     const defaultEndTimeUtc = moment(new Date()).endOf('day').utc().format('YYYY-MM-DD HH:mm');
 
     return (

@@ -34,11 +34,11 @@ const pwdValidate = (data) => {
 const transPwdValidate = (data) => {
   const transPwdVal = /^\d{6}$/g;
   if (data.length < 1) {
-    return { result: false, errMsg: '交易密碼必須為6位數字' };
+    return { result: false, errMsg: '轉帳密碼必須為6位數字' };
   }
 
   if (!transPwdVal.test(data)) {
-    return { result: false, errMsg: '交易密碼必須為6位數字' };
+    return { result: false, errMsg: '轉帳密碼必須為6位數字' };
   }
   return { result: true, errMsg: '' };
 };
@@ -61,12 +61,19 @@ const bindCodeValidate = (data) => {
 
 const amountValidate = (data) => {
   // amount can not start with 0
-  const amountVal = /^[^0]\d+$/g;
+  const amountVal = /^[1-9][0-9]*$/g;
   if (parseInt(data, 10) === 0) {
     return { result: false, errMsg: '轉帳數量不可為0' };
   }
   if (!amountVal.test(data)) {
     return { result: false, errMsg: '轉帳數量必須為數字且開頭不可為0' };
+  }
+  return { result: true, errMsg: '' };
+};
+
+const commentValidate = (data) => {
+  if (data.length > 10) {
+    return { result: false, errMsg: '備註長度不可超過10' };
   }
   return { result: true, errMsg: '' };
 };
@@ -80,4 +87,5 @@ export {
   verifyCodeValidate,
   bindCodeValidate,
   amountValidate,
+  commentValidate,
 };

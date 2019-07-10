@@ -19,7 +19,7 @@ import { __values } from 'tslib';
 import NavBar from '../NavBar';
 import { formStyle, elementColors } from '../../lib/styles';
 import Colors from '../../constants/colors';
-import { amountValidate, transPwdValidate, accountValidate } from '../../lib/validate';
+import { amountValidate, transPwdValidate, accountValidate, commentValidate } from '../../lib/validate';
 import {
   viewportWidthPercent,
   viewportHeightPercent,
@@ -66,6 +66,7 @@ class Transfer extends Component {
     onFormSubmit: PropTypes.func.isRequired,
     defaultAccount: PropTypes.string.isRequired,
     defaultAmount: PropTypes.string.isRequired,
+    defaultComment: PropTypes.string.isRequired,
     curStoreId: PropTypes.number.isRequired,
     walletsData: PropTypes.arrayOf(
       PropTypes.shape({
@@ -86,7 +87,8 @@ class Transfer extends Component {
       accountTo: props.defaultAccount,
       amount: props.defaultAmount,
       transPwd: '',
-      comment: '',
+      comment: props.defaultComment,
+      commentMsg: '',
       accountMsg: '',
       amountMsg: '',
       transPwdMsg: '',
@@ -94,12 +96,13 @@ class Transfer extends Component {
   }
 
   _validate = () => {
-    const { accountTo, transPwd, amount } = this.state;
+    const { accountTo, transPwd, amount, comment } = this.state;
 
     // do not check account here, since other role's account may not be phone number
     const accountResult = accountValidate(accountTo);
     const amountResult = amountValidate(amount);
     const transPwdResult = transPwdValidate(transPwd);
+    const commentResult = commentValidate(comment);
 
     if (accountResult.result) {
       this.setState({ accountMsg: '' });
@@ -119,6 +122,13 @@ class Transfer extends Component {
       this.setState({ transPwdMsg: '' });
     } else {
       this.setState({ transPwdMsg: transPwdResult.errMsg });
+      return false;
+    }
+
+    if (commentResult.result) {
+      this.setState({ commentMsg: '' });
+    } else {
+      this.setState({ commentMsg: commentResult.errMsg });
       return false;
     }
 
@@ -149,8 +159,8 @@ class Transfer extends Component {
 
   render() {
     const { curStoreId, walletsData } = this.props;
-    const { accountTo, amount } = this.state;
-    const { accountMsg, amountMsg, transPwdMsg } = this.state;
+    const { accountTo, amount, comment } = this.state;
+    const { accountMsg, amountMsg, transPwdMsg, commentMsg } = this.state;
     return (
       <ImageBackground source={require('../../../img/background/background2.png')} style={formStyle.container}>
         <ScrollView>
@@ -237,12 +247,12 @@ class Transfer extends Component {
             <View style={styles.inputItem}>
               <View style={formStyle.label}>
                 <Image source={require('../../../img/form/transPwd.png')} style={formStyle.icon} />
-                <Text style={formStyle.labelText}> 個人交易密碼</Text>
+                <Text style={formStyle.labelText}> 個人轉帳密碼</Text>
               </View>
               <TextInput
                 style={formStyle.inputText}
                 autoCapitalize="none"
-                placeholder="請輸入交易密碼"
+                placeholder="請輸入轉帳密碼"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="number-pad"
                 onChangeText={v => this._handleChange('transPwd', v)}
@@ -264,7 +274,9 @@ class Transfer extends Component {
                 keyboardType="default"
                 onChangeText={v => this._handleChange('comment', v)}
                 onSubmitEditing={Keyboard.dismiss}
+                value={comment}
               />
+              <Text style={formStyle.valText}>{commentMsg}</Text>
             </View>
             <LinearGradient
               colors={elementColors.buttonLinearGradient}

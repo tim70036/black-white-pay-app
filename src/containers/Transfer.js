@@ -12,6 +12,7 @@ class Transfer extends Component {
     chooseWallet: PropTypes.func.isRequired,
     defaultAccount: PropTypes.string,
     defaultAmount: PropTypes.string,
+    defaultComment: PropTypes.string,
     walletsData: PropTypes.arrayOf(
       PropTypes.shape({
         currencyName: PropTypes.string,
@@ -24,6 +25,7 @@ class Transfer extends Component {
   static defaultProps = {
     defaultAccount: '',
     defaultAmount: '',
+    defaultComment: '',
     curStoreId: -1,
     walletsData: [],
   }
@@ -52,6 +54,7 @@ class Transfer extends Component {
       Layout,
       defaultAccount,
       defaultAmount,
+      defaultComment,
       curStoreId,
       walletsData,
     } = this.props;
@@ -63,6 +66,7 @@ class Transfer extends Component {
         walletsData={walletsData}
         defaultAccount={defaultAccount}
         defaultAmount={defaultAmount}
+        defaultComment={defaultComment}
         curStoreId={curStoreId}
       />
     );

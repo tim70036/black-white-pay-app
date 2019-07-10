@@ -89,6 +89,11 @@ const state = {
       isFriend: false,
     },
   },
+  qrCodeReceive: {
+	  storeId: -1,
+	  amount: '',
+	  comment: '',
+  },
   status: {
     loading: false,
     success: null,

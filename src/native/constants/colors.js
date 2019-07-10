@@ -7,6 +7,9 @@ const Colors = {
 
   cardLightGray: '#2a2a2a',
   cardGray: '#1a1a1a',
+  cardGold: '#b9a078',
+  cardLightRed: '#FF3333',
+  cardRed: '#b20000',
 
   accordianHeaderGray: '#2a2a2a',
   accordianContentGray: '#1a1a1a',

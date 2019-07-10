@@ -22,7 +22,7 @@ import PropTypes from 'prop-types';
 import NavBar from '../NavBar';
 import Colors from '../../constants/colors';
 import { formStyle, elementColors } from '../../lib/styles';
-import { amountValidate, transPwdValidate } from '../../lib/validate';
+import { amountValidate, transPwdValidate, commentValidate } from '../../lib/validate';
 import {
   viewportWidthPercent,
   viewportHeightPercent,
@@ -220,6 +220,7 @@ class Exchange extends Component {
       outflowAmount: '',
       transPwd: '',
       comment: '',
+      commentMsg: '',
       amountMsg: '',
       transPwdMsg: '',
       storeIdMsg: '',
@@ -234,12 +235,14 @@ class Exchange extends Component {
       inflowAmount,
       amount,
       transPwd,
+      comment,
     } = this.state;
 
     const amountResult = amountValidate(amount);
     const inflowAmountResult = amountValidate(inflowAmount);
     const outflowAmountResult = amountValidate(outflowAmount);
     const transPwdResult = transPwdValidate(transPwd);
+    const commentResult = commentValidate(comment);
 
     if (outflowStoreId === inflowStoreId) {
       this.setState({ storeIdMsg: '轉出轉入店家不可相同' });
@@ -272,6 +275,13 @@ class Exchange extends Component {
       this.setState({ transPwdMsg: '' });
     } else {
       this.setState({ transPwdMsg: transPwdResult.errMsg });
+      return false;
+    }
+
+    if (commentResult.result) {
+      this.setState({ commentMsg: '' });
+    } else {
+      this.setState({ commentMsg: commentResult.errMsg });
       return false;
     }
 
@@ -347,6 +357,7 @@ class Exchange extends Component {
       amountMsg,
       transPwdMsg,
       storeIdMsg,
+      commentMsg,
       outflowStoreId,
       inflowStoreId,
     } = this.state;
@@ -501,6 +512,7 @@ class Exchange extends Component {
                 onChangeText={v => this._handleChange('comment', v)}
                 onSubmitEditing={Keyboard.dsmiss}
               />
+              <Text style={styles.valText}>{commentMsg}</Text>
             </View>
             <LinearGradient
               colors={elementColors.buttonLinearGradient}

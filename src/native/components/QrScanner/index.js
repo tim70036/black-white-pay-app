@@ -70,6 +70,7 @@ class QrScanner extends React.Component {
     const { onScanReceive, onScanFriend } = this.props;
     const { hasReadQRcode } = this.state;
     let query;
+
     if (hasReadQRcode === true) return;
     this.setState({ hasReadQRcode: true });
     // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
@@ -83,7 +84,7 @@ class QrScanner extends React.Component {
 
     if (query.type === 'receive') {
       await onScanReceive(query.storeId);
-      Actions.replace('transfer', { defaultAccount: query.account, defaultAmount: query.amount });
+      Actions.replace('transfer', { defaultAccount: query.account, defaultAmount: query.amount, defaultComment: query.comment });
     } else if (query.type === 'friend') {
       await onScanFriend(query);
       Actions.replace('friendDetail');

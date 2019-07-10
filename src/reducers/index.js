@@ -7,6 +7,7 @@ import curWallet from './curWallet';
 import notifications from './notifications';
 import friend from './friend';
 import status from './status';
+import qrCodeReceive from './qrCodeReceive';
 
 // Redux persist
 const rehydrated = (state = false, action) => {
@@ -34,6 +35,7 @@ export default {
   wallets: wallets,
   curWallet: curWallet,
   notifications: notifications,
+  qrCodeReceive: qrCodeReceive,
   friend: friend,
   status: status,
 };

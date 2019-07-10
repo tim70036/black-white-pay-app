@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getWallets } from '../actions/wallets';
-import { setCurWallet } from '../actions/curWallet';
+import { setQrCodeReceive, setQrCodeReceiveStoreId } from '../actions/qrCodeReceive';
 
 
 class QrCodeReceive extends Component {
@@ -10,6 +10,7 @@ class QrCodeReceive extends Component {
     Layout: PropTypes.func.isRequired,
     getWalletsData: PropTypes.func.isRequired,
     chooseWallet: PropTypes.func.isRequired,
+    setqrCodeReceive: PropTypes.func.isRequired,
     user: PropTypes.shape({
       account: PropTypes.string,
       password: PropTypes.string,
@@ -24,13 +25,17 @@ class QrCodeReceive extends Component {
         availBalance: PropTypes.number,
       }),
     ),
-    curStoreId: PropTypes.number,
+    qrCodeReceive: PropTypes.shape({
+      storeId: PropTypes.number,
+      amount: PropTypes.string,
+      comment: PropTypes.string,
+    }),
   }
 
   static defaultProps = {
     user: {},
     walletsData: [],
-    curStoreId: -1,
+    qrCodeReceive: {},
   }
 
   componentWillMount() {
@@ -42,9 +47,9 @@ class QrCodeReceive extends Component {
     await getWalletsData();
   }
 
-  _handleChoose = async (curStoreId) => {
+  _handleChoose = async (storeId) => {
     const { chooseWallet } = this.props;
-    await chooseWallet(curStoreId);
+    await chooseWallet(storeId);
   }
 
   render = () => {
@@ -52,7 +57,8 @@ class QrCodeReceive extends Component {
       Layout,
       user,
       walletsData,
-      curStoreId,
+      qrCodeReceive,
+      setqrCodeReceive,
     } = this.props;
 
     return (
@@ -60,7 +66,8 @@ class QrCodeReceive extends Component {
         account={user.account}
         walletsData={walletsData}
         onChoose={this._handleChoose}
-        curStoreId={curStoreId}
+        qrCodeReceive={qrCodeReceive}
+        setqrCodeReceive={setqrCodeReceive}
       />
     );
   }
@@ -69,12 +76,13 @@ class QrCodeReceive extends Component {
 const mapStateToProps = state => ({
   walletsData: state.wallets,
   user: state.user || {},
-  curStoreId: state.curWallet.storeId,
+  qrCodeReceive: state.qrCodeReceive,
 });
 
 const mapDispatchToProps = {
   getWalletsData: getWallets,
-  chooseWallet: setCurWallet,
+  setqrCodeReceive: setQrCodeReceive,
+  chooseWallet: setQrCodeReceiveStoreId,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(QrCodeReceive);

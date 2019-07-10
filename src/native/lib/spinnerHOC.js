@@ -1,13 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import PropTypes from 'prop-types';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast, { DURATION } from 'react-native-easy-toast';
+import Colors from '../constants/colors';
 import { statusMessage } from '../../actions/status';
 
-import NavBar from '../components/NavBar';
+
+const styles = StyleSheet.create({
+  toastInfo: {
+    paddingHorizontal: 10,
+    backgroundColor: Colors.cardGold,
+  },
+  toastError: {
+    paddingHorizontal: 10,
+    backgroundColor: Colors.cardRed,
+  },
+  toastText: {
+    color: Colors.labelWhite,
+    fontSize: 17,
+  }
+});
 
 function spinnerHOC(NormalComponent) {
   class spinnerComponent extends React.Component {
@@ -30,15 +45,15 @@ function spinnerHOC(NormalComponent) {
     componentDidMount = () => {
       const { status, changeStatus } = this.props;
       if (status.success) {
-        this.toastRef.show(status.success, 700, () => {
+        this.toastInfoRef.show(status.success, 700, () => {
           changeStatus('loading', false);
         });
       } else if (status.error) {
-        this.toastRef.show(status.error, 700, () => {
+        this.toastErrorRef.show(status.error, 700, () => {
           changeStatus('loading', false);
         });
       } else if (status.info) {
-        this.toastRef.show(status.info, 700, () => {
+        this.toastInfoRef.show(status.info, 700, () => {
           changeStatus('loading', false);
         });
       }
@@ -47,15 +62,15 @@ function spinnerHOC(NormalComponent) {
     componentDidUpdate = () => {
       const { status, changeStatus } = this.props;
       if (status.success) {
-        this.toastRef.show(status.success, 700, () => {
+        this.toastInfoRef.show(status.success, 700, () => {
           changeStatus('loading', false);
         });
       } else if (status.error) {
-        this.toastRef.show(status.error, 700, () => {
+        this.toastErrorRef.show(status.error, 700, () => {
           changeStatus('loading', false);
         });
       } else if (status.info) {
-        this.toastRef.show(status.info, 700, () => {
+        this.toastInfoRef.show(status.info, 700, () => {
           changeStatus('loading', false);
         });
       }
@@ -72,15 +87,27 @@ function spinnerHOC(NormalComponent) {
           <NormalComponent {...this.props} />
           <Toast
             ref={(ref) => {
-              this.toastRef = ref;
+              this.toastInfoRef = ref;
             }}
-            // style={{ backgroundColor: 'white' }}
+            style={styles.toastInfo}
             position="bottom"
             positionValue={200}
             fadeInDuration={250}
             fadeOutDuration={250}
-            opacity={0.5}
-            textStyle={{ color: 'white' }}
+            opacity={0.9}
+            textStyle={styles.toastText}
+          />
+          <Toast
+            ref={(ref) => {
+              this.toastErrorRef = ref;
+            }}
+            style={styles.toastError}
+            position="bottom"
+            positionValue={200}
+            fadeInDuration={250}
+            fadeOutDuration={250}
+            opacity={0.9}
+            textStyle={styles.toastText}
           />
         </View>
       );
