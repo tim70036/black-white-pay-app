@@ -116,6 +116,7 @@ class AddFriend extends Component {
                 placeholder="請輸入對方帳號"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="default"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('account', v)}
                 onSubmitEditing={Keyboard.dismiss}
               />

@@ -102,6 +102,7 @@ class Register extends Component {
                 placeholder="請輸入密碼"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="default"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('password', v)}
                 onSubmitEditing={Keyboard.dismiss}
                 secureTextEntry
@@ -119,6 +120,7 @@ class Register extends Component {
                 placeholder="請再次輸入密碼"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="default"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('confirmPassword', v)}
                 onSubmitEditing={Keyboard.dismiss}
                 secureTextEntry
@@ -136,6 +138,7 @@ class Register extends Component {
                 placeholder="請輸入交易密碼"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="number-pad"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('transPwd', v)}
                 onSubmitEditing={Keyboard.dismiss}
                 secureTextEntry
@@ -153,6 +156,7 @@ class Register extends Component {
                 placeholder="請再次輸入交易密碼"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="number-pad"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('confirmTransPwd', v)}
                 onSubmitEditing={Keyboard.dismiss}
                 secureTextEntry

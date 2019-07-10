@@ -73,6 +73,7 @@ class Forget extends Component {
                 placeholder="請輸入電話號碼"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="phone-pad"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('account', v)}
                 onSubmitEditing={Keyboard.dismiss}
               />

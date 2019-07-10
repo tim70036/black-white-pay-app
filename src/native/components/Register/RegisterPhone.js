@@ -72,6 +72,7 @@ class Register extends Component {
                 placeholder="登入帳號為手機密碼"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="phone-pad"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('account', v)}
                 onSubmitEditing={Keyboard.dismiss}
               />

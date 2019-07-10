@@ -100,6 +100,7 @@ class ChangeTransPwd extends Component {
                 placeholder="請輸入舊交易密碼"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="default"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('oldPassword', v)}
                 onSubmitEditing={Keyboard.dismiss}
                 secureTextEntry
@@ -117,6 +118,7 @@ class ChangeTransPwd extends Component {
                 placeholder="請輸入新交易密碼"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="default"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('newPassword', v)}
                 onSubmitEditing={Keyboard.dismiss}
                 secureTextEntry
@@ -134,6 +136,7 @@ class ChangeTransPwd extends Component {
                 placeholder="請再次輸入新交易密碼"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="default"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('confirmPassword', v)}
                 onSubmitEditing={Keyboard.dismiss}
                 secureTextEntry

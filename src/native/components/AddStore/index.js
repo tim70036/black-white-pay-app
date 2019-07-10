@@ -91,6 +91,7 @@ class AddStore extends Component {
                 placeholder="請輸入綁定代碼"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="number-pad"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('bindCode', v)}
                 onSubmitEditing={Keyboard.dismiss}
               />

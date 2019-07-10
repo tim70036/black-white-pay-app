@@ -221,6 +221,7 @@ class Transfer extends Component {
                 placeholder="請輸入轉入帳號"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="default"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('accountTo', v)}
                 onSubmitEditing={Keyboard.dismiss}
                 value={accountTo}
@@ -238,6 +239,7 @@ class Transfer extends Component {
                 placeholder="請輸入轉帳數量"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="number-pad"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('amount', v)}
                 onSubmitEditing={Keyboard.dismiss}
                 value={amount}
@@ -255,6 +257,7 @@ class Transfer extends Component {
                 placeholder="請輸入轉帳密碼"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="number-pad"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('transPwd', v)}
                 onSubmitEditing={Keyboard.dismiss}
                 secureTextEntry
@@ -272,6 +275,7 @@ class Transfer extends Component {
                 placeholder=""
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="default"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('comment', v)}
                 onSubmitEditing={Keyboard.dismiss}
                 value={comment}

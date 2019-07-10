@@ -116,6 +116,7 @@ class Register extends Component {
                 placeholder="請輸入暱稱"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="default"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('name', v)}
                 onSubmitEditing={Keyboard.dismiss}
               />

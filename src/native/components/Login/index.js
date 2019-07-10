@@ -110,6 +110,7 @@ class Login extends Component {
                 placeholder="請輸入電話號碼"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="default"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('account', v)}
                 onSubmitEditing={Keyboard.dismiss}
                 defaultValue={account}
@@ -126,6 +127,7 @@ class Login extends Component {
                 placeholder="請輸入密碼"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="default"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('password', v)}
                 onSubmitEditing={Keyboard.dismiss}
                 defaultValue={password}

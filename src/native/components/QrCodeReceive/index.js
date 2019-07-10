@@ -361,6 +361,7 @@ class QrCodeReceive extends Component {
                   placeholder="輸入收款數量"
                   placeholderTextColor={Colors.placeholderGray}
                   keyboardType="number-pad"
+                  returnKeyType="done"
                   onChangeText={v => this._handleChange('amount', v)}
                   onSubmitEditing={Keyboard.dsmiss}
                   value={amount}
@@ -380,6 +381,7 @@ class QrCodeReceive extends Component {
                   placeholder="輸入備註"
                   placeholderTextColor={Colors.placeholderGray}
                   keyboardType="default"
+                  returnKeyType="done"
                   onChangeText={v => this._handleChange('comment', v)}
                   onSubmitEditing={Keyboard.dismiss}
                   value={comment}

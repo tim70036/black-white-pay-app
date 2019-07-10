@@ -455,6 +455,7 @@ class Exchange extends Component {
                       placeholder="輸入轉出數量"
                       placeholderTextColor={Colors.placeholderGray}
                       keyboardType="number-pad"
+                      returnKeyType="done"
                       onChangeText={v => this._handleChange('outflowAmount', v)}
                       onSubmitEditing={Keyboard.dsmiss}
                       value={outflowAmount}
@@ -474,6 +475,7 @@ class Exchange extends Component {
                       placeholder="輸入轉入數量"
                       placeholderTextColor={Colors.placeholderGray}
                       keyboardType="number-pad"
+                      returnKeyType="done"
                       onChangeText={v => this._handleChange('inflowAmount', v)}
                       onSubmitEditing={Keyboard.dsmiss}
                       value={inflowAmount}
@@ -494,6 +496,7 @@ class Exchange extends Component {
                 placeholder="輸入個人交易密碼"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="number-pad"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('transPwd', v)}
                 onSubmitEditing={Keyboard.dsmiss}
                 secureTextEntry
@@ -509,6 +512,7 @@ class Exchange extends Component {
                 placeholder="輸入備註"
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="default"
+                returnKeyType="done"
                 onChangeText={v => this._handleChange('comment', v)}
                 onSubmitEditing={Keyboard.dsmiss}
               />
