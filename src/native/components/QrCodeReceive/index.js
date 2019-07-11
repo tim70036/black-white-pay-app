@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     color: Colors.labelWhite,
     marginVertical: 2,
     marginLeft: 4,
-    fontSize: 23,
+    fontSize: 20,
   },
   inputButton: {
     flex: 1,
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
   qrCodeContainer: {
     width: viewportWidthPercent(100),
-    marginTop: viewportHeightPercent(2),
+    // marginTop: viewportHeightPercent(2),
     paddingTop: viewportWidthPercent(10),
     borderRadius: viewportWidthPercent(5),
     flexDirection: 'column',
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderWidth: 2,
   },
-  QRtextContainer: {
+  qrTextContainer: {
     height: viewportHeightPercent(10),
     width: viewportWidthPercent(80),
     alignItems: 'center',
@@ -171,9 +171,13 @@ const styles = StyleSheet.create({
   },
   closeButtonContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'flex-end',
+    paddingHorizontal: 10,
     backgroundColor: 'transparent',
+
+    // borderColor: 'red',
+    // borderWidth: 2,
   },
 });
 
@@ -269,7 +273,7 @@ class QrCodeReceive extends Component {
       <View>
         <View style={styles.closeButtonContainer}>
           <TouchableOpacity onPress={() => this.setState({ visibleModal: !visibleModal })}>
-            <Icon name="md-close-circle-outline" type="Ionicons" style={{ fontSize: 40, color: Colors.labelWhite }} />
+            <Icon name="md-close-circle-outline" type="Ionicons" style={{ fontSize: 45, color: Colors.labelWhite }} />
           </TouchableOpacity>
         </View>
         <View style={styles.qrCodeContainer}>
@@ -281,7 +285,7 @@ class QrCodeReceive extends Component {
               fgColor={Colors.labelWhite}
             />
           </View>
-          <View style={styles.QRtextContainer}>
+          <View style={styles.qrTextContainer}>
             <Text style={styles.text}>請掃描上面的 QR Code</Text>
           </View>
         </View>
@@ -302,7 +306,7 @@ class QrCodeReceive extends Component {
               <View style={styles.currencyInput}>
                 <View style={styles.currencyInputText}>
                   <View style={[styles.dot, { backgroundColor: '#FF7F34' }]} />
-                  <Text style={styles.labeltext}>選擇幣別</Text>
+                  <Text style={styles.labeltext}>幣別選擇</Text>
                 </View>
                 <ModalSelector
                   cancelText="取消"
@@ -328,7 +332,7 @@ class QrCodeReceive extends Component {
               <View style={styles.currencyInput}>
                 <View style={styles.currencyInputText}>
                   <View style={[styles.dot, { backgroundColor: '#3AF8D2' }]} />
-                  <Text style={styles.labeltext}>輸入收款數量</Text>
+                  <Text style={styles.labeltext}>收款數量</Text>
                 </View>
                 <TextInput
                   style={styles.textinput}
@@ -348,7 +352,7 @@ class QrCodeReceive extends Component {
               <View style={styles.currencyInput}>
                 <View style={styles.currencyInputText}>
                   <View style={[styles.dot, { backgroundColor: '#A500CC' }]} />
-                  <Text style={styles.labeltext}> 輸入備註</Text>
+                  <Text style={styles.labeltext}>備註</Text>
                 </View>
                 <TextInput
                   style={styles.textinput}
