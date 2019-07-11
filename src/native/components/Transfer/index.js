@@ -15,7 +15,7 @@ import { Picker as IosPicker, Icon } from 'native-base';
 import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
-import { __values } from 'tslib';
+import ModalSelector from 'react-native-modal-selector';
 import NavBar from '../NavBar';
 import { formStyle, elementColors } from '../../lib/styles';
 import Colors from '../../constants/colors';
@@ -31,14 +31,12 @@ const styles = StyleSheet.create({
     marginTop: viewportHeightPercent(1),
   },
   picker: {
+    flexDirection: 'row',
     color: Colors.labelWhite,
     height: 35,
     width: '100%',
-  },
-  iospicker: {
-    height: 35,
-    // width: '100%', plant bug haha
-    width: viewportWidthPercent(84),
+    alignItems: 'center',
+    marginLeft: 5,
   },
   linearGradient: {
     marginTop: viewportHeightPercent(5),
@@ -59,6 +57,12 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 25,
+  },
+  modalContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
   },
 });
 class Transfer extends Component {
@@ -92,7 +96,14 @@ class Transfer extends Component {
       accountMsg: '',
       amountMsg: '',
       transPwdMsg: '',
+      currencyName: '請選擇幣別',
     };
+    const { walletsData, curStoreId } = this.props;
+    walletsData.map((obj) => {
+      if (obj.storeId === curStoreId) {
+        this.state.currencyName = obj.currencyName;
+      }
+    });
   }
 
   _validate = () => {
@@ -158,8 +169,8 @@ class Transfer extends Component {
   }
 
   render() {
-    const { curStoreId, walletsData } = this.props;
-    const { accountTo, amount, comment } = this.state;
+    const { walletsData } = this.props;
+    const { accountTo, amount, comment, currencyName } = this.state;
     const { accountMsg, amountMsg, transPwdMsg, commentMsg } = this.state;
     return (
       <ImageBackground source={require('../../../img/background/background2.png')} style={formStyle.container}>
@@ -171,44 +182,26 @@ class Transfer extends Component {
                 <Image source={require('../../../img/form/currency.png')} style={formStyle.icon} />
                 <Text style={formStyle.labelText}> 幣別選擇</Text>
               </View>
-              <View
-                style={{
-                  ...formStyle.inputText, flexDirection: 'row', alignItems: 'center',
+              <ModalSelector
+                cancelText="取消"
+                data={walletsData}
+                keyExtractor={item => item.storeId}
+                labelExtractor={item => item.currencyName}
+                selectTextStyle={{ color: Colors.labelWhite }}
+                selectStyle={{ borderWidth: 0 }}
+                optionContainerStyle={{ backgroundColor: '#CCCCCC' }}
+                cancelContainerStyle={{ backgroundColor: '#CCCCCC' }}
+                touchableActiveOpacity={0.7}
+                onChange={(item) => {
+                  this._handleChoose(item.storeId);
+                  this.setState({ currencyName: item.currencyName });
                 }}
               >
-                {
-                  IS_IOS ? (
-                    <IosPicker
-                      iosHeader="請選擇幣別"
-                      mode="dropdown"
-                      style={styles.iospicker}
-                      textStyle={{ color: Colors.labelWhite }}
-                      itemStyle={{
-                        marginLeft: 0,
-                        paddingLeft: 10,
-                      }}
-                      selectedValue={curStoreId}
-                      onValueChange={itemValue => this._handleChoose(itemValue)}
-                    >
-                      { walletsData.map((i, index) => (
-                        <IosPicker.Item key={i} label={i.currencyName} value={i.storeId} />
-                      ))}
-                    </IosPicker>
-                  ) : (
-                    <Picker
-                      style={styles.picker}
-                      selectedValue={curStoreId}
-                      onValueChange={itemValue => this._handleChoose(itemValue)}
-                      prompt="請選擇幣別"
-                    >
-                      { walletsData.map((i, index) => (
-                        <Picker.Item key={i} label={i.currencyName} value={i.storeId} />
-                      ))}
-                    </Picker>
-                  )
-                }
-                <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white', marginLeft: -20 }]} />
-              </View>
+                <View style={styles.picker}>
+                  <Text style={{ ...formStyle.inputText, fontSize: 18 }}>{currencyName}</Text>
+                  <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white', marginLeft: 10 }]} />
+                </View>
+              </ModalSelector>
             </View>
             <View style={styles.inputItem}>
               <View style={formStyle.label}>

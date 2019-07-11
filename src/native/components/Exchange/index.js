@@ -16,7 +16,7 @@ import {
 } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { LinearGradient } from 'expo';
-
+import ModalSelector from 'react-native-modal-selector';
 
 import PropTypes from 'prop-types';
 import NavBar from '../NavBar';
@@ -45,6 +45,13 @@ const styles = StyleSheet.create({
   storeContainer: {
     flexDirection: 'column',
   },
+  picker: {
+    flexDirection: 'row',
+    color: Colors.labelWhite,
+    height: 35,
+    width: '100%',
+    alignItems: 'center',
+  },
   pickerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -57,7 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    paddingLeft: viewportWidthPercent(5),
   },
   middleLine: {
     height: viewportHeightPercent(4),
@@ -67,19 +74,8 @@ const styles = StyleSheet.create({
   inflowPicker: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
+    paddingLeft: viewportWidthPercent(5),
     alignItems: 'center',
-  },
-  picker: {
-    color: Colors.labelWhite,
-    height: 35,
-    width: viewportWidthPercent(25),
-    backgroundColor: Colors.cardLightGray,
-  },
-  iospicker: {
-    height: 35,
-    width: viewportWidthPercent(25),
-    backgroundColor: Colors.cardLightGray,
   },
   amountContainer: {
     flexDirection: 'column',
@@ -177,12 +173,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 25,
-  },
-  pickerIcon: {
-    marginRight: 12,
-    width: 12,
-    height: 22,
-    resizeMode: 'contain',
+    marginRight: viewportHeightPercent(1),
   },
 });
 
@@ -224,6 +215,9 @@ class Exchange extends Component {
       amountMsg: '',
       transPwdMsg: '',
       storeIdMsg: '',
+
+      inflowCurrencyName: '魂幣',
+      outflowCurrencyName: '魂幣',
     };
   }
 
@@ -293,10 +287,10 @@ class Exchange extends Component {
     let targetWallet;
     if (name === 'inflow') {
       targetWallet = inflowWallet.find(element => element.storeId === storeId);
-      this.setState({ inflowStoreId: storeId, inflowRate: targetWallet.exchangeRate, inflowAmount: '', outflowAmount: '', amount: '' });
+      this.setState({ inflowStoreId: storeId, inflowRate: targetWallet.exchangeRate, inflowAmount: '', outflowAmount: '', amount: '', inflowCurrencyName: targetWallet.currencyName });
     } else if (name === 'outflow') {
       targetWallet = outflowWallet.find(element => element.storeId === storeId);
-      this.setState({ outflowStoreId: storeId, outflowRate: targetWallet.exchangeRate, inflowAmount: '', outflowAmount: '', amount: '' });
+      this.setState({ outflowStoreId: storeId, outflowRate: targetWallet.exchangeRate, inflowAmount: '', outflowAmount: '', amount: '', outflowCurrencyName: targetWallet.currencyName });
     }
   }
 
@@ -360,6 +354,8 @@ class Exchange extends Component {
       commentMsg,
       outflowStoreId,
       inflowStoreId,
+      inflowCurrencyName,
+      outflowCurrencyName,
     } = this.state;
 
     return (
@@ -371,70 +367,50 @@ class Exchange extends Component {
               <View style={styles.pickerContainer}>
                 <View style={styles.outflowPicker}>
                   <Icon name="upload" type="MaterialCommunityIcons" style={[styles.icon, { color: '#FF7F34' }]} />
-                  {
-                    IS_IOS ? (
-                      <IosPicker
-                        mode="dropdown"
-                        style={styles.iospicker}
-                        textStyle={{ color: Colors.labelWhite }}
-                        itemStyle={{
-                          marginLeft: 0,
-                          paddingLeft: 10,
-                        }}
-                        selectedValue={outflowStoreId}
-                        onValueChange={itemValue => this._handlePick('outflow', itemValue)}
-                      >
-                        { outflowWallet.map((i, index) => (
-                          <IosPicker.Item key={i} label={i.currencyName} value={i.storeId} />
-                        ))}
-                      </IosPicker>
-                    ) : (
-                      <Picker
-                        style={styles.picker}
-                        selectedValue={outflowStoreId}
-                        onValueChange={itemValue => this._handlePick('outflow', itemValue)}
-                      >
-                        { outflowWallet.map((i, index) => (
-                          <Picker.Item key={i} label={i.currencyName} value={i.storeId} />
-                        ))}
-                      </Picker>
-                    )
-                  }
-                  <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white' }]} />
+                  <ModalSelector
+                    cancelText="取消"
+                    data={outflowWallet}
+                    keyExtractor={item => item.storeId}
+                    labelExtractor={item => item.currencyName}
+                    selectTextStyle={{ color: Colors.labelWhite }}
+                    selectStyle={{ borderWidth: 0 }}
+                    optionContainerStyle={{ backgroundColor: '#CCCCCC' }}
+                    cancelContainerStyle={{ backgroundColor: '#CCCCCC' }}
+                    touchableActiveOpacity={0.7}
+                    onChange={(item) => {
+                      this._handlePick('outflow', item.storeId);
+                      this.setState({ currencyName: item.currencyName });
+                    }}
+                  >
+                    <View style={styles.picker}>
+                      <Text style={styles.label}>{outflowCurrencyName}</Text>
+                      <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white', marginLeft: 10 }]} />
+                    </View>
+                  </ModalSelector>
                 </View>
                 <View style={styles.middleLine} />
                 <View style={styles.inflowPicker}>
                   <Icon name="download" type="MaterialCommunityIcons" style={[styles.icon, { color: '#3AF8D2' }]} />
-                  {
-                    IS_IOS ? (
-                      <IosPicker
-                        mode="dropdown"
-                        style={styles.iospicker}
-                        textStyle={{ color: Colors.labelWhite }}
-                        itemStyle={{
-                          marginLeft: 0,
-                          paddingLeft: 10,
-                        }}
-                        selectedValue={inflowStoreId}
-                        onValueChange={itemValue => this._handlePick('inflow', itemValue)}
-                      >
-                        { inflowWallet.map((i, index) => (
-                          <IosPicker.Item key={i} label={i.currencyName} value={i.storeId} />
-                        ))}
-                      </IosPicker>
-                    ) : (
-                      <Picker
-                        style={styles.picker}
-                        selectedValue={inflowStoreId}
-                        onValueChange={itemValue => this._handlePick('inflow', itemValue)}
-                      >
-                        { inflowWallet.map((i, index) => (
-                          <Picker.Item key={i} label={i.currencyName} value={i.storeId} />
-                        ))}
-                      </Picker>
-                    )
-                  }
-                  <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white' }]} />
+                  <ModalSelector
+                    cancelText="取消"
+                    data={outflowWallet}
+                    keyExtractor={item => item.storeId}
+                    labelExtractor={item => item.currencyName}
+                    selectTextStyle={{ color: Colors.labelWhite }}
+                    selectStyle={{ borderWidth: 0 }}
+                    optionContainerStyle={{ backgroundColor: '#CCCCCC' }}
+                    cancelContainerStyle={{ backgroundColor: '#CCCCCC' }}
+                    touchableActiveOpacity={0.7}
+                    onChange={(item) => {
+                      this._handlePick('inflow', item.storeId);
+                      this.setState({ currencyName: item.currencyName });
+                    }}
+                  >
+                    <View style={styles.picker}>
+                      <Text style={styles.label}>{inflowCurrencyName}</Text>
+                      <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white', marginLeft: 10 }]} />
+                    </View>
+                  </ModalSelector>
                 </View>
               </View>
               <View style={styles.valTextContainer}>

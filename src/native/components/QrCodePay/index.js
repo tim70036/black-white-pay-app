@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Picker as IosPicker, Icon } from 'native-base';
-
+import ModalSelector from 'react-native-modal-selector';
 import NavBar from '../NavBar';
 import { formStyle } from '../../lib/styles';
 import { viewportWidthPercent, viewportHeightPercent, IS_IOS } from '../../lib/util';
@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    // height: viewportHeightPercent(14),
     height: viewportHeightPercent(7),
     width: viewportWidthPercent(80),
     borderRadius: viewportWidthPercent(5),
@@ -41,6 +40,7 @@ const styles = StyleSheet.create({
   currencyInputText: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   dot: {
     height: viewportHeightPercent(1),
@@ -49,28 +49,20 @@ const styles = StyleSheet.create({
     marginRight: viewportHeightPercent(1),
   },
   pickerContainer: {
-    // flexDirection: 'row',
-    // alignItems: 'center',
     width: viewportWidthPercent(25),
-    // height: '25%',
     height: 35,
-    // marginTop: viewportHeightPercent(1),
-    // paddingLeft: viewportWidthPercent(12),
     backgroundColor: Colors.cardLightGray,
   },
   picker: {
-    flex: 1,
+    flexDirection: 'row',
     color: Colors.labelWhite,
-    height: viewportHeightPercent(7),
-    width: viewportWidthPercent(50),
-	  backgroundColor: Colors.cardLightGray,
-  },
-  iospicker: {
-    // flex: 1,
-    // height: viewportHeightPercent(7),
     height: 35,
-    width: viewportWidthPercent(20),
-    backgroundColor: Colors.cardLightGray,
+    width: '100%',
+    alignItems: 'center',
+  },
+  pickerText: {
+    fontSize: 20,
+    color: Colors.labelWhite,
   },
   qrCodeContainer: {
     width: viewportWidthPercent(80),
@@ -115,7 +107,6 @@ const styles = StyleSheet.create({
     marginTop: viewportHeightPercent(2),
     paddingVertical: viewportWidthPercent(5),
     width: viewportWidthPercent(80),
-    // height: buttonHeight,
     backgroundColor: Colors.cardLightGray,
     borderRadius: viewportWidthPercent(5),
   },
@@ -137,7 +128,14 @@ class QrCodePay extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currencyName: '請選擇幣別',
     };
+    const { walletsData, curStoreId } = this.props;
+    walletsData.map((obj) => {
+      if (obj.storeId === curStoreId) {
+        this.state.currencyName = obj.currencyName;
+      }
+    });
   }
 
   _handleChoose = async (storeId) => {
@@ -153,6 +151,7 @@ class QrCodePay extends Component {
       account: account,
       storeId: curStoreId,
     };
+    const { currencyName } = this.state;
 
     return (
       <ImageBackground style={styles.bkContainer} source={require('../../../img/background/background2.png')}>
@@ -161,77 +160,27 @@ class QrCodePay extends Component {
           <View style={styles.inputContainer}>
             <View style={styles.currencyInputText}>
               <View style={[styles.dot, { backgroundColor: '#3AF8D2' }]} />
-              {/* <Text style={styles.labeltext}>選擇幣別</Text> */}
-              <View style={styles.pickerContainer}>
-                {
-                  IS_IOS ? (
-                    <IosPicker
-                      iosHeader="請選擇幣別"
-                      mode="dropdown"
-                      style={styles.iospicker}
-                      textStyle={{ color: Colors.labelWhite }}
-                      itemStyle={{
-                        marginLeft: 0,
-                        paddingLeft: 10,
-                      }}
-                      selectedValue={curStoreId}
-                      onValueChange={itemValue => this._handleChoose(itemValue)}
-                    >
-                      { walletsData.map((i, index) => (
-                        <IosPicker.Item key={i} label={`${i.currencyName}`} value={i.storeId} />
-                      ))}
-                    </IosPicker>
-
-                  ) : (
-                    <Picker
-                      style={styles.picker}
-                      selectedValue={curStoreId}
-                      onValueChange={itemValue => this._handleChoose(itemValue)}
-                      prompt="請選擇幣別"
-                    >
-                      { walletsData.map((i, index) => (
-                        <Picker.Item key={i} label={`${i.currencyName}`} value={i.storeId} />
-                      ))}
-                    </Picker>
-                  )
-                }
-              </View>
-              <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white', marginLeft: 15 }]} />
+              <ModalSelector
+                cancelText="取消"
+                data={walletsData}
+                keyExtractor={item => item.storeId}
+                labelExtractor={item => item.currencyName}
+                selectTextStyle={{ color: Colors.labelWhite }}
+                selectStyle={{ borderWidth: 0 }}
+                optionContainerStyle={{ backgroundColor: '#CCCCCC' }}
+                cancelContainerStyle={{ backgroundColor: '#CCCCCC' }}
+                touchableActiveOpacity={0.7}
+                onChange={(item) => {
+                  this._handleChoose(item.storeId);
+                  this.setState({ currencyName: item.currencyName });
+                }}
+              >
+                <View style={styles.picker}>
+                  <Text style={styles.pickerText}>{currencyName}</Text>
+                  <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white', marginLeft: 10 }]} />
+                </View>
+              </ModalSelector>
             </View>
-            {/* <View style={styles.pickerContainer}>
-              {
-                IS_IOS ? (
-                  <IosPicker
-                    iosHeader="請選擇幣別"
-                    mode="dropdown"
-                    style={styles.iospicker}
-                    textStyle={{ color: Colors.labelWhite }}
-                    itemStyle={{
-                      marginLeft: 0,
-                      paddingLeft: 10,
-                    }}
-                    selectedValue={curStoreId}
-                    onValueChange={itemValue => this._handleChoose(itemValue)}
-                  >
-                    { walletsData.map((i, index) => (
-                      <IosPicker.Item key={i} label={`${i.currencyName}`} value={i.storeId} />
-                    ))}
-                  </IosPicker>
-
-                ) : (
-                  <Picker
-                    style={styles.picker}
-                    selectedValue={curStoreId}
-                    onValueChange={itemValue => this._handleChoose(itemValue)}
-                    prompt="請選擇幣別"
-                  >
-                    { walletsData.map((i, index) => (
-                      <Picker.Item key={i} label={`${i.currencyName}`} value={i.storeId} />
-                    ))}
-                  </Picker>
-                )
-              }
-            </View> */}
           </View>
           <View style={styles.qrCodeContainer}>
             <View style={styles.qrCode}>

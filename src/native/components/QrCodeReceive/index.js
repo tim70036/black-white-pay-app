@@ -16,6 +16,7 @@ import {
 import { LinearGradient } from 'expo';
 import { Picker as IosPicker, Icon } from 'native-base';
 import Modal from 'react-native-modal';
+import ModalSelector from 'react-native-modal-selector';
 import { viewportWidthPercent, viewportHeightPercent, IS_IOS } from '../../lib/util';
 import { amountValidate, commentValidate } from '../../lib/validate';
 import NavBar from '../NavBar';
@@ -36,23 +37,16 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'column',
     alignItems: 'center',
-    // height: viewportHeightPercent(22),
     width: viewportWidthPercent(80),
     borderRadius: viewportWidthPercent(5),
     backgroundColor: Colors.cardLightGray,
     paddingVertical: viewportHeightPercent(2),
   },
-  input: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    // height: viewportHeightPercent(9),
-    marginTop: viewportHeightPercent(1),
-  },
   currencyInput: {
     flex: 1,
     flexDirection: 'column',
     width: '80%',
+    marginTop: 15,
   },
   currencyInputText: {
     flex: 1,
@@ -66,30 +60,15 @@ const styles = StyleSheet.create({
     borderRadius: viewportHeightPercent(1) / 2,
     marginRight: viewportHeightPercent(1),
   },
-  middleLine: {
-    height: viewportHeightPercent(4),
-    width: 1,
-    backgroundColor: Colors.placeholderGray,
-  },
-  pickerContainer: {
-    height: 35,
-    width: '80%',
-    marginLeft: '12%',
-    overflow: 'hidden',
-  },
   picker: {
-    color: 'white',
+    flexDirection: 'row',
+    color: Colors.labelWhite,
     height: 35,
-    backgroundColor: Colors.cardLightGray,
     width: '100%',
-  },
-  iospicker: {
-    height: 35,
-    backgroundColor: Colors.cardLightGray,
-    width: '100%',
+    alignItems: 'center',
+    marginLeft: '15%',
   },
   amountInput: {
-    // flex: 1,
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
@@ -99,24 +78,27 @@ const styles = StyleSheet.create({
     color: Colors.labelWhite,
     fontSize: 15,
     height: 35,
-    backgroundColor: Colors.cardLightGray,
-    width: '100%',
-    borderRadius: viewportWidthPercent(1),
-    marginLeft: '15%',
+    width: '70%',
+    marginHorizontal: '15%',
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.placeholderGray,
+    paddingVertical: viewportHeightPercent(1),
   },
   labeltext: {
     color: Colors.labelWhite,
     marginVertical: 2,
     marginLeft: 4,
+    fontSize: 23,
   },
   inputButton: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: viewportHeightPercent(1),
+    paddingBottom: viewportHeightPercent(2),
   },
   qrCodeContainer: {
-    // height: viewportHeightPercent(40),
     width: viewportWidthPercent(100),
     marginTop: viewportHeightPercent(2),
     paddingTop: viewportWidthPercent(10),
@@ -150,7 +132,7 @@ const styles = StyleSheet.create({
   linearGradient: {
     marginTop: 5,
     width: '60%',
-    alignSelf: 'flex-start',
+    alignSelf: 'center',
     justifyContent: 'center',
     height: viewportHeightPercent(5),
     borderRadius: 36.5,
@@ -172,13 +154,12 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: Colors.labelWhite,
-    fontSize: 16,
+    fontSize: 18,
   },
   icon: {
     fontSize: 25,
   },
   commentInputText: {
-    // flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -229,7 +210,14 @@ class QrCodeReceive extends Component {
       comment: props.qrCodeReceive.comment,
       commentMsg: '',
       visibleModal: false,
+      currencyName: '請選擇幣別',
     };
+    const { walletsData, qrCodeReceive } = this.props;
+    walletsData.map((obj) => {
+      if (obj.storeId === qrCodeReceive.storeId) {
+        this.state.currencyName = obj.currencyName;
+      }
+    });
   }
 
   _handleChange = (name, val) => {
@@ -302,8 +290,8 @@ class QrCodeReceive extends Component {
   }
 
   render = () => {
-    const { walletsData, qrCodeReceive } = this.props;
-    const { amountMsg, amount, comment, commentMsg, visibleModal } = this.state;
+    const { walletsData } = this.props;
+    const { amountMsg, amount, comment, commentMsg, visibleModal, currencyName } = this.state;
 
     return (
       <ImageBackground style={styles.bkContainer} source={require('../../../img/background/background2.png')}>
@@ -311,44 +299,31 @@ class QrCodeReceive extends Component {
           <NavBar title="收款" back />
           <View style={styles.container}>
             <View style={styles.inputContainer}>
-              <View style={{ ...styles.currencyInput, height: viewportHeightPercent(10) }}>
+              <View style={styles.currencyInput}>
                 <View style={styles.currencyInputText}>
                   <View style={[styles.dot, { backgroundColor: '#FF7F34' }]} />
                   <Text style={styles.labeltext}>選擇幣別</Text>
-                  <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white', marginLeft: 15 }]} />
                 </View>
-                <View style={styles.pickerContainer}>
-                  {
-                    IS_IOS ? (
-                      <IosPicker
-                        mode="dropdown"
-                        style={styles.iospicker}
-                        textStyle={{ color: Colors.labelWhite, fontSize: 15 }}
-                        itemStyle={{
-                          marginLeft: 0,
-                          paddingLeft: 10,
-                        }}
-                        selectedValue={qrCodeReceive.storeId}
-                        onValueChange={itemValue => this._handleChoose(itemValue)}
-                      >
-                        { walletsData.map((i, index) => (
-                          <IosPicker.Item key={i} label={`${i.currencyName}`} value={i.storeId} />
-                        ))}
-                      </IosPicker>
-                    ) : (
-                      <Picker
-                        style={styles.picker}
-                        selectedValue={qrCodeReceive.storeId}
-                        activeItemTextStyle={{ fontSize: 15 }}
-                        onValueChange={itemValue => this._handleChoose(itemValue)}
-                      >
-                        { walletsData.map((i, index) => (
-                          <Picker.Item key={i} label={`${i.currencyName}`} value={i.storeId} />
-                        ))}
-                      </Picker>
-                    )
-                  }
-                </View>
+                <ModalSelector
+                  cancelText="取消"
+                  data={walletsData}
+                  keyExtractor={item => item.storeId}
+                  labelExtractor={item => item.currencyName}
+                  selectTextStyle={{ color: Colors.labelWhite }}
+                  selectStyle={{ borderWidth: 0 }}
+                  optionContainerStyle={{ backgroundColor: '#CCCCCC' }}
+                  cancelContainerStyle={{ backgroundColor: '#CCCCCC' }}
+                  touchableActiveOpacity={0.7}
+                  onChange={(item) => {
+                    this._handleChoose(item.storeId);
+                    this.setState({ currencyName: item.currencyName });
+                  }}
+                >
+                  <View style={styles.picker}>
+                    <Text style={{ ...formStyle.inputText, fontSize: 18 }}>{currencyName}</Text>
+                    <Icon name="md-arrow-dropdown" type="Ionicons" style={[styles.icon, { color: 'white', marginLeft: 10 }]} />
+                  </View>
+                </ModalSelector>
               </View>
               <View style={styles.currencyInput}>
                 <View style={styles.currencyInputText}>
