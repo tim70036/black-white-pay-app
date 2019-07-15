@@ -4,14 +4,13 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ScrollView,
   ImageBackground,
   Image,
 } from 'react-native';
 import { Icon, DatePicker } from 'native-base';
 import PropTypes from 'prop-types';
-import Accordion from 'react-native-collapsible/Accordion';
 import moment from 'moment';
+import Accordion from './Accordion';
 import Colors from '../../constants/colors';
 import NavBar from '../NavBar';
 import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
@@ -128,6 +127,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cardLightGray,
     borderRadius: viewportWidthPercent(4),
     marginTop: viewportHeightPercent(3),
+    marginBottom: viewportHeightPercent(1),
     marginHorizontal: viewportWidthPercent(5),
   },
   AccordionBottomSpace: {
@@ -205,6 +205,7 @@ class TransHistory extends Component {
       startTimeUtc: props.defaultStartTimeUtc,
       endTimeUtc: props.defaultEndTimeUtc,
       activeSections: [],
+      showDataLength: 30,
     };
   }
 
@@ -244,6 +245,15 @@ class TransHistory extends Component {
 
   _updateSections = (activeSections) => {
     this.setState({ activeSections });
+  };
+
+  _showMoreData = () => {
+    const { historyData } = this.props;
+    const { showDataLength } = this.state;
+
+    if (showDataLength < historyData.length) {
+      this.setState({ showDataLength: showDataLength + 10 });
+    }
   };
 
   _handleHistorySearch = async () => {
@@ -304,8 +314,9 @@ class TransHistory extends Component {
   );
 
   render = () => {
-    const { activeSections } = this.state;
+    const { activeSections, showDataLength } = this.state;
     const { historyData, defaultStartTime, defaultEndTime } = this.props;
+    const showData = historyData.slice(0, showDataLength);
 
     return (
       <ImageBackground style={styles.layoutContainer} source={require('../../../img/background/background2.png')}>
@@ -316,7 +327,7 @@ class TransHistory extends Component {
               <View style={styles.datePickerContainer}>
                 <View style={styles.dot} />
                 <DatePicker
-                  defaultDate={new Date()}
+                  defaultDate={moment(defaultStartTime).toDate()}
                   minimumDate={new Date(2018, 1, 1)}
                   maximumDate={new Date()}
                   locale="zh"
@@ -363,19 +374,20 @@ class TransHistory extends Component {
             <View style={styles.colorBar} />
             <Text style={styles.subHeaderText}>交易紀錄列表</Text>
           </View>
-          <ScrollView style={styles.scrollViewContainer}>
+          <View style={styles.scrollViewContainer}>
             <View style={styles.AccordionContainer}>
               <Accordion
-                sections={historyData}
+                sections={showData}
                 activeSections={activeSections}
                 renderHeader={this._renderHeader}
                 renderContent={this._renderContent}
                 onChange={this._updateSections}
+                onLoad={this._showMoreData}
                 underlayColor={Colors.accordianContentGray}
               />
             </View>
             <View style={styles.AccordionBottomSpace} />
-          </ScrollView>
+          </View>
         </View>
       </ImageBackground>
     );

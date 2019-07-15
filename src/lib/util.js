@@ -1,7 +1,7 @@
+import SetCookie from 'set-cookie-parser';
 import config from '../constants/config';
 import { statusMessage } from '../actions/status';
 import { replaceUserAuth } from '../actions/user';
-
 
 // dispatch: redux dispatch
 // body: JSON string
@@ -32,6 +32,14 @@ async function apiRequest(dispatch, apiPath, method, body = '', contentType = ''
   let response;
   try {
     response = await fetch( `${config.apiUrl}${apiPath}`, fetchPayload);
+
+    // Parse cookie
+    const combinedCookieHeader = response.headers.get('Set-Cookie');
+    const splitCookieHeaders = SetCookie.splitCookiesString(combinedCookieHeader)
+    const cookies = SetCookie.parse(splitCookieHeaders);
+    // console.log({cookies});
+
+    // Parse to JSON
     response = await response.json();
     if (!response) throw Error('沒有回應');
   } catch (error) {
