@@ -175,9 +175,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     paddingHorizontal: 10,
     backgroundColor: 'transparent',
-
-    // borderColor: 'red',
-    // borderWidth: 2,
   },
 });
 
@@ -268,7 +265,7 @@ class QrCodeReceive extends Component {
 
   rednerQrCode = () => {
     const { qrCodeData, visibleModal } = this.state;
-    const showSize = (visibleModal) ? viewportWidthPercent(95) : 0;
+    const showSize = (visibleModal) ? viewportWidthPercent(90) : 0;
     return (
       <View>
         <View style={styles.closeButtonContainer}>
@@ -277,11 +274,11 @@ class QrCodeReceive extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles.qrCodeContainer}>
-          <View style={[styles.qrCode, { borderColor: Colors.labelWhite, borderWidth: 1 }]}>
+          <View style={[styles.qrCode, { borderColor: Colors.labelWhite, borderWidth: 5 }]}>
             <QRCode
               value={JSON.stringify(qrCodeData)}
               size={showSize}
-              bgColor="#090909"
+              bgColor="black"
               fgColor={Colors.labelWhite}
             />
           </View>

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 import { BarCodeScanner } from 'expo';
 import { Actions } from 'react-native-router-flux';
 
@@ -73,24 +73,21 @@ class QrScanner extends React.Component {
 
     if (hasReadQRcode === true) return;
     this.setState({ hasReadQRcode: true });
-    // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
     try {
       query = JSON.parse(data);
+      if (query.type === 'receive') {
+        await onScanReceive(query.storeId);
+        Actions.replace('transfer', { defaultAccount: query.account, defaultAmount: query.amount, defaultComment: query.comment });
+      } else if (query.type === 'friend') {
+        await onScanFriend(query);
+        Actions.replace('friendDetail');
+      } else {
+        Alert.alert('讀取結果', '此類型的行動條碼無法讀取');
+        Actions.pop();
+      }
     } catch (error) {
-      alert('此條碼無法使用');
-      this.setState({ hasReadQRcode: false });
-      return;
-    }
-
-    if (query.type === 'receive') {
-      await onScanReceive(query.storeId);
-      Actions.replace('transfer', { defaultAccount: query.account, defaultAmount: query.amount, defaultComment: query.comment });
-    } else if (query.type === 'friend') {
-      await onScanFriend(query);
-      Actions.replace('friendDetail');
-    } else {
-      alert('此條碼無法使用');
-      this.setState({ hasReadQRcode: false });
+      Alert.alert('讀取結果', '此類型的行動條碼無法讀取');
+      Actions.pop();
     }
   }
 

@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   qrCode: {
     overflow: 'hidden',
-    borderWidth: 2,
+    borderWidth: 5,
     borderColor: Colors.labelWhite,
   },
   emptySpace: {
@@ -113,7 +113,7 @@ class QrCodeFriend extends Component {
               <QRCode
                 value={JSON.stringify(qrCodeData)}
                 size={200}
-                bgColor="#090909"
+                bgColor="black"
                 fgColor={Colors.labelWhite}
               />
             </View>
