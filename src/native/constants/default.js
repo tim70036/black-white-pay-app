@@ -31,7 +31,7 @@ export default {
       borderRadius: 10,
     },
     optionTextStyle: {
-      fontSize: viewportHeightPercent(2),
+      fontSize: viewportHeightPercent(2) > 16 ? viewportHeightPercent(2) : 16,
     },
     cancelStyle: {
       flexDirection: 'row',
@@ -44,7 +44,7 @@ export default {
     },
     cancelTextStyle: {
       color: Colors.labelLightRed,
-      fontSize: viewportHeightPercent(2),
+      fontSize: viewportHeightPercent(2) > 16 ? viewportHeightPercent(2) : 16,
     },
     touchableActiveOpacity: 0.7,
   },

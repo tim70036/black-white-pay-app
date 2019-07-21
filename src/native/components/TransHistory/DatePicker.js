@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   completeButtonText: {
-    fontSize: viewportHeightPercent(2),
+    fontSize: viewportHeightPercent(2) > 16 ? viewportHeightPercent(2) : 16,
     color: 'rgba(0,118,255,0.9)',
   },
 });
