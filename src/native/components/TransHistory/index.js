@@ -7,10 +7,11 @@ import {
   ImageBackground,
   Image,
 } from 'react-native';
-import { Icon, DatePicker } from 'native-base';
+import { Icon } from 'native-base';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Accordion from './Accordion';
+import DatePicker from './DatePicker';
 import Colors from '../../constants/colors';
 import NavBar from '../NavBar';
 import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
@@ -333,8 +334,6 @@ class TransHistory extends Component {
                   locale="zh"
                   formatChosenDate={this._handleDateFormat}
                   timeZoneOffsetInMinutes={undefined}
-                  modalTransparent={false}
-                  animationType="fade"
                   androidMode="spinner"
                   placeHolderText={defaultStartTime}
                   textStyle={styles.datePickerText}
@@ -352,8 +351,6 @@ class TransHistory extends Component {
                   locale="zh"
                   formatChosenDate={this._handleDateFormat}
                   timeZoneOffsetInMinutes={undefined}
-                  modalTransparent={false}
-                  animationType="fade"
                   androidMode="spinner"
                   placeHolderText={defaultEndTime}
                   textStyle={styles.datePickerText}

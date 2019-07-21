@@ -4,13 +4,11 @@ import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 
+import { accountValidate, pwdValidate } from '../../lib/validate';
 import { formStyle, elementColors } from '../../lib/styles';
 import Colors from '../../constants/colors';
 import { registerForNotifications } from '../../lib/expo';
-import {
-  viewportWidthPercent,
-  viewportHeightPercent,
-} from '../../lib/util';
+import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 
 const styles = StyleSheet.create({
   logo: {
@@ -61,7 +59,32 @@ class Login extends Component {
       password: (props.user && props.user.password) ? props.user.password : '',
       loginButtonIsPressed: false,
       registerButtonIsPressed: false,
+
+      accountMsg: '',
+      passwordMsg: '',
     };
+  }
+
+  _validate = () => {
+    const { account, password } = this.state;
+    const pwdResult = pwdValidate(password);
+    const accountResult = accountValidate(account);
+
+    if (accountResult.result) {
+      this.setState({ accountMsg: '' });
+    } else {
+      this.setState({ accountMsg: accountResult.errMsg });
+      return false;
+    }
+
+    if (pwdResult.result) {
+      this.setState({ passwordMsg: '' });
+    } else {
+      this.setState({ passwordMsg: pwdResult.errMsg });
+      return false;
+    }
+
+    return true;
   }
 
   _handleChange = (key, val) => {
@@ -80,8 +103,9 @@ class Login extends Component {
 
   _handleSubmit = async () => {
     const { onFormSubmit } = this.props;
-    const success = await onFormSubmit(this.state);
+    if (!this._validate()) return;
 
+    const success = await onFormSubmit(this.state);
     if (success) {
       await registerForNotifications();
       Actions.main(); // need reset?
@@ -90,7 +114,7 @@ class Login extends Component {
 
 
   render() {
-    const { account, password } = this.state;
+    const { account, password, accountMsg, passwordMsg } = this.state;
     return (
       <ImageBackground source={require('../../../img/background/background2.png')} style={formStyle.container}>
         <ScrollView>
@@ -115,6 +139,7 @@ class Login extends Component {
                 onSubmitEditing={Keyboard.dismiss}
                 defaultValue={account}
               />
+              <Text style={formStyle.valText}>{accountMsg}</Text>
             </View>
             <View style={formStyle.inputItem}>
               <View style={formStyle.label}>
@@ -133,6 +158,7 @@ class Login extends Component {
                 defaultValue={password}
                 secureTextEntry
               />
+              <Text style={formStyle.valText}>{passwordMsg}</Text>
             </View>
             <LinearGradient
               colors={elementColors.buttonLinearGradient}
