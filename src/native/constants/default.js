@@ -24,4 +24,28 @@ export default {
       color: Colors.barText,
     },
   },
+
+  modalSelectorProps: {
+    optionContainerStyle: {
+      backgroundColor: '#CCCCCC',
+      borderRadius: 10,
+    },
+    optionTextStyle: {
+      fontSize: viewportHeightPercent(2),
+    },
+    cancelStyle: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: viewportWidthPercent(90),
+      height: viewportHeightPercent(5),
+      borderRadius: 10,
+      backgroundColor: '#CCCCCC',
+    },
+    cancelTextStyle: {
+      color: Colors.labelLightRed,
+      fontSize: viewportHeightPercent(2),
+    },
+    touchableActiveOpacity: 0.7,
+  },
 };

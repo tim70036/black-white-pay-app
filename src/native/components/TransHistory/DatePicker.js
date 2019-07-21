@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   View,
+  StyleSheet,
   Platform,
   DatePickerIOS,
   DatePickerAndroid,
@@ -9,9 +10,41 @@ import {
 import Modal from 'react-native-modal';
 import { Text } from 'native-base';
 import PropTypes from 'prop-types';
-import { viewportWidthPercent } from '../../lib/util';
+import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+
+const styles = StyleSheet.create({
+  datePickerContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iosDatePicker: {
+    width: viewportWidthPercent(90),
+    backgroundColor: '#CCCCCC',
+    borderRadius: 10,
+  },
+  completeButton: {
+    backgroundColor: '#CCCCCC',
+    borderRadius: 10,
+    width: viewportWidthPercent(90),
+    height: viewportHeightPercent(5),
+    marginTop: viewportHeightPercent(1),
+  },
+  completeButtonTextContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  completeButtonText: {
+    fontSize: viewportHeightPercent(2),
+    color: 'rgba(0,118,255,0.9)',
+  },
+});
 
 export default class DatePicker extends Component {
+
 	static propTypes = {
 	  defaultDate: PropTypes.instanceOf(Date),
 	  disabled: PropTypes.bool,
@@ -153,11 +186,8 @@ export default class DatePicker extends Component {
               onBackButtonPress={() => this.setState({ modalVisible: !modalVisible })}
               style={{ backgroundColor: 'transparent' }}
             >
-              <TouchableOpacity onPress={() => this.setState({ modalVisible: false })} style={{ backgroundColor: 'transparent', flex: 1 }} />
-              <View style={{
-                flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-              }}
-              >
+              {/* <TouchableOpacity onPress={() => this.setState({ modalVisible: false })} style={{ backgroundColor: 'transparent', flex: 1 }} /> */}
+              <View style={styles.datePickerContainer}>
                 <DatePickerIOS
                   date={
                     chosenDate || defaultDate
@@ -168,10 +198,15 @@ export default class DatePicker extends Component {
                   mode="date"
                   locale={locale}
                   timeZoneOffsetInMinutes={timeZoneOffsetInMinutes}
-                  style={{ width: viewportWidthPercent(90), backgroundColor: '#CCCCCC', borderRadius: 10 }}
+                  style={styles.iosDatePicker}
                 />
+                <TouchableOpacity onPress={() => this.setState({ modalVisible: false })} style={styles.completeButton}>
+                  <View style={styles.completeButtonTextContainer}>
+                    <Text style={styles.completeButtonText}>完成</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity onPress={() => this.setState({ modalVisible: false })} style={{ backgroundColor: 'transparent', flex: 1 }} />
+              {/* <TouchableOpacity onPress={() => this.setState({ modalVisible: false })} style={{ backgroundColor: 'transparent', flex: 1 }} /> */}
             </Modal>
           </View>
         </View>

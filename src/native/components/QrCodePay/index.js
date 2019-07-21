@@ -12,10 +12,12 @@ import {
 } from 'react-native';
 import { Picker as IosPicker, Icon } from 'native-base';
 import ModalSelector from 'react-native-modal-selector';
+
 import NavBar from '../NavBar';
 import { formStyle } from '../../lib/styles';
 import { viewportWidthPercent, viewportHeightPercent, IS_IOS } from '../../lib/util';
 import Colors from '../../constants/colors';
+import DefaultProps from '../../constants/default';
 
 const styles = StyleSheet.create({
   bkContainer: {
@@ -165,15 +167,11 @@ class QrCodePay extends Component {
                 data={walletsData}
                 keyExtractor={item => item.storeId}
                 labelExtractor={item => item.currencyName}
-                selectTextStyle={{ color: Colors.labelWhite }}
-                selectStyle={{ borderWidth: 0 }}
-                optionContainerStyle={{ backgroundColor: '#CCCCCC' }}
-                cancelContainerStyle={{ backgroundColor: '#CCCCCC' }}
-                touchableActiveOpacity={0.7}
                 onChange={(item) => {
                   this._handleChoose(item.storeId);
                   this.setState({ currencyName: item.currencyName });
                 }}
+                {...DefaultProps.modalSelectorProps}
               >
                 <View style={styles.picker}>
                   <Text style={styles.pickerText}>{currencyName}</Text>

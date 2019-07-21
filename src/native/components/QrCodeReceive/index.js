@@ -17,10 +17,13 @@ import { LinearGradient } from 'expo';
 import { Picker as IosPicker, Icon } from 'native-base';
 import Modal from 'react-native-modal';
 import ModalSelector from 'react-native-modal-selector';
+
+
 import { viewportWidthPercent, viewportHeightPercent, IS_IOS } from '../../lib/util';
 import { amountValidate, commentValidate } from '../../lib/validate';
 import NavBar from '../NavBar';
 import Colors from '../../constants/colors';
+import DefaultProps from '../../constants/default';
 import { formStyle, elementColors } from '../../lib/styles';
 
 const styles = StyleSheet.create({
@@ -310,15 +313,11 @@ class QrCodeReceive extends Component {
                   data={walletsData}
                   keyExtractor={item => item.storeId}
                   labelExtractor={item => item.currencyName}
-                  selectTextStyle={{ color: Colors.labelWhite }}
-                  selectStyle={{ borderWidth: 0 }}
-                  optionContainerStyle={{ backgroundColor: '#CCCCCC' }}
-                  cancelContainerStyle={{ backgroundColor: '#CCCCCC' }}
-                  touchableActiveOpacity={0.7}
                   onChange={(item) => {
                     this._handleChoose(item.storeId);
                     this.setState({ currencyName: item.currencyName });
                   }}
+                  {...DefaultProps.modalSelectorProps}
                 >
                   <View style={styles.picker}>
                     <Text style={{ ...formStyle.inputText, fontSize: 18 }}>{currencyName}</Text>

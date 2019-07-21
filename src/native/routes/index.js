@@ -8,7 +8,7 @@ import {
 } from 'react-native-router-flux';
 import { Icon } from 'native-base';
 
-import DefaultProps from '../constants/navigation';
+import DefaultProps from '../constants/default';
 
 import spinnerHOC from '../lib/spinnerHOC';
 

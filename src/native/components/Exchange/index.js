@@ -21,6 +21,7 @@ import ModalSelector from 'react-native-modal-selector';
 import PropTypes from 'prop-types';
 import NavBar from '../NavBar';
 import Colors from '../../constants/colors';
+import DefaultProps from '../../constants/default';
 import { formStyle, elementColors } from '../../lib/styles';
 import { amountValidate, transPwdValidate, commentValidate } from '../../lib/validate';
 import {
@@ -372,15 +373,11 @@ class Exchange extends Component {
                     data={outflowWallet}
                     keyExtractor={item => item.storeId}
                     labelExtractor={item => item.currencyName}
-                    selectTextStyle={{ color: Colors.labelWhite }}
-                    selectStyle={{ borderWidth: 0 }}
-                    optionContainerStyle={{ backgroundColor: '#CCCCCC' }}
-                    cancelContainerStyle={{ backgroundColor: '#CCCCCC' }}
-                    touchableActiveOpacity={0.7}
                     onChange={(item) => {
                       this._handlePick('outflow', item.storeId);
                       this.setState({ currencyName: item.currencyName });
                     }}
+                    {...DefaultProps.modalSelectorProps}
                   >
                     <View style={styles.picker}>
                       <Text style={styles.label}>{outflowCurrencyName}</Text>
@@ -396,15 +393,11 @@ class Exchange extends Component {
                     data={outflowWallet}
                     keyExtractor={item => item.storeId}
                     labelExtractor={item => item.currencyName}
-                    selectTextStyle={{ color: Colors.labelWhite }}
-                    selectStyle={{ borderWidth: 0 }}
-                    optionContainerStyle={{ backgroundColor: '#CCCCCC' }}
-                    cancelContainerStyle={{ backgroundColor: '#CCCCCC' }}
-                    touchableActiveOpacity={0.7}
                     onChange={(item) => {
                       this._handlePick('inflow', item.storeId);
                       this.setState({ currencyName: item.currencyName });
                     }}
+                    {...DefaultProps.modalSelectorProps}
                   >
                     <View style={styles.picker}>
                       <Text style={styles.label}>{inflowCurrencyName}</Text>

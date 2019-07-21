@@ -19,6 +19,7 @@ import ModalSelector from 'react-native-modal-selector';
 import NavBar from '../NavBar';
 import { formStyle, elementColors } from '../../lib/styles';
 import Colors from '../../constants/colors';
+import DefaultProps from '../../constants/default';
 import { amountValidate, transPwdValidate, accountValidate, commentValidate } from '../../lib/validate';
 import {
   viewportWidthPercent,
@@ -187,15 +188,11 @@ class Transfer extends Component {
                 data={walletsData}
                 keyExtractor={item => item.storeId}
                 labelExtractor={item => item.currencyName}
-                selectTextStyle={{ color: Colors.labelWhite }}
-                selectStyle={{ borderWidth: 0 }}
-                optionContainerStyle={{ backgroundColor: '#CCCCCC' }}
-                cancelContainerStyle={{ backgroundColor: '#CCCCCC' }}
-                touchableActiveOpacity={0.7}
                 onChange={(item) => {
                   this._handleChoose(item.storeId);
                   this.setState({ currencyName: item.currencyName });
                 }}
+                {...DefaultProps.modalSelectorProps}
               >
                 <View style={styles.picker}>
                   <Text style={{ ...formStyle.inputText, fontSize: 18 }}>{currencyName}</Text>
