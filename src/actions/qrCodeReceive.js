@@ -1,5 +1,6 @@
 import actionType from '../constants/actionTypes';
 import { statusMessage } from './status';
+import { apiRequest } from '../lib/util';
 
 function replaceQrCodeReceive(newQrCodeReceiveData) {
   return { type: actionType.REPLACE_QRCODERECIEVE, data: newQrCodeReceiveData };
@@ -9,64 +10,144 @@ function clearQrCodeReceive() {
   return { type: actionType.CLEAR_QRCODERECIEVE };
 }
 
-function replaceQrCodeReceiveStoreId(newStoreIdData) {
-  return { type: actionType.REPLACE_QRCODERECIEVE_STOREID, data: newStoreIdData };
+function replaceCurQrReceive(newCurQrReceiveData) {
+  return { type: actionType.REPLACE_CURQRCODERECIEVE, data: newCurQrReceiveData };
 }
 
-function clearQrCodeReceiveStoreId() {
-  return { type: actionType.CLEAR_QRCODERECIEVE_STOREID };
+function clearCurQrReceive() {
+  return { type: actionType.CLEAR_CURQRCODERECIEVE };
 }
 
-function replaceQrCodeReceiveAmount(newAmountData) {
-  return { type: actionType.REPLACE_QRCODERECIEVE_AMOUNT, data: newAmountData };
+function replaceCurQrReceiveStoreId(newStoreId) {
+  return { type: actionType.REPLACE_CURQRCODERECIEVE_STOREID, data: newStoreId };
 }
 
-function clearQrCodeReceiveAmount() {
-  return { type: actionType.CLEAR_QRCODERECIEVE_AMOUNT };
+function clearCurQrReceiveStoreId() {
+  return { type: actionType.CLEAR_CURQRCODERECIEVE_STOREID };
 }
 
-function replaceQrCodeReceiveComment(newCommentData) {
-  return { type: actionType.REPLACE_QRCODERECIEVE_COMMENT, data: newCommentData };
+function replaceCurQrReceiveAccount(newAccount) {
+  return { type: actionType.REPLACE_CURQRCODERECIEVE_ACCOUNT, data: newAccount };
 }
 
-function clearQrCodeReceiveComment() {
-  return { type: actionType.CLEAR_QRCODERECIEVE_COMMENT };
+function clearCurQrReceiveAccount() {
+  return { type: actionType.CLEAR_CURQRCODERECIEVE_ACCOUNT };
 }
 
-function setQrCodeReceive(data) {
+function replaceCurQrReceiveAmount(newAmount) {
+  return { type: actionType.REPLACE_CURQRCODERECIEVE_AMOUNT, data: newAmount };
+}
+
+function clearCurQrReceiveAmount() {
+  return { type: actionType.CLEAR_CURQRCODERECIEVE_AMOUNT };
+}
+
+function replaceCurQrReceiveComment(newComment) {
+  return { type: actionType.REPLACE_CURQRCODERECIEVE_COMMENT, data: newComment };
+}
+
+function clearCurQrReceiveComment() {
+  return { type: actionType.CLEAR_CURQRCODERECIEVE_COMMENT };
+}
+
+function replaceFavorite(newFavorite) {
+  return { type: actionType.REPLACE_QRCODERECIEVE_FAVORITE, data: newFavorite };
+}
+
+function clearFavorite() {
+  return { type: actionType.CLEAR_QRCODERECIEVE_FAVORITE };
+}
+
+function setCurQrCodeReceive(data) {
   return async (dispatch, getState) => {
     // Status
     dispatch(statusMessage('loading', true));
 
-    dispatch(replaceQrCodeReceive(data));
+    dispatch(replaceCurQrReceive(data));
 
     // Status
     dispatch(statusMessage('loading', false));
   };
 }
 
-function setQrCodeReceiveStoreId(data) {
+function getFavoriteList() {
   return async (dispatch, getState) => {
-    // Status
-    dispatch(statusMessage('loading', true));
+    // Api request
+    const result = await apiRequest(dispatch, '/user/qr-re-fav', 'GET');
 
-    dispatch(replaceQrCodeReceiveStoreId(data));
+    // Process result
+    if (result && result.success) {
+      const favoriteList = result.data;
+      dispatch(replaceFavorite(favoriteList));
+    }
+  };
+}
 
-    // Status
-    dispatch(statusMessage('loading', false));
+function addFavorite(newFavoriteItem) {
+  return async (dispatch, getState) => {
+    const { favorite } = getState().qrCodeReceive;
+
+    // prepare body data
+    const requestBody = JSON.stringify({
+      storeId: newFavoriteItem.storeId.toString(),
+      amount: newFavoriteItem.amount,
+      comment: newFavoriteItem.comment,
+    });
+
+    // Api request
+    let result = await apiRequest(dispatch, '/user/qr-re-fav/add', 'POST', requestBody);
+
+    // Process result & update favoriteList
+    if (result && result.success) {
+      const favoriteList = result.data;
+      dispatch(statusMessage('success', '新增成功'));
+      dispatch(replaceFavorite(favoriteList));
+    }
+  };
+}
+
+function removeFavorite(targetIdx) {
+  return async (dispatch, getState) => {
+    const { favorite } = getState().qrCodeReceive;
+    const exist = favorite.find(e => (e.id === targetIdx));
+    if (!exist) return;
+
+    // prepare body data
+    const requestBody = JSON.stringify({
+      id: targetIdx.toString(),
+    });
+
+    // Api request
+    let result = await apiRequest(dispatch, '/user/qr-re-fav/delete', 'POST', requestBody);
+
+    // Process result && update favoriteList
+    if (result && result.success) {
+      const favoriteList = result.data;
+      dispatch(statusMessage('success', '刪除成功'));
+      dispatch(replaceFavorite(favoriteList));
+    }
   };
 }
 
 export {
   replaceQrCodeReceive,
   clearQrCodeReceive,
-  replaceQrCodeReceiveStoreId,
-  clearQrCodeReceiveStoreId,
-  replaceQrCodeReceiveAmount,
-  clearQrCodeReceiveAmount,
-  replaceQrCodeReceiveComment,
-  clearQrCodeReceiveComment,
+  replaceCurQrReceive,
+  clearCurQrReceive,
+  replaceCurQrReceiveStoreId,
+  clearCurQrReceiveStoreId,
+  replaceCurQrReceiveAccount,
+  clearCurQrReceiveAccount,
+  replaceCurQrReceiveAmount,
+  clearCurQrReceiveAmount,
+  replaceCurQrReceiveComment,
+  clearCurQrReceiveComment,
+  replaceFavorite,
+  clearFavorite,
 
-  setQrCodeReceive,
-  setQrCodeReceiveStoreId,
+
+  setCurQrCodeReceive,
+  getFavoriteList,
+  addFavorite,
+  removeFavorite,
 };

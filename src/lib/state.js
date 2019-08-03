@@ -90,9 +90,18 @@ const state = {
     },
   },
   qrCodeReceive: {
-	  storeId: -1,
-	  amount: '',
-	  comment: '',
+    curQrReceive: {
+      type: 'receive',
+      storeId: -1,
+      account: '',
+      amount: '',
+      comment: '',
+    },
+    favorite: [
+      { id: 0, storeId: -1, currencyName: '聯盟幣', amount: '', comment: '' },
+      { storeId: -1, amount: '', comment: '' },
+      { storeId: -1, amount: '', comment: '' },
+    ],
   },
   status: {
     loading: false,

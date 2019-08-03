@@ -1,11 +1,14 @@
 import actionType from '../constants/actionTypes';
 
 const initState = {
-  storeId: -1,
-  account: '',
-  amount: '',
-  comment: '',
-  type: 'receive',
+  curQrReceive: {
+    storeId: -1,
+    account: '',
+    amount: '',
+    comment: '',
+    type: 'receive',
+  },
+  favorite: [],
 };
 
 function qrCodeReceiveReducer(state = initState, action) {
@@ -21,54 +24,103 @@ function qrCodeReceiveReducer(state = initState, action) {
       return initState;
     }
 
-    // storeId
-    case actionType.REPLACE_QRCODERECIEVE_STOREID: {
+    // curQrReceive
+    case actionType.REPLACE_CURQRCODERECIEVE: {
       if (action.data) {
         return {
           ...state,
-          storeId: action.data,
+          curQrReceive: action.data,
         };
       }
       return state;
     }
-    case actionType.CLEAR_QRCODERECIEVE_STOREID: {
+    case actionType.CLEAR_CURQRCODERECIEVE: {
       return {
         ...state,
-        storeId: -1,
+        curQrReceive: {
+          storeId: -1,
+          account: '',
+          amount: '',
+          comment: '',
+          type: 'receive',
+        },
       };
     }
 
-    // amount
-    case actionType.REPLACE_QRCODERECIEVE_AMOUNT: {
+    // curQrReceiveStoreId
+    case actionType.REPLACE_CURQRCODERECIEVE_STOREID: {
       if (action.data) {
-        return {
-          ...state,
-          amount: action.data,
-        };
+        const newState = Object.assign({}, state);
+        newState.curQrReceive.storeId = action.data;
+        return newState;
       }
       return state;
     }
-    case actionType.CLEAR_QRCODERECIEVE_AMOUNT: {
-      return {
-        ...state,
-        amount: '',
-      };
+    case actionType.CLEAR_CURQRCODERECIEVE_STOREID: {
+      const newState = Object.assign({}, state);
+      newState.curQrReceive.storeId = -1;
+      return newState;
     }
 
-    // comment
-    case actionType.REPLACE_QRCODERECIEVE_COMMENT: {
+    // curQrReceiveAccount
+    case actionType.REPLACE_CURQRCODERECIEVE_ACCOUNT: {
+      if (action.data) {
+        const newState = Object.assign({}, state);
+        newState.curQrReceive.account = action.data;
+        return newState;
+      }
+      return state;
+    }
+    case actionType.CLEAR_CURQRCODERECIEVE_ACCOUNT: {
+      const newState = Object.assign({}, state);
+      newState.curQrReceive.account = '';
+      return newState;
+    }
+
+    // curQrReceiveAmount
+    case actionType.REPLACE_CURQRCODERECIEVE_AMOUNT: {
+      if (action.data || action.data === '') {
+        const newState = Object.assign({}, state);
+        newState.curQrReceive.amount = action.data;
+        return newState;
+      }
+      return state;
+    }
+    case actionType.CLEAR_CURQRCODERECIEVE_AMOUNT: {
+      const newState = Object.assign({}, state);
+      newState.curQrReceive.amount = '';
+      return newState;
+    }
+
+    // curQrReceiveComment
+    case actionType.REPLACE_CURQRCODERECIEVE_COMMENT: {
+      if (action.data || action.data === '') {
+        const newState = Object.assign({}, state);
+        newState.curQrReceive.comment = action.data;
+        return newState;
+      }
+      return state;
+    }
+    case actionType.CLEAR_CURQRCODERECIEVE_COMMENT: {
+      const newState = Object.assign({}, state);
+      newState.curQrReceive.comment = '';
+      return newState;
+    }
+
+    // favorite
+    case actionType.REPLACE_QRCODERECIEVE_FAVORITE: {
       if (action.data) {
         return {
           ...state,
-          comment: action.data,
+          favorite: action.data,
         };
       }
       return state;
     }
-    case actionType.CLEAR_QRCODERECIEVE_COMMENT: {
+    case actionType.CLEAR_QRCODERECIEVE_FAVORITE: {
       return {
         ...state,
-        comment: '',
+        favorite: [],
       };
     }
 

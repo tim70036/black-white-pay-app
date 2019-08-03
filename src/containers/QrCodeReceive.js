@@ -2,15 +2,30 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getWallets } from '../actions/wallets';
-import { setQrCodeReceive, setQrCodeReceiveStoreId } from '../actions/qrCodeReceive';
+import {
+  getFavoriteList,
+  setCurQrCodeReceive,
+  addFavorite,
+  removeFavorite,
+  replaceCurQrReceiveStoreId,
+  replaceCurQrReceiveAccount,
+  replaceCurQrReceiveAmount,
+  replaceCurQrReceiveComment,
+} from '../actions/qrCodeReceive';
 
 
 class QrCodeReceive extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
     getWalletsData: PropTypes.func.isRequired,
-    chooseWallet: PropTypes.func.isRequired,
+    getFavoriteData: PropTypes.func.isRequired,
+    addFavoriteItem: PropTypes.func.isRequired,
+    removeFavoriteItem: PropTypes.func.isRequired,
     setqrCodeReceive: PropTypes.func.isRequired,
+    qrStoreIdHandler: PropTypes.func.isRequired,
+    qrAccountHandler: PropTypes.func.isRequired,
+    qrAmountHandler: PropTypes.func.isRequired,
+    qrCommentHandler: PropTypes.func.isRequired,
     user: PropTypes.shape({
       account: PropTypes.string,
       password: PropTypes.string,
@@ -39,17 +54,19 @@ class QrCodeReceive extends Component {
   }
 
   componentWillMount() {
-    this._getWalletsData();
+    this._getData();
+    this._setAccount();
   }
 
-  _getWalletsData = async () => {
-    const { getWalletsData } = this.props;
+  _getData = async () => {
+    const { getWalletsData, getFavoriteData } = this.props;
     await getWalletsData();
+    await getFavoriteData();
   }
 
-  _handleChoose = async (storeId) => {
-    const { chooseWallet } = this.props;
-    await chooseWallet(storeId);
+  _setAccount = () => {
+    const { user, qrAccountHandler } = this.props;
+    qrAccountHandler(user.account);
   }
 
   render = () => {
@@ -58,16 +75,26 @@ class QrCodeReceive extends Component {
       user,
       walletsData,
       qrCodeReceive,
+      addFavoriteItem,
+      removeFavoriteItem,
       setqrCodeReceive,
+      qrStoreIdHandler,
+      qrAmountHandler,
+      qrCommentHandler,
     } = this.props;
 
     return (
       <Layout
         account={user.account}
         walletsData={walletsData}
-        onChoose={this._handleChoose}
         qrCodeReceive={qrCodeReceive}
+        favoriteList={qrCodeReceive.favorite}
+        addFavoriteItem={addFavoriteItem}
+        removeFavoriteItem={removeFavoriteItem}
         setqrCodeReceive={setqrCodeReceive}
+        qrStoreIdHandler={qrStoreIdHandler}
+        qrAmountHandler={qrAmountHandler}
+        qrCommentHandler={qrCommentHandler}
       />
     );
   }
@@ -81,8 +108,14 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getWalletsData: getWallets,
-  setqrCodeReceive: setQrCodeReceive,
-  chooseWallet: setQrCodeReceiveStoreId,
+  getFavoriteData: getFavoriteList,
+  addFavoriteItem: addFavorite,
+  removeFavoriteItem: removeFavorite,
+  setqrCodeReceive: setCurQrCodeReceive,
+  qrStoreIdHandler: replaceCurQrReceiveStoreId,
+  qrAccountHandler: replaceCurQrReceiveAccount,
+  qrAmountHandler: replaceCurQrReceiveAmount,
+  qrCommentHandler: replaceCurQrReceiveComment,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(QrCodeReceive);

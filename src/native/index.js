@@ -145,7 +145,32 @@ export default class App extends React.Component {
       Roboto: require('native-base/Fonts/Roboto.ttf'),
       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
       Ionicons: require('@expo/vector-icons/fonts/Ionicons.ttf'),
-    });
+	});
+	
+	// get preload uri list
+    const fetchPayload = {
+	  method: 'GET',
+	  credentials: 'include',
+	};
+	const apiPath = '/user/preload-uri';
+	let response;
+	try {
+	  response = await fetch( `${config.apiUrl}${apiPath}`, fetchPayload);
+	  response = await response.json();
+	  if (!response) throw Error('沒有回應');
+	  // get uri success, do Image.prefetch
+	  if (response.errCode === 0) {
+		const uriOfImages = [...response.data];
+		const preFetchTasks = [];
+		uriOfImages.forEach((p) => {
+		  preFetchTasks.push(Image.prefetch(p));
+		});
+		await Promise.all(preFetchTasks);
+	  }
+	} catch (error) {
+	  // Status
+	  console.log(error);
+	}
 
     // Handle notifications that are received or selected while the app
     // is open. If the app was closed and then opened by tapping the
