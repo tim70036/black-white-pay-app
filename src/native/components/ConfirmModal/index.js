@@ -70,49 +70,44 @@ const styles = StyleSheet.create({
 
 });
 // TODO change to touchableHighlight
-const ConfirmModal = (props) => {
-  const {
-    confirmAction, cancelAction, context, visibleModal,
-  } = props;
-  return (
-    <Modal
-      backdropOpacity={0.8}
-      isVisible={visibleModal}
-      animationOut="fadeOut"
-      animationOutTiming={100}
-      style={styles.modalContainer}
-    >
-      <View style={styles.container}>
-        <View style={styles.bodyContainer}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.warningText}>警告</Text>
-          </View>
-          <View style={styles.contextContainer}>
-            <Text style={styles.text}>{context}</Text>
-          </View>
+const ConfirmModal = ({confirmAction, cancelAction, context, visibleModal }) => (
+  <Modal
+    backdropOpacity={0.8}
+    isVisible={visibleModal}
+    animationOut="fadeOut"
+    animationOutTiming={100}
+    style={styles.modalContainer}
+  >
+    <View style={styles.container}>
+      <View style={styles.bodyContainer}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.warningText}>警告</Text>
         </View>
-        <View style={styles.buttonContainer}>
-          <TouchableHighlight
-            onPress={confirmAction}
-            style={styles.confirmButtonContainer}
-            activeOpacity={0.1}
-            underlayColor="rgb(38, 38, 38)"
-          >
-            <Text style={styles.text}> 確認 </Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            onPress={cancelAction}
-            style={styles.cancelButtonContainer}
-            activeOpacity={0.1}
-            underlayColor="rgb(38, 38, 38)"
-          >
-            <Text style={styles.text}> 取消 </Text>
-          </TouchableHighlight>
+        <View style={styles.contextContainer}>
+          <Text style={styles.text}>{context}</Text>
         </View>
       </View>
-    </Modal>
-  );
-};
+      <View style={styles.buttonContainer}>
+        <TouchableHighlight
+          onPress={confirmAction}
+          style={styles.confirmButtonContainer}
+          activeOpacity={0.1}
+          underlayColor="rgb(38, 38, 38)"
+        >
+          <Text style={styles.text}> 確認 </Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          onPress={cancelAction}
+          style={styles.cancelButtonContainer}
+          activeOpacity={0.1}
+          underlayColor="rgb(38, 38, 38)"
+        >
+          <Text style={styles.text}> 取消 </Text>
+        </TouchableHighlight>
+      </View>
+    </View>
+  </Modal>
+);
 
 ConfirmModal.propTypes = {
   confirmAction: PropTypes.func.isRequired,
