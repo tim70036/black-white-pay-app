@@ -36,6 +36,23 @@ function curStoreReducer(state = initState, action) {
       };
     }
 
+    // comment
+    case actionType.REPLACE_CURSTORE_COMMENT: {
+      if (action.data) {
+        return {
+          ...state,
+          comment: action.data,
+        };
+      }
+      return state;
+    }
+    case actionType.CLEAR_CURSTORE_COMMENT: {
+      return {
+        ...state,
+        comment: '',
+      };
+    }
+
     // coupons
     case actionType.REPLACE_CURSTORE_COUPONS: {
       if (action.data) {

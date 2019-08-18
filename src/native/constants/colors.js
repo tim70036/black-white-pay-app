@@ -4,6 +4,7 @@ const Colors = {
   labelWhite: '#ffffff',
   labelRed: '#b20000',
   labelLightRed: '#FF3333',
+  labelBlack: '#090909',
 
   cardLightGray: '#2a2a2a',
   cardGray: '#1a1a1a',

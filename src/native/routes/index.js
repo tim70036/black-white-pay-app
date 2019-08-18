@@ -89,6 +89,9 @@ import AddFriendComponent from '../components/AddFriend';
 import FriendDetailContainer from '../../containers/FriendDetail';
 import FriendDetailComponent from '../components/FriendDetail';
 
+import GameWalletListContainer from '../../containers/GameWalletList';
+import GameWalletListComponent from '../components/GameWalletList';
+
 import TabBar from '../components/TabBar';
 
 const getRoutes = (authenticate, goAuth, refresh) => (
@@ -113,7 +116,8 @@ const getRoutes = (authenticate, goAuth, refresh) => (
             {...DefaultProps.navbarProps}
           >
             <Scene component={spinnerHOC(StoreListContainer)} Layout={StoreListComponent} on={authenticate} failure={goAuth} success={refresh} />
-            <Scene key="storeHome" component={StoreHomeContainer} Layout={StoreHomeComponent} on={authenticate} failure={goAuth} />
+            <Scene key="storeHome" hideTabBar="true" component={StoreHomeContainer} Layout={StoreHomeComponent} on={authenticate} failure={goAuth} />
+            <Scene key="gameWalletList" component={spinnerHOC(GameWalletListContainer)} Layout={GameWalletListComponent} on={authenticate} failure={goAuth} success={refresh} />
           </Stack>
 
           <Stack

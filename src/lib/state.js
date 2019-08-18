@@ -16,16 +16,19 @@ const state = {
       storeId: 1,
       name: '',
       thumbnail: '',
+      comment: '',
     },
     {
       storeId: 2,
       name: '',
       thumbnail: '',
+      comment: '',
     },
     {
       storeId: 3,
       name: '',
       thumbnail: '',
+      comment: '',
     },
   ],
   wallets: [
@@ -37,6 +40,7 @@ const state = {
       exchangeRate: 1,
       inflow: 1,
       outflow: 1,
+      currencySrc: '',
     },
     {
       storeId: 2,
@@ -46,7 +50,18 @@ const state = {
       exchangeRate: 1,
       inflow: 1,
       outflow: 1,
+      cuurencySrc: '',
     },
+  ],
+  gameWallets: [
+    {
+      gameId: '',
+      gameName: '',
+      balance: 0,
+      frozenBalance: 0,
+      currencyName: '',
+    },
+    {},
   ],
   notifications: [
     { time: '', thumbnail: '', content: '', hasRead: false },
@@ -56,7 +71,9 @@ const state = {
   curWallet: {
     storeId: 1,
     currencyName: '',
+    comment: '',
     availBalance: 0,
+    currencySrc: '',
     transHistory: [
       { time: '', amount: '', relatedName: '', comment: '' },
       {},
@@ -65,6 +82,7 @@ const state = {
   },
   curStore: {
     storeId: 1,
+    name: '',
     ads: [
       { image: '', title: '' },
       { image: '', title: '' },

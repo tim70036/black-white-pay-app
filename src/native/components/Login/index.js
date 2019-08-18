@@ -9,7 +9,7 @@ import { accountValidate, pwdValidate } from '../../lib/validate';
 import { formStyle, elementColors } from '../../lib/styles';
 import Colors from '../../constants/colors';
 import { registerForNotifications } from '../../lib/expo';
-import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { viewportWidthPercent, viewportHeightPercent, preloadRemoteAsset } from '../../lib/util';
 
 const styles = StyleSheet.create({
   logo: {
@@ -60,7 +60,7 @@ class Login extends Component {
       password: (props.user && props.user.password) ? props.user.password : '',
       loginButtonIsPressed: false,
       registerButtonIsPressed: false,
-      visibleModal: false,
+      visibleSpinner: false,
 
       accountMsg: '',
       passwordMsg: '',
@@ -110,40 +110,20 @@ class Login extends Component {
 
     if (success) {
       // show loading modal
-      this.setState({ visibleModal: true });
+      this.setState({ visibleSpinner: true });
       await registerForNotifications();
-      // get preload uri list
-      const fetchPayload = {
-        method: 'GET',
-        credentials: 'include',
-      };
-      const apiPath = '/user/preload-uri';
-      let response;
-      try {
-        response = await fetch( `${config.apiUrl}${apiPath}`, fetchPayload);
-        response = await response.json();
-        if (!response) throw Error('沒有回應');
-        // get uri success, do Image.prefetch
-        if (response.errCode === 0) {
-          const uriOfImages = [...response.data];
-          const preFetchTasks = [];
-          uriOfImages.forEach((p) => {
-            preFetchTasks.push(Image.prefetch(p));
-          });
-          await Promise.all(preFetchTasks);
-        }
-      } catch (error) {
-        // Status
-        console.log(error);
-      }
-      this.setState({ visibleModal: false });
+
+      // Preload asset
+      await preloadRemoteAsset();
+      
+      this.setState({ visibleSpinner: false });
       Actions.main(); // need reset?
     }
   }
 
 
   render() {
-    const { account, password, accountMsg, passwordMsg, visibleModal } = this.state;
+    const { account, password, accountMsg, passwordMsg, visibleSpinner } = this.state;
     return (
       <ImageBackground source={require('../../../img/background/background2.png')} style={formStyle.container}>
         <ScrollView>
@@ -218,7 +198,7 @@ class Login extends Component {
               <Text style={formStyle.buttonText}>忘記密碼</Text>
             </TouchableHighlight>
           </View>
-		      <Spinner visible={visibleModal} overlayColor="rgba(0, 0, 0, 0)" indicatorStyle={{ size: 'large' }} />
+          <Spinner visible={visibleSpinner} overlayColor="rgba(0, 0, 0, 0)" indicatorStyle={{ size: 'large' }} />
         </ScrollView>
       </ImageBackground>
     );

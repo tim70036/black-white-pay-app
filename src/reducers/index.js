@@ -8,6 +8,7 @@ import notifications from './notifications';
 import friend from './friend';
 import status from './status';
 import qrCodeReceive from './qrCodeReceive';
+import gameWallets from './gameWallets';
 
 // Redux persist
 const rehydrated = (state = false, action) => {
@@ -38,4 +39,5 @@ export default {
   qrCodeReceive: qrCodeReceive,
   friend: friend,
   status: status,
+  gameWallets: gameWallets,
 };

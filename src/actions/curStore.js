@@ -18,6 +18,14 @@ function clearAds() {
   return { type: actionType.CLEAR_CURSTORE_ADS };
 }
 
+function replaceComment(newCommentData) {
+  return { type: actionType.REPLACE_CURSTORE_COMMENT, data: newCommentData };
+}
+
+function clearComment() {
+  return { type: actionType.CLEAR_CURSTORE_COMMENT };
+}
+
 function replaceCoupons(newCouponsData) {
   return { type: actionType.REPLACE_CURSTORE_COUPONS, data: newCouponsData };
 }
@@ -28,11 +36,11 @@ function clearCoupons() {
 
 function setCurStore(curStoreId) {
   return async (dispatch, getState) => {
-    // Init data
+
+    const storeList = getState().stores;
+    const targetStore = storeList.find(store => (store.storeId === curStoreId));
     const curStore = {
-      storeId: curStoreId,
-      ads: [],
-      coupons: [],
+      ...targetStore,
     };
 
     dispatch(replaceCurStore(curStore));
@@ -46,12 +54,27 @@ function getAds() {
     });
 
     // Api request
-    let result = await apiRequest(dispatch, '/store/ad', 'POST', requestBody);
-
+    const result = await apiRequest(dispatch, '/store/ad', 'POST', requestBody);
     // Process result
     if (result && result.success) {
       const adList = result.data;
       dispatch(replaceAds(adList));
+    }
+  };
+}
+
+function getComment() {
+  return async (dispatch, getState) => {
+    const requestBody = JSON.stringify({
+      storeId: getState().curStore.storeId.toString(),
+    });
+
+    // Api request
+    const result = await apiRequest(dispatch, '/store/comment', 'POST', requestBody);
+    // Process result
+    if (result && result.success) {
+      const comment = result.data;
+      dispatch(replaceComment(comment));
     }
   };
 }
@@ -63,9 +86,13 @@ export {
   replaceAds,
   clearAds,
 
+  replaceComment,
+  clearComment,
+
   replaceCoupons,
   clearCoupons,
 
   setCurStore,
   getAds,
+  getComment,
 };
