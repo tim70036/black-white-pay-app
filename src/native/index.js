@@ -55,7 +55,7 @@ export default class App extends React.Component {
     });
 
     // Preload asset
-    await preloadRemoteAsset();
+    // await preloadRemoteAsset();
     await preloadLocalAsset();
 
     // Handle notifications that are received or selected while the app

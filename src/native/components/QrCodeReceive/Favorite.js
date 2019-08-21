@@ -6,12 +6,16 @@ import {
   Text,
   TouchableHighlight,
   FlatList,
+  TouchableOpacity,
+  ImageBackground,
+  Image,
+  PanResponder,
 } from 'react-native';
+import Modal from 'react-native-modal';
 
 import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 import Colors from '../../constants/colors';
 import ConfirmModal from '../ConfirmModal';
-
 
 const styles = StyleSheet.create({
   scene: {
@@ -34,7 +38,7 @@ const styles = StyleSheet.create({
     // borderColor: 'blue',
   },
   cardItemLeft: {
-    flex: 4,
+    flex: 7,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -45,14 +49,14 @@ const styles = StyleSheet.create({
     // borderColor: 'blue',
   },
   cardItemRight: {
-    flex: 1,
+    flex: 3,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
     borderBottomRightRadius: 10,
     borderTopRightRadius: 10,
-    backgroundColor: '#BE3B3B',
+    backgroundColor: '#2B2A29',
   },
   textView: {
     flex: 1,
@@ -62,6 +66,10 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 15,
     color: 'white',
+  },
+  deleteCard: {
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 });
 
@@ -152,7 +160,10 @@ class Favorite extends Component {
           underlayColor="rgb(38, 38, 38)"
           style={styles.cardItemRight}
         >
-          <Text style={styles.text}>刪除</Text>
+          <View style={styles.deleteCard}>
+            <Image source={require('../../../img/qrCodeReceive/trashcan.png')} />
+            <Text style={{...styles.text, marginTop: 5 }}>刪除</Text>
+          </View>
         </TouchableHighlight>
       </View>
     );

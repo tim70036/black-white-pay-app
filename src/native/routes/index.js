@@ -40,6 +40,9 @@ import HomeComponent from '../components/Home';
 import StoreHomeContainer from '../../containers/StoreHome';
 import StoreHomeComponent from '../components/StoreHome';
 
+import GameListContainer from '../../containers/GameList';
+import GameListComponent from '../components/GameList';
+
 import WalletListContainer from '../../containers/WalletList';
 import WalletListComponent from '../components/WalletList';
 
@@ -269,6 +272,13 @@ const getRoutes = (authenticate, goAuth, refresh) => (
           {...DefaultProps.navbarProps}
         >
           <Scene component={spinnerHOC(FriendDetailContainer)} Layout={FriendDetailComponent} on={authenticate} failure={goAuth} />
+        </Stack>
+
+        <Stack
+          key="gameList"
+          {...DefaultProps.navbarProps}
+        >
+          <Scene component={spinnerHOC(GameListContainer)} Layout={GameListComponent} on={authenticate} failure={goAuth} />
         </Stack>
 
       </Stack>

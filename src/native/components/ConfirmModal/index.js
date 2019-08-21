@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
 
 });
-// TODO change to touchableHighlight
+
 const ConfirmModal = ({confirmAction, cancelAction, context, visibleModal }) => (
   <Modal
     backdropOpacity={0.8}

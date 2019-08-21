@@ -3,7 +3,9 @@ import { clearAnnouncements } from './announcements';
 import { clearCurStore } from './curStore';
 import { clearCurWallet } from './curWallet';
 import { clearFriend } from './friend';
+import { clearGameWallets } from './gameWallets';
 import { clearNotifications } from './notifications';
+import { clearQrCodeReceive } from './qrCodeReceive';
 import { clearStores } from './stores';
 import { clearWallets } from './wallets';
 import { statusMessage } from './status';
@@ -199,6 +201,8 @@ function login(formData) {
 
     // Process result
     if (result && result.success) {
+      // get session id from cookie
+      const session = result.setCookie.find(e => (e.name === 'connect.sid'));
       const userData = {
         account: account,
         password: password,
@@ -206,6 +210,7 @@ function login(formData) {
         name: result.data.name,
         thumbnail: result.data.thumbnail,
         authenticated: true,
+        sessionId: session.value,
       };
       dispatch(replaceUser(userData));
 
@@ -232,7 +237,9 @@ function logout() {
       dispatch(clearCurStore());
       dispatch(clearCurWallet());
       dispatch(clearFriend());
+      dispatch(clearGameWallets());
       dispatch(clearNotifications());
+      dispatch(clearQrCodeReceive());
       dispatch(clearStores());
       dispatch(clearWallets());
 

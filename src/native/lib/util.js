@@ -184,6 +184,18 @@ async function preloadLocalAsset() {
     require('../../img/tabbar/person-focus.png'),
     require('../../img/tabbar/person-unfocus.png'),
 
+    // takeInModal
+    require('../../img/takeInModal/amountContainer.png'),
+    require('../../img/takeInModal/closeButton.png'),
+    require('../../img/takeInModal/confirmButton.png'),
+    require('../../img/takeInModal/diamond.png'),
+    require('../../img/takeInModal/dot.png'),
+    require('../../img/takeInModal/exchange.png'),
+    require('../../img/takeInModal/flame.png'),
+    require('../../img/takeInModal/gameCoin.png'),
+    require('../../img/takeInModal/headBar.png'),
+    require('../../img/takeInModal/infoBoard.png'),
+
     // Audio
     require('../../audio/notification.mp3'),
   ]);

@@ -27,6 +27,7 @@ async function apiRequest(dispatch, apiPath, method, body = '', contentType = ''
   let result = {
     success: false,
     data: null,
+    setCookie: [],
   };
 
   let response;
@@ -35,8 +36,9 @@ async function apiRequest(dispatch, apiPath, method, body = '', contentType = ''
 
     // Parse cookie
     const combinedCookieHeader = response.headers.get('Set-Cookie');
-    const splitCookieHeaders = SetCookie.splitCookiesString(combinedCookieHeader)
+    const splitCookieHeaders = SetCookie.splitCookiesString(combinedCookieHeader);
     const cookies = SetCookie.parse(splitCookieHeaders);
+    if (cookies) result.setCookie = cookies;
     // console.log({cookies});
 
     // Parse to JSON

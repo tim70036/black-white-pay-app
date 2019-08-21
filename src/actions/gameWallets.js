@@ -57,10 +57,35 @@ function recycleAllGameWallet() {
   };
 }
 
+function takeIn(formData) {
+  return async (dispatch, getState) => {
+    // Status
+    dispatch(statusMessage('loading', true));
+    
+    const requestBody = JSON.stringify({
+      gameId: formData.gameId.toString(),
+      storeId: formData.storeId.toString(),
+      amount: formData.amount,
+    });
+    // takeIn Api request
+    let result = await apiRequest(dispatch, '/game/wallet/take-in-and-play', 'POST', requestBody);
+
+    // Process result
+    if (result && result.success) {
+      // get gameLink
+      dispatch(statusMessage('success', '攜入成功'));
+      return result;
+    }
+    dispatch(statusMessage('loading', false));
+    return false;
+  };
+}
+
 export {
   replaceGameWallets,
   clearGameWallets,
   getGameWallets,
   recycleOneGameWallet,
   recycleAllGameWallet,
+  takeIn,
 };

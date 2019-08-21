@@ -9,7 +9,7 @@ import reducers from '../reducers';
 const config = {
   key: 'root',
   storage: storage,
-  blacklist: ['status'],
+  whitelist: ['user'],
 };
 
 const reducer = persistCombineReducers(config, reducers);

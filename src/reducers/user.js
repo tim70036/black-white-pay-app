@@ -7,6 +7,7 @@ const initState = {
   name: '',
   thumbnail: '',
   authenticated: false,
+  sessionId: '',
 };
 
 function userReducer(state = initState, action) {

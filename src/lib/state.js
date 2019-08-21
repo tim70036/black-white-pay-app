@@ -6,6 +6,7 @@ const state = {
     name: '',
     thumbnail: '',
     authenticated: false,
+    sessionId: '',
   },
   announcements: [
     { image: '', title: '' },
@@ -61,7 +62,13 @@ const state = {
       frozenBalance: 0,
       currencyName: '',
     },
-    {},
+    {
+      gameId: '',
+      gameName: '',
+      balance: 0,
+      frozenBalance: 0,
+      currencyName: '',
+    },
   ],
   notifications: [
     { time: '', thumbnail: '', content: '', hasRead: false },
@@ -76,8 +83,13 @@ const state = {
     currencySrc: '',
     transHistory: [
       { time: '', amount: '', relatedName: '', comment: '' },
-      {},
-      {},
+      { time: '', amount: '', relatedName: '', comment: '' },
+      { time: '', amount: '', relatedName: '', comment: '' },
+    ],
+    gameList: [
+      { id: '', name: '', code: '', provider: '', imageSrc: '' },
+      { id: '', name: '', code: '', provider: '', imageSrc: '' },
+      { id: '', name: '', code: '', provider: '', imageSrc: '' },
     ],
   },
   curStore: {

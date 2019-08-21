@@ -3,7 +3,7 @@ import { statusMessage } from './status';
 import { apiRequest } from '../lib/util';
 
 function replaceCurWallet(newCurWalletData) {
-  return { type: actionType.REPLACE_CURWALLET, data: newCurWalletData };
+  return { type: actionType.REPLACE_CURWALLET, data: newCurWalletData }; 
 }
 
 function clearCurWallet() {
@@ -26,6 +26,14 @@ function clearTransHistory() {
   return { type: actionType.CLEAR_CURWALLET_HISTORY };
 }
 
+function replaceGameList(newGameList) {
+  return { type: actionType.REPLACE_CURWALLET_GAMELIST, data: newGameList };
+}
+
+function clearGameList() {
+  return { type: actionType.CLEAR_CURWALLET_GAMELSIT };
+}
+
 function setCurWallet(curStoreId) {
   return async (dispatch, getState) => {
     // Status
@@ -39,10 +47,57 @@ function setCurWallet(curStoreId) {
     const curWallet = {
       ...targetWallet,
       transHistory: [],
+      gameList: [],
     };
     dispatch(replaceCurWallet(curWallet));
 
     // Status
+    dispatch(statusMessage('loading', false));
+  };
+}
+
+function updateCurWallet() {
+  return async (dispatch, getState) => {
+    // Status
+    dispatch(statusMessage('loading', true));
+
+    // Get precious curWallet data
+    const preCurWallet = getState().curWallet;
+    // Find wallet data in wallet list
+    const walletList = getState().wallets;
+    const targetWallet = walletList.find(wallet => (wallet.storeId === preCurWallet.storeId));
+
+    // Get curWallet data
+    const curWallet = {
+      ...targetWallet,
+      transHistory: preCurWallet.transHistory,
+      gameList: preCurWallet.gameList,
+    };
+    dispatch(replaceCurWallet(curWallet));
+
+    // Status
+    dispatch(statusMessage('loading', false));
+  }
+}
+
+function getGameList() {
+  return async (dispatch, getState) => {
+    // Status
+    dispatch(statusMessage('loading', true));
+
+    const requestBody = JSON.stringify({
+      storeId: getState().curWallet.storeId.toString(),
+    });
+
+    // Api request
+    const result = await apiRequest(dispatch, '/game/game-list/list', 'POST', requestBody);
+
+    // Process result
+    if (result && result.success) {
+      // Status
+      const gameList = result.data;
+      dispatch(replaceGameList(gameList));
+    }
     dispatch(statusMessage('loading', false));
   };
 }
@@ -106,8 +161,12 @@ export {
   clearAvailBalance,
   replaceTransHistory,
   clearTransHistory,
+  replaceGameList,
+  clearGameList,
 
   setCurWallet,
+  updateCurWallet,
   transfer,
   getTransHistory,
+  getGameList,
 };

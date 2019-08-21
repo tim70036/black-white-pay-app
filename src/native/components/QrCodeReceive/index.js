@@ -101,6 +101,8 @@ class QrCodeReceive extends Component {
       qrCommentHandler,
     } = this.props;
 
+    console.log({ walletsData , qrCodeReceive});
+
     switch (route.key) {
       case 'QrCodeRender':
         return (

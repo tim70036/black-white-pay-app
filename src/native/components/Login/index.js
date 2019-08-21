@@ -114,7 +114,7 @@ class Login extends Component {
       await registerForNotifications();
 
       // Preload asset
-      await preloadRemoteAsset();
+      // await preloadRemoteAsset();
       
       this.setState({ visibleSpinner: false });
       Actions.main(); // need reset?

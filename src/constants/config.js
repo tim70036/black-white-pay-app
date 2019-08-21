@@ -10,6 +10,9 @@ const config = {
   // apiUrl: 'http://localhost:8080/api',
   // apiUrl: 'http://192.168.1.106:8080/api',
 
+  // cq9Url Path
+  cq9Url: 'http://api.cqgame.games',
+
   // Build Configuration - eg. Debug or Release?
   DEV: devMode,
 

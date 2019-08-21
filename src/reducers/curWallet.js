@@ -5,6 +5,7 @@ const initState = {
   currencyName: '',
   availBalance: 0,
   transHistory: [],
+  gameList: [],
 };
 
 function curWalletReducer(state = initState, action) {
@@ -52,6 +53,23 @@ function curWalletReducer(state = initState, action) {
       return {
         ...state,
         transHistory: [],
+      };
+    }
+
+    // gameList
+    case actionType.REPLACE_CURWALLET_GAMELIST: {
+      if (action.data) {
+        return {
+          ...state,
+          gameList: action.data,
+        };
+      }
+      return state;
+    }
+    case actionType.CLEAR_CURWALLET_GAMELSIT: {
+      return {
+        ...state,
+        gameList: [],
       };
     }
 
