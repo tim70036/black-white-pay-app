@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
 
 class StoreList extends React.Component {
   static propTypes = {
+    onChoose: PropTypes.func.isRequired,
     storesData: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string,
@@ -67,7 +68,9 @@ class StoreList extends React.Component {
   }
 
   _handleChoose = async (storeId) => {
-    Actions.storeHome({ storeId: storeId });
+    const { onChoose } = this.props;
+    await onChoose(storeId);
+    Actions.storeHome();
   }
 
   _handleAddStore = () => {

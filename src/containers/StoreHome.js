@@ -3,19 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getWallets } from '../actions/wallets';
 import { getStores } from '../actions/stores';
-import { setCurStore, getAds, getComment } from '../actions/curStore';
-import { setCurWallet } from '../actions/curWallet';
+import { getAds, getComment } from '../actions/curStore';
 
 class StoreHome extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
-    chooseStore: PropTypes.func.isRequired,
     getAdList: PropTypes.func.isRequired,
     getWalletsData: PropTypes.func.isRequired,
-    setCurWallet: PropTypes.func.isRequired,
     getComment: PropTypes.func.isRequired,
-
-    storeId: PropTypes.number.isRequired,
     adList: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string,
@@ -57,12 +52,10 @@ class StoreHome extends Component {
   }
 
   componentWillMount = async () => {
-    const { chooseStore, getAdList, getWalletsData, setCurWallet, getComment, storeId } = this.props;
-    await chooseStore(storeId);
+    const { getAdList, getWalletsData, getComment } = this.props;
     await getAdList();
     await getComment();
     await getWalletsData();
-    await setCurWallet(storeId);
   }
 
   render = () => {
@@ -87,11 +80,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  chooseStore: setCurStore,
   getAdList: getAds,
   getComment: getComment,
   getWalletsData: getWallets,
-  setCurWallet: setCurWallet,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(StoreHome);

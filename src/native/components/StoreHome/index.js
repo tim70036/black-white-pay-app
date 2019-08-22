@@ -257,8 +257,8 @@ class StoreHome extends Component {
     Actions.gameWalletList();
   }
 
-  _handleAddStore = () => {
-    Actions.addStore();
+  _handleGameList = async () => {
+    Actions.gameList();
   }
 
   render = () => {
@@ -312,7 +312,10 @@ class StoreHome extends Component {
               </TouchableOpacity>
             </ImageBackground>
             <ImageBackground style={styles.buttons} source={require('../../../img/storeHome/pinkButton.png')}>
-              <TouchableOpacity style={styles.buttonContent}>
+              <TouchableOpacity
+                style={styles.buttonContent}
+                onPress={this._handleGameList}
+              >
                 <Image style={styles.icon} source={require('../../../img/storeHome/list.png')} />
                 <View style={{ width: 10 }} />
                 <Text style={{ ...styles.text, fontSize: 13, color: '#332954' }}>遊戲列表</Text>

@@ -235,6 +235,10 @@ class GameWalletList extends Component {
     gameName: '',
   }
 
+  _handleGameList = async () => {
+    Actions.gameList();
+  }
+
   _handleRecycleOne = async (item) => {
     this.setState({ visibleRecycleOneModal: true, gameId: item.gameId, gameName: item.gameName });
   }
@@ -332,7 +336,10 @@ class GameWalletList extends Component {
         <View style={styles.contentContainer}>
           <View style={styles.buttonContainer}>
             <ImageBackground style={styles.buttons} source={require('../../../img/gameWalletList/purpleButton.png')}>
-              <TouchableOpacity style={styles.buttonContent}>
+              <TouchableOpacity
+                style={styles.buttonContent}
+                onPress={this._handleGameList}
+              >
                 <Image style={styles.icon} source={require('../../../img/gameWalletList/list.png')} />
                 <View style={{ width: 10 }} />
                 <Text style={{ ...styles.text, fontSize: 13, color: '#75051C' }}>遊戲列表</Text>
