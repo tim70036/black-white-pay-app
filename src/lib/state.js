@@ -18,18 +18,9 @@ const state = {
       name: '',
       thumbnail: '',
       comment: '',
-    },
-    {
-      storeId: 2,
-      name: '',
-      thumbnail: '',
-      comment: '',
-    },
-    {
-      storeId: 3,
-      name: '',
-      thumbnail: '',
-      comment: '',
+      address: '',
+      phoneNumber: '',
+      businesshours: '',
     },
   ],
   wallets: [

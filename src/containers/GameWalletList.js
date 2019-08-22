@@ -36,6 +36,11 @@ class GameWalletList extends Component {
   state = {
   }
 
+  componentWillMount = async () => {
+    const { getGameWalletsData } = this.props;
+    await getGameWalletsData();
+  }
+
   render = () => {
     const { Layout, user, gameWallets, recycleOne, recycleAll, getGameWalletsData } = this.props;
     return (

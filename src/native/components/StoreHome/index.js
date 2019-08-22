@@ -206,7 +206,6 @@ const styles = StyleSheet.create({
 
 class StoreHome extends Component {
   static propTypes = {
-    getGameWalletsData: PropTypes.func.isRequired,
     carouselData: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string,
@@ -227,6 +226,9 @@ class StoreHome extends Component {
       name: PropTypes.string,
       thumbnail: PropTypes.string,
       comment: PropTypes.string,
+      phone: PropTypes.string,
+      businesshours: PropTypes.string,
+      address: PropTypes.string,
     }).isRequired,
 
     wallet: PropTypes.shape({
@@ -252,8 +254,6 @@ class StoreHome extends Component {
   )
 
   _handleGameWalletList = async () => {
-    const { getGameWalletsData } = this.props;
-    await getGameWalletsData();
     Actions.gameWalletList();
   }
 
@@ -284,20 +284,18 @@ class StoreHome extends Component {
               </View>
             </View>
             <View style={styles.infoBottom}>
-              {/* <ImageBackground style={styles.transparentBar} source={require('../../../img/storeHome/bar.png')}> */}
-                <View style={styles.infoCurrency}>
-                  <Text style={{ ...styles.text, fontSize: 13 }}>{wallet.currencyName}</Text>
+              <View style={styles.infoCurrency}>
+                <Text style={{ ...styles.text, fontSize: 13 }}>{wallet.currencyName}</Text>
+              </View>
+              <View style={styles.infoAmount}>
+                <View style={styles.infoDollars}>
+                  <Text style={{ ...styles.text, fontWeight: 'bold', fontSize: 13, color: '#FFD43D' }}>
+                    {wallet.availBalance}
+                  </Text>
+                  <View style={{ width: viewportWidthPercent(1) }} />
+                  <Image source={uri} style={styles.storeCurrencyImg} />
                 </View>
-                <View style={styles.infoAmount}>
-                  <View style={styles.infoDollars}>
-                    <Text style={{ ...styles.text, fontWeight: 'bold', fontSize: 13, color: '#FFD43D' }}>
-                      {wallet.availBalance}
-                    </Text>
-                    <View style={{ width: viewportWidthPercent(1) }} />
-                    <Image source={uri} style={styles.storeCurrencyImg} />
-                  </View>
-                </View>
-              {/* </ImageBackground> */}
+              </View>
             </View>
           </View>
         </View>
@@ -356,7 +354,7 @@ class StoreHome extends Component {
           <View style={styles.storeContainer}>
             <View style={styles.listContainer}>
               <View style={styles.listLeft}>
-                <Text style={styles.text}>文心路四段112巷2弄32號</Text>
+                <Text style={styles.text}>{store.address}</Text>
               </View>
               <View style={styles.listRight}>
                 <Image source={require('../../../img/storeHome/location.png')} style={styles.listImage} />
@@ -364,7 +362,7 @@ class StoreHome extends Component {
             </View>
             <View style={styles.listContainer}>
               <View style={styles.listLeft}>
-                <Text style={styles.text}>0970779896</Text>
+                <Text style={styles.text}>{store.phone}</Text>
               </View>
               <View style={styles.listRight}>
                 <Image source={require('../../../img/storeHome/phone.png')} style={styles.listImage} />
@@ -372,7 +370,7 @@ class StoreHome extends Component {
             </View>
             <View style={styles.listContainer}>
               <View style={styles.listLeft}>
-                <Text style={styles.text}>09:00-21:00</Text>
+                <Text style={styles.text}>{store.businesshours}</Text>
               </View>
               <View style={styles.listRight}>
                 <Image source={require('../../../img/storeHome/clock.png')} style={styles.listImage} />
@@ -380,16 +378,6 @@ class StoreHome extends Component {
             </View>
           </View>
         </View>
-        {/* <View style={styles.cardContainer}>
-          <View style={styles.cardRow}>
-            <ImageButton text="遊戲" image={require('../../../img/storeHome/game.png')} />
-            <ImageButton text="優惠券" image={require('../../../img/storeHome/coupon.png')} />
-          </View>
-          <View style={styles.cardRow}>
-            <ImageButton text="聯絡店家" image={require('../../../img/storeHome/store.png')} />
-            <ImageButton text="關於" image={require('../../../img/storeHome/info.png')} />
-          </View>
-        </View> */}
       </View>
     );
   }

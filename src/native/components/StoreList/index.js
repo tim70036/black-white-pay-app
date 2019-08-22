@@ -54,7 +54,6 @@ class StoreList extends React.Component {
         thumbnail: PropTypes.string,
       }),
     ),
-    onChoose: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -68,9 +67,7 @@ class StoreList extends React.Component {
   }
 
   _handleChoose = async (storeId) => {
-    const { onChoose } = this.props;
-    await onChoose(storeId);
-    Actions.storeHome();
+    Actions.storeHome({ storeId: storeId });
   }
 
   _handleAddStore = () => {
