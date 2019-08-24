@@ -53,20 +53,11 @@ class QrCodeReceive extends Component {
     qrCodeReceive: {},
   }
 
-  componentWillMount() {
-    this._getData();
-    this._setAccount();
-  }
-
-  _getData = async () => {
-    const { getWalletsData, getFavoriteData } = this.props;
-    await getWalletsData();
-    await getFavoriteData();
-  }
-
-  _setAccount = () => {
-    const { user, qrAccountHandler } = this.props;
-    qrAccountHandler(user.account);
+  constructor(props) {
+    super(props);
+    props.getWalletsData();
+    props.getFavoriteData();
+    props.qrAccountHandler(props.user.account);
   }
 
   render = () => {

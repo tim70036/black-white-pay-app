@@ -84,7 +84,7 @@ function getGameList() {
   return async (dispatch, getState) => {
     // Status
     dispatch(statusMessage('loading', true));
-
+    console.log(getState().curWallet);
     const requestBody = JSON.stringify({
       storeId: getState().curWallet.storeId.toString(),
     });

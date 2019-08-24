@@ -122,22 +122,19 @@ class QrCodePay extends Component {
         currencyName: PropTypes.string,
         availBalance: PropTypes.number,
       }),
-    ).isRequired,
+    ),
     curStoreId: PropTypes.number.isRequired,
     onChoose: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    walletsData: [],
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      currencyName: '請選擇幣別',
     };
-    const { walletsData, curStoreId } = this.props;
-    walletsData.map((obj) => {
-      if (obj.storeId === curStoreId) {
-        this.state.currencyName = obj.currencyName;
-      }
-    });
   }
 
   _handleChoose = async (storeId) => {
@@ -153,7 +150,9 @@ class QrCodePay extends Component {
       account: account,
       storeId: curStoreId,
     };
-    const { currencyName } = this.state;
+    let currencyName = '請選擇幣別';
+    const targetWallet = walletsData.find((e) => (e.storeId === curStoreId));
+    if (targetWallet) currencyName = targetWallet.currencyName;
 
     return (
       <ImageBackground style={styles.bkContainer} source={require('../../../img/background/background2.png')}>
@@ -169,7 +168,6 @@ class QrCodePay extends Component {
                 labelExtractor={item => item.currencyName}
                 onChange={(item) => {
                   this._handleChoose(item.storeId);
-                  this.setState({ currencyName: item.currencyName });
                 }}
                 {...DefaultProps.modalSelectorProps}
               >

@@ -97,14 +97,7 @@ class Transfer extends Component {
       accountMsg: '',
       amountMsg: '',
       transPwdMsg: '',
-      currencyName: '請選擇幣別',
     };
-    const { walletsData, curStoreId } = this.props;
-    walletsData.map((obj) => {
-      if (obj.storeId === curStoreId) {
-        this.state.currencyName = obj.currencyName;
-      }
-    });
   }
 
   _validate = () => {
@@ -170,9 +163,13 @@ class Transfer extends Component {
   }
 
   render() {
-    const { walletsData } = this.props;
-    const { accountTo, amount, comment, currencyName } = this.state;
+    const { walletsData, curStoreId } = this.props;
+    const { accountTo, amount, comment } = this.state;
     const { accountMsg, amountMsg, transPwdMsg, commentMsg } = this.state;
+    let currencyName = '請選擇幣別';
+    const targetWallet = walletsData.find((e) => e.storeId === curStoreId);
+    if (targetWallet) currencyName = targetWallet.currencyName;
+    
     return (
       <ImageBackground source={require('../../../img/background/background2.png')} style={formStyle.container}>
         <ScrollView>

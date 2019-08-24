@@ -30,13 +30,9 @@ class WalletList extends Component {
     user: {},
   }
 
-  componentWillMount() {
-    this._getWalletsData();
-  }
-
-  _getWalletsData = async () => {
-    const { getWalletsData } = this.props;
-    await getWalletsData();
+  constructor(props) {
+    super(props);
+    props.getWalletsData();
   }
 
   _handleChoose = async (curStoreId) => {

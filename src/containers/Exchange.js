@@ -21,13 +21,9 @@ class Exchange extends Component {
     walletsData: [],
   }
 
-  componentWillMount() {
-    this._getWalletsData();
-  }
-
-  _getWalletsData = async () => {
-    const { getWalletsData } = this.props;
-    await getWalletsData();
+  constructor(props) {
+    super(props);
+    props.getWalletsData();
   }
 
   _handleSubmit = async (formData) => {

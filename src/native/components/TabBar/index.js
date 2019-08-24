@@ -79,6 +79,7 @@ class TabBar extends Component {
 
   render() {
     const { currentScene } = this.state;
+    console.log({currentScene});
 
     const iconImages = {
       home: currentScene === 'home' ? require('../../../img/tabbar/home-focus.png') : require('../../../img/tabbar/home-unfocus.png'),

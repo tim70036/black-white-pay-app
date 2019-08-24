@@ -230,6 +230,7 @@ class GameList extends Component {
     userTakeIn: PropTypes.func.isRequired,
     getWalletsList: PropTypes.func.isRequired,
     updateUserCurWallet: PropTypes.func.isRequired,
+    recycleAll: PropTypes.func.isRequired,
     carouselData: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string,
@@ -327,6 +328,17 @@ class GameList extends Component {
     />
   )
 
+  _handleRecycleAll = async () => {
+    const { recycleAll, getWalletsList, updateUserCurWallet } = this.props;
+
+    // recycleAll
+    await recycleAll();
+
+    // getWallets & update CurWallet available
+    await getWalletsList();
+    updateUserCurWallet();
+  }
+
   _handleGameWalletList = async () => {
     Actions.gameWalletList();
   }
@@ -390,7 +402,7 @@ class GameList extends Component {
               </TouchableOpacity>
             </ImageBackground>
             <ImageBackground style={styles.buttons} source={require('../../../img/storeHome/pinkButton.png')}>
-              <TouchableOpacity style={{...styles.buttonContent }}>
+              <TouchableOpacity style={{...styles.buttonContent }} onPress={this._handleRecycleAll}>
                 <Image style={styles.icon} source={require('../../../img/storeHome/list.png')} />
                 <View style={{ width: 10 }} />
                 <Text style={{ ...styles.text, fontSize: 13, color: '#332954' }}>全部回收</Text>

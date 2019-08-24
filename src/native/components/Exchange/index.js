@@ -375,7 +375,6 @@ class Exchange extends Component {
                     labelExtractor={item => item.currencyName}
                     onChange={(item) => {
                       this._handlePick('outflow', item.storeId);
-                      this.setState({ currencyName: item.currencyName });
                     }}
                     {...DefaultProps.modalSelectorProps}
                   >
@@ -390,12 +389,11 @@ class Exchange extends Component {
                   <Icon name="download" type="MaterialCommunityIcons" style={[styles.icon, { color: '#3AF8D2' }]} />
                   <ModalSelector
                     cancelText="取消"
-                    data={outflowWallet}
+                    data={inflowWallet}
                     keyExtractor={item => item.storeId}
                     labelExtractor={item => item.currencyName}
                     onChange={(item) => {
                       this._handlePick('inflow', item.storeId);
-                      this.setState({ currencyName: item.currencyName });
                     }}
                     {...DefaultProps.modalSelectorProps}
                   >

@@ -277,8 +277,10 @@ class QrCodeRender extends Component {
     render = () => {
       const { walletsData, curQrReceive } = this.props;
       const { visibleModal } = this.state;
-      const { currencyName } = walletsData.find(e => e.storeId === curQrReceive.storeId);
-      
+      let currencyName = '請選擇幣別';
+      const targetWallet = walletsData.find(e => e.storeId === curQrReceive.storeId);
+      if (targetWallet) currencyName =  targetWallet.currencyName;
+
       return (
         <View style={styles.container}>
           <View style={styles.storeIdCardContainer}>

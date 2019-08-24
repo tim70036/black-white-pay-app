@@ -4,12 +4,14 @@ import { connect } from 'react-redux';
 import { getStores } from '../actions/stores';
 import { setCurStore } from '../actions/curStore';
 import { setCurWallet } from '../actions/curWallet';
+import { getWallets } from '../actions/wallets';
 
 class StoreList extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
     getStoresData: PropTypes.func.isRequired,
     setCurStore: PropTypes.func.isRequired,
+    getWalletsData: PropTypes.func.isRequired,
     storesData: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string,
@@ -28,6 +30,11 @@ class StoreList extends Component {
   constructor(props) {
     super(props);
     props.getStoresData();
+  }
+
+  componentDidMount = async () => {
+    const { getWalletsData } = this.props;
+    await getWalletsData();
   }
 
   _handleChoose = async (storeId) => {
@@ -50,6 +57,7 @@ const mapDispatchToProps = {
   getStoresData: getStores,
   setCurStore: setCurStore,
   setCurWallet: setCurWallet,
+  getWalletsData: getWallets,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(StoreList);

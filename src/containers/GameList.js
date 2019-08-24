@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getWallets } from '../actions/wallets';
 import { getGameList, updateCurWallet } from '../actions/curWallet';
-import { takeIn } from '../actions/gameWallets';
+import { recycleAllGameWallet, takeIn } from '../actions/gameWallets';
 
 class GameList extends Component {
   static propTypes = {
@@ -12,6 +12,7 @@ class GameList extends Component {
     userTakeIn: PropTypes.func.isRequired,
     getWalletsList: PropTypes.func.isRequired,
     updateUserCurWallet: PropTypes.func.isRequired,
+    recycleAll: PropTypes.func.isRequired,
     adList: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string,
@@ -71,13 +72,9 @@ class GameList extends Component {
   state = {
   }
 
-  componentWillMount() {
-    this._getGameList();
-  }
-
-  _getGameList = async () => {
-    const { getStoreGameList } = this.props;
-    await getStoreGameList();
+  constructor(props) {
+    super(props);
+    props.getStoreGameList();
   }
 
   render = () => {
@@ -90,6 +87,7 @@ class GameList extends Component {
       curWallet,
       gameList,
       userTakeIn,
+      recycleAll,
       getWalletsList,
       updateUserCurWallet,
     } = this.props;
@@ -111,6 +109,7 @@ class GameList extends Component {
         curWallet={curWallet}
         gameList={gameList}
         userTakeIn={userTakeIn}
+        recycleAll={recycleAll}
         gameListLeft={gameListLeft}
         gameListRight={gameListRight}
         getWalletsList={getWalletsList}
@@ -134,6 +133,7 @@ const mapDispatchToProps = {
   userTakeIn: takeIn,
   getWalletsList: getWallets,
   updateUserCurWallet: updateCurWallet,
+  recycleAll: recycleAllGameWallet,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameList);
