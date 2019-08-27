@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { StyleSheet, View, ImageBackground, FlatList } from 'react-native';
@@ -6,7 +6,7 @@ import { StyleSheet, View, ImageBackground, FlatList } from 'react-native';
 import NavBar from '../NavBar';
 import ShortcutButton from './ShortcutButton';
 import FriendButton, { thumbnailSize } from './FriendButton';
-import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 import Colors from '../../constants/colors';
 
 

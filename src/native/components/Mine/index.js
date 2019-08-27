@@ -1,7 +1,7 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
 import {
-  Image, StyleSheet, TouchableHighlight, ImageBackground,
+  Image, StyleSheet, ImageBackground,
 } from 'react-native';
 import { Constants } from 'expo';
 import Modal from 'react-native-modal';
@@ -9,7 +9,7 @@ import { Text, View } from 'native-base';
 import PropTypes from 'prop-types';
 
 import { getCameraRollImage } from '../../lib/expo';
-import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { viewportWidthPercent, viewportHeightPercent, PreventDoubleClickTH } from '../../lib/util';
 import Colors from '../../constants/colors';
 import MineItemCell from './MineItemCell';
 
@@ -254,7 +254,7 @@ class Mine extends React.Component {
         >
           <Text style={{ ...styles.modalText, fontWeight: 'bold', fontSize: 25 }}>設定大頭貼</Text>
         </View>
-        <TouchableHighlight
+        <PreventDoubleClickTH
           style={styles.modalItem}
           onPress={() => {
             this._pickImage();
@@ -262,7 +262,7 @@ class Mine extends React.Component {
           underlayColor={Colors.cardLightGray}
         >
           <Text style={styles.modalText}>從相簿選擇</Text>
-        </TouchableHighlight>
+        </PreventDoubleClickTH>
       </View>
     );
   }
@@ -277,7 +277,7 @@ class Mine extends React.Component {
           <View style={styles.profile}>
             <View style={styles.profileInfo}>
               <Text style={styles.profileText}>{user.name}</Text>
-              <TouchableHighlight
+              <PreventDoubleClickTH
                 style={styles.qrcodeImage}
                 onPress={() => (Actions.qrCodeFriend())}
               >
@@ -285,10 +285,10 @@ class Mine extends React.Component {
                   style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
                   source={require('../../../img/mine/qrcode.png')}
                 />
-              </TouchableHighlight>
+              </PreventDoubleClickTH>
             </View>
             <View style={styles.thumbnail}>
-              <TouchableHighlight
+              <PreventDoubleClickTH
                 style={styles.thumbnailImage}
                 onPress={() => this.setState({ visibleModal: !visibleModal })}
               >
@@ -296,7 +296,7 @@ class Mine extends React.Component {
                   style={styles.thumbnailImage}
                   source={{ uri: user.thumbnail }}
                 />
-              </TouchableHighlight>
+              </PreventDoubleClickTH>
               <Image
                 style={styles.cameraImage}
                 source={require('../../../img/mine/camera.png')}

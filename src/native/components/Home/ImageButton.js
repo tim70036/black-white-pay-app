@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Text,
-  TouchableOpacity,
   StyleSheet,
   Image,
 } from 'react-native';
@@ -10,6 +9,7 @@ import PropTypes from 'prop-types';
 import {
   viewportWidthPercent,
   viewportHeightPercent,
+  PreventDoubleClickTO,
 } from '../../lib/util';
 import Colors from '../../constants/colors';
 
@@ -43,10 +43,10 @@ const styles = StyleSheet.create({
 });
 
 const ImageButton = ({ text, image, onPress }) => (
-  <TouchableOpacity style={styles.container} onPress={onPress}>
+  <PreventDoubleClickTO style={styles.container} onPress={onPress}>
     <Image style={styles.image} source={image} />
     <Text style={styles.text}>{text}</Text>
-  </TouchableOpacity>
+  </PreventDoubleClickTO>
 );
 
 ImageButton.propTypes = {

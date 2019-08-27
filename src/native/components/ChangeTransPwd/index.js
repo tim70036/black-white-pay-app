@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Keyboard, TouchableHighlight, TextInput, Text, ImageBackground, Image, ScrollView  } from 'react-native';
+import { View, Keyboard, TextInput, Text, ImageBackground, Image, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import { formStyle, elementColors } from '../../lib/styles';
+import { PreventDoubleClickTH } from '../../lib/util';
 import Colors from '../../constants/colors';
 import { transPwdValidate } from '../../lib/validate';
 import NavBar from '../NavBar';
@@ -32,7 +33,7 @@ class ChangeTransPwd extends Component {
 
   _validate = () => {
     const { newTransPassword, oldTransPassword, confirmPassword } = this.state;
-    const result = pwdValidate(newPassword);
+    const result = transPwdValidate(newTransPassword);
     if (oldTransPassword.length < 1 ) {
       this.setState({ oldTransPasswordMsg: '密碼不可為空' });
       return false;
@@ -101,7 +102,7 @@ class ChangeTransPwd extends Component {
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="default"
                 returnKeyType="done"
-                onChangeText={v => this._handleChange('oldPassword', v)}
+                onChangeText={v => this._handleChange('oldTransPassword', v)}
                 onSubmitEditing={Keyboard.dismiss}
                 secureTextEntry
               />
@@ -119,7 +120,7 @@ class ChangeTransPwd extends Component {
                 placeholderTextColor={Colors.placeholderGray}
                 keyboardType="default"
                 returnKeyType="done"
-                onChangeText={v => this._handleChange('newPassword', v)}
+                onChangeText={v => this._handleChange('newTransPassword', v)}
                 onSubmitEditing={Keyboard.dismiss}
                 secureTextEntry
               />
@@ -149,13 +150,13 @@ class ChangeTransPwd extends Component {
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
             >
-              <TouchableHighlight
+              <PreventDoubleClickTH
                 style={formStyle.button}
                 onPress={this._handleSubmit}
                 underlayColor={Colors.buttonGray}
               >
                 <Text style={formStyle.buttonText}>確認</Text>
-              </TouchableHighlight>
+              </PreventDoubleClickTH>
             </LinearGradient>
           </View>
         </ScrollView>

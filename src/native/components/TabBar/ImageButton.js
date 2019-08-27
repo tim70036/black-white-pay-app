@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 
 import {
   viewportWidthPercent,
-  viewportHeightPercent,
 } from '../../lib/util';
 import Colors from '../../constants/colors';
 

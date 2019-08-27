@@ -7,14 +7,13 @@ import {
   Text,
   TextInput,
   Keyboard,
-  TouchableOpacity,
 } from 'react-native';
 import { LinearGradient } from 'expo';
 import { Icon } from 'native-base';
 import Modal from 'react-native-modal';
 import ModalSelector from 'react-native-modal-selector';
 
-import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { viewportWidthPercent, viewportHeightPercent, PreventDoubleClickTO } from '../../lib/util';
 import { amountValidate, commentValidate } from '../../lib/validate';
 import Colors from '../../constants/colors';
 import { formStyle, elementColors } from '../../lib/styles';
@@ -253,9 +252,9 @@ class QrCodeRender extends Component {
       return (
         <View>
           <View style={styles.closeButtonContainer}>
-            <TouchableOpacity onPress={() => this.setState({ visibleModal: !visibleModal })}>
+            <PreventDoubleClickTO onPress={() => this.setState({ visibleModal: !visibleModal })}>
               <Icon name="md-close-circle-outline" type="Ionicons" style={styles.QrCodeCloseIcon} />
-            </TouchableOpacity>
+            </PreventDoubleClickTO>
           </View>
           <View style={styles.qrCodeContainer}>
             <View style={[styles.qrCode, { borderColor: Colors.labelWhite, borderWidth: 5 }]}>
@@ -338,13 +337,13 @@ class QrCodeRender extends Component {
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
             >
-              <TouchableOpacity
+              <PreventDoubleClickTO
                 style={formStyle.button}
                 onPress={this._handleRerender}
                 underlayColor={Colors.buttonGray}
               >
                 <Text style={styles.buttonText}>產生QRcode</Text>
-              </TouchableOpacity>
+              </PreventDoubleClickTO>
             </LinearGradient>
           </View>
           <View style={styles.inputButton}>
@@ -354,24 +353,15 @@ class QrCodeRender extends Component {
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
             >
-              <TouchableOpacity
+              <PreventDoubleClickTO
                 style={formStyle.button}
                 onPress={this._handleAddFavorite}
                 underlayColor={Colors.buttonGray}
               >
                 <Text style={{ ...styles.buttonText, color: Colors.labelGold }}>+ 加入常用收款</Text>
-              </TouchableOpacity>
+              </PreventDoubleClickTO>
             </LinearGradient>
           </View>
-          {/* <View style={styles.inputButton}>
-            <TouchableOpacity
-              style={styles.AddButton}
-              onPress={this._handleAddFavorite}
-              underlayColor={Colors.buttonGray}
-            >
-              <Text style={{ ...styles.buttonText, color: Colors.labelGold }}>+ 加入常用收款</Text>
-            </TouchableOpacity>
-          </View> */}
           <Modal
             backdropOpacity={0.8}
             isVisible={visibleModal}

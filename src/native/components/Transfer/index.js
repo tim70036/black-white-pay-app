@@ -2,16 +2,14 @@ import React, { Component } from 'react';
 import {
   View,
   Keyboard,
-  TouchableHighlight,
   TextInput,
   Text,
   ImageBackground,
   Image,
-  Picker,
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import { Picker as IosPicker, Icon } from 'native-base';
+import { Icon } from 'native-base';
 import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
@@ -22,9 +20,8 @@ import Colors from '../../constants/colors';
 import DefaultProps from '../../constants/default';
 import { amountValidate, transPwdValidate, accountValidate, commentValidate } from '../../lib/validate';
 import {
-  viewportWidthPercent,
   viewportHeightPercent,
-  IS_IOS,
+  PreventDoubleClickTH,
 } from '../../lib/util';
 
 const styles = StyleSheet.create({
@@ -169,7 +166,7 @@ class Transfer extends Component {
     let currencyName = '請選擇幣別';
     const targetWallet = walletsData.find((e) => e.storeId === curStoreId);
     if (targetWallet) currencyName = targetWallet.currencyName;
-    
+
     return (
       <ImageBackground source={require('../../../img/background/background2.png')} style={formStyle.container}>
         <ScrollView>
@@ -275,13 +272,13 @@ class Transfer extends Component {
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
             >
-              <TouchableHighlight
+              <PreventDoubleClickTH
                 style={formStyle.button}
                 onPress={this._handleSubmit}
                 underlayColor={Colors.buttonGray}
               >
                 <Text style={formStyle.buttonText}>確認</Text>
-              </TouchableHighlight>
+              </PreventDoubleClickTH>
             </LinearGradient>
           </View>
         </ScrollView>

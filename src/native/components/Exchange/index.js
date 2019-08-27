@@ -4,15 +4,12 @@ import {
   StyleSheet,
   Keyboard,
   TextInput,
-  Picker,
   ImageBackground,
   ScrollView,
-  TouchableHighlight,
 } from 'react-native';
 import {
   Text,
   Icon,
-  Picker as IosPicker,
 } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { LinearGradient } from 'expo';
@@ -27,7 +24,7 @@ import { amountValidate, transPwdValidate, commentValidate } from '../../lib/val
 import {
   viewportWidthPercent,
   viewportHeightPercent,
-  IS_IOS,
+  PreventDoubleClickTH,
 } from '../../lib/util';
 
 
@@ -353,8 +350,6 @@ class Exchange extends Component {
       transPwdMsg,
       storeIdMsg,
       commentMsg,
-      outflowStoreId,
-      inflowStoreId,
       inflowCurrencyName,
       outflowCurrencyName,
     } = this.state;
@@ -491,13 +486,13 @@ class Exchange extends Component {
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
             >
-              <TouchableHighlight
+              <PreventDoubleClickTH
                 style={formStyle.button}
                 onPress={this._handleSubmit}
                 underlayColor={Colors.buttonGray}
               >
                 <Text style={formStyle.buttonText}>確認兌換</Text>
-              </TouchableHighlight>
+              </PreventDoubleClickTH>
             </LinearGradient>
           </View>
         </ScrollView>

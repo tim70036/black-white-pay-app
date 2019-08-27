@@ -6,13 +6,13 @@ import {
 } from 'native-base';
 
 import {
-  StyleSheet, TouchableOpacity, ScrollView, ImageBackground, Image,
+  StyleSheet, ScrollView, ImageBackground, Image,
 } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
 import Colors from '../../constants/colors';
 import ImageButton from './ImageButton';
 import NavBar from '../NavBar';
-import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { viewportWidthPercent, viewportHeightPercent, PreventDoubleClickTO } from '../../lib/util';
 
 const tablePaddingHorizontal = viewportWidthPercent(2);
 
@@ -290,9 +290,9 @@ class WalletList extends React.Component {
                 <Text style={styles.subHeaderText}> 錢包列表 </Text>
               </View>
               <View style={styles.subHeaderRight}>
-                <TouchableOpacity onPress={() => (Actions.addStore())}>
+                <PreventDoubleClickTO onPress={() => (Actions.addStore())}>
                   <Icon name="plus" type="AntDesign" style={styles.icon} />
-                </TouchableOpacity>
+                </PreventDoubleClickTO>
               </View>
             </View>
             <ScrollView style={styles.scrollViewContainer}>

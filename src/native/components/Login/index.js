@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Keyboard, TouchableHighlight, TextInput, Text, ImageBackground, Image, ScrollView  } from 'react-native';
+import { View, StyleSheet, Keyboard, TextInput, Text, ImageBackground, Image, ScrollView  } from 'react-native';
 import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -9,7 +9,7 @@ import { accountValidate, pwdValidate } from '../../lib/validate';
 import { formStyle, elementColors } from '../../lib/styles';
 import Colors from '../../constants/colors';
 import { registerForNotifications } from '../../lib/expo';
-import { viewportWidthPercent, viewportHeightPercent, preloadRemoteAsset } from '../../lib/util';
+import { viewportHeightPercent, PreventDoubleClickTH } from '../../lib/util';
 
 const styles = StyleSheet.create({
   logo: {
@@ -115,7 +115,7 @@ class Login extends Component {
 
       // Preload asset
       // await preloadRemoteAsset();
-      
+
       this.setState({ visibleSpinner: false });
       Actions.main(); // need reset?
     }
@@ -175,28 +175,28 @@ class Login extends Component {
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
             >
-              <TouchableHighlight
+              <PreventDoubleClickTH
                 style={formStyle.button}
                 onPress={this._handleSubmit}
                 underlayColor={Colors.buttonGray}
               >
                 <Text style={formStyle.buttonText}>登入</Text>
-              </TouchableHighlight>
+              </PreventDoubleClickTH>
             </LinearGradient>
-            <TouchableHighlight
+            <PreventDoubleClickTH
               style={styles.button}
               onPress={this._handleRegisterBtn}
               underlayColor={Colors.buttonGray}
             >
               <Text style={formStyle.buttonText}>註冊</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
+            </PreventDoubleClickTH>
+            <PreventDoubleClickTH
               style={{ ...styles.button, backgroundColor: 'transparent' }}
               onPress={this._handleForgetBtn}
               underlayColor="transparent"
             >
               <Text style={formStyle.buttonText}>忘記密碼</Text>
-            </TouchableHighlight>
+            </PreventDoubleClickTH>
           </View>
           <Spinner visible={visibleSpinner} overlayColor="rgba(0, 0, 0, 0)" indicatorStyle={{ size: 'large' }} />
         </ScrollView>

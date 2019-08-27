@@ -9,6 +9,7 @@ import { accountValidate } from '../../lib/validate';
 import {
   viewportWidthPercent,
   viewportHeightPercent,
+  PreventDoubleClickTH,
 } from '../../lib/util';
 import NavBar from '../NavBar';
 
@@ -41,7 +42,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
-
 
 class AddFriend extends Component {
   static propTypes = {
@@ -95,13 +95,13 @@ class AddFriend extends Component {
         <ScrollView>
           <NavBar back />
           <View style={formStyle.inputContainer}>
-            <TouchableHighlight
+            <PreventDoubleClickTH
               style={styles.scanButton}
               onPress={() => (Actions.qrScanner())}
               underlayColor={Colors.buttonGray}
             >
               <Image source={require('../../../img/addFriend/qr.png')} style={styles.image} />
-            </TouchableHighlight>
+            </PreventDoubleClickTH>
             <View style={styles.scanText}>
               <Text style={styles.text}>點我掃描加好友</Text>
             </View>
@@ -128,13 +128,13 @@ class AddFriend extends Component {
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
             >
-              <TouchableHighlight
+              <PreventDoubleClickTH
                 style={formStyle.button}
                 onPress={this._handleSubmit}
                 underlayColor={Colors.buttonGray}
               >
                 <Text style={formStyle.buttonText}>搜尋</Text>
-              </TouchableHighlight>
+              </PreventDoubleClickTH>
             </LinearGradient>
           </View>
         </ScrollView>

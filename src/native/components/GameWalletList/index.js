@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ImageBackground, Image, Text, TouchableOpacity, FlatList } from 'react-native';
+import { View, StyleSheet, ImageBackground, Image, Text, FlatList } from 'react-native';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import { Icon } from 'native-base';
 import NavBar from '../NavBar';
 import ConfirmModal from '../ConfirmModal';
 
 import {
-  STATUSBAR_HEIGHT,
-  viewportHeight,
-  viewportWidth,
   viewportWidthPercent,
   viewportHeightPercent,
+  PreventDoubleClickTO,
 } from '../../lib/util';
 import Colors from '../../constants/colors';
 
@@ -84,7 +81,6 @@ const styles = StyleSheet.create({
     marginVertical: viewportHeightPercent(1), // margin between row
     width: '100%',
   },
-  
   pagination: {
     marginTop: -30,
     // borderWidth: 2,
@@ -154,10 +150,11 @@ const styles = StyleSheet.create({
   },
 
   gameWalletContainer: {
-    backgroundColor: '#202020',
+    flex: 1,
     marginHorizontal: viewportWidthPercent(1),
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
+    marginBottom: viewportHeightPercent(1),
   },
 
   titleContainer: {
@@ -177,6 +174,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#202020',
     borderBottomColor: '#2D2D2D',
     borderBottomWidth: 1,
     // backgroundColor: '#373737',
@@ -282,12 +280,12 @@ class GameWalletList extends Component {
         <Text style={styles.listText}>{Math.floor(item.balance)}</Text>
       </View>
       <View style={{ ...styles.title, flex: 0.5 }}>
-        <TouchableOpacity
+        <PreventDoubleClickTO
           style={styles.recycleButton}
           onPress={() => this._handleRecycleOne(item)}
         >
           <Image style={styles.recycleButton} source={require('../../../img/gameWalletList/recycleButton.png')} />
-        </TouchableOpacity>
+        </PreventDoubleClickTO>
       </View>
     </View>
   );
@@ -336,24 +334,24 @@ class GameWalletList extends Component {
         <View style={styles.contentContainer}>
           <View style={styles.buttonContainer}>
             <ImageBackground style={styles.buttons} source={require('../../../img/gameWalletList/purpleButton.png')}>
-              <TouchableOpacity
+              <PreventDoubleClickTO
                 style={styles.buttonContent}
                 onPress={this._handleGameList}
               >
                 <Image style={styles.icon} source={require('../../../img/gameWalletList/list.png')} />
                 <View style={{ width: 10 }} />
                 <Text style={{ ...styles.text, fontSize: 13, color: '#75051C' }}>遊戲列表</Text>
-              </TouchableOpacity>
+              </PreventDoubleClickTO>
             </ImageBackground>
             <ImageBackground style={styles.buttons} source={require('../../../img/gameWalletList/pinkButton.png')}>
-              <TouchableOpacity
+              <PreventDoubleClickTO
                 style={styles.buttonContent}
                 onPress={() => this._handleRecycleAll()}
               >
                 <Image style={styles.icon} source={require('../../../img/gameWalletList/recycle.png')} />
                 <View style={{ width: 10 }} />
                 <Text style={{ ...styles.text, fontSize: 13, color: '#332954' }}>全部回收</Text>
-              </TouchableOpacity>
+              </PreventDoubleClickTO>
             </ImageBackground>
           </View>
 

@@ -2,16 +2,15 @@ import React from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
   StyleSheet,
   Image,
 } from 'react-native';
-import { Icon } from 'native-base';
 import PropTypes from 'prop-types';
 
 import {
   viewportWidthPercent,
   viewportHeightPercent,
+  PreventDoubleClickTO,
 } from '../../lib/util';
 
 // Sizing based on the viewport
@@ -54,14 +53,14 @@ const imglib = {
 };
 
 const ImageButton = ({ imgType, text, onPress, textColor }) => (
-  <TouchableOpacity style={styles.container} onPress={onPress}>
+  <PreventDoubleClickTO style={styles.container} onPress={onPress}>
     <View style={styles.iconContainer}>
       <Image source={imglib[imgType]} style={styles.img} />
     </View>
     <View style={styles.textContainer}>
       <Text style={{ color: textColor }}>{text}</Text>
     </View>
-  </TouchableOpacity>
+  </PreventDoubleClickTO>
 );
 
 ImageButton.propTypes = {

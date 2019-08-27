@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Text,
-  TouchableOpacity,
   StyleSheet,
   Image,
   View,
@@ -13,6 +12,7 @@ import PropTypes from 'prop-types';
 import {
   viewportWidthPercent,
   viewportHeightPercent,
+  PreventDoubleClickTO,
 } from '../../lib/util';
 import Colors from '../../constants/colors';
 
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
 });
 
 const ShortcutButton = ({ image, text, textColor, onPress }) => (
-  <TouchableOpacity style={styles.container} onPress={onPress}>
+  <PreventDoubleClickTO style={styles.container} onPress={onPress}>
     <View style={styles.textContainer}>
       <Image style={styles.image} source={image} />
       <Text style={[styles.text, { color: textColor }]}>{text}</Text>
@@ -80,7 +80,7 @@ const ShortcutButton = ({ image, text, textColor, onPress }) => (
     <View style={styles.iconContainer}>
       <Icon name="right" type="AntDesign" style={styles.icon} />
     </View>
-  </TouchableOpacity>
+  </PreventDoubleClickTO>
 );
 
 ShortcutButton.propTypes = {

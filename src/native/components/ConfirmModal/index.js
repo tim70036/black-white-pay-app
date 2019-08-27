@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
-  View, TouchableHighlight, Text, StyleSheet,
+  View, Text, StyleSheet,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import PropTypes from 'prop-types';
 import Colors from '../../constants/colors';
-import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { viewportWidthPercent, viewportHeightPercent, PreventDoubleClickTH } from '../../lib/util';
 
 const styles = StyleSheet.create({
   modalContainer: {
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 
 });
 
-const ConfirmModal = ({confirmAction, cancelAction, context, visibleModal }) => (
+const ConfirmModal = ({ confirmAction, cancelAction, context, visibleModal }) => (
   <Modal
     backdropOpacity={0.8}
     isVisible={visibleModal}
@@ -88,22 +88,22 @@ const ConfirmModal = ({confirmAction, cancelAction, context, visibleModal }) => 
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableHighlight
+        <PreventDoubleClickTH
           onPress={confirmAction}
           style={styles.confirmButtonContainer}
           activeOpacity={0.1}
           underlayColor="rgb(38, 38, 38)"
         >
           <Text style={styles.text}> 確認 </Text>
-        </TouchableHighlight>
-        <TouchableHighlight
+        </PreventDoubleClickTH>
+        <PreventDoubleClickTH
           onPress={cancelAction}
           style={styles.cancelButtonContainer}
           activeOpacity={0.1}
           underlayColor="rgb(38, 38, 38)"
         >
           <Text style={styles.text}> 取消 </Text>
-        </TouchableHighlight>
+        </PreventDoubleClickTH>
       </View>
     </View>
   </Modal>

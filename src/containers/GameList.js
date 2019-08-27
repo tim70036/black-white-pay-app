@@ -36,17 +36,6 @@ class GameList extends Component {
       comment: PropTypes.string,
     }).isRequired,
 
-    wallets: PropTypes.arrayOf(
-      PropTypes.shape({
-        storeId: PropTypes.number,
-        currencyName: PropTypes.string,
-        availBalance: PropTypes.number,
-        storeName: PropTypes.string,
-        exchangeRate: PropTypes.number,
-        currencySrc: PropTypes.string,
-      }),
-    ).isRequired,
-
     curWallet: PropTypes.shape({
       currencyName: PropTypes.string,
       availBalance: PropTypes.number,
@@ -83,7 +72,6 @@ class GameList extends Component {
       adList,
       user,
       store,
-      wallets,
       curWallet,
       gameList,
       userTakeIn,
@@ -105,7 +93,6 @@ class GameList extends Component {
         carouselData={adList}
         user={user}
         store={store}
-        wallets={wallets}
         curWallet={curWallet}
         gameList={gameList}
         userTakeIn={userTakeIn}
@@ -123,7 +110,6 @@ const mapStateToProps = state => ({
   adList: state.curStore.ads,
   user: state.user || {},
   store: state.curStore || {},
-  wallets: state.wallets,
   curWallet: state.curWallet || {},
   gameList: state.curWallet.gameList,
 });

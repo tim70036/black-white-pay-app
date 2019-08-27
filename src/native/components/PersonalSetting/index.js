@@ -1,10 +1,9 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
 import {
-  Image, StyleSheet, FlatList, ScrollView, ImageBackground, View, Text,
+  StyleSheet, ScrollView, ImageBackground, View, Text,
 } from 'react-native';
-import PropTypes from 'prop-types';
-import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 import Colors from '../../constants/colors';
 import ItemCell from './ItemCell';
 import NavBar from '../NavBar';

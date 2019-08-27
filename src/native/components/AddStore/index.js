@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { View, Keyboard, TouchableHighlight, TextInput, Text, ImageBackground, Image, StyleSheet, ScrollView  } from 'react-native';
+import { View, Keyboard, TextInput, Text, ImageBackground, Image, StyleSheet, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import { formStyle, elementColors } from '../../lib/styles';
 import Colors from '../../constants/colors';
 import { bindCodeValidate } from '../../lib/validate';
-import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { viewportWidthPercent, PreventDoubleClickTH } from '../../lib/util';
 import NavBar from '../NavBar';
 
 const styles = StyleSheet.create({
@@ -103,13 +103,13 @@ class AddStore extends Component {
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
             >
-              <TouchableHighlight
+              <PreventDoubleClickTH
                 style={formStyle.button}
                 onPress={this._handleSubmit}
                 underlayColor={Colors.buttonGray}
               >
                 <Text style={formStyle.buttonText}>新增</Text>
-              </TouchableHighlight>
+              </PreventDoubleClickTH>
             </LinearGradient>
           </View>
         </ScrollView>

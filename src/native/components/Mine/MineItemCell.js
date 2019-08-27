@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Header } from 'react-native';
+import { View, Text, StyleSheet, Image, Header } from 'react-native';
 import { Icon } from 'native-base';
 import PropTypes from 'prop-types';
 import Colors from '../../constants/colors';
+import { PreventDoubleClickTO } from '../../lib/util';
 
 const styles = StyleSheet.create({
   container: {
@@ -67,7 +68,7 @@ class MineItemCell extends Component {
     }
     return (
       <View style={styles.container}>
-        <TouchableOpacity
+        <PreventDoubleClickTO
           onPress={handle}
         >
           <View style={styles.content}>
@@ -78,7 +79,7 @@ class MineItemCell extends Component {
             {arrowIcon ? <Icon name="right" type="AntDesign" style={styles.arrow} /> : null}
           </View>
           <View style={{ height: 14 }} />
-        </TouchableOpacity>
+        </PreventDoubleClickTO>
       </View>
     );
   }

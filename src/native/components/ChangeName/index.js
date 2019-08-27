@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Keyboard, TouchableHighlight, TextInput, Text, ImageBackground, Image, ScrollView  } from 'react-native';
+import { View, Keyboard, TextInput, Text, ImageBackground, Image, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import { formStyle, elementColors } from '../../lib/styles';
+import { PreventDoubleClickTH } from '../../lib/util';
 import Colors from '../../constants/colors';
 import { nameValidate } from '../../lib/validate';
 import NavBar from '../NavBar';
@@ -88,13 +89,13 @@ class ChangeName extends Component {
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
             >
-              <TouchableHighlight
+              <PreventDoubleClickTH
                 style={formStyle.button}
                 onPress={this._handleSubmit}
                 underlayColor={Colors.buttonGray}
               >
                 <Text style={formStyle.buttonText}>確認</Text>
-              </TouchableHighlight>
+              </PreventDoubleClickTH>
             </LinearGradient>
           </View>
         </ScrollView>

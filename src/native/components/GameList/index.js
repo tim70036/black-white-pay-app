@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ImageBackground, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, StyleSheet, ImageBackground, Image, Text, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { Actions } from 'react-native-router-flux';
@@ -10,6 +10,7 @@ import TakeInModal from './TakeInModal';
 import {
   viewportWidthPercent,
   viewportHeightPercent,
+  PreventDoubleClickTO,
 } from '../../lib/util';
 import Colors from '../../constants/colors';
 
@@ -165,7 +166,7 @@ const styles = StyleSheet.create({
   },
   gameCard: {
     // flex: 1,
-    height: viewportHeightPercent(23),
+    height: viewportWidthPercent(40),
     width: viewportWidthPercent(43),
     borderRadius: 5,
     // resizeMode: 'contain',
@@ -253,17 +254,6 @@ class GameList extends Component {
       thumbnail: PropTypes.string,
       comment: PropTypes.string,
     }).isRequired,
-
-    wallets: PropTypes.arrayOf(
-      PropTypes.shape({
-        storeId: PropTypes.number,
-        currencyName: PropTypes.string,
-        availBalance: PropTypes.number,
-        storeName: PropTypes.string,
-        exchangeRate: PropTypes.number,
-        currencySrc: PropTypes.string,
-      }),
-    ).isRequired,
 
     curWallet: PropTypes.shape({
       currencyName: PropTypes.string,
@@ -372,41 +362,39 @@ class GameList extends Component {
               </View>
             </View>
             <View style={styles.infoBottom}>
-              {/* <ImageBackground style={styles.transparentBar} source={require('../../../img/storeHome/bar.png')}> */}
-                <View style={styles.infoCurrency}>
-                  <Text style={{ ...styles.text, fontSize: 13 }}>{curWallet.currencyName}</Text>
+              <View style={styles.infoCurrency}>
+                <Text style={{ ...styles.text, fontSize: 13 }}>{curWallet.currencyName}</Text>
+              </View>
+              <View style={styles.infoAmount}>
+                <View style={styles.infoDollars}>
+                  <Text style={{ ...styles.text, fontWeight: 'bold', fontSize: 13, color: '#FFD43D' }}>
+                    {curWallet.availBalance}
+                  </Text>
+                  <View style={{ width: viewportWidthPercent(1) }} />
+                  <Image source={uri} style={styles.storeCurrencyImg} />
                 </View>
-                <View style={styles.infoAmount}>
-                  <View style={styles.infoDollars}>
-                    <Text style={{ ...styles.text, fontWeight: 'bold', fontSize: 13, color: '#FFD43D' }}>
-                      {curWallet.availBalance}
-                    </Text>
-                    <View style={{ width: viewportWidthPercent(1) }} />
-                    <Image source={uri} style={styles.storeCurrencyImg} />
-                  </View>
-                </View>
-              {/* </ImageBackground> */}
+              </View>
             </View>
           </View>
         </View>
         <View style={styles.contentContainer}>
           <View style={styles.buttonContainer}>
             <ImageBackground style={styles.buttons} source={require('../../../img/storeHome/purpleButton.png')}>
-              <TouchableOpacity
+              <PreventDoubleClickTO
                 style={styles.buttonContent}
                 onPress={this._handleGameWalletList}
               >
                 <Image style={styles.icon} source={require('../../../img/storeHome/wallet.png')} />
                 <View style={{ width: 10 }} />
                 <Text style={{ ...styles.text, fontSize: 13, color: '#75051C' }}>遊戲錢包</Text>
-              </TouchableOpacity>
+              </PreventDoubleClickTO>
             </ImageBackground>
             <ImageBackground style={styles.buttons} source={require('../../../img/storeHome/pinkButton.png')}>
-              <TouchableOpacity style={{...styles.buttonContent }} onPress={this._handleRecycleAll}>
+              <PreventDoubleClickTO style={styles.buttonContent} onPress={this._handleRecycleAll}>
                 <Image style={styles.icon} source={require('../../../img/storeHome/list.png')} />
                 <View style={{ width: 10 }} />
                 <Text style={{ ...styles.text, fontSize: 13, color: '#332954' }}>全部回收</Text>
-              </TouchableOpacity>
+              </PreventDoubleClickTO>
             </ImageBackground>
           </View>
           <ScrollView
@@ -451,12 +439,12 @@ class GameList extends Component {
                 {
                   gameListLeftPartial.map((item, idx) => {
                     return (
-                      <TouchableOpacity
+                      <PreventDoubleClickTO
                         onPress={() => this.setState({ selectedGameIdx: item.id, visibleModal: true })}
                         key={item.id}
                       >
                         <ImageBackground style={styles.gameCard} imageStyle={{ borderRadius: 15 }} source={{ uri: item.imageSrc }} />
-                      </TouchableOpacity>
+                      </PreventDoubleClickTO>
                     );
                   })
                 }
@@ -465,12 +453,12 @@ class GameList extends Component {
                 {
                   gameListRightPartial.map((item, idx) => {
                     return (
-                      <TouchableOpacity
+                      <PreventDoubleClickTO
                         onPress={() => this.setState({ selectedGameIdx: item.id, visibleModal: true })}
                         key={item.id}
                       >
                         <ImageBackground style={styles.gameCard} imageStyle={{ borderRadius: 15 }} source={{ uri: item.imageSrc }} />
-                      </TouchableOpacity>
+                      </PreventDoubleClickTO>
                     );
                   })
                 }

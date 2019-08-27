@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, PanResponder, TouchableOpacity, Image, ImageBackground, TextInput, Keyboard, Linking,
+  View, Text, StyleSheet, PanResponder, Image, ImageBackground, TextInput, Keyboard, Linking,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import PropTypes from 'prop-types';
 
 import Colors from '../../constants/colors';
-import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { viewportWidthPercent, PreventDoubleClickTO, PreventDoubleClickTH } from '../../lib/util';
 import { formStyle } from '../../lib/styles';
 
 const barLength = viewportWidthPercent(70);
@@ -381,12 +381,12 @@ class TakeInModal extends Component {
         onBackButtonPress={dismissModal}
         style={styles.container}
       >
-        <TouchableOpacity
+        <PreventDoubleClickTO
           style={styles.dismissButtonContainer}
           onPress={dismissModal}
         >
           <Image source={require('../../../img/takeInModal/closeButton.png')} style={styles.dismissButton} />
-        </TouchableOpacity>
+        </PreventDoubleClickTO>
         <View
           style={styles.modalContainer}
         >
@@ -457,7 +457,7 @@ class TakeInModal extends Component {
                   <View style={styles.amountScrollBar}>
                     <View style={{ ...styles.leftProgress, width: marginLeft }} />
                     <View style={{ ...styles.midControlBar, left: marginLeft, backgroundColor: backgroundColor }} />
-                    <View style={{ ...styles.rightProgress, left: marginLeft + 9, width: barLength - (marginLeft + 9), borderWidth: (marginLeft >= (barLength-10)) ? 0 : 1 }} />
+                    <View style={{ ...styles.rightProgress, left: marginLeft + 9, width: barLength - (marginLeft + 9), borderWidth: (marginLeft >= (barLength - 10)) ? 0 : 1 }} />
                   </View>
                   <View style={styles.progressTextContainer}>
                     <Text style={{ color: Colors.labelWhite }}>0%</Text>
@@ -469,14 +469,14 @@ class TakeInModal extends Component {
             </View>
           </View>
         </View>
-        <TouchableOpacity
+        <PreventDoubleClickTH
           style={styles.confirmButtonContainer}
           onPress={() => this._handleTakeIn()}
         >
           <ImageBackground source={require('../../../img/takeInModal/confirmButton.png')} style={styles.confirmButtonbkImg}>
-            <Text style={{ ...styles.amountText, color: Colors.labelGold }}>確認攜入</Text>
+            <Text style={{ ...styles.amountText, color: Colors.labelWhite }}>確認攜入</Text>
           </ImageBackground>
-        </TouchableOpacity>
+        </PreventDoubleClickTH>
       </Modal>
     );
   }

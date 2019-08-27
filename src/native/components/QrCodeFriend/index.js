@@ -6,11 +6,9 @@ import {
   View,
   Text,
   ImageBackground,
-  Picker,
 } from 'react-native';
-import { Picker as IosPicker } from 'native-base';
 import NavBar from '../NavBar';
-import { viewportWidthPercent, viewportHeightPercent, IS_IOS } from '../../lib/util';
+import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
 
 import Colors from '../../constants/colors';
 

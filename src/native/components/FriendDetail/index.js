@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, FlatList, View, ImageBackground, Text } from 'react-native';
+import { Image, StyleSheet, View, ImageBackground, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 
@@ -8,7 +8,6 @@ import ConfirmModal from '../ConfirmModal';
 import ShortcutButton from './ShortcutButton';
 import Colors from '../../constants/colors';
 import {
-  viewportWidthPercent,
   viewportHeightPercent,
 } from '../../lib/util';
 
@@ -24,7 +23,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    
   },
   shortcutContainer: {
     flex: 63,
@@ -59,7 +57,7 @@ class FriendDetail extends Component {
       isFriend: PropTypes.bool,
     }).isRequired,
   }
-  
+
   static defaultProps = {
 
   }
@@ -82,7 +80,7 @@ class FriendDetail extends Component {
   };
 
   _handleDeleteFriend = async () => {
-    this.setState({visibleModal: true});
+    this.setState({ visibleModal: true });
   };
 
   _confirmDeleteFriend = async () => {

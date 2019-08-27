@@ -1,11 +1,11 @@
 import {
-  View, StyleSheet, TouchableOpacity, Image,
+  View, StyleSheet, Image,
 } from 'react-native';
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
 
 import ImageButton from './ImageButton';
-import { STATUSBAR_HEIGHT, IS_IOS, IS_ANDROID, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { IS_IOS, viewportHeightPercent, PreventDoubleClickTO } from '../../lib/util';
 import Colors from '../../constants/colors';
 
 const tabbarHeight = IS_IOS ? 55 + viewportHeightPercent(3) : 45 + viewportHeightPercent(3);
@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
 });
 
 class TabBar extends Component {
-
   static propTypes = {
   }
 
@@ -79,7 +78,6 @@ class TabBar extends Component {
 
   render() {
     const { currentScene } = this.state;
-    console.log({currentScene});
 
     const iconImages = {
       home: currentScene === 'home' ? require('../../../img/tabbar/home-focus.png') : require('../../../img/tabbar/home-unfocus.png'),
@@ -103,9 +101,9 @@ class TabBar extends Component {
           <ImageButton text="首頁" onPress={() => (this._changeScene('home'))} image={iconImages.home} textColor={textColors.home} />
           <ImageButton text="商店" onPress={() => (this._changeScene('storeList'))} image={iconImages.storeList} textColor={textColors.storeList} />
         </View>
-        <TouchableOpacity style={styles.walletContainer} onPress={() => (this._changeScene('walletList'))}>
+        <PreventDoubleClickTO style={styles.walletContainer} onPress={() => (this._changeScene('walletList'))}>
           <Image style={styles.walletImage} source={iconImages.walletList} />
-        </TouchableOpacity>
+        </PreventDoubleClickTO>
         <View style={[styles.sideContainer, { justifyContent: 'center' }]}>
           <ImageButton text="朋友" onPress={() => (this._changeScene('friendList'))} image={iconImages.friendList} textColor={textColors.friendList} />
           <ImageButton text="我的" onPress={() => (this._changeScene('mine'))} image={iconImages.mine} textColor={textColors.mine} />
@@ -113,7 +111,6 @@ class TabBar extends Component {
       </View>
     );
   }
-};
-
+}
 
 export default TabBar;

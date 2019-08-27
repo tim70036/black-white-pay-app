@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ImageBackground, FlatList, Image, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, ImageBackground, FlatList, Image, Text } from 'react-native';
 import { TabView, TabBar } from 'react-native-tab-view';
 import PropTypes from 'prop-types';
 
 import NavBar from '../NavBar';
-import { viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { viewportWidthPercent, viewportHeightPercent, PreventDoubleClickTO } from '../../lib/util';
 import Colors from '../../constants/colors';
 
 const thumbnailSize = viewportHeightPercent(7);
@@ -121,12 +121,12 @@ const _renderInvitation = ({ item }) => (
       <Text style={styles.nameText}>{item.name}</Text>
     </View>
     <View style={styles.cardItemRight}>
-      <TouchableOpacity style={styles.acceptButton} onPress={item.onAccept}>
+      <PreventDoubleClickTO style={styles.acceptButton} onPress={item.onAccept}>
         <Text style={styles.buttonText}>同意</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.denyButton} onPress={item.onDecline}>
+      </PreventDoubleClickTO>
+      <PreventDoubleClickTO style={styles.denyButton} onPress={item.onDecline}>
         <Text style={styles.buttonText}>拒絕</Text>
-      </TouchableOpacity>
+      </PreventDoubleClickTO>
     </View>
   </View>
 );
@@ -138,9 +138,9 @@ const _renderRequest = ({ item }) => (
       <Text style={styles.nameText}>{item.name}</Text>
     </View>
     <View style={styles.cardItemRight}>
-      <TouchableOpacity style={styles.requestButton} onPress={item.onCancel}>
+      <PreventDoubleClickTO style={styles.requestButton} onPress={item.onCancel}>
         <Text style={styles.buttonText}>取消邀請</Text>
-      </TouchableOpacity>
+      </PreventDoubleClickTO>
     </View>
   </View>
 );

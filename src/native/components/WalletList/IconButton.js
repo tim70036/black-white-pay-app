@@ -2,7 +2,6 @@ import React from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
   StyleSheet,
 } from 'react-native';
 import { Icon } from 'native-base';
@@ -11,6 +10,7 @@ import PropTypes from 'prop-types';
 import {
   viewportWidthPercent,
   viewportHeightPercent,
+  PreventDoubleClickTO,
 } from '../../lib/util';
 
 // Sizing based on the viewport
@@ -47,14 +47,14 @@ const styles = StyleSheet.create({
 });
 
 const IconButton = ({ iconName, iconType, iconColor, text, onPress }) => (
-  <TouchableOpacity style={styles.container} onPress={onPress}>
+  <PreventDoubleClickTO style={styles.container} onPress={onPress}>
     <View style={styles.iconContainer}>
       <Icon name={iconName} type={iconType} style={[styles.icon, { color: iconColor }]} />
     </View>
     <View style={styles.textContainer}>
       <Text style={{ color: iconColor }}>{text}</Text>
     </View>
-  </TouchableOpacity>
+  </PreventDoubleClickTO>
 );
 
 IconButton.propTypes = {

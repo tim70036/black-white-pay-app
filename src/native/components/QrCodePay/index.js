@@ -6,16 +6,12 @@ import {
   View,
   Text,
   ImageBackground,
-  Picker,
-  Image,
-  TouchableOpacity,
 } from 'react-native';
-import { Picker as IosPicker, Icon } from 'native-base';
+import { Icon } from 'native-base';
 import ModalSelector from 'react-native-modal-selector';
 
 import NavBar from '../NavBar';
-import { formStyle } from '../../lib/styles';
-import { viewportWidthPercent, viewportHeightPercent, IS_IOS } from '../../lib/util';
+import { viewportWidthPercent, viewportHeightPercent, PreventDoubleClickTO } from '../../lib/util';
 import Colors from '../../constants/colors';
 import DefaultProps from '../../constants/default';
 
@@ -191,10 +187,10 @@ class QrCodePay extends Component {
               <Text style={[styles.text, { marginTop: 20 }]}>請掃描上面的 QR Code</Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.qrCodeRefreshContainer} onPress={console.log()}>
+          <PreventDoubleClickTO style={styles.qrCodeRefreshContainer} onPress={console.log()}>
             <Icon name="md-refresh" type="Ionicons" style={[styles.icon, { color: Colors.labelGold, marginRight: 15 }]} />
             <Text style={[styles.text, { color: Colors.labelGold }]}>刷新二維碼</Text>
-          </TouchableOpacity>
+          </PreventDoubleClickTO>
         </View>
       </ImageBackground>
     );

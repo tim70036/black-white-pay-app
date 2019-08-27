@@ -7,7 +7,7 @@ import { Actions } from 'react-native-router-flux';
 import NavBar from '../NavBar';
 import { checkCameraPermission } from '../../lib/expo';
 import {
- viewportWidth, viewportHeight, viewportWidthPercent, viewportHeightPercent 
+  viewportWidth, viewportHeight,
 } from '../../lib/util';
 
 const maskRowHeight = Math.round((viewportHeight - 300) / 20);

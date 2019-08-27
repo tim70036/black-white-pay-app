@@ -1,10 +1,15 @@
+import React from 'react';
 import {
   Dimensions,
   Platform,
   NativeModules,
   Image,
+  Button,
+  TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 import { Font, Asset, Notifications, Audio, Constants } from 'expo';
+import { debounce } from 'lodash';
 import config from '../../constants/config';
 
 const { StatusBarManager } = NativeModules;
@@ -51,6 +56,29 @@ const shadowOpt = {
   y: 0,
   style: { marginVertical: 5 },
 };
+
+const withPreventDoubleClick = (WrappedComponent) => {
+  class PreventDoubleClick extends React.PureComponent {
+    debouncedOnPress = () => {
+      this.props.onPress && this.props.onPress();
+    }
+
+    onPress = debounce(this.debouncedOnPress, 1000, { leading: true, trailing: false });
+
+    render() {
+      return <WrappedComponent {...this.props} onPress={this.onPress} />;
+    }
+  }
+
+  PreventDoubleClick.displayName = `withPreventDoubleClick(${WrappedComponent.displayName || WrappedComponent.name})`;
+  return PreventDoubleClick;
+};
+
+const PreventDoubleCLickB = withPreventDoubleClick(Button);
+
+const PreventDoubleClickTH = withPreventDoubleClick(TouchableHighlight);
+
+const PreventDoubleClickTO = withPreventDoubleClick(TouchableOpacity);
 
 async function preloadRemoteAsset() {
   // get preload uri list
@@ -211,6 +239,12 @@ export {
   viewportHeightPercent,
   shadowStyle,
   shadowOpt,
+
+  PreventDoubleCLickB,
+  PreventDoubleClickTH,
+  PreventDoubleClickTO,
+
+  withPreventDoubleClick,
 
   preloadRemoteAsset,
   preloadLocalAsset,

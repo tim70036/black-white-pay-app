@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity,
   ImageBackground,
   Image,
 } from 'react-native';
@@ -14,7 +13,7 @@ import Accordion from './Accordion';
 import DatePicker from './DatePicker';
 import Colors from '../../constants/colors';
 import NavBar from '../NavBar';
-import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { viewportWidthPercent, viewportHeightPercent, PreventDoubleClickTO } from '../../lib/util';
 
 
 const styles = StyleSheet.create({
@@ -360,9 +359,9 @@ class TransHistory extends Component {
               </View>
             </View>
             <View style={styles.searchImgContainer}>
-              <TouchableOpacity onPress={this._handleHistorySearch}>
+              <PreventDoubleClickTO onPress={this._handleHistorySearch}>
                 <Image source={require('../../../img/transHistory/search.png')} style={styles.searchImg} />
-              </TouchableOpacity>
+              </PreventDoubleClickTO>
             </View>
           </View>
         </ImageBackground>

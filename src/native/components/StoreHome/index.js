@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ImageBackground, Image, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, ImageBackground, Image, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { Actions } from 'react-native-router-flux';
-import { Icon } from 'native-base';
 import NavBar from '../NavBar';
 import CarouselEntry, { slideHeight, sliderWidth, itemWidth } from '../CarouselEntry';
-import ImageButton from './ImageButton';
 
 import {
-  STATUSBAR_HEIGHT,
-  viewportHeight,
-  viewportWidth,
   viewportWidthPercent,
   viewportHeightPercent,
+  PreventDoubleClickTO,
 } from '../../lib/util';
 import Colors from '../../constants/colors';
 
@@ -302,24 +298,24 @@ class StoreHome extends Component {
         <View style={styles.contentContainer}>
           <View style={styles.buttonContainer}>
             <ImageBackground style={styles.buttons} source={require('../../../img/storeHome/purpleButton.png')}>
-              <TouchableOpacity
+              <PreventDoubleClickTO
                 style={styles.buttonContent}
                 onPress={this._handleGameWalletList}
               >
                 <Image style={styles.icon} source={require('../../../img/storeHome/wallet.png')} />
                 <View style={{ width: 10 }} />
                 <Text style={{ ...styles.text, fontSize: 13, color: '#75051C' }}>遊戲錢包</Text>
-              </TouchableOpacity>
+              </PreventDoubleClickTO>
             </ImageBackground>
             <ImageBackground style={styles.buttons} source={require('../../../img/storeHome/pinkButton.png')}>
-              <TouchableOpacity
+              <PreventDoubleClickTO
                 style={styles.buttonContent}
                 onPress={this._handleGameList}
               >
                 <Image style={styles.icon} source={require('../../../img/storeHome/list.png')} />
                 <View style={{ width: 10 }} />
                 <Text style={{ ...styles.text, fontSize: 13, color: '#332954' }}>遊戲列表</Text>
-              </TouchableOpacity>
+              </PreventDoubleClickTO>
             </ImageBackground>
           </View>
 

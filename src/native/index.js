@@ -19,7 +19,7 @@ import theme from '../../native-base-theme/variables/commonColor';
 import getRoutes from './routes/index';
 import Loading from './components/Loading';
 import { appendNotifications } from '../actions/notifications';
-import { IS_IOS, preloadRemoteAsset, preloadLocalAsset } from './lib/util';
+import { IS_IOS, preloadLocalAsset } from './lib/util';
 
 // Invert status bar text color
 StatusBar.setBarStyle('light-content');

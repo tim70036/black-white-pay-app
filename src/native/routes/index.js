@@ -120,8 +120,8 @@ const getRoutes = (authenticate, goAuth, refresh) => (
           >
             <Scene component={spinnerHOC(StoreListContainer)} Layout={StoreListComponent} on={authenticate} failure={goAuth} success={refresh} />
             <Scene key="storeHome" hideTabBar="true" component={StoreHomeContainer} Layout={StoreHomeComponent} on={authenticate} failure={goAuth} />
-            <Scene key="gameWalletList" component={spinnerHOC(GameWalletListContainer)} Layout={GameWalletListComponent} on={authenticate} failure={goAuth} success={refresh} />
-            <Scene key="gameList" component={spinnerHOC(GameListContainer)} Layout={GameListComponent} on={authenticate} failure={goAuth} />
+            <Scene key="gameWalletList" hideTabBar="true" component={spinnerHOC(GameWalletListContainer)} Layout={GameWalletListComponent} on={authenticate} failure={goAuth} success={refresh} />
+            <Scene key="gameList" hideTabBar="true" component={spinnerHOC(GameListContainer)} Layout={GameListComponent} on={authenticate} failure={goAuth} />
           </Stack>
 
           <Stack

@@ -1,8 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, StyleSheet, Text, ScrollView  } from 'react-native';
 
-import { Actions } from 'react-native-router-flux';
-import PropTypes from 'prop-types';
 import {
   viewportWidthPercent,
   viewportHeightPercent,

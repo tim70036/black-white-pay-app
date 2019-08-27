@@ -1,11 +1,11 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
-import { 
-  Image, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight, ImageBackground, Text, View,
+import {
+  Image, StyleSheet, FlatList, ImageBackground, Text, View,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import ActionButton from 'react-native-action-button';
-import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { viewportWidthPercent, viewportHeightPercent, PreventDoubleClickTO } from '../../lib/util';
 import Colors from '../../constants/colors';
 import NavBar from '../NavBar';
 
@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     flex: 1,
     paddingHorizontal: viewportWidthPercent(5),
+    alignItems: 'center',
   },
 
   image: {
@@ -35,7 +36,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    marginTop: viewportHeightPercent(2),
+    marginTop: viewportHeightPercent(1),
+    marginBottom: viewportHeightPercent(1),
   },
 
   text: {
@@ -97,12 +99,12 @@ class StoreList extends React.Component {
         </ImageBackground>
       );
     return (
-      <TouchableOpacity
+      <PreventDoubleClickTO
         style={styles.card}
         onPress={() => this._handleChoose(item.storeId)}
       >
         {image}
-      </TouchableOpacity>
+      </PreventDoubleClickTO>
     );
   };
 

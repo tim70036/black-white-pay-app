@@ -5,12 +5,11 @@ import {
   Platform,
   DatePickerIOS,
   DatePickerAndroid,
-  TouchableOpacity,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import { Text } from 'native-base';
 import PropTypes from 'prop-types';
-import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
+import { viewportWidthPercent, viewportHeightPercent, PreventDoubleClickTO } from '../../lib/util';
 
 const styles = StyleSheet.create({
   datePickerContainer: {
@@ -45,42 +44,42 @@ const styles = StyleSheet.create({
 
 export default class DatePicker extends Component {
 
-	static propTypes = {
-	  defaultDate: PropTypes.instanceOf(Date),
-	  disabled: PropTypes.bool,
-	  placeHolderText: PropTypes.string,
-	  onDateChange: PropTypes.func.isRequired,
-	  formatChosenDate: PropTypes.func,
-	  minimumDate: PropTypes.instanceOf(Date).isRequired,
-	  maximumDate: PropTypes.instanceOf(Date).isRequired,
-	  androidMode: PropTypes.string,
-	  timeZoneOffsetInMinutes: PropTypes.number,
-	  locale: PropTypes.string,
-	  textStyle: PropTypes.shape({}),
-	  placeHolderTextStyle: PropTypes.shape({}),
-	}
+  static propTypes = {
+    defaultDate: PropTypes.instanceOf(Date),
+    disabled: PropTypes.bool,
+    placeHolderText: PropTypes.string,
+    onDateChange: PropTypes.func.isRequired,
+    formatChosenDate: PropTypes.func,
+    minimumDate: PropTypes.instanceOf(Date).isRequired,
+    maximumDate: PropTypes.instanceOf(Date).isRequired,
+    androidMode: PropTypes.string,
+    timeZoneOffsetInMinutes: PropTypes.number,
+    locale: PropTypes.string,
+    textStyle: PropTypes.shape({}),
+    placeHolderTextStyle: PropTypes.shape({}),
+  }
 
-	static defaultProps = {
-	  defaultDate: new Date(),
-	  disabled: false,
-	  placeHolderText: '',
-	  formatChosenDate: null,
-	  androidMode: 'spinner',
-	  timeZoneOffsetInMinutes: undefined,
-	  locale: '',
-	  textStyle: {},
-	  placeHolderTextStyle: {},
-	}
+  static defaultProps = {
+    defaultDate: new Date(),
+    disabled: false,
+    placeHolderText: '',
+    formatChosenDate: null,
+    androidMode: 'spinner',
+    timeZoneOffsetInMinutes: undefined,
+    locale: '',
+    textStyle: {},
+    placeHolderTextStyle: {},
+  }
 
-	constructor(props) {
-	  super(props);
-	  this.state = {
-	    modalVisible: false,
-	    defaultDate: new Date(),
-	    chosenDate: undefined,
-	    disabled: true,
-	  };
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalVisible: false,
+      defaultDate: new Date(),
+      chosenDate: undefined,
+      disabled: true,
+    };
+  }
 
   componentDidMount = () => {
     const { defaultDate, disabled, placeHolderText } = this.props;
@@ -200,13 +199,12 @@ export default class DatePicker extends Component {
                   timeZoneOffsetInMinutes={timeZoneOffsetInMinutes}
                   style={styles.iosDatePicker}
                 />
-                <TouchableOpacity onPress={() => this.setState({ modalVisible: false })} style={styles.completeButton}>
+                <PreventDoubleClickTO onPress={() => this.setState({ modalVisible: false })} style={styles.completeButton}>
                   <View style={styles.completeButtonTextContainer}>
                     <Text style={styles.completeButtonText}>完成</Text>
                   </View>
-                </TouchableOpacity>
+                </PreventDoubleClickTO>
               </View>
-              {/* <TouchableOpacity onPress={() => this.setState({ modalVisible: false })} style={{ backgroundColor: 'transparent', flex: 1 }} /> */}
             </Modal>
           </View>
         </View>

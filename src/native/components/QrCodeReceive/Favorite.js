@@ -4,17 +4,11 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableHighlight,
   FlatList,
-  TouchableOpacity,
-  ImageBackground,
   Image,
-  PanResponder,
 } from 'react-native';
-import Modal from 'react-native-modal';
 
-import { viewportWidthPercent, viewportHeightPercent } from '../../lib/util';
-import Colors from '../../constants/colors';
+import { viewportWidthPercent, viewportHeightPercent, PreventDoubleClickTH } from '../../lib/util';
 import ConfirmModal from '../ConfirmModal';
 
 const styles = StyleSheet.create({
@@ -136,7 +130,7 @@ class Favorite extends Component {
     const { index } = item;
     return (
       <View style={styles.card}>
-        <TouchableHighlight
+        <PreventDoubleClickTH
           onPress={() => this._handleChoose(index)}
           activeOpacity={0.1}
           underlayColor="rgb(38, 38, 38)"
@@ -144,17 +138,17 @@ class Favorite extends Component {
         >
           <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-around' }}>
             <View style={styles.textView}>
-              <Text style={styles.text}>幣別: {data.currencyName}</Text>
+              <Text style={styles.text}>{`幣別: ${data.currencyName}`}</Text>
             </View>
             <View style={styles.textView}>
-              <Text style={styles.text}>收款數量: {data.amount}</Text>
+              <Text style={styles.text}>{`收款數量: ${data.amount}`}</Text>
             </View>
             <View style={styles.textView}>
-              <Text style={styles.text}>備註: {data.comment}</Text>
+              <Text style={styles.text}>{`備註: ${data.comment}`}</Text>
             </View>
           </View>
-        </TouchableHighlight>
-        <TouchableHighlight
+        </PreventDoubleClickTH>
+        <PreventDoubleClickTH
           onPress={() => this._handleDeleteConfirm(index)}
           activeOpacity={0.1}
           underlayColor="rgb(38, 38, 38)"
@@ -162,9 +156,9 @@ class Favorite extends Component {
         >
           <View style={styles.deleteCard}>
             <Image source={require('../../../img/qrCodeReceive/trashcan.png')} />
-            <Text style={{...styles.text, marginTop: 5 }}>刪除</Text>
+            <Text style={{ ...styles.text, marginTop: 5 }}>刪除</Text>
           </View>
-        </TouchableHighlight>
+        </PreventDoubleClickTH>
       </View>
     );
   }
