@@ -5,13 +5,10 @@ const config = {
   appName: 'GainSword',
 
   // Network
-  // apiUrl: 'https://bwp.gamesoultech.com/api',
-  apiUrl: 'http://ffdev.ap-northeast-1.elasticbeanstalk.com/api',
+  apiUrl: 'https://bwp.gamesoultech.com/api',
+  // apiUrl: 'http://ffdev.ap-northeast-1.elasticbeanstalk.com/api',
   // apiUrl: 'http://localhost:8080/api',
   // apiUrl: 'http://192.168.1.106:8080/api',
-
-  // cq9Url Path
-  cq9Url: 'http://api.cqgame.games',
 
   // Build Configuration - eg. Debug or Release?
   DEV: devMode,

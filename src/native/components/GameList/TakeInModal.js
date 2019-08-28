@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginBottom: -30,
     marginLeft: viewportWidthPercent(90) - 40,
-    zIndex: 9999,
+    zIndex: 9998,
     width: 50,
   },
   dismissButton: {
@@ -256,6 +256,7 @@ class TakeInModal extends Component {
       gameWalletAmount: '0',
       backgroundColor: 'white',
       amountMsg: '',
+      buttonDisable: false,
     };
   }
 
@@ -320,7 +321,7 @@ class TakeInModal extends Component {
     const { amount } = this.state;
     const parsedVal = parseInt(amount, 10);
     const targetGame = gameList.find((e) => e.id === selectedGameIdx);
-    this.setState({ amountMsg: '' });
+    this.setState({ amountMsg: '', buttonDisable: true });
     // check amount
     if (parsedVal === 0) {
       this.setState({ amountMsg: '攜入數量需大於0' });
@@ -334,12 +335,6 @@ class TakeInModal extends Component {
     };
     const result = await userTakeIn(formData);
     if (!result) return;
-
-    // update curWallet available
-    await getWalletsList();
-    updateUserCurWallet();
-    dismissModal();
-
     // go to the game website according to the url
     const url = result.data;
     Linking.canOpenURL(url)
@@ -351,6 +346,11 @@ class TakeInModal extends Component {
         }
       })
       .catch(err => console.error('An error occurred', err));
+    // update curWallet available
+    await getWalletsList();
+    updateUserCurWallet();
+    this.setState({ buttonDisable: false });
+    dismissModal();
   }
 
   _unhighlight() {
@@ -367,7 +367,7 @@ class TakeInModal extends Component {
 
   render = () => {
     const { visibleModal, dismissModal, gameList, curWallet, selectedGameIdx } = this.props;
-    const { marginLeft, backgroundColor, amount, gameWalletAmount, amountMsg } = this.state;
+    const { marginLeft, backgroundColor, amount, gameWalletAmount, amountMsg, buttonDisable } = this.state;
     const targetGame = gameList.find((e) => e.id === selectedGameIdx);
     const gameName = (targetGame) ? targetGame.name : '';
     const uri = curWallet.currencySrc !== '' ? ({ uri: curWallet.currencySrc }) : (require('../../../img/storeCurrency.png'));
@@ -472,6 +472,8 @@ class TakeInModal extends Component {
         <PreventDoubleClickTH
           style={styles.confirmButtonContainer}
           onPress={() => this._handleTakeIn()}
+          disable={buttonDisable}
+          activeOpacity={buttonDisable ? 1 : 0.5}
         >
           <ImageBackground source={require('../../../img/takeInModal/confirmButton.png')} style={styles.confirmButtonbkImg}>
             <Text style={{ ...styles.amountText, color: Colors.labelWhite }}>確認攜入</Text>
