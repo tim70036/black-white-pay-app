@@ -333,6 +333,7 @@ class TakeInModal extends Component {
       storeId: curWallet.storeId,
       amount: amount,
     };
+    dismissModal();
     const result = await userTakeIn(formData);
     if (!result) return;
     // go to the game website according to the url
@@ -350,7 +351,7 @@ class TakeInModal extends Component {
     await getWalletsList();
     updateUserCurWallet();
     this.setState({ buttonDisable: false });
-    dismissModal();
+    
   }
 
   _unhighlight() {

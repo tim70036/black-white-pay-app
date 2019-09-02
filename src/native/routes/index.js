@@ -119,9 +119,6 @@ const getRoutes = (authenticate, goAuth, refresh) => (
             {...DefaultProps.navbarProps}
           >
             <Scene component={spinnerHOC(StoreListContainer)} Layout={StoreListComponent} on={authenticate} failure={goAuth} success={refresh} />
-            <Scene key="storeHome" hideTabBar="true" component={StoreHomeContainer} Layout={StoreHomeComponent} on={authenticate} failure={goAuth} />
-            <Scene key="gameWalletList" hideTabBar="true" component={spinnerHOC(GameWalletListContainer)} Layout={GameWalletListComponent} on={authenticate} failure={goAuth} success={refresh} />
-            <Scene key="gameList" hideTabBar="true" component={spinnerHOC(GameListContainer)} Layout={GameListComponent} on={authenticate} failure={goAuth} />
           </Stack>
 
           <Stack
@@ -149,6 +146,28 @@ const getRoutes = (authenticate, goAuth, refresh) => (
 
 
         {/* Specific Function Page */}
+        
+        <Stack
+          key="storeHome"
+          {...DefaultProps.navbarProps}
+        >
+          <Scene hideTabBar="true" component={StoreHomeContainer} Layout={StoreHomeComponent} on={authenticate} failure={goAuth} />
+        </Stack>
+
+        <Stack
+          key="gameWalletList"
+          {...DefaultProps.navbarProps}
+        >
+          <Scene hideTabBar="true" component={spinnerHOC(GameWalletListContainer)} Layout={GameWalletListComponent} on={authenticate} failure={goAuth} success={refresh} />
+        </Stack>
+
+        <Stack
+          key="gameList"
+          {...DefaultProps.navbarProps}
+        >
+          <Scene hideTabBar="true" component={spinnerHOC(GameListContainer)} Layout={GameListComponent} on={authenticate} failure={goAuth} />
+        </Stack>
+
         <Stack
           key="addStore"
           {...DefaultProps.navbarProps}

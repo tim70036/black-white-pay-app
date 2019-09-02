@@ -202,6 +202,8 @@ class GameWalletList extends Component {
   static propTypes = {
     recycleOne: PropTypes.func.isRequired,
     recycleAll: PropTypes.func.isRequired,
+    getWalletsList: PropTypes.func.isRequired,
+    updateUserCurWallet: PropTypes.func.isRequired,
     getGameWalletsData: PropTypes.func.isRequired,
     user: PropTypes.shape({
       account: PropTypes.string,
@@ -258,10 +260,12 @@ class GameWalletList extends Component {
   }
 
   _confirmRecycleAll = async () => {
-    const { recycleAll, getGameWalletsData } = this.props;
+    const { recycleAll, getGameWalletsData, getWalletsList, updateUserCurWallet } = this.props;
     this.setState({ visibleRecycleAllModal: false });
     await recycleAll();
     await getGameWalletsData();
+    await getWalletsList();
+    await updateUserCurWallet();
   }
 
   _cancelRecycleAll = async () => {
