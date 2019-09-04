@@ -191,7 +191,7 @@ class Login extends Component {
               <Text style={formStyle.buttonText}>註冊</Text>
             </PreventDoubleClickTH>
             <PreventDoubleClickTH
-              style={{ ...styles.button, backgroundColor: 'transparent' }}
+              style={{ ...styles.button, backgroundColor: 'transparent', marginTop: 0 }}
               onPress={this._handleForgetBtn}
               underlayColor="transparent"
             >
