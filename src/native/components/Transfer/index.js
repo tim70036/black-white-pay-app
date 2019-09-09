@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { Icon } from 'native-base';
-import { LinearGradient } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import ModalSelector from 'react-native-modal-selector';

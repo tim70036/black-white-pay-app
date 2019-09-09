@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Keyboard, TextInput, Text, ImageBackground, Image, StyleSheet, ScrollView } from 'react-native';
-import { LinearGradient } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import { formStyle, elementColors } from '../../lib/styles';

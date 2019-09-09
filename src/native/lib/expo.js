@@ -1,5 +1,7 @@
 import { AsyncStorage, Platform } from 'react-native';
-import { Permissions, Notifications, ImagePicker } from 'expo';
+import { Notifications } from 'expo';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
 import config from '../../constants/config';
 
 async function registerForNotifications() {

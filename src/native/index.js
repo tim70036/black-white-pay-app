@@ -1,6 +1,8 @@
 import React from 'react';
 import { StatusBar, StyleSheet } from 'react-native';
-import { Font, Notifications, Audio } from 'expo';
+import { Notifications } from 'expo';
+import { Audio } from 'expo-av';
+import * as Font from 'expo-font';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
@@ -49,9 +51,9 @@ export default class App extends React.Component {
 
     // Font
     await Font.loadAsync({
-      Roboto: require('native-base/Fonts/Roboto.ttf'),
-      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-      Ionicons: require('@expo/vector-icons/fonts/Ionicons.ttf'),
+      Roboto: require('./resources/Fonts/Roboto.ttf'),
+      Roboto_medium: require('./resources/Fonts/Roboto_medium.ttf'),
+      Ionicons: require('./resources/expo_fonts/Ionicons.ttf'),
     });
 
     // Preload asset

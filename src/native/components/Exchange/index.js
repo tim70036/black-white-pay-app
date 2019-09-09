@@ -12,7 +12,7 @@ import {
   Icon,
 } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import { LinearGradient } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
 import ModalSelector from 'react-native-modal-selector';
 
 import PropTypes from 'prop-types';

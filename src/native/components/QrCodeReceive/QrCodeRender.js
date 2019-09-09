@@ -8,7 +8,7 @@ import {
   TextInput,
   Keyboard,
 } from 'react-native';
-import { LinearGradient } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Icon } from 'native-base';
 import Modal from 'react-native-modal';
 import ModalSelector from 'react-native-modal-selector';

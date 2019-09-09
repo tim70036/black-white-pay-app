@@ -4,12 +4,12 @@
     "description": "娛樂錢包",
     "slug": "BlackWhitePay",
     "privacy": "public",
-    "sdkVersion": "32.0.0",
+    "sdkVersion": "34.0.0",
     "platforms": [
       "ios",
       "android"
     ],
-    "version": "1.0.6",
+    "version": "1.0.7",
     "orientation": "portrait",
     "primaryColor": "#ffffff",
     "splash": {
@@ -33,7 +33,7 @@
       }
     },
     "android": {
-      "versionCode": 4,
+      "versionCode": 8,
       "icon": "./src/img/iconAndroid.png",
       "package": "com.gamesoultech.bwp",
       "splash": {

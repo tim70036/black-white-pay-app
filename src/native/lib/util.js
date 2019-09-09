@@ -8,7 +8,9 @@ import {
   TouchableHighlight,
   TouchableOpacity,
 } from 'react-native';
-import { Font, Asset, Notifications, Audio, Constants } from 'expo';
+import { Font, Notifications, Audio } from 'expo';
+import Constants from 'expo-constants';
+import { Asset } from 'expo-asset';
 import { debounce } from 'lodash';
 import config from '../../constants/config';
 

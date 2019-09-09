@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Keyboard, TextInput, Text, ImageBackground, Image, ScrollView  } from 'react-native';
-import { LinearGradient } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Actions } from 'react-native-router-flux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import PropTypes from 'prop-types';
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class Login extends Component {
+export default class Login extends Component {
   static propTypes = {
     user: PropTypes.shape({
       account: PropTypes.string,
@@ -205,4 +205,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+// export default Login;

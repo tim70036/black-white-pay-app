@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Alert } from 'react-native';
-import { BarCodeScanner } from 'expo';
+import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Actions } from 'react-native-router-flux';
 
 import NavBar from '../NavBar';

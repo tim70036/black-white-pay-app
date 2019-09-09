@@ -3,7 +3,7 @@ import { Actions } from 'react-native-router-flux';
 import {
   Image, StyleSheet, ImageBackground,
 } from 'react-native';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 import Modal from 'react-native-modal';
 import { Text, View } from 'native-base';
 import PropTypes from 'prop-types';
